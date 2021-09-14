@@ -3,13 +3,13 @@
 #include "minishell.h"
 
 
-int	env(char **envp)
+int	env(t_env *list)
 {
-	int	env_i;
-
-	env_i = 0;
-	while (envp[env_i])
-		printf("%s\n", envp[env_i++]);
+	while (list->next != NULL)
+	{
+		printf("%s=%s\n", list->key, list->value);
+		list = list->next;
+	}
 	return (0);
 }
 
@@ -22,15 +22,6 @@ int	pwd()
 	return (0);
 }
 
-/*
-**[x]	env
-**[x]	pwd
-**[x]	echo [-n]
-**[x]	cd
-**[]	export
-**[]	unset
-*/
-
 int	echo(char *str, char flag)
 {
 	printf("%s%c", str, flag);
@@ -42,25 +33,10 @@ int	cd(char *path)
 	return (chdir(path));
 }
 
-int	parse_env(char	**envp)
-{
-	int	ptr_i;
-	int	str_i;
-
-	ptr_i = 0;
-	while (envp[ptr_i])
-	{
-		str_i = 0;
-		while (envp[ptr_i][str_i] || envp[ptr_i][str_i] != '=')
-			++str_i;
-		if (envp[ptr_i][str_i] == '=')
-			envp[ptr_i][str_i] = '\0';
-		++ptr_i;
-	}
-	return (0);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
+	t_env	*env_list;
 
+	env_list = parent_env(envp);
+	env(env_list);	
 }
