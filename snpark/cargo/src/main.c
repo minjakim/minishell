@@ -14,7 +14,8 @@ int
 	return (0);
 }
 
-int	pwd()
+int
+	pwd()
 {
 	char cwd_buffer[4096];
 
@@ -23,18 +24,21 @@ int	pwd()
 	return (0);
 }
 
-int	echo(char *str, char flag)
+int
+	echo(char *str, char flag)
 {
 	printf("%s%c", str, flag);
 	return (0);
 }
 
-int	cd(char *path)
+int
+	cd(char *path)
 {
 	return (chdir(path));
 }
 
-int	main(int argc, char **argv, char **envp)
+int
+	main(int argc, char **argv, char **envp)
 {
 	t_env	*env_list;
 
