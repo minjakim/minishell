@@ -3,7 +3,8 @@
 #include "minishell.h"
 
 
-int	env(t_env *list)
+int
+	env(t_env *list)
 {
 	while (list->next != NULL)
 	{
