@@ -39,6 +39,28 @@ int
 }
 
 int
+	export(const char *key)
+{
+	t_env	*tmp;
+	t_env	*pre;
+
+	tmp = env_list;
+	pre = NULL;
+	while (tmp && strcmp(tmp->key, key) && tmp->next)
+	{
+		pre = tmp;
+		tmp = tmp->next;
+	}
+	if (tmp && !strcmp(tmp->key, key))
+	{
+		free(tmp->key);
+		free(tmp->value);
+		pre->next = tmp->next;
+		free(tmp);
+	}
+	return (0);
+}
+int
 	main(int argc, char **argv, char **envp)
 {
 	char	*test;
@@ -51,5 +73,7 @@ int
 	free(test);
 	test = strdup("test=qwerty");
 	env_list = update_env(test, env_list, 0);
+	env(env_list);	
+	export("test");
 	env(env_list);	
 }
