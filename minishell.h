@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 13:02:00 by snpark            #+#    #+#             */
-/*   Updated: 2021/09/14 20:55:48 by senoi            ###   ########.fr       */
+/*   Updated: 2021/09/17 16:48:07 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef	struct s_env
 	t_env	*next;
 }		t_env;
 
-t_env	*export(char *str, t_env *head, int	flag);
+t_env	*update_env(char *str, t_env *head, int	flag);
 t_env	*parent_env(char **old_env);
 
 #endif

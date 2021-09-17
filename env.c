@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_env	*export(char *str, t_env *head, int	flag)
+t_env	*update_env(char *str, t_env *head, int	flag)
 {
 	int	i;
 	t_env	*env;
@@ -9,28 +9,31 @@ t_env	*export(char *str, t_env *head, int	flag)
 	i = 0;
 	while (str[i] != '=' && str[i] != '\0')
 		++i;
-	if (!str[i])  
-	// =이 없으면 멀쩡한 형식이 아님
+	if (!str[i]) // bash 출력 결과 env: ‘qwe’: No such file or directory 
+	{
+		printf("you should type =\n");
 		return(NULL);
+	}
 	str[i] = '\0';
-	if (!str[0]) 
-	// "=something" 이라 key값이 없는 상황임
-		return(NULL);
-	//key 값이 중복되면? 
-		// 그 key를 가진 구조체를 찾고, value 포인터를 free 한 후 새롭게 할당
-	// key 값이 중복되지 않은 경우
-	env = (t_env *)malloc(1);
-	env->key = strdup(str);
-	env->value = strdup(str + ++i);
-	env->next = NULL;
-	if (flag == 1)
-		free(str);
-	if (head == NULL)
-		return (env);
+	//if (!str[0]) key값이 없이 들어와도 bash에서 환경변수로 변한다. 
 	tmp = head;
-	while (tmp->next != NULL)
+	while (tmp && strcmp(tmp->key, str) && tmp->next != NULL)
 		tmp = tmp->next;
-	tmp->next = env;
+	if (tmp && !strcmp(tmp->key, str) && strcmp(tmp->value, str + i + 1))
+	{
+		free(tmp->value);
+		tmp->value = strdup(str + i + 1);
+	}
+	else
+	{
+		env = (t_env *)malloc(1);
+		env->key = strdup(str);
+		env->value = strdup(str + i + 1);
+		env->next = NULL;
+		if (head == NULL)
+			return (env);
+		tmp->next = env;
+	}
 	return (head);
 }
 
@@ -43,7 +46,7 @@ t_env	*parent_env(char **old_env)
 	i = 0;
 	while (old_env[i] != NULL)
 	{
-		head = export(old_env[i], head, 0);
+		head = update_env(old_env[i], head, 0);
 		++i;
 	}
 	return (head);

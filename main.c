@@ -2,11 +2,12 @@
 #include <unistd.h>
 #include "minishell.h"
 
+t_env	*env_list;
 
 int
 	env(t_env *list)
 {
-	while (list->next != NULL)
+	while (list != NULL)
 	{
 		printf("%s=%s\n", list->key, list->value);
 		list = list->next;
@@ -40,8 +41,15 @@ int
 int
 	main(int argc, char **argv, char **envp)
 {
-	t_env	*env_list;
+	char	*test;
 
 	env_list = parent_env(envp);
+	env(env_list);
+	test = strdup("test=123");
+	env_list = update_env(test, env_list, 0);
+	env(env_list);	
+	free(test);
+	test = strdup("test=qwerty");
+	env_list = update_env(test, env_list, 0);
 	env(env_list);	
 }
