@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 13:02:00 by snpark            #+#    #+#             */
-/*   Updated: 2021/09/17 16:48:07 by root             ###   ########.fr       */
+/*   Updated: 2021/09/17 21:58:19 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <stdlib.h>
 # include <string.h> /* strdup() 쓰려고 붙임*/
 # include <stdio.h>
+# include <unistd.h>
 typedef struct	s_env t_env;
 
 typedef	struct s_env
@@ -24,7 +25,12 @@ typedef	struct s_env
 	t_env	*next;
 }		t_env;
 
-t_env	*update_env(char *str, t_env *head, int	flag);
+t_env	*export(char *str, t_env *head, int	flag);
 t_env	*parent_env(char **old_env);
+int		env(t_env *list);
+int		pwd();
+int		echo(char *str, char flag);
+int		cd(char *path);
+int		unset(const char *key);
 
 #endif

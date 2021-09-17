@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_env	*update_env(char *str, t_env *head, int	flag)
+t_env	*export(char *str, t_env *head, int	flag)
 {
 	int	i;
 	t_env	*env;
@@ -46,7 +46,7 @@ t_env	*parent_env(char **old_env)
 	i = 0;
 	while (old_env[i] != NULL)
 	{
-		head = update_env(old_env[i], head, 0);
+		head = export(old_env[i], head, 0);
 		++i;
 	}
 	return (head);
