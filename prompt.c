@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 15:27:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/09/18 16:29:56 by snpark           ###   ########.fr       */
+/*   Updated: 2021/09/19 09:29:38 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int
 	int		read_len;
 
 	write(1, "$> ", 3);
-	if (*line != NULL);
+	if (*line != NULL)
 	{
 		free(*line);
 		*line = NULL;
@@ -58,4 +58,5 @@ int
 		if (buffer == '\n')
 			return (0);
 	}
+	return (0);
 }
