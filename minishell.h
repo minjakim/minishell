@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 13:02:00 by snpark            #+#    #+#             */
-/*   Updated: 2021/09/18 15:44:19 by snpark           ###   ########.fr       */
+/*   Updated: 2021/09/20 17:33:47 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 typedef struct	s_env t_env;
 
 typedef	struct s_env
