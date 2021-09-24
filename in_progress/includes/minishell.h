@@ -14,4 +14,6 @@
 
 int parse_env(char ***original_envp);
 
+int ft_execve(int argc, char **argv, char **envp);
+
 #endif
