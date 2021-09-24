@@ -5,12 +5,17 @@
 int	main(int argc, char *argv[], char *envp[])
 {
 	char *line;
+	int		i;
 
-	parsing_env();
-	printf("%s\n", envp[0]);
-	*envp[0]='a';
-	printf("%s\n", envp[0]);
-	free(*envp);
+	i = -1;
+	while (envp[++i] != NULL)
+		printf("%s\n", envp[i]);
+	if (parse_env(&envp))
+		return(1);
+	printf("------------------------------------------");
+	i = -1;
+	while (envp[++i] != NULL)
+		printf("%s\n", envp[i]);
 //	set_signal();
 //	while(42)
 //	{

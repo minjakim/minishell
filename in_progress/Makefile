@@ -1,6 +1,7 @@
 NAME=minishell
 
-SRC=shell.c
+SRC=shell.c\
+	parse_env.c
 
 SRCS=$(SRC:%=./src/%)
 OBJ=$(SRCS:%.c=%.o)
