@@ -5,6 +5,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <dirent.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -14,6 +15,8 @@
 # include <string.h>
 
 int parse_env(char ***original_envp);
+
+int	shell_execve(char *command, char **args, char **env);
 
 int ft_execve(char **argv, char **envp);
 

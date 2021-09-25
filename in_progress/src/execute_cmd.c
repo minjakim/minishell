@@ -1,17 +1,13 @@
-#iunclude "minishell.h"
+#include "../includes/minishell.h"
 
 int
 	shell_execve(char *command, char **args, char **env)
 {
 	char *path;
 
-	if(*comand == '.' || *command == '~' || *command == '\')
+	if(*command == '.' || *command == '~' || *command == '/')
 		execve(command, args, env);
-	else //only file name maybe...
-	{
-		getenv("PATH");
-		//parsing a path
-		//
-		
-	}
+	else
+		ft_execve(args, env);
+	return (0);
 }

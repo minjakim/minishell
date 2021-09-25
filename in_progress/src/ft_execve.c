@@ -102,8 +102,8 @@ int
 	i = -1;
 	while (path[++i] != NULL)
 		printf("%s\n", path[i]);
-	command = return_path(path, "brew");//argv[0]);
-	printf("%s\n", command);
+	command = return_path(path, argv[0]);
+	execve(command, argv, envp);
 	return (0);
 }
 
