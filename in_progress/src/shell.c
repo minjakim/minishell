@@ -8,7 +8,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (parse_env(&envp))
 		return(1);
-	ft_execve(argc, argv, envp);
+	ft_execve(argv, envp);
 //	set_signal();
 //	while(42)
 //	{
