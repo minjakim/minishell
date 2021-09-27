@@ -80,6 +80,7 @@ char
 			return (NULL);
 		while ((dirinfo = readdir(dir_pointer)))
 		{
+			printf("%s\n", dirinfo->d_name);
 			if(!strcmp(command, dirinfo->d_name))
 				return (cat_path(path[i], command));
 		}
