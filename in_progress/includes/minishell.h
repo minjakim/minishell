@@ -8,6 +8,10 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/errno.h>
+
+//pid_t
+# include <sys/types.h>
 
 //ARG_MAX
 # include <limits.h>
@@ -20,4 +24,5 @@ int	shell_execve(char *command, char **args, char **env);
 
 int ft_execve(char **argv, char **envp);
 
+int	redirect(char **argv, char **envp);
 #endif

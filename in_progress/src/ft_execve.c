@@ -10,7 +10,8 @@ char
 	int		count;
 	char	**path_list;
 
-	raw_str = getenv("PATH");
+	(void)envp;
+	raw_str = getenv("PATH");//maybe I need to change this
 	raw_str = strdup(raw_str);
 	i = -1;
 	count = 0;
@@ -70,7 +71,6 @@ char
 	DIR				*dir_pointer;
 	struct dirent	*dirinfo;
 	int				i;
-	char			*abs_path;
 
 	i = -1;
 	while ((dir_pointer = opendir(path[++i])))

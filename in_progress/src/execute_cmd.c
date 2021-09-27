@@ -3,7 +3,7 @@
 int
 	shell_execve(char *command, char **args, char **env)
 {
-	char *path;
+	//char *path;
 
 	if(*command == '.' || *command == '~' || *command == '/')
 		execve(command, args, env);
