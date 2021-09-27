@@ -17,7 +17,7 @@ void	o_to_i(char **argv, char **envp, int pipe_fd[2], int flag)
 	else if (fd > 0)
 	{
 		close(pipe_fd[1]);
-		file_fd = open("./sample", flag, 0b111101101);
+		file_fd = open("sample", flag, 0b111101101);
 		read(pipe_fd[0], buffer, 1023);
 		write(file_fd, buffer, 1023);
 		close(file_fd);
