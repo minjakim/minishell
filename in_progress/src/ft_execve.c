@@ -75,12 +75,10 @@ char
 	i = -1;
 	while ((dir_pointer = opendir(path[++i])))
 	{
-		printf("path %s\n", path[i]);
 		if (dir_pointer == NULL)
 			return (NULL);
 		while ((dirinfo = readdir(dir_pointer)))
 		{
-			printf("%s\n", dirinfo->d_name);
 			if(!strcmp(command, dirinfo->d_name))
 				return (cat_path(path[i], command));
 		}
@@ -94,15 +92,11 @@ int
 	ft_execve(char **argv, char **envp)
 {
 	char	**path;
-	int		i;
 	char	*command;
 
 	path = path_list(envp);
 	if (!path)
 		return (1);
-	i = -1;
-	while (path[++i] != NULL)
-		printf("%s\n", path[i]);
 	command = return_path(path, argv[0]);
 	execve(command, argv, envp);
 	return (0);
