@@ -45,6 +45,46 @@ void	file_to_stdin(char **argv, char **envp)
 		;
 }
 
+void	stdin_to_stdin(char **argv, char **envp)
+{
+	int		pipe_fd[2];
+	int		fork_fd;
+	char	buffer[1024];
+	int		read_len;
+
+	//read from stdin
+	memset(buffer, '\0', 1024);
+	if (pipe(pipe_fd))
+		;//error
+	while ((read_len = read(0, buffer, 1024)))
+	{
+		if (read_len == -1)
+		{
+			if (errno == EINTR)//read intrupped by signal
+				continue;
+			//error
+		}
+		if (strcmp(buffer, "END\n") == 0)
+			break;
+		write(pipe_fd[1], buffer, read_len);
+		memset(buffer, '\0', 1024);
+	}
+	fork_fd = fork();
+	if(fork_fd > 0)
+	{
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		wait(NULL);
+	}
+	else if (fork_fd == 0)
+	{
+		close(pipe_fd[1]);
+		dup2(pipe_fd[0], 0);
+		shell_execve(argv[2], argv + 2, envp);
+	}
+	else
+		;
+}
 void	stdout_to_stdin()
 {
 
@@ -66,68 +106,11 @@ int	redirect(char **argv, char **envp)
 	else if (*argv[1] == '<')
 	{
 		if (argv[1][1] == '<')
-			;
-//		{
-//			while (buffer =="end")
-//			{
-//				read(buffer);
-//				write(pipe_fd[1], buffer)
-//				free(buffer);
-//			}
-//			child
-//			{
-//				dup2(pipe_fd[0], 0);
-//				execve("cat");
-//			}
-//			i_to_o();
-//		}
+			stdin_to_stdin(argv, envp);
 		else
 			file_to_stdin(argv, envp);
 	}
 	if (*argv[1] == '|')
 		;//stdout_to_stdin();
-//	else if (*argv[1] == '<')
-//	{
-//		file_fd = open("./sample", O_RDONLY);
-//		read(file_fd, buffer, 1023);
-//		write(pipe_fd[1], buffer, 1023);
-//		fd = fork();
-//		if (fd == 0)
-//		{
-//			close(pipe_fd[0]);
-//			dup2(pipe_fd[0], 0);
-//			shell_execve(argv[2], argv + 1, envp);
-//		}
-//		else if (fd > 0)
-//		{
-//			close(pipe_fd[0]);
-//			close(pipe_fd[1]);
-//			close(file_fd);
-//			wait(NULL);
-//		}
-//		else
-//			;//error
-//	}
-//	else if (*argv[1] == '<<')
-//	{
-//		while ()
-//		{
-//			readline("		>");
-//		}
-//	}
-//	else if (*argv[1] == '|')
-//		;
-//	else // no redirection
-//	{
-//		close(pipe_fd[0]);
-//		close(pipe_fd[1]);
-//		fd = fork();
-//		if (fd == 0)
-//			shell_execve(argv, argv + 1, envp);
-//		else if (fd > 0)
-//			wait(NULL);
-//		else
-//			exit(errno);//error
-//	}
 	return (0);
 }
