@@ -85,17 +85,53 @@ void	stdin_to_stdin(char **argv, char **envp)
 	else
 		;
 }
-void	stdout_to_stdin()
-{
 
+void	stdout_to_stdin(char **argv, char **envp)
+{
+	int	pipe_fd[2];
+	int	fork_fd;
+	char *ls;
+	char *cat;
+	char buffer[1024];
+
+	ls = "ls";
+	cat = "cat";
+	pipe(pipe_fd);
+	fork_fd = fork();
+	if (fork_fd == 0)
+	{
+		dup2(pipe_fd[1], 1);
+		shell_execve(argv[2], argv + 2, envp);
+	}
+	else if (fork_fd > 0)
+	{
+		wait(NULL);
+		write(1, "-------------------------------\n", 32);
+		memset(buffer, '\0', 1024);
+		read(pipe_fd[0], buffer, 1024);
+		write(1, buffer, 1024);
+//		fork_fd = fork();
+//		if (fork_fd == 0)
+//		{
+//			dup2(pipe_fd[0], 0);
+//			shell_execve("cat", &cat, envp); 
+//		}
+//		else if (fork_fd > 0)
+//		{
+//			wait(NULL);
+//			close(pipe_fd[0]);
+//			close(pipe_fd[1]);
+//		}
+//		else
+//			;
+	}
+	else
+		;
+	
 }
 
 int	redirect(char **argv, char **envp)
 {
-	int		pipe_fd[2];
-
-
-	pipe(pipe_fd);
 	if (*argv[1] == '>')
 	{
 		if (argv[1][1] == '>')
@@ -111,6 +147,6 @@ int	redirect(char **argv, char **envp)
 			file_to_stdin(argv, envp);
 	}
 	if (*argv[1] == '|')
-		;//stdout_to_stdin();
+		stdout_to_stdin(argv, envp);
 	return (0);
 }
