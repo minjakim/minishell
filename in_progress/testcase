@@ -1,0 +1,15 @@
+cat < file1 > file2
+cmd < stdin > stdout
+
+cat > file1 < file2
+cmd > stdout < stdin
+
+cat < file1 < file2
+cmd <'ignore'< stdin
+
+echo "wtf" > file1 > file2
+cmd > emptyfile > "wtf"
+
+
+cat < file1 aqwe
+cat aqwe 
