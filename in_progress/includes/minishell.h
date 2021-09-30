@@ -18,6 +18,25 @@
 //strdup
 # include <string.h>
 
+typedef struct	s_command t_command;
+
+typedef struct s_file
+{
+	char	*file;
+	char	redirection;
+}				t_file;
+
+typedef struct	s_command
+{
+	char	**argv;
+	int		stream_out;
+	int		stream_in;
+	t_file	*out_file;
+	t_file	*in_file;
+	int		pipe;
+	t_command	*next;
+}				t_command;
+
 int parse_env(char ***original_envp);
 
 int	shell_execve(char *command, char **args, char **env);
