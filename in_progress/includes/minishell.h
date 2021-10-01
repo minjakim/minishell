@@ -43,5 +43,5 @@ int	shell_execve(char *command, char **args, char **env);
 
 int ft_execve(char **argv, char **envp);
 
-int	redirect(char **argv, char **envp);
+int	redirect(t_command *cmd, char **argv, char **envp);
 #endif
