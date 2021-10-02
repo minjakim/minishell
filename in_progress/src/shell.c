@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/02 15:54:27 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/02 18:52:40 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,22 @@ t_command	*make_cmd(void)
 	cmd1->argv = malloc(sizeof(char *) * 3);
 	if (!cmd1->argv)
 		exit(1);
-	cmd1->argv[0] = strdup("ls");
-	cmd1->argv[1] = strdup("..");
+	cmd1->argv[0] = strdup("echo");
+	cmd1->argv[1] = strdup("Come and Get");
 	cmd1->argv[2] = NULL;
 	cmd1->stream_out = 1;
 	cmd1->stream_in = 0;
 	cmd1->pipe = 0;
 	cmd1->next = NULL;
-	cmd1->out_file = malloc(sizeof(t_file));
-	cmd1->out_file->file = "upper_dir";
-	cmd1->out_file->redirection = 2;
-	cmd1->out_file->next = NULL;
+	if (!(cmd1->out_file = malloc(sizeof(t_file))))
+		exit(1);
+	cmd1->out_file->file = "nothing_in_here.txt";
+	cmd1->out_file->redirection = 1;
+	if (!(cmd1->out_file->next = malloc(sizeof(t_file))))
+		exit(1);
+	cmd1->out_file->next->file = "bazinga.txt";
+	cmd1->out_file->next->redirection = 1;
+	cmd1->out_file->next->next = NULL;
 	return (cmd1);
 }
 

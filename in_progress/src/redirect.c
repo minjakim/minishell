@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
+/*   Updated: 2021/10/02 18:52:38 by snpark           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	stdout_to_file(char **argv, char **envp, int flag)
@@ -135,9 +147,15 @@ void	stdout_to_stdin(char **argv, char **envp)
 	
 }
 
+int	read_all(int src_fd, int dest_fd)
+{
+
+}
+
 int	redirect(t_command *cmd)
 {
 	int	file_fd;
+	int	pipe_fd[2];
 
 	while (cmd->out_file != NULL)
 	{
@@ -151,9 +169,19 @@ int	redirect(t_command *cmd)
 		cmd->out_file = cmd->out_file->next;
 	}
 	if (cmd->stream_out != 1)
-		dup2(cmd->stream_out, 1);
-	if (cmd->in_file == NULL)
-		return (0);
+		dup2(cmd->stream_out, 1);//fork 뜬 뒤에 해야한다 이건 나중에 해도 됨
+	if (cmd->in_file != NULL)
+		pipe(pipe_fd);
+	while (cmd->in_file != NULL)
+	{
+		if (cmd->in_file->redirection == 0b100)
+			;
+		if (cmd->in_file->redirection == 0b1000)
+			;
+		cmd->in_file = cmd->in_file->next;
+	}
+	if (cmd->stream_in != 0)
+
 //	if (*argv[1] == '>')
 //	{
 //		if (argv[1][1] == '>')
