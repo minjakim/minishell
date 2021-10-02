@@ -19,11 +19,13 @@
 # include <string.h>
 
 typedef struct	s_command t_command;
+typedef struct	s_file t_file;
 
 typedef struct s_file
 {
 	char	*file;
 	char	redirection;
+	t_file	*next;
 }				t_file;
 
 typedef struct	s_command
@@ -31,7 +33,7 @@ typedef struct	s_command
 	char	**argv;
 	int		stream_out;
 	int		stream_in;
-	t_file	*out_file;
+	t_file	*out_file; 
 	t_file	*in_file;
 	int		pipe;
 	t_command	*next;
@@ -43,5 +45,5 @@ int	shell_execve(char *command, char **args, char **env);
 
 int ft_execve(char **argv, char **envp);
 
-int	redirect(t_command *cmd, char **argv, char **envp);
+int	redirect(t_command *cmd);
 #endif

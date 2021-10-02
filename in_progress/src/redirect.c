@@ -135,24 +135,40 @@ void	stdout_to_stdin(char **argv, char **envp)
 	
 }
 
-int	redirect(t_command *cmd, char **argv, char **envp)
+int	redirect(t_command *cmd)
 {
-	(void)cmd;
-	if (*argv[1] == '>')
+	int	file_fd;
+
+	while (cmd->out_file != NULL)
 	{
-		if (argv[1][1] == '>')
-			stdout_to_file(argv, envp, O_WRONLY | O_CREAT | O_APPEND);
-		else
-			stdout_to_file(argv, envp, O_WRONLY | O_CREAT | O_TRUNC);
+		if (cmd->out_file->redirection == 2)
+			file_fd = open(cmd->out_file->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (cmd->out_file->redirection == 1)
+			file_fd = open(cmd->out_file->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		cmd->stream_out = file_fd;
+		if (cmd->out_file->next != NULL)
+			close(file_fd);
+		cmd->out_file = cmd->out_file->next;
 	}
-	else if (*argv[1] == '<')
-	{
-		if (argv[1][1] == '<')
-			stdin_to_stdin(argv, envp);
-		else
-			file_to_stdin(argv, envp);
-	}
-	if (*argv[1] == '|')
-		stdout_to_stdin(argv, envp);
+	if (cmd->stream_out != 1)
+		dup2(cmd->stream_out, 1);
+	if (cmd->in_file == NULL)
+		return (0);
+//	if (*argv[1] == '>')
+//	{
+//		if (argv[1][1] == '>')
+//			stdout_to_file(argv, envp, O_WRONLY | O_CREAT | O_APPEND);
+//		else
+//			stdout_to_file(argv, envp, O_WRONLY | O_CREAT | O_TRUNC);
+//	}
+//	else if (*argv[1] == '<')
+//	{
+//		if (argv[1][1] == '<')
+//			stdin_to_stdin(argv, envp);
+//		else
+//			file_to_stdin(argv, envp);
+//	}
+//	if (*argv[1] == '|')
+//		stdout_to_stdin(argv, envp);
 	return (0);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
+/*   Updated: 2021/10/02 15:54:27 by snpark           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 t_command	*make_cmd(void)
@@ -17,6 +29,10 @@ t_command	*make_cmd(void)
 	cmd1->stream_in = 0;
 	cmd1->pipe = 0;
 	cmd1->next = NULL;
+	cmd1->out_file = malloc(sizeof(t_file));
+	cmd1->out_file->file = "upper_dir";
+	cmd1->out_file->redirection = 2;
+	cmd1->out_file->next = NULL;
 	return (cmd1);
 }
 
@@ -34,6 +50,7 @@ int	main(int argc, char *argv[], char *envp[])
 	//parse_prompt;
 	//run_command();
 	//check redirection with argv[1]
+	redirect(cmd_list);
 	shell_execve(cmd_list->argv[0], cmd_list->argv, envp);
 	//redirect(argv, envp);
 //	set_signal();
