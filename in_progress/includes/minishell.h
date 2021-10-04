@@ -6,7 +6,7 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/02 18:52:40 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/04 10:47:06 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct	s_command
 
 int parse_env(char ***original_envp);
 
-int	shell_execve(char *command, char **args, char **env);
+int	shell_execve(t_command cmd, char **env);
 
 int ft_execve(char **argv, char **envp);
 
