@@ -6,7 +6,7 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/04 11:03:15 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/04 13:20:17 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,16 @@ int	read_all(int src_fd, int dest_fd)
 	return (0);
 }
 
+int	read_all_line(int dest_fd, char *eof)
+{
+	char	*line;
+
+	(void)eof;
+	while ((line = readline("redirection> ")) && strcmp(line, eof))
+		write(dest_fd, line, strlen(line));
+	return (0);
+}
+
 int	redirect(t_command *cmd)
 {
 	int	file_fd;
@@ -200,13 +210,11 @@ int	redirect(t_command *cmd)
 			close(file_fd);
 		}
 		if (cmd->in_file->redirection == 0b1000)
-			;
+			read_all_line(pipe_fd[1], cmd->in_file->file);
 		cmd->in_file = cmd->in_file->next;
 	}
 	if (cmd->stream_in != 0)
-	{
 		close(pipe_fd[1]);
-	}
 //	if (*argv[1] == '>')
 //	{
 //		if (argv[1][1] == '>')
