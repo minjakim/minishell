@@ -6,7 +6,7 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:40:38 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/04 11:10:16 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/04 13:30:47 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int
 		if (cmd.stream_out != 1)
 			close(cmd.stream_out);
 		wait(NULL);
-		printf("done");
 	}
 	return (0);
 }
