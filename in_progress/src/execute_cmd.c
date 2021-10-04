@@ -6,7 +6,7 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:40:38 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/04 11:04:25 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/04 11:10:16 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int
 	{
 		if (cmd.stream_in != 0)
 			close(cmd.stream_in);
-		if (cmd.stream_out != 0)
+		if (cmd.stream_out != 1)
 			close(cmd.stream_out);
 		wait(NULL);
 		printf("done");
