@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/05 18:24:25 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/05 18:38:45 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ int	read_all_line(char *eof)
 	while ((line = readline("redirection> ")) && strcmp(line, eof))
 	{
 		write(pipe_fd[1], line, strlen(line));
+		write(pipe_fd[1], "\n", 1);
 		free(line);
 	}
 	if (line)
