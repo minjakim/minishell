@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/05 15:33:20 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/05 18:24:25 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,6 @@
 //}
 */
 
-
 int	read_all(int src_fd, int dest_fd)
 {
 	char	buffer[1024];
@@ -169,19 +168,26 @@ int	read_all(int src_fd, int dest_fd)
 	return (0);
 }
 
-int	read_all_line(int dest_fd, char *eof)
+int	read_all_line(char *eof)
 {
 	char	*line;
+	int		pipe_fd[2];
 
-	(void)eof;
+	line = NULL;
+	pipe(pipe_fd);
 	while ((line = readline("redirection> ")) && strcmp(line, eof))
-		write(dest_fd, line, strlen(line));
-	return (0);
+	{
+		write(pipe_fd[1], line, strlen(line));
+		free(line);
+	}
+	if (line)
+		free(line);
+	close(pipe_fd[1]);
+	return (pipe_fd[0]);
 }
 
 int	redirect(t_command *cmd)
 {
-	int	file_fd;
 	int	pipe_fd[2];
 
 	if (cmd->out_pipe == 1)//&& cmd->next->in_pipe == 1)
@@ -190,35 +196,23 @@ int	redirect(t_command *cmd)
 		cmd->out_pipe = pipe_fd[1];
 		cmd->next->in_pipe = pipe_fd[0];
 	}
-	if (cmd->in_file != NULL)
-	{
-		pipe(pipe_fd);
-		cmd->stream_in = pipe_fd[0];
-	}
 	while (cmd->in_file != NULL)
 	{
 		if (cmd->in_file->redirection == 0b100)
-		{
-			file_fd = open(cmd->in_file->file, O_RDONLY); 		
-			read_all(file_fd, pipe_fd[1]);
-			close(file_fd);
-		}
+			cmd->stream_in = open(cmd->in_file->file, O_RDONLY); 		
 		if (cmd->in_file->redirection == 0b1000)
-			read_all_line(pipe_fd[1], cmd->in_file->file);
-		cmd->in_file = cmd->in_file->next;
+			cmd->stream_in = read_all_line(cmd->in_file->file);
+		if ((cmd->in_file = cmd->in_file->next))
+			close(cmd->stream_in);
 	}
-	if (cmd->stream_in != 0)
-		close(pipe_fd[1]);
 	while (cmd->out_file != NULL)
 	{
 		if (cmd->out_file->redirection == 2)
-			file_fd = open(cmd->out_file->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			cmd->stream_out = open(cmd->out_file->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (cmd->out_file->redirection == 1)
-			file_fd = open(cmd->out_file->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		cmd->stream_out = file_fd;
-		if (cmd->out_file->next != NULL)
-			close(file_fd);
-		cmd->out_file = cmd->out_file->next;
+			cmd->stream_out = open(cmd->out_file->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if ((cmd->out_file = cmd->out_file->next))
+			close(cmd->stream_out);
 	}
 	return (0);
 }

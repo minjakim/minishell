@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/05 15:59:48 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/05 17:39:31 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,19 @@ t_command	*make_cmd(void)
 	if (!cmd1->argv)
 		exit(1);
 	cmd1->argv[0] = strdup("echo");
-	cmd1->argv[1] = strdup("hello");
+	cmd1->argv[1] = strdup("fuck you");
 	cmd1->argv[2] = NULL;
 	cmd1->stream_out = 1;
 	cmd1->stream_in = 0;
 	cmd1->in_pipe = 0;
 	cmd1->out_pipe = 1;
-	cmd1->next = NULL;
 //	if (!(cmd1->out_file = malloc(sizeof(t_file))))
 //		exit(1);
 //	cmd1->out_file->file = "good.txt";
-//	cmd1->out_file->redirection = 2;
+//	cmd1->out_file->redirection = 1;
 //	cmd1->out_file->next = NULL;
-//	cmd1->in_file = NULL;
-	cmd1->out_file = NULL;
 	cmd1->in_file = NULL;
+	cmd1->out_file = NULL;
 //	if (!(cmd1->in_file = malloc(sizeof(t_file))))
 //		exit(1);
 //	cmd1->in_file->file = "./txt/bazinga.txt";
@@ -54,10 +52,14 @@ t_command	*make_cmd(void)
 	cmd1->next = cmd2;
 	if (!(cmd2->argv = malloc(sizeof(char *) * 2)))
 		exit(1);
-	cmd2->argv[0] = strdup("cat");
+	cmd2->argv[0] = "cat";//strdup("cat");
 	cmd2->argv[1] = NULL;
 	cmd2->out_file = NULL;
-	cmd2->in_file = NULL;
+	if (!(cmd2->in_file = malloc(sizeof(t_file))))
+		exit(1);
+	cmd2->in_file->file = "good.txt";
+	cmd2->in_file->redirection = 0b100;
+	cmd2->in_file->next = NULL;
 	cmd2->stream_out = 1;
 	cmd2->stream_in = 0;
 	cmd2->in_pipe = 1;
@@ -76,12 +78,15 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	if (parse_env(&envp))
 		return(1);
-	redirect(cmd_list);
-	printf("redirect done\n");
 	cmd_handle = cmd_list;
 	while (cmd_handle != NULL)
 	{
-		printf("cmd run\n");
+		redirect(cmd_handle);
+		cmd_handle = cmd_handle->next;
+	}
+	cmd_handle = cmd_list;
+	while (cmd_handle != NULL)
+	{
 		shell_execve(*cmd_handle, envp);
 		cmd_handle = cmd_handle->next;
 	}

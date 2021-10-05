@@ -26,3 +26,12 @@ pipe work
 echo hello |
 >
 
+cat < txt < txt <txt <txt
+중복된 파일은 한 번만 들어간다.
+
+cat < txt << end
+end만 출력된다
+
+< << < <
+stdin redirection도 맨 마지막 fd만 가지고 가는 듯하다.
+모든 파일 내용이 다 들어갔던 건 zsh이다.
