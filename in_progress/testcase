@@ -13,3 +13,16 @@ cmd > emptyfile > "wtf"
 
 cat < file1 aqwe
 cat aqwe 
+
+echo hello | cat < txt
+if redirection is being, pipe ignore
+
+echo hellp > txt | cat
+if redirection is being, pipe ignore
+
+echo hello | cat
+pipe work
+
+echo hello |
+>
+

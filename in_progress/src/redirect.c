@@ -6,12 +6,12 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/04 13:30:01 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/05 15:33:20 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+/*
 //void	stdout_to_file(char **argv, char **envp, int flag)
 //{
 //	int		fd;
@@ -41,7 +41,6 @@
 //
 //void	file_to_stdin(char **argv, char **envp)
 //{
-//	int		read_fd;
 //	int		fork_fd;
 //
 //	read_fd = open("sample", O_RDONLY); 
@@ -144,9 +143,11 @@
 //	}
 //	else
 //		;
-//	
-//}
 //
+//}
+*/
+
+
 int	read_all(int src_fd, int dest_fd)
 {
 	char	buffer[1024];
@@ -183,19 +184,12 @@ int	redirect(t_command *cmd)
 	int	file_fd;
 	int	pipe_fd[2];
 
-	while (cmd->out_file != NULL)
+	if (cmd->out_pipe == 1)//&& cmd->next->in_pipe == 1)
 	{
-		if (cmd->out_file->redirection == 2)
-			file_fd = open(cmd->out_file->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (cmd->out_file->redirection == 1)
-			file_fd = open(cmd->out_file->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		cmd->stream_out = file_fd;
-		if (cmd->out_file->next != NULL)
-			close(file_fd);
-		cmd->out_file = cmd->out_file->next;
+		pipe(pipe_fd);
+		cmd->out_pipe = pipe_fd[1];
+		cmd->next->in_pipe = pipe_fd[0];
 	}
-	if (cmd->stream_out != 1)
-		;
 	if (cmd->in_file != NULL)
 	{
 		pipe(pipe_fd);
@@ -215,20 +209,16 @@ int	redirect(t_command *cmd)
 	}
 	if (cmd->stream_in != 0)
 		close(pipe_fd[1]);
-//	if (*argv[1] == '>')
-//	{
-//		if (argv[1][1] == '>')
-//			stdout_to_file(argv, envp, O_WRONLY | O_CREAT | O_APPEND);
-//		else
-//			stdout_to_file(argv, envp, O_WRONLY | O_CREAT | O_TRUNC);
-//	}
-//	{
-//		if (argv[1][1] == '<')
-//			stdin_to_stdin(argv, envp);
-//		else
-//			file_to_stdin(argv, envp);
-//	}
-//	if (*argv[1] == '|')
-//		stdout_to_stdin(argv, envp);
+	while (cmd->out_file != NULL)
+	{
+		if (cmd->out_file->redirection == 2)
+			file_fd = open(cmd->out_file->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (cmd->out_file->redirection == 1)
+			file_fd = open(cmd->out_file->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		cmd->stream_out = file_fd;
+		if (cmd->out_file->next != NULL)
+			close(file_fd);
+		cmd->out_file = cmd->out_file->next;
+	}
 	return (0);
 }

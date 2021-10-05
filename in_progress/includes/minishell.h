@@ -6,7 +6,7 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/04 10:47:06 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/05 15:07:42 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ typedef struct	s_command
 	int		stream_in;
 	t_file	*out_file; 
 	t_file	*in_file;
-	int		pipe;
+	int		in_pipe;
+	int		out_pipe;
 	t_command	*next;
 }				t_command;
 
