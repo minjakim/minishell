@@ -5,7 +5,9 @@ SRC=shell.c\
 	ft_execve.c\
 	execute_cmd.c\
 	redirect.c\
-	echo.c
+	echo.c\
+	cd.c\
+	pwd.c\
 
 SRCS=$(SRC:%=./src/%)
 OBJ=$(SRCS:%.c=%.o)

@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/06 14:58:25 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/06 20:24:29 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ t_command	*make_cmd(void)
 	cmd1 = malloc(sizeof(t_command));
 	if (!cmd1)
 		exit(1);
-	cmd1->argv = malloc(sizeof(char *) * 2);
+	cmd1->argv = malloc(sizeof(char *) * 3);
 	if (!cmd1->argv)
 		exit(1);
-	cmd1->argv[0] = strdup("cat");
-	cmd1->argv[1] = NULL;
+	cmd1->argv[0] = strdup("pwd");
+	cmd1->argv[1] = strdup("");
+	cmd1->argv[2] = NULL; 
 	cmd1->stream_out = 1;
 	cmd1->stream_in = 0;
 	cmd1->in_pipe = 0;
@@ -36,13 +37,13 @@ t_command	*make_cmd(void)
 	cmd1->out_file->redirection = 1;
 	cmd1->out_file->next = NULL;
 	//cmd1->in_file = NULL;
-//	cmd1->out_file = NULL;
-//	cmd1->in_file = NULL;
-	if (!(cmd1->in_file = malloc(sizeof(t_file))))
-		exit(1);
-	cmd1->in_file->file = "good.txt";
-	cmd1->in_file->redirection = 0b100;
-	cmd1->in_file->next = NULL;
+	//cmd1->out_file = NULL;
+	cmd1->in_file = NULL;
+//	if (!(cmd1->in_file = malloc(sizeof(t_file))))
+//		exit(1);
+//	cmd1->in_file->file = "good.txt";
+//	cmd1->in_file->redirection = 0b100;
+//	cmd1->in_file->next = NULL;
 //	if (!(cmd1->in_file->next = malloc(sizeof(t_file))))
 //		exit(1);
 //	cmd1->in_file->next->file = "end";

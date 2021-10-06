@@ -6,7 +6,7 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/06 14:12:29 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/06 17:44:08 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,7 @@ int	redirect(t_command *cmd);
 **builtin function
 */
 int	echo(char **argv, char **envp, int stream_in, int stream_out);
+int	cd(char **argv, char **envp);
+int	pwd(char **argv, char **envp, int stream_out);
+
 #endif

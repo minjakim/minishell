@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:40:38 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/06 14:41:44 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/06 17:44:12 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	is_builtin(const char *command, t_command cmd, char **envp)
 	if (!strcmp(command, "echo"))
 		return (echo(cmd.argv, envp, stream_in, stream_out));
 	if (!strcmp(command, "cd"))
-		return (2);
+		return (cd(cmd.argv, envp));
 	if (!strcmp(command, "pwd"))
-		return (3);
+		return (pwd(cmd.argv, envp, stream_out));
 	if (!strcmp(command, "export"))
 		return (4);
 	if (!strcmp(command, "unset"))
@@ -49,7 +49,7 @@ int
 	int		built_in;
 	const char	*command = cmd.argv[0];
 
-	fd = 0;
+	fd = 1;
 	built_in = 0;
 	if (is_builtin(command, cmd, env))
 		built_in = 1;
