@@ -6,20 +6,55 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:40:38 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/05 18:25:47 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/06 14:41:44 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../include/minishell.h"
+
+int	is_builtin(const char *command, t_command cmd, char **envp)
+{
+	int	stream_out;
+	int	stream_in;
+
+	if (cmd.stream_out == 1 && cmd.out_pipe != 0)
+		stream_out = cmd.out_pipe;
+	else
+		stream_out = cmd.stream_out;
+	if (cmd.stream_in == 0 && cmd.in_pipe != 0)
+		stream_in = cmd.in_pipe;
+	else
+		stream_in = cmd.stream_in;
+	if (!strcmp(command, "echo"))
+		return (echo(cmd.argv, envp, stream_in, stream_out));
+	if (!strcmp(command, "cd"))
+		return (2);
+	if (!strcmp(command, "pwd"))
+		return (3);
+	if (!strcmp(command, "export"))
+		return (4);
+	if (!strcmp(command, "unset"))
+		return (5);
+	if (!strcmp(command, "env"))
+		return (6);
+	if (!strcmp(command, "exit"))
+		return (7);
+	return (0);
+}
 
 int
 	shell_execve(t_command cmd, char **env)
 {
 	pid_t	fd;
+	int		built_in;
 	const char	*command = cmd.argv[0];
 
-	//if (command == built_in function)	
-	fd = fork();
+	fd = 0;
+	built_in = 0;
+	if (is_builtin(command, cmd, env))
+		built_in = 1;
+	else
+		fd = fork();
 	if (fd == 0)
 	{
 		if (cmd.stream_out != 1)
@@ -35,7 +70,7 @@ int
 		else
 			ft_execve(cmd.argv, env);
 	}
-	else if (fd > 0)
+	else if (fd > 0 || built_in)
 	{
 		if (cmd.stream_in != 0)
 			close(cmd.stream_in);
@@ -45,7 +80,8 @@ int
 			close(cmd.out_pipe);
 		if (cmd.in_pipe)
 			close(cmd.in_pipe);
-		wait(NULL);
+		if (fd > 0)
+			wait(NULL);
 	}
 	return (0);
 }

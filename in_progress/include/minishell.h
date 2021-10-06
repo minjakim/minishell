@@ -6,7 +6,7 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/05 15:07:42 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/06 14:12:29 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,8 @@ int	shell_execve(t_command cmd, char **env);
 int ft_execve(char **argv, char **envp);
 
 int	redirect(t_command *cmd);
+/*
+**builtin function
+*/
+int	echo(char **argv, char **envp, int stream_in, int stream_out);
 #endif

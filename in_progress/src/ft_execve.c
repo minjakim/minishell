@@ -6,11 +6,11 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 13:05:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/04 13:05:19 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/06 11:32:22 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../include/minishell.h"
 
 //wrap execve to find path of binary or shell file
 

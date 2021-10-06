@@ -6,11 +6,11 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/05 18:38:45 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/06 14:49:44 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../include/minishell.h"
 /*
 //void	stdout_to_file(char **argv, char **envp, int flag)
 //{
@@ -197,15 +197,6 @@ int	redirect(t_command *cmd)
 		cmd->out_pipe = pipe_fd[1];
 		cmd->next->in_pipe = pipe_fd[0];
 	}
-	while (cmd->in_file != NULL)
-	{
-		if (cmd->in_file->redirection == 0b100)
-			cmd->stream_in = open(cmd->in_file->file, O_RDONLY); 		
-		if (cmd->in_file->redirection == 0b1000)
-			cmd->stream_in = read_all_line(cmd->in_file->file);
-		if ((cmd->in_file = cmd->in_file->next))
-			close(cmd->stream_in);
-	}
 	while (cmd->out_file != NULL)
 	{
 		if (cmd->out_file->redirection == 2)
@@ -214,6 +205,15 @@ int	redirect(t_command *cmd)
 			cmd->stream_out = open(cmd->out_file->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if ((cmd->out_file = cmd->out_file->next))
 			close(cmd->stream_out);
+	}
+	while (cmd->in_file != NULL)
+	{
+		if (cmd->in_file->redirection == 0b100)
+			cmd->stream_in = open(cmd->in_file->file, O_RDONLY); 		
+		if (cmd->in_file->redirection == 0b1000)
+			cmd->stream_in = read_all_line(cmd->in_file->file);
+		if ((cmd->in_file = cmd->in_file->next))
+			close(cmd->stream_in);
 	}
 	return (0);
 }

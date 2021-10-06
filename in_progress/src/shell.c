@@ -6,11 +6,11 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/05 18:37:27 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/06 14:58:25 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../include/minishell.h"
 
 t_command	*make_cmd(void)
 {
@@ -30,23 +30,24 @@ t_command	*make_cmd(void)
 	cmd1->in_pipe = 0;
 	cmd1->out_pipe = 0;
 	cmd1->next = NULL;
-//	if (!(cmd1->out_file = malloc(sizeof(t_file))))
-//		exit(1);
-//	cmd1->out_file->file = "good.txt";
-//	cmd1->out_file->redirection = 1;
-//	cmd1->out_file->next = NULL;
+	if (!(cmd1->out_file = malloc(sizeof(t_file))))
+		exit(1);
+	cmd1->out_file->file = "good.txt";
+	cmd1->out_file->redirection = 1;
+	cmd1->out_file->next = NULL;
 	//cmd1->in_file = NULL;
-	cmd1->out_file = NULL;
+//	cmd1->out_file = NULL;
+//	cmd1->in_file = NULL;
 	if (!(cmd1->in_file = malloc(sizeof(t_file))))
 		exit(1);
 	cmd1->in_file->file = "good.txt";
 	cmd1->in_file->redirection = 0b100;
 	cmd1->in_file->next = NULL;
-	if (!(cmd1->in_file->next = malloc(sizeof(t_file))))
-		exit(1);
-	cmd1->in_file->next->file = "end";
-	cmd1->in_file->next->redirection = 0b1000;
-	cmd1->in_file->next->next = NULL;
+//	if (!(cmd1->in_file->next = malloc(sizeof(t_file))))
+//		exit(1);
+//	cmd1->in_file->next->file = "end";
+//	cmd1->in_file->next->redirection = 0b1000;
+//	cmd1->in_file->next->next = NULL;
 //	if (!(cmd2 = malloc(sizeof(t_command))))
 //		exit(1);
 //	cmd1->next = cmd2;
