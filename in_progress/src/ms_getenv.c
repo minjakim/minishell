@@ -6,47 +6,39 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:40:25 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/06 21:12:54 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/10 16:25:53 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	is_env(char *key, char **envp)
+t_key_value_idx	ms_getev(char *key, char **envp)
 {
-	int	i;
-	int	cmp_i;
+	t_key_value_idx	idx;
 	int	str_len;
 
-	i = -1;
 	str_len = strlen(key);
-	while(envp[++i] != NULL)
+	if (key[str_len] == '=')
+		--str_len;
+	idx.key = -1;
+	while(envp[++idx.key] != NULL)
 	{
-		cmp_i = -1;	
-		while(++cmp_i < str_len)
-			if (key[cmp_i] != envp[i][cmp_i])
+		idx.value = -1;
+		while(++idx_value < str_len)
+			if (key[idx_value] != envp[idx.key][idx.value])
 				break;
-		if (envp[i][cmp_i] == '=')
-			return(i);
+		if (envp[idx.key][idx.value] == '=')
+		{
+			++idx.value;
+			return (idx);
+		}
+		if (envp[idx.key][idx.value] == '\0')
+		{
+			idx.value = -1;
+			return (idx);
+		}
 	}
-	return (-1);
-}
-
-int	ms_getenv(char *key, char **envp)
-{
-	int	i;
-	int	cmp_i;
-	int	str_len;
-
-	i = -1;
-	str_len = strlen(key);
-	while(envp[++i] != NULL)
-	{
-		cmp_i = -1;	
-		while(++cmp_i < str_len)
-			if (key[cmp_i] != envp[i][cmp_i])
-				break;
-		if (
-	}
-	return (0);
+	idx.key = -1;
+	idx.value = -1;
+	return (idx);
 }

@@ -6,7 +6,7 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/09 13:11:45 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/10 12:53:11 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ typedef struct s_key_value_idx
 	int	key;
 	int	value;
 }				t_key_value_idx;
+
+typedef	struct s_valiable
+{
+	char	*shell;
+	char	*env;
+}		t_valiable;
 
 int parse_env(char ***original_envp);
 
