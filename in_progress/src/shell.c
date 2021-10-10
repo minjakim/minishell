@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/06 20:24:29 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/06 20:39:55 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_command	*make_cmd(void)
 	cmd1->argv = malloc(sizeof(char *) * 3);
 	if (!cmd1->argv)
 		exit(1);
-	cmd1->argv[0] = strdup("pwd");
+	cmd1->argv[0] = strdup("export");
 	cmd1->argv[1] = strdup("");
 	cmd1->argv[2] = NULL; 
 	cmd1->stream_out = 1;

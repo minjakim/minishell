@@ -8,6 +8,8 @@ SRC=shell.c\
 	echo.c\
 	cd.c\
 	pwd.c\
+	export.c\
+	ms_getenv.c
 
 SRCS=$(SRC:%=./src/%)
 OBJ=$(SRCS:%.c=%.o)

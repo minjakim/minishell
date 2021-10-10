@@ -6,7 +6,7 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/06 17:44:08 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/09 13:11:45 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ typedef struct	s_command
 	t_command	*next;
 }				t_command;
 
+typedef struct s_key_value_idx
+{
+	int	key;
+	int	value;
+}				t_key_value_idx;
+
 int parse_env(char ***original_envp);
 
 int	shell_execve(t_command cmd, char **env);
@@ -65,5 +71,7 @@ int	redirect(t_command *cmd);
 int	echo(char **argv, char **envp, int stream_in, int stream_out);
 int	cd(char **argv, char **envp);
 int	pwd(char **argv, char **envp, int stream_out);
+int	export(char **argv, char **envp, int stream_in, int strem_out);
+t_key_value_idx ms_getenv(char *key, char **envp);
 
 #endif
