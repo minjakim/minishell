@@ -6,13 +6,13 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:40:25 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/10 16:25:53 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/12 19:12:00 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_key_value_idx	ms_getev(char *key, char **envp)
+t_key_value_idx	ms_getenv(char *key, char **envp)
 {
 	t_key_value_idx	idx;
 	int	str_len;
@@ -24,8 +24,8 @@ t_key_value_idx	ms_getev(char *key, char **envp)
 	while(envp[++idx.key] != NULL)
 	{
 		idx.value = -1;
-		while(++idx_value < str_len)
-			if (key[idx_value] != envp[idx.key][idx.value])
+		while(++idx.value < str_len)
+			if (key[idx.value] != envp[idx.key][idx.value])
 				break;
 		if (envp[idx.key][idx.value] == '=')
 		{

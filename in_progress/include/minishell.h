@@ -6,7 +6,7 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/10 12:53:11 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/12 18:57:16 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	redirect(t_command *cmd);
 int	echo(char **argv, char **envp, int stream_in, int stream_out);
 int	cd(char **argv, char **envp);
 int	pwd(char **argv, char **envp, int stream_out);
-int	export(char **argv, char **envp, int stream_in, int strem_out);
+int	ms_export(char **argv, char **envp, int stream_in, int strem_out);
 t_key_value_idx ms_getenv(char *key, char **envp);
 
 #endif
