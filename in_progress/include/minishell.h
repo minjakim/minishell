@@ -6,7 +6,7 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/12 18:57:16 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/13 11:59:49 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,8 @@ int	cd(char **argv, char **envp);
 int	pwd(char **argv, char **envp, int stream_out);
 int	ms_export(char **argv, char **envp, int stream_in, int strem_out);
 t_key_value_idx ms_getenv(char *key, char **envp);
+int	find_offset(char *str);
+int	ms_unset(char **argv, char **envp);
+int	ms_env(char **argv, char **envp, int stream_out);
 
 #endif

@@ -9,7 +9,9 @@ SRC=shell.c\
 	cd.c\
 	pwd.c\
 	export.c\
-	ms_getenv.c
+	ms_getenv.c\
+	unset.c\
+	env.c
 
 SRCS=$(SRC:%=./src/%)
 OBJ=$(SRCS:%.c=%.o)

@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/12 21:47:01 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/13 12:06:41 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ t_command	*make_cmd(void)
 	cmd1->next = cmd2;
 	if (!(cmd2->argv = malloc(sizeof(char *) * 3)))
 		exit(1);
-	cmd2->argv[0] = strdup("export");//strdup("cat");
-	cmd2->argv[1] = strdup("SB=qweqweq");
+	cmd2->argv[0] = strdup("env");//strdup("cat");
+	cmd2->argv[1] = strdup("asd");//strdup("cat");
 	cmd2->argv[2] = NULL;
 	cmd2->out_file = NULL;
 	cmd2->in_file = NULL;
