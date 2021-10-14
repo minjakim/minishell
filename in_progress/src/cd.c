@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 16:03:49 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/06 17:08:12 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/13 20:59:30 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	cd(char **argv, char **envp)
 
 	(void)envp;
 	if (path == NULL)
-		ret = chdir(getenv("HOME"));
+		ret = chdir(envp[ms_getenv("HOME", envp).key]);
 	else
 		ret = chdir(path);
 	if (ret == -1)

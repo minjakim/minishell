@@ -6,7 +6,7 @@
 /*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 13:05:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/06 11:32:22 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/13 20:46:28 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ char
 	int		i;
 	int		count;
 	char	**path_list;
+	t_key_value_idx idx;
 
 	(void)envp;
-	raw_str = getenv("PATH");//maybe I need to change this
-	raw_str = strdup(raw_str);
+//	raw_str = getenv("PATH");//maybe I need to change this
+	idx = ms_getenv("PATH", envp);
+	raw_str = strdup(envp[idx.key]);
 	i = -1;
 	count = 0;
 	while (raw_str[++i] != '\0')
