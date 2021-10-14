@@ -11,7 +11,8 @@ SRC=shell.c\
 	export.c\
 	ms_getenv.c\
 	unset.c\
-	env.c
+	env.c\
+	exit.c
 
 SRCS=$(SRC:%=./src/%)
 OBJ=$(SRCS:%.c=%.o)

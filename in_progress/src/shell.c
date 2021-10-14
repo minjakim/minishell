@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/13 20:48:08 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/14 09:41:42 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_command	*make_cmd(void)
 	cmd1->argv = malloc(sizeof(char *) * 2);
 	if (!cmd1->argv)
 		exit(1);
-	cmd1->argv[0] = strdup("uname");
+	cmd1->argv[0] = strdup("exit");
 	cmd1->argv[1] = NULL; 
 	cmd1->stream_out = 1;
 	cmd1->stream_in = 0;
@@ -71,15 +71,6 @@ t_command	*make_cmd(void)
 	return (cmd1);
 }
 
-void	print_env(char **envp)
-{
-	while (*envp != NULL)
-	{
-		printf("%s\n", *envp);
-		envp++;
-	}
-}
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_command	*cmd_list;
@@ -99,13 +90,13 @@ int	main(int argc, char *argv[], char *envp[])
 		cmd_handle = cmd_handle->next;
 		printf("cnt %d\n", ++cnt);
 	}
+	printf("redirection part done\n");
 	cmd_handle = cmd_list;
 	cnt = 0;
 	while (cmd_handle != NULL)
 	{
 		shell_execve(*cmd_handle, envp);
 		cmd_handle = cmd_handle->next;
-		print_env(envp);
 		printf("----------\ncnt %d\n", ++cnt);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:40:38 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/13 12:00:40 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/14 09:40:14 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	is_builtin(const char *command, t_command cmd, char **envp)
 	if (!strcmp(command, "env"))
 		return (ms_env(cmd.argv, envp, stream_out));
 	if (!strcmp(command, "exit"))
-		return (7);
+		return (ms_exit(1));
 	return (0);
 }
 
