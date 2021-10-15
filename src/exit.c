@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 09:38:13 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/14 09:43:16 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:27:27 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ms_exit(int	exit_status)
+int
+	ms_exit(int	exit_status)
 {
 	write(2, "exit\n", 5);
 	exit(exit_status);

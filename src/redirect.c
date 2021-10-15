@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/06 15:11:01 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:28:06 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@
 **}
 */
 
-int	read_all_line(char *eof)
+int
+	read_all_line(char *eof)
 {
 	char	*line;
 	int		pipe_fd[2];
@@ -53,7 +54,8 @@ int	read_all_line(char *eof)
 	return (pipe_fd[0]);
 }
 
-int	redirect(t_command *cmd)
+int
+	redirect(t_command *cmd)
 {
 	int	pipe_fd[2];
 
@@ -66,7 +68,7 @@ int	redirect(t_command *cmd)
 	while (cmd->in_file != NULL)
 	{
 		if (cmd->in_file->redirection == 0b100)
-			cmd->stream_in = open(cmd->in_file->file, O_RDONLY); 		
+			cmd->stream_in = open(cmd->in_file->file, O_RDONLY);
 		if (cmd->in_file->redirection == 0b1000)
 			cmd->stream_in = read_all_line(cmd->in_file->file);
 		if ((cmd->in_file = cmd->in_file->next))

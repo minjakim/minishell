@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 07:56:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/13 11:19:36 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:28:21 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	legal_variable_starter(char c)
+int
+	legal_variable_starter(char c)
 {
 	return (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
@@ -30,7 +31,8 @@ int	legal_identifier(char *name)
 	return (1);
 }
 
-int	ms_unset(char **argv, char **envp)
+int
+	ms_unset(char **argv, char **envp)
 {
 	t_key_value_idx idx;
 	int				last_i;

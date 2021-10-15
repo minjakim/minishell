@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 16:03:49 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/14 14:44:52 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:27:00 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include <string.h>
 
-int	cd(char **argv, char **envp)
+int
+	cd(char **argv, char **envp)
 {
 	const char *path = argv[1];
 	int			ret;
@@ -35,7 +36,7 @@ int	cd(char **argv, char **envp)
 	}
 	//check current wd
 	tmp = getcwd(NULL, 0);
-	printf("%s\n", tmp); 
+	printf("%s\n", tmp);
 	free(tmp);
 	return (1);
 }

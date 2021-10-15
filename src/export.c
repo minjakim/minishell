@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:30:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/12 21:49:28 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:27:38 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	find_offset(char *str)
+int
+	find_offset(char *str)
 {
 	int	i;
 
@@ -26,7 +27,8 @@ int	find_offset(char *str)
 	return (-1);
 }
 
-int	ms_export(char **argv, char **envp, int stream_in, int stream_out)
+int
+	ms_export(char **argv, char **envp, int stream_in, int stream_out)
 {
 	t_key_value_idx idx;
 	int				offset;
@@ -42,7 +44,7 @@ int	ms_export(char **argv, char **envp, int stream_in, int stream_out)
 	if (offset == -1)
 		exit(1);/*no '=' in str*/
 	argv[1][offset] = '\0';
-	idx = ms_getenv(argv[1], envp);	
+	idx = ms_getenv(argv[1], envp);
 	argv[1][offset] = '=';
 	if (idx.key == -1)
 	{

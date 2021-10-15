@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/14 10:32:11 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:28:14 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_command	*make_cmd(void)
+t_command
+	*make_cmd(void)
 {
 	t_command	*cmd1;
 	////t_command	*cmd2;
@@ -24,8 +25,8 @@ t_command	*make_cmd(void)
 	if (!cmd1->argv)
 		exit(1);
 	cmd1->argv[0] = "cd";
-	cmd1->argv[1] = "q"; 
-	cmd1->argv[2] = NULL; 
+	cmd1->argv[1] = "q";
+	cmd1->argv[2] = NULL;
 	cmd1->stream_out = 1;
 	cmd1->stream_in = 0;
 	cmd1->in_pipe = 0;
@@ -72,7 +73,8 @@ t_command	*make_cmd(void)
 	return (cmd1);
 }
 
-int	main(int argc, char *argv[], char *envp[])
+int
+	main(int argc, char *argv[], char *envp[])
 {
 	t_command	*cmd_list;
 	t_command	*cmd_handle;

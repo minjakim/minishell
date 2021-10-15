@@ -3,66 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/14 09:40:14 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:26:04 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <dirent.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/errno.h>
+# include "resource.h"
+# include "type.h"
 
-//pid_t
-# include <sys/types.h>
-
-//ARG_MAX
-# include <limits.h>
-//strdup
-# include <string.h>
-
-typedef struct	s_command t_command;
-typedef struct	s_file t_file;
-
-typedef struct s_file
-{
-	char	*file;
-	char	redirection;
-	t_file	*next;
-}				t_file;
-
-typedef struct	s_command
-{
-	char	**argv;
-	int		stream_out;
-	int		stream_in;
-	t_file	*out_file; 
-	t_file	*in_file;
-	int		in_pipe;
-	int		out_pipe;
-	t_command	*next;
-}				t_command;
-
-typedef struct s_key_value_idx
-{
-	int	key;
-	int	value;
-}				t_key_value_idx;
-
-typedef	struct s_valiable
-{
-	char	*shell;
-	char	*env;
-}		t_valiable;
 
 int parse_env(char ***original_envp);
 

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 17:36:56 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/06 20:27:28 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:27:57 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	pwd(char **argv, char **envp, int stream_out)
+int
+	pwd(char **argv, char **envp, int stream_out)
 {
 	char	*path;
 

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:29:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/13 12:38:29 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:27:11 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ms_env(char **argv, char **envp, int stream_out)
+int
+	ms_env(char **argv, char **envp, int stream_out)
 {
 	if (argv[1] != NULL)
 	{
