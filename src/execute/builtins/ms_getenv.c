@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:40:25 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:27:48 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 11:57:48 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../include/minishell.h"
 
 t_key_value_idx
 	ms_getenv(char *key, char **envp)

@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:40:38 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:27:17 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 11:58:40 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int
 	is_builtin(const char *command, t_command cmd, char **envp)

@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 11:18:16 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:27:07 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 11:59:19 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../include/minishell.h"
 
 int
 	echo(char **argv, char **envp, int stream_in, int stream_out)

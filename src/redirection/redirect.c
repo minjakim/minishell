@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:28:06 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 11:58:54 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 /*
 **int	read_all(int src_fd, int dest_fd)
 **{

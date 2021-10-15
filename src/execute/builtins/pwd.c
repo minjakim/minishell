@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 17:36:56 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:27:57 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 11:57:48 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../include/minishell.h"
 
 int
 	pwd(char **argv, char **envp, int stream_out)

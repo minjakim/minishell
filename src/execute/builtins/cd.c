@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 16:03:49 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:27:00 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 11:58:07 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../include/minishell.h"
 #include <string.h>
 
 int

@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:30:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:27:38 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 11:57:48 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../include/minishell.h"
 
 int
 	find_offset(char *str)

@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 07:56:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:28:21 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 11:57:48 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../include/minishell.h"
 
 int
 	legal_variable_starter(char c)

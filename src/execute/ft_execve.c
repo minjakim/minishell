@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 13:05:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/13 20:46:28 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:58:33 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 //wrap execve to find path of binary or shell file
 
