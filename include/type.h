@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/15 12:05:22 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:23:22 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,17 @@ typedef struct s_file
 	t_file	*next;
 }	t_file;
 
+typedef struct s_io_file
+{
+	t_file	*in;
+	t_file	*out;
+}	t_io_file;
+
 typedef struct	s_command
 {
 	char		**argv;
 	t_io		stream;
-	t_file		*file_out;
-	t_file		*file_in;
+	t_io_file	file;
 	t_io		pipe;
 	t_command	*next;
 }	t_command;

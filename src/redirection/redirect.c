@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 12:14:37 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:18:58 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,22 @@ int
 		cmd->pipe.out = pipe_fd[1];
 		cmd->next->pipe.in = pipe_fd[0];
 	}
-	while (cmd->file_in != NULL)
+	while (cmd->file.in != NULL)
 	{
-		if (cmd->file_in->redirection == 0b100)
-			cmd->stream.in = open(cmd->file_in->file, O_RDONLY);
-		if (cmd->file_in->redirection == 0b1000)
-			cmd->stream.in = read_all_line(cmd->file_in->file);
-		if ((cmd->file_in = cmd->file_in->next))
+		if (cmd->file.in->redirection == 0b100)
+			cmd->stream.in = open(cmd->file.in->file, O_RDONLY);
+		if (cmd->file.in->redirection == 0b1000)
+			cmd->stream.in = read_all_line(cmd->file.in->file);
+		if ((cmd->file.in = cmd->file.in->next))
 			close(cmd->stream.in);
 	}
-	while (cmd->file_out != NULL)
+	while (cmd->file.out != NULL)
 	{
-		if (cmd->file_out->redirection == 2)
-			cmd->stream.out = open(cmd->file_out->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (cmd->file_out->redirection == 1)
-			cmd->stream.out = open(cmd->file_out->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if ((cmd->file_out = cmd->file_out->next))
+		if (cmd->file.out->redirection == 2)
+			cmd->stream.out = open(cmd->file.out->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (cmd->file.out->redirection == 1)
+			cmd->stream.out = open(cmd->file.out->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if ((cmd->file.out = cmd->file.out->next))
 			close(cmd->stream.out);
 	}
 	return (0);

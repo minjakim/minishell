@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 12:10:54 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:19:55 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ t_command
 //	cmd1->out_file->file = "good.txt";
 //	cmd1->out_file->redirection = 1;
 //	cmd1->out_file->next = NULL;
-	//cmd1->in_file = NULL;
-	cmd1->file_out = NULL;
-	cmd1->file_out = NULL;
+	cmd1->file.in = NULL;
+	cmd1->file.out = NULL;
 //	if (!(cmd1->in_file = malloc(sizeof(t_file))))
 //		exit(1);
 //	cmd1->in_file->file = "good.txt";
