@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 12:18:58 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:52:26 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,32 +38,32 @@ int
 	read_all_line(char *eof)
 {
 	char	*line;
-	int		pipe_fd[2];
+	t_io	io;
 
 	line = NULL;
-	pipe(pipe_fd);
+	pipe(io.fd);
 	while ((line = readline("redirection> ")) && strcmp(line, eof))
 	{
-		write(pipe_fd[1], line, strlen(line));
-		write(pipe_fd[1], "\n", 1);
+		write(io.out, line, strlen(line));
+		write(io.out, "\n", 1);
 		free(line);
 	}
 	if (line)
 		free(line);
-	close(pipe_fd[1]);
-	return (pipe_fd[0]);
+	close(io.out);
+	return (io.out);
 }
 
 int
 	redirect(t_command *cmd)
 {
-	int	pipe_fd[2];
+	t_io	io;
 
 	if (cmd->pipe.out == 1)//&& cmd->next->pipe.in == 1)
 	{
-		pipe(pipe_fd);
-		cmd->pipe.out = pipe_fd[1];
-		cmd->next->pipe.in = pipe_fd[0];
+		pipe(io.fd);
+		cmd->pipe.out = io.out;
+		cmd->next->pipe.in = io.in;
 	}
 	while (cmd->file.in != NULL)
 	{

@@ -1,3 +1,5 @@
+#check - 변수나 함수명 줄임말 지양하기 ex. cnt -> count.
+
 []redirect
 	[x]>
 	[x]>>

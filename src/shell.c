@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 12:19:55 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:34:29 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int
 {
 	t_command	*cmd_list;
 	t_command	*cmd_handle;
-	int			cnt;
+	int			count;
 
 	cmd_list = make_cmd();
 	(void)&argc;
@@ -85,20 +85,20 @@ int
 	if (parse_env(&envp))
 		return(1);
 	cmd_handle = cmd_list;
-	cnt = 0;
+	count = 0;
 	while (cmd_handle != NULL)
 	{
 		redirect(cmd_handle);
 		cmd_handle = cmd_handle->next;
-		printf("cnt %d\n", ++cnt);
+		printf("count %d\n", ++count);
 	}
 	printf("redirection part done\n");
 	cmd_handle = cmd_list;
-	cnt = 0;
+	count = 0;
 	while (cmd_handle != NULL)
 	{
 		shell_execve(*cmd_handle, envp);
 		cmd_handle = cmd_handle->next;
-		printf("----------\ncnt %d\n", ++cnt);
+		printf("----------\ncnt %d\n", ++count);
 	}
 }

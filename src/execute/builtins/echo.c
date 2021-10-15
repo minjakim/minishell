@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 11:18:16 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 12:11:27 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:54:30 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int
 	int		i;
 
 	(void)envp;
-	(void)stream.in;
 	if (argv == NULL || argv[0] == NULL)
 		return (0);//error
 	flag = 0;
