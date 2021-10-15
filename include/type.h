@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/15 11:23:47 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:05:22 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 
 typedef struct	s_command t_command;
 typedef struct	s_file t_file;
+
+typedef struct s_io
+{
+	int	in;
+	int	out;
+}	t_io;
 
 typedef struct s_file
 {
@@ -25,13 +31,11 @@ typedef struct s_file
 
 typedef struct	s_command
 {
-	char	**argv;
-	int		stream_out;
-	int		stream_in;
-	t_file	*out_file;
-	t_file	*in_file;
-	int		in_pipe;
-	int		out_pipe;
+	char		**argv;
+	t_io		stream;
+	t_file		*file_out;
+	t_file		*file_in;
+	t_io		pipe;
 	t_command	*next;
 }	t_command;
 
@@ -45,6 +49,6 @@ typedef	struct s_valiable
 {
 	char	*shell;
 	char	*env;
-}		t_valiable;
+}	t_valiable;
 
 #endif

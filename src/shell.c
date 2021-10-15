@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:28:14 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:10:54 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ t_command
 	cmd1->argv[0] = "cd";
 	cmd1->argv[1] = "q";
 	cmd1->argv[2] = NULL;
-	cmd1->stream_out = 1;
-	cmd1->stream_in = 0;
-	cmd1->in_pipe = 0;
-	cmd1->out_pipe = 0;
+	cmd1->stream.out = 1;
+	cmd1->stream.in = 0;
+	cmd1->pipe.in = 0;
+	cmd1->pipe.out = 0;
 	cmd1->next = NULL;
 //	if (!(cmd1->out_file = malloc(sizeof(t_file))))
 //		exit(1);
@@ -38,8 +38,8 @@ t_command
 //	cmd1->out_file->redirection = 1;
 //	cmd1->out_file->next = NULL;
 	//cmd1->in_file = NULL;
-	cmd1->out_file = NULL;
-	cmd1->in_file = NULL;
+	cmd1->file_out = NULL;
+	cmd1->file_out = NULL;
 //	if (!(cmd1->in_file = malloc(sizeof(t_file))))
 //		exit(1);
 //	cmd1->in_file->file = "good.txt";
@@ -65,8 +65,8 @@ t_command
 ////	cmd2->in_file->file = "good.txt";
 ////	cmd2->in_file->redirection = 0b100;
 ////	cmd2->in_file->next = NULL;
-//	cmd2->stream_out = 1;
-//	cmd2->stream_in = 0;
+//	cmd2->stream.out = 1;
+//	cmd2->stream.in = 0;
 //	cmd2->in_pipe = 0;
 //	cmd2->out_pipe = 0;
 //	cmd2->next = NULL;
@@ -74,7 +74,7 @@ t_command
 }
 
 int
-	main(int argc, char *argv[], char *envp[])
+	main(int argc, char **argv, char **envp)
 {
 	t_command	*cmd_list;
 	t_command	*cmd_handle;
