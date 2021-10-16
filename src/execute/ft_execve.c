@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 13:05:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:58:33 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/16 14:18:40 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 char
 	**path_list(char **envp)
 {
-	char	*raw_str;
-	int		i;
-	int		count;
-	char	**path_list;
-	t_key_value_idx idx;
+	char			*raw_str;
+	int				i;
+	int				count;
+	char			**path_list;
+	t_key_value_idx	idx;
 
 	(void)envp;
 //	raw_str = getenv("PATH");//maybe I need to change this
@@ -79,6 +79,24 @@ char
 	return (abs_path);
 }
 
+int
+	ms_opendir(DIR **dir_pointer, char *path)
+{
+	*dir_pointer = opendir(path);
+	if (*dir_pointer == NULL)
+		return (0);
+	return (1);
+}
+
+int
+	ms_readdir(struct dirent **dirinfo, DIR *dir_pointer)
+{
+	*dirinfo = readdir(dir_pointer);
+	if (dirinfo == NULL)
+		return (0);
+	return (1);
+}
+
 char
 	*return_path(char **path, char *command)
 {
@@ -87,13 +105,13 @@ char
 	int				i;
 
 	i = -1;
-	while ((dir_pointer = opendir(path[++i])))
+	while (ms_opendir(&dir_pointer, path[++i]))
 	{
 		if (dir_pointer == NULL)
 			return (NULL);
-		while ((dirinfo = readdir(dir_pointer)))
+		while (ms_readdir(&dirinfo, dir_pointer))
 		{
-			if(!strcmp(command, dirinfo->d_name))
+			if (!strcmp(command, dirinfo->d_name))
 				return (cat_path(path[i], command));
 		}
 		if (closedir(dir_pointer))
@@ -115,4 +133,3 @@ int
 	execve(command, argv, envp);
 	return (0);
 }
-

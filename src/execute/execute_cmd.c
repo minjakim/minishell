@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:40:38 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 14:17:19 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/16 14:10:20 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int
 	shell_execve(t_command cmd, char **env)
 {
 	const char	*command = cmd.argv[0];
-	pid_t	fd;
-	int		built_in;
-	int		exit_status;
+	pid_t		fd;
+	int			built_in;
+	int			exit_status;
 
 	fd = 1;
 	built_in = 0;
@@ -66,7 +66,7 @@ int
 			dup2(cmd.stream.in, 0);
 		else if (cmd.pipe.in)
 			dup2(cmd.pipe.in, 0);
-		if(*command == '.' || *command == '~' || *command == '/')
+		if (*command == '.' || *command == '~' || *command == '/')
 			execve(command, cmd.argv, env);
 		else
 			ft_execve(cmd.argv, env);

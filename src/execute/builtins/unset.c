@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 07:56:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:57:48 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/16 13:38:27 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	legal_identifier(char *name)
 int
 	ms_unset(char **argv, char **envp)
 {
-	t_key_value_idx idx;
+	t_key_value_idx	idx;
 	int				last_i;
 
 	if (argv == NULL || argv[1] == NULL)

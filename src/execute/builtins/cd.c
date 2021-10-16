@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 16:03:49 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:58:07 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/16 13:36:51 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int
 	cd(char **argv, char **envp)
 {
-	const char *path = argv[1];
+	const char	*path = argv[1];
 	int			ret;
 	char		*tmp;
 

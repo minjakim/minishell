@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:30:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 12:13:00 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/16 13:40:25 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,11 @@ int
 int
 	ms_export(char **argv, char **envp, t_io stream)
 {
-	t_key_value_idx idx;
+	t_key_value_idx	idx;
 	int				offset;
 	int				i;
-	(void)argv;
-	(void)envp;
-	(void)stream;
 
+	(void)stream;
 	if (argv == NULL || argv[1] == NULL)
 		exit(1);
 	offset = find_offset(argv[1]);

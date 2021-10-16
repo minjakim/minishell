@@ -6,14 +6,14 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 09:38:13 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 11:57:48 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/16 13:39:19 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
 int
-	ms_exit(int	exit_status)
+	ms_exit(int exit_status)
 {
 	write(2, "exit\n", 5);
 	exit(exit_status);
