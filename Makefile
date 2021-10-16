@@ -18,7 +18,8 @@ input=$(readline:%=readline/%)
 parse=parse_env.c
 redirection=redirect.c
 
-SRC=shell.c\
+SRC=../main.c\
+	shell.c\
 	$(execute:%=execute/%)\
 	$(input:%=input/%)\
 	$(parse:%=parse/%)\
@@ -27,7 +28,7 @@ SRC=shell.c\
 SRCS=$(SRC:%=./src/%)
 OBJ=$(SRCS:%.c=%.o)
 
-CPPFLAG= -Wall -Werror -Wextra
+#CPPFLAG= -Wall -Werror -Wextra
 
 %.o:%.c
 	gcc $(CPPFLAG) -c $< -o $@

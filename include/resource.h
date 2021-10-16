@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/16 11:45:34 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/16 12:17:44 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@
 //strdup
 # include <string.h>
 
-# define PROMPT "민희^o^)/ $> "
+# define PROMPT "mini ^o^)/ $> "
 
 #endif

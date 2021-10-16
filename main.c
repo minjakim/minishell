@@ -6,11 +6,51 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/16 11:46:04 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/16 12:57:48 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
+
+static void
+	get_cursor_position(t_curses *curses)
+{
+	int		i;
+	char	buf[255];
+
+	write(1, "\033[6n", 4);
+	i = read(0, buf, 254);
+	buf[i] = '\0';
+	i = 1;
+	while (!((unsigned)buf[i] - 48 < 10))
+		++i;
+	while (((unsigned)buf[i] - 48) < 10)
+		curses->row = (curses->row << 1) + (curses->row << 3) + (buf[i++] - 48);
+}
+
+static int
+	putchar_tc(int tc)
+{
+	write(1, &tc, 1);
+	return (0);
+}
+
+static void
+	exit_eof_test(t_shell *mini)
+{
+	mini->config.current.c_lflag &= ~ICANON;
+	mini->config.current.c_lflag &= ~ECHO;
+	mini->config.current.c_cc[VMIN] = 1;
+	mini->config.current.c_cc[VTIME] = 0;
+	mini->curses.row = 0;
+	mini->curses.column = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &mini->config.current);
+	get_cursor_position(&mini->curses);
+	tputs(tgoto(mini->curses.move, mini->curses.column += sizeof(PROMPT) - 1, mini->curses.row -= 2), 1, putchar_tc);
+	printf("exit\n");
+	tcsetattr(STDIN_FILENO, TCSANOW, &mini->config.backup);
+	exit(errno);
+}
 
 static void
 	sig_handler(int signum)
@@ -42,6 +82,7 @@ int
 {
 	char		*line;
 	t_shell		mini;
+	char		last_state;
 
 	(void)&argc;
 	(void)argv;
@@ -51,21 +92,32 @@ int
 	while (1)
 	{
 		line = readline(PROMPT);
-		mini.cmd_handle = mini.cmd_list;
-		while (mini.cmd_handle != NULL)
+		if (line == NULL)
+			break ;
+		if (*(int *)line == 1953069157 && line[5] == '\0')
 		{
-			redirect(mini.cmd_handle);
-			mini.cmd_handle = mini.cmd_handle->next;
+			printf("exit\n");
+			tcsetattr(STDIN_FILENO, TCSANOW, &mini.config.backup);
+			return (errno);
 		}
-		/*execute cmd*/
-		mini.cmd_handle = mini.cmd_list;
-		while (mini.cmd_handle != NULL)
-		{
-			/*$sign 해석을 이곳에서 해야함*/
-			shell_execve(*mini.cmd_handle, envp);
-			mini.cmd_handle = mini.cmd_handle->next;
-		}
+		add_history(line);
+		free(line);
+		//mini.cmd_handle = mini.cmd_list;
+		//while (mini.cmd_handle != NULL)
+		//{
+		//	redirect(mini.cmd_handle);
+		//	mini.cmd_handle = mini.cmd_handle->next;
+		//}
+		///*execute cmd*/
+		//mini.cmd_handle = mini.cmd_list;
+		//while (mini.cmd_handle != NULL)
+		//{
+		//	/*$sign 해석을 이곳에서 해야함*/
+		//	shell_execve(*mini.cmd_handle, envp);
+		//	mini.cmd_handle = mini.cmd_handle->next;
+		//}
 	}
+	exit_eof_test(&mini);
 }
 
 

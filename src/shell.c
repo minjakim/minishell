@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 12:34:29 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/16 12:10:31 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,33 +72,33 @@ t_command
 	return (cmd1);
 }
 
-int
-	main(int argc, char **argv, char **envp)
-{
-	t_command	*cmd_list;
-	t_command	*cmd_handle;
-	int			count;
+//int
+//	main(int argc, char **argv, char **envp)
+//{
+//	t_command	*cmd_list;
+//	t_command	*cmd_handle;
+//	int			count;
 
-	cmd_list = make_cmd();
-	(void)&argc;
-	(void)argv;
-	if (parse_env(&envp))
-		return(1);
-	cmd_handle = cmd_list;
-	count = 0;
-	while (cmd_handle != NULL)
-	{
-		redirect(cmd_handle);
-		cmd_handle = cmd_handle->next;
-		printf("count %d\n", ++count);
-	}
-	printf("redirection part done\n");
-	cmd_handle = cmd_list;
-	count = 0;
-	while (cmd_handle != NULL)
-	{
-		shell_execve(*cmd_handle, envp);
-		cmd_handle = cmd_handle->next;
-		printf("----------\ncnt %d\n", ++count);
-	}
-}
+//	cmd_list = make_cmd();
+//	(void)&argc;
+//	(void)argv;
+//	if (parse_env(&envp))
+//		return(1);
+//	cmd_handle = cmd_list;
+//	count = 0;
+//	while (cmd_handle != NULL)
+//	{
+//		redirect(cmd_handle);
+//		cmd_handle = cmd_handle->next;
+//		printf("count %d\n", ++count);
+//	}
+//	printf("redirection part done\n");
+//	cmd_handle = cmd_list;
+//	count = 0;
+//	while (cmd_handle != NULL)
+//	{
+//		shell_execve(*cmd_handle, envp);
+//		cmd_handle = cmd_handle->next;
+//		printf("----------\ncnt %d\n", ++count);
+//	}
+//}

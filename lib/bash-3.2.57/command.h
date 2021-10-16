@@ -22,7 +22,7 @@
 #if !defined (_COMMAND_H_)
 #define _COMMAND_H_
 
-#include "./include/stdc.h"
+//#include "./include/stdc.h"
 
 /* Instructions describing what kind of thing to do for a redirection. */
 enum r_instruction {
