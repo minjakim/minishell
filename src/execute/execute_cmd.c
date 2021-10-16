@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:40:38 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 12:10:30 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 14:17:19 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int
 int
 	shell_execve(t_command cmd, char **env)
 {
+	const char	*command = cmd.argv[0];
 	pid_t	fd;
 	int		built_in;
-	const char	*command = cmd.argv[0];
 	int		exit_status;
 
 	fd = 1;

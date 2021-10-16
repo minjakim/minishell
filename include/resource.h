@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/15 12:52:05 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/15 18:13:15 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,9 @@
 # include <string.h>
 
 # define NEW_LINE	"\n"
+# define ECHO "echo\0"
+# define CD "cd\0"
+# define EXPORT "export\0"
+
 
 #endif
