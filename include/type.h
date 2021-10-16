@@ -6,15 +6,42 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/15 18:18:30 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/16 11:33:11 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPE_H
 # define TYPE_H
 
-typedef struct	s_command t_command;
-typedef struct	s_file t_file;
+# include <termios.h>
+
+typedef struct s_command	t_command;
+typedef struct s_file		t_file;
+
+//typedef struct word_desc {
+//  char *word;		/* Zero terminated string. */
+//  int flags;		/* Flags associated with this word. */
+//} WORD_DESC;
+
+///* A linked list of words. */
+//typedef struct word_list {
+//  struct word_list *next;
+//  WORD_DESC *word;
+//} WORD_LIST;
+
+
+typedef struct s_curses
+{
+	int		row;
+	int		column;
+	char	*move;
+}	t_curses;
+
+typedef struct s_termios
+{
+	struct termios	current;
+	struct termios	backup;
+}	t_termios;
 
 typedef struct	s_word
 {
@@ -75,8 +102,10 @@ typedef	struct s_valiable
 
 typedef struct s_shell
 {
-	t_line	line;
-
+	t_termios	config;
+	t_curses	curses;
+	t_command	*cmd_list;
+	t_command	*cmd_handle;
 }	t_shell;
 
 #endif

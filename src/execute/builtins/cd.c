@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
-#include <string.h>
 
 int
 	cd(char **argv, char **envp)
