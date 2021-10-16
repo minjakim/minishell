@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/16 12:57:48 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/16 13:26:25 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,34 @@ static void
 	rl_catch_signals = 0;
 }
 
+static void
+	loop_redirect(t_command *cmd_handle)
+{
+		while (cmd_handle != NULL)
+		{
+			redirect(cmd_handle);
+			cmd_handle = cmd_handle->next;
+		}
+}
+
+static void
+	loop_shell_execve(t_command *cmd_handle, char **envp)
+{
+		while (cmd_handle != NULL)
+		{
+			/*$sign 해석을 이곳에서 해야함*/
+			shell_execve(*cmd_handle, envp);
+			cmd_handle = cmd_handle->next;
+		}
+}
+
 int
 	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_shell		mini;
 	char		last_state;
+	t_command	*cmd_list;
 
 	(void)&argc;
 	(void)argv;
@@ -102,20 +124,11 @@ int
 		}
 		add_history(line);
 		free(line);
-		//mini.cmd_handle = mini.cmd_list;
-		//while (mini.cmd_handle != NULL)
-		//{
-		//	redirect(mini.cmd_handle);
-		//	mini.cmd_handle = mini.cmd_handle->next;
-		//}
-		///*execute cmd*/
-		//mini.cmd_handle = mini.cmd_list;
-		//while (mini.cmd_handle != NULL)
-		//{
-		//	/*$sign 해석을 이곳에서 해야함*/
-		//	shell_execve(*mini.cmd_handle, envp);
-		//	mini.cmd_handle = mini.cmd_handle->next;
-		//}
+		/*parseing?*/
+		/*set redirection*/
+		loop_redirect(cmd_list);
+		/*execute cmd*/
+		loop_shell_execve(cmd_list, envp);
 	}
 	exit_eof_test(&mini);
 }
