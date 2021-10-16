@@ -18,9 +18,9 @@
 # include <unistd.h>
 # include <dirent.h>
 # include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 # include <sys/errno.h>
+# include "../lib/readline_arm64/include/readline.h"
+# include "../lib/readline_arm64/include/history.h"
 
 //pid_t
 # include <sys/types.h>

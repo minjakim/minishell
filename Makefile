@@ -29,8 +29,6 @@ OBJ=$(SRCS:%.c=%.o)
 
 CPPFLAG= -Wall -Werror -Wextra
 
-rl= -l readline
-
 %.o:%.c
 	gcc $(CPPFLAG) -c $< -o $@
 
@@ -40,7 +38,7 @@ rl= -l readline
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	gcc $(CPPFLAG) $(rl) $(OBJ) -o $@
+	gcc -lreadline -lncurses -L./lib/readline_arm64/lib -I./lib/readline_arm64/include $(CPPFLAG) $(OBJ) -o $@
 
 clean :
 	rm -rf $(OBJ)
