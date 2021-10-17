@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 12:08:26 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/17 12:59:16 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ int	find_offset(char *str);
 int	ms_unset(char **argv, char **envp);
 int	ms_env(char **argv, char **envp, int stream_out);
 int	ms_exit(int	exit_status);
+int	legal_identifier(char *name);
 
 #endif

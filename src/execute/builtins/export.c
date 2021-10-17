@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:30:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/16 13:40:25 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/17 13:00:11 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,15 @@ int
 	if (offset == -1)
 		exit(1);/*no '=' in str*/
 	argv[1][offset] = '\0';
+	if (legal_identifier(argv[1] == 0))
+	{
+		write(2, "bash: ", 6);
+		write(2, "export: `", 8);
+		write(2, argv[1], strlen(argv[1]));
+		write(2, "': is not a valid identifier\n", 29);
+		argv[1][offset] = '=';
+		exit(1);
+	}
 	idx = ms_getenv(argv[1], envp);
 	argv[1][offset] = '=';
 	if (idx.key == -1)
