@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:30:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/17 13:00:11 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/18 10:07:39 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int
 	if (offset == -1)
 		exit(1);/*no '=' in str*/
 	argv[1][offset] = '\0';
-	if (legal_identifier(argv[1] == 0))
+	if (legal_identifier(argv[1]) == 0)
 	{
 		write(2, "bash: ", 6);
 		write(2, "export: `", 8);
