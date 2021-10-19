@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:40:38 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/19 11:54:39 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:02:30 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,35 @@ int
 	if (fd == 0)
 	{
 		if (cmd.stream.out != 1)
+		{
+			close(1);
 			dup2(cmd.stream.out, 1);
-		else if (cmd.pipe.out)
-			dup2(cmd.pipe.out, 1);
+		}
 		if (cmd.stream.in != 0)
+		{
+			close(0);
 			dup2(cmd.stream.in, 0);
-		else if (cmd.pipe.in)
-			dup2(cmd.pipe.in, 0);
+		}
 		if (*command == '.' || *command == '~' || *command == '/')
+			//stat()으로 파일인지 체크하는 방법도 있을듯
 			execve(command, cmd.argv, env);
 		else
 			ft_execve(cmd.argv, env);
 	}
-	else if (fd > 0 || built_in)
+	else if (fd > 0 && (cmd.pipe.out != -1 || cmd.pipe.in != -1))
+	{
+		//sub shell이 자식프로세스를 기다리는 것
+		if (!built_in)
+			waitpid(fd, &exit_status, 0);
+		exit(exit_status);
+	}
+	else if (fd > 0)
 	{
 		if (cmd.stream.in != 0)
 			close(cmd.stream.in);
 		if (cmd.stream.out != 1)
 			close(cmd.stream.out);
-		if (cmd.pipe.out)
-			close(cmd.pipe.out);
-		if (cmd.pipe.in)
-			close(cmd.pipe.in);
-		if (fd > 0)
+		if (!built_in)
 			waitpid(fd, &exit_status, 0);
 	}
 	return (0);

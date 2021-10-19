@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/16 16:27:16 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/19 15:43:41 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,6 @@ int
 int
 	redirect(t_command *cmd)
 {
-	t_io	io;
-
-	if (cmd->pipe.out == 1)//&& cmd->next->pipe.in == 1)
-	{
-		pipe(io.fd);
-		cmd->pipe.out = io.out;
-		cmd->next->pipe.in = io.in;
-	}
 	while (cmd->file.in != NULL)
 	{
 		if (cmd->file.in->redirection == 0b100)

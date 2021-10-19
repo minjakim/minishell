@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/19 08:50:44 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/19 15:13:36 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 typedef struct s_command	t_command;
 typedef struct s_file		t_file;
+typedef struct s_hash t_hash;
 
 //typedef struct word_desc {
 //  char *word;		/* Zero terminated string. */
@@ -102,4 +103,11 @@ typedef struct s_shell
 	t_command	*cmd_handle;
 }	t_shell;
 
+typedef struct s_hash
+{
+	char	*key;
+	char	*value;
+	t_hash	*next;
+	t_hash	*prev;
+}	t_hash;
 #endif

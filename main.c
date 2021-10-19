@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/18 11:11:30 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:02:29 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,25 +79,61 @@ static void
 }
 
 static void
-	loop_redirect(t_command *cmd_handle)
+	excute_sub(t_command *cmd, char **envp)
 {
-		while (cmd_handle != NULL)
+	pid_t	pid;
+	int		exit_status;
+
+	if (cmd->pipe.out != -1)
+	{
+		pipe(cmd->pipe.fd);
+		cmd->pipe.out = cmd->pipe.fd[0];
+		cmd->next->pipe.in = cmd->pipe.fd[1];
+	}
+	pid = fork();
+	if (pid == 0)
+	{
+		if (cmd->pipe.out != -1)
+			dup2(cmd->pipe.out, 1);
+		if (cmd->pipe.in != -1)
+			dup2(cmd->pipe.in, 0);
+		//replace_env();
+		redirect(cmd);
+		shell_execve(*cmd, envp);
+	}
+	else if (pid > 0)
+	{
+		if (cmd->pipe.in != -1 && cmd->pipe.out == -1)/*마지막 파이프 커맨드*/
 		{
-			redirect(cmd_handle);
-			cmd_handle = cmd_handle->next;
+			waitpid(pid, &exit_status, 0);/*파이프의 마지막 커맨드의 종료상태 반환*/
+			while(wait(NULL) != -1)/*자식프로세스가 없을 때까지 대기*/
+				;
 		}
+	}
 }
 
 static void
-	loop_shell_execve(t_command *cmd_handle, char **envp)
+	excute_main(t_command *cmd, char **envp)
 {
-		while (cmd_handle != NULL)
+	int		exit_status;
+
+	while (cmd)
+	{
+		if (cmd->pipe.in != -1 || cmd->pipe.out != -1)
+			excute_sub(cmd, envp);
+		else//main
 		{
-			/*$sign 해석을 이곳에서 해야함*/
-			shell_execve(*cmd_handle, envp);
-			cmd_handle = cmd_handle->next;
+			//replace_env(); 환경변수 치환하는 함수
+			redirect(cmd);
+			shell_execve(*cmd, envp);
 		}
-}
+		cmd = cmd->next;
+		//if (flag == "&&" && exit_status == 1)
+		//	exit();
+		//if (flag == "||" && exit_status == 0)
+		//	eixt();
+	}
+} 
 
 int
 	main(int argc, char **argv, char **envp)
@@ -106,10 +142,11 @@ int
 	t_shell		mini;
 	char		last_state;
 	t_command	*cmd_list;
+	//t_hash	*export_list;export된 변수 관리용
 
 	(void)&argc;
 	(void)argv;
-	if (parse_env(&envp))
+	if (parse_env(&envp))//export_list인자 추가
 		return(1);
 	initialize(&mini);
 	while (1)
@@ -126,10 +163,7 @@ int
 		add_history(line);
 		free(line);
 		/*parseing?*/
-		/*set redirection*/
-		loop_redirect(cmd_list);
-		/*execute cmd*/
-		loop_shell_execve(cmd_list, envp);
+		excute_main(cmd_list, envp);//export_list인자 추가
 	}
 	exit_eof_test(&mini);
 }
