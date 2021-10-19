@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:40:38 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/19 16:02:30 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/19 18:04:40 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int
 		return (ms_env(cmd.argv, envp, stream.out));
 	if (!strcmp(command, "exit"))
 		return (ms_exit(1));//ms_exit(exit_status)
+	if (command == NULL || !strcmp(command, ":"))
+		return (1);
 	return (0);
 }
 
