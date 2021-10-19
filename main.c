@@ -6,12 +6,55 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/19 16:02:29 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/19 20:31:34 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 #include <string.h>
+
+int
+	__sflush(FILE *fp)
+{
+	unsigned char	*p;
+	int				n;
+	int				t;
+
+	t = fp->_flags;
+	p = fp->_bf._base;
+	if ((!(t & __SWR)) || !p)
+		return (0);
+	n = fp->_p - p;
+	fp->_p = p;
+	fp->_w = 0;
+	if (!(t & (__SLBF | __SNBF)))
+		fp->_w = fp->_bf._size;
+	while (n > 0)
+	{
+		t = (*fp->_write)(fp->_cookie, (char *)p, n);
+		if (t <= 0)
+		{
+			fp->_flags |= __SERR;
+			return (EOF);
+		}
+		n -= t;
+		p += t;
+	}
+	return (0);
+}
+
+int
+	ft_fflush(FILE *fp)
+{
+	if (fp == NULL)
+		return (0);
+	if ((fp->_flags & (__SWR | __SRW)) == 0)
+	{
+		errno = EBADF;
+		return (EOF);
+	}
+	return (__sflush(fp));
+}
 
 static void
 	get_cursor_position(t_curses *curses)
@@ -133,7 +176,7 @@ static void
 		//if (flag == "||" && exit_status == 0)
 		//	eixt();
 	}
-} 
+}
 
 int
 	main(int argc, char **argv, char **envp)

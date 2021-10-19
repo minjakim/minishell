@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/19 15:13:36 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/19 19:33:11 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ typedef struct s_shell
 	t_termios	config;
 	t_curses	curses;
 	t_command	*cmd_list;
-	t_command	*cmd_handle;
 }	t_shell;
 
 typedef struct s_hash
