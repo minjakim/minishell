@@ -15,7 +15,8 @@ execute=$(builtin_function:%=builtins/%)\
 
 readline=
 input=$(readline:%=readline/%)
-parse=parse_env.c
+parse=parse_env.c \
+	parse_line.c
 redirection=redirect.c
 
 SRC=../main.c\

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/19 09:04:16 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/19 20:50:29 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ enum e_flag_exception
 	double_quotes,
 	back_slash,
 	semicolon,
+};
+
+enum e_bool
+{
+	FALSE,
+	TRUE
 };
 
 #endif

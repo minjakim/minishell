@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/19 11:35:16 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/19 22:02:12 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 
 int parse_env(char ***original_envp);
+int parse_line(char *line);
 
 int	shell_execve(t_command cmd, char **env);
 
