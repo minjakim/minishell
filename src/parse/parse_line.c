@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:17:50 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/15 20:53:31 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/19 08:58:10 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 //            "asdasdasd"
 //return (((unsigned)c | 32) - 97 < 26);
 //return (((unsigned)c | 5) - 39 < 1);
+
+static int
+	is_exception(char *line)
+{
+	while (*line)
+		;
+	return (0);
+}
 
 
 static int
@@ -44,11 +52,9 @@ static int
 }
 
 int
-	parse_line(t_line *line)
+	parse_line(char *line)
 {
-	if (line->flags)
-		return (line->flags);
-	get_argc(line->data);
+	get_argc(line);
 
 	return (0);
 }

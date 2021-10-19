@@ -6,11 +6,12 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/16 13:26:25 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/18 11:11:30 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
+#include <string.h>
 
 static void
 	get_cursor_position(t_curses *curses)

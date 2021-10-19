@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/16 11:33:11 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/19 08:50:44 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@ typedef struct	s_word
 	int		expand;
 	char	*word;
 }	t_word;
-
-typedef struct s_line
-{
-	int		flags;
-	char 	*data;
-}	t_line;
 
 typedef union u_io
 {

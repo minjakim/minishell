@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/16 12:17:44 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/19 09:04:16 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,14 @@
 # include <string.h>
 
 # define PROMPT "mini ^o^)/ $> "
+
+
+enum e_flag_exception
+{
+	single_quotes,
+	double_quotes,
+	back_slash,
+	semicolon,
+};
 
 #endif

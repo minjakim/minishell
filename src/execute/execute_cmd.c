@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:40:38 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/16 14:10:20 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/19 11:54:39 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int
 	else
 		stream.in = cmd.stream.in;
 	if (!strcmp(command, "echo"))
-		return (echo(cmd.argv, envp, stream));
+		return (builtin_echo(cmd.argv, envp, stream));
 	if (!strcmp(command, "cd"))
 		return (cd(cmd.argv, envp));
 	if (!strcmp(command, "pwd"))
@@ -46,15 +46,12 @@ int
 	shell_execve(t_command cmd, char **env)
 {
 	const char	*command = cmd.argv[0];
+	const int	built_in = is_builtin(command, cmd, env);
 	pid_t		fd;
-	int			built_in;
 	int			exit_status;
 
 	fd = 1;
-	built_in = 0;
-	if (is_builtin(command, cmd, env))
-		built_in = 1;
-	else
+	if (!built_in)
 		fd = fork();
 	if (fd == 0)
 	{

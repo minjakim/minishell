@@ -6,34 +6,32 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 11:18:16 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/16 13:37:53 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/19 11:49:59 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
 int
-	echo(char **argv, char **envp, t_io stream)
+	builtin_echo(char **argv, char **envp, t_io stream)
 {
-	char	flag;
-	int		i;
+	int	display_return;
+	int	i;
 
 	(void)envp;
-	if (argv == NULL || argv[0] == NULL)
-		return (0);//error
-	flag = 0;
-	i = 1;
-	if (argv[1] != NULL && argv[1][0] == '-' && argv[1][1] == 'n')
-	{
-		flag = 1;
-		++i;
-	}
-	while (argv[i] == NULL)
+	if (argv == NULL)
+		return (0);
+	display_return = 1;
+	i = 0;
+	if (argv[1][0] == '-' && argv[1][1] == 'n' && argv[1][2] == '\0' && ++i)
+		display_return = 0;
+	while (argv[++i] != NULL)
 	{
 		write(stream.out, argv[i], strlen(argv[i]));
-		++i;
+		if (argv[i + 1] != NULL)
+			write(stream.out, " ", 1);
 	}
-	if (argv[i] == NULL && flag == 0)
+	if (display_return)
 		write(stream.out, "\n", 1);
 	return (1);
 }

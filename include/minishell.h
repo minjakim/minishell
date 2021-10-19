@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/17 12:59:16 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/19 11:35:16 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	redirect(t_command *cmd);
 /*
 **builtin function
 */
-int	echo(char **argv, char **envp, t_io stream);
+int	builtin_echo(char **argv, char **envp, t_io stream);
 int	cd(char **argv, char **envp);
 int	pwd(char **argv, char **envp, int stream_out);
 int	ms_export(char **argv, char **envp, t_io stream);
