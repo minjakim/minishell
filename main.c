@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/19 22:02:52 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/20 21:23:51 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,12 @@ int
 		printf("%d\n", parse_line(line));
 		free(line);
 		/*parseing?*/
-		//excute_main(cmd_list, envp);//export_list인자 추가
+		printf("cat << eof > out.txt\n");
+		cmd_list = make_cmd();
+		excute_main(cmd_list, envp);//export_list인자 추가
+		free(cmd_list->file.out);
+		free(cmd_list->file.in);
+		free(cmd_list);
 	}
 	//exit_eof_test(&mini);
 }

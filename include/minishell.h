@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/19 22:02:12 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/20 21:17:33 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ int	ms_unset(char **argv, char **envp);
 int	ms_env(char **argv, char **envp, int stream_out);
 int	ms_exit(int	exit_status);
 int	legal_identifier(char *name);
-
+/*tmp*/
+t_command *make_cmd(void);
 #endif

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/16 12:10:31 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/10/20 21:22:12 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,59 +16,30 @@ t_command
 	*make_cmd(void)
 {
 	t_command	*cmd1;
-	////t_command	*cmd2;
 
 	cmd1 = malloc(sizeof(t_command));
 	if (!cmd1)
 		exit(1);
-	cmd1->argv = malloc(sizeof(char *) * 3);
+	cmd1->argv = malloc(sizeof(char *) * 2);
 	if (!cmd1->argv)
 		exit(1);
-	cmd1->argv[0] = "cd";
-	cmd1->argv[1] = "q";
-	cmd1->argv[2] = NULL;
+	cmd1->argv[0] = "cat";//cat
+	cmd1->argv[1] = NULL; 
 	cmd1->stream.out = 1;
 	cmd1->stream.in = 0;
-	cmd1->pipe.in = 0;
-	cmd1->pipe.out = 0;
+	cmd1->pipe.in = -1;
+	cmd1->pipe.out = -1;
 	cmd1->next = NULL;
-//	if (!(cmd1->out_file = malloc(sizeof(t_file))))
-//		exit(1);
-//	cmd1->out_file->file = "good.txt";
-//	cmd1->out_file->redirection = 1;
-//	cmd1->out_file->next = NULL;
-	cmd1->file.in = NULL;
-	cmd1->file.out = NULL;
-//	if (!(cmd1->in_file = malloc(sizeof(t_file))))
-//		exit(1);
-//	cmd1->in_file->file = "good.txt";
-//	cmd1->in_file->redirection = 0b100;
-//	cmd1->in_file->next = NULL;
-//	if (!(cmd1->in_file->next = malloc(sizeof(t_file))))
-//		exit(1);
-//	cmd1->in_file->next->file = "end";
-//	cmd1->in_file->next->redirection = 0b1000;
-//	cmd1->in_file->next->next = NULL;
-//	if (!(cmd2 = malloc(sizeof(t_command))))
-//		exit(1);
-//	cmd1->next = cmd2;
-//	if (!(cmd2->argv = malloc(sizeof(char *) * 3)))
-//		exit(1);
-//	cmd2->argv[0] = strdup("env");//strdup("cat");
-//	cmd2->argv[1] = strdup("asd");//strdup("cat");
-//	cmd2->argv[2] = NULL;
-//	cmd2->out_file = NULL;
-//	cmd2->in_file = NULL;
-////	if (!(cmd2->in_file = malloc(sizeof(t_file))))
-////		exit(1);
-////	cmd2->in_file->file = "good.txt";
-////	cmd2->in_file->redirection = 0b100;
-////	cmd2->in_file->next = NULL;
-//	cmd2->stream.out = 1;
-//	cmd2->stream.in = 0;
-//	cmd2->in_pipe = 0;
-//	cmd2->out_pipe = 0;
-//	cmd2->next = NULL;
+	if (!(cmd1->file.out = malloc(sizeof(t_file))))
+		exit(1);
+	cmd1->file.out->file = "out.txt";
+	cmd1->file.out->redirection = 1;//> out.txt
+	cmd1->file.out->next = NULL;
+	if (!(cmd1->file.in = malloc(sizeof(t_file))))
+		exit(1);
+	cmd1->file.in->file = "eof";
+	cmd1->file.in->redirection = 0b1000;//<< eof
+	cmd1->file.in->next = NULL;
 	return (cmd1);
 }
 
