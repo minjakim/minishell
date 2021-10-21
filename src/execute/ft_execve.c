@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 13:05:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/16 14:18:40 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/21 15:41:03 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ char
 	char			**path_list;
 	t_key_value_idx	idx;
 
-	(void)envp;
-//	raw_str = getenv("PATH");//maybe I need to change this
 	idx = ms_getenv("PATH", envp);
 	raw_str = strdup(envp[idx.key]);
 	i = -1;
@@ -41,6 +39,7 @@ char
 	path_list = malloc(sizeof(char *) * (count + 1));
 	if (path_list == NULL)
 		return (NULL);
+	path_list[count] = NULL;
 	i = -1;
 	count = -1;
 	while (raw_str[++i] != '\0')
@@ -54,7 +53,6 @@ char
 				raw_str[i] = '\0';
 		}
 	}
-	path_list[++count] = NULL;
 	return (path_list);
 }
 
@@ -82,6 +80,8 @@ char
 int
 	ms_opendir(DIR **dir_pointer, char *path)
 {
+	if (path == NULL)
+		return (0);
 	*dir_pointer = opendir(path);
 	if (*dir_pointer == NULL)
 		return (0);
@@ -92,7 +92,7 @@ int
 	ms_readdir(struct dirent **dirinfo, DIR *dir_pointer)
 {
 	*dirinfo = readdir(dir_pointer);
-	if (dirinfo == NULL)
+	if (*dirinfo == NULL)
 		return (0);
 	return (1);
 }
@@ -103,6 +103,7 @@ char
 	DIR				*dir_pointer;
 	struct dirent	*dirinfo;
 	int				i;
+	int				tmp;
 
 	i = -1;
 	while (ms_opendir(&dir_pointer, path[++i]))
@@ -127,9 +128,10 @@ int
 	char	*command;
 
 	path = path_list(envp);
-	if (!path)
-		return (1);
+	if (path == NULL)
+		exit(1);
 	command = return_path(path, argv[0]);
+	free(path);
 	execve(command, argv, envp);
 	return (0);
 }
