@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/19 15:43:41 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/21 13:40:47 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,9 @@ int
 	is_end(char **line, char *eof)
 {
 	*line = readline("redirection> ");
-	if (*line == NULL)
-		return (0);
-	if (strcmp(*line, eof) != 0)
-		return (0);
-	return (1);
+	if (*line && strcmp(*line, eof))
+		return (1);
+	return (0);
 }
 
 int
@@ -55,14 +53,14 @@ int
 	pipe(io.fd);
 	while (is_end(&line, eof))
 	{
-		write(io.out, line, strlen(line));
-		write(io.out, "\n", 1);
+		write(io.fd[1], line, strlen(line));
+		write(io.fd[1], "\n", 1);
 		free(line);
 	}
 	if (line)
 		free(line);
-	close(io.out);
-	return (io.out);
+	close(io.fd[1]);
+	return (io.fd[0]);
 }
 
 int
@@ -76,7 +74,10 @@ int
 			cmd->stream.in = read_all_line(cmd->file.in->file);
 		cmd->file.in = cmd->file.in->next;
 		if (cmd->file.in)
+		{
+			printf("close\n");
 			close(cmd->stream.in);
+		}
 	}
 	while (cmd->file.out != NULL)
 	{
