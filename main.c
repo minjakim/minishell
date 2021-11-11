@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/20 21:23:51 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/11 15:51:49 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ static void
 }
 
 static void
-	excute_sub(t_command *cmd, char **envp)
+	excute_sub(t_command *cmd, char **envp, t_hash **export_list)
 {
 	pid_t	pid;
 	int		exit_status;
@@ -142,7 +142,7 @@ static void
 			dup2(cmd->pipe.in, 0);
 		//replace_env();
 		redirect(cmd);
-		shell_execve(*cmd, envp);
+		shell_execve(*cmd, envp, export_list);
 	}
 	else if (pid > 0)
 	{
@@ -156,19 +156,19 @@ static void
 }
 
 static void
-	excute_main(t_command *cmd, char **envp)
+	excute_main(t_command *cmd, char **envp, t_hash **export_list)
 {
 	int		exit_status;
 
 	while (cmd)
 	{
 		if (cmd->pipe.in != -1 || cmd->pipe.out != -1)
-			excute_sub(cmd, envp);
+			excute_sub(cmd, envp, export_list);
 		else//main
 		{
 			//replace_env(); 환경변수 치환하는 함수
 			redirect(cmd);
-			shell_execve(*cmd, envp);
+			shell_execve(*cmd, envp, export_list);
 		}
 		cmd = cmd->next;
 		//if (flag == "&&" && exit_status == 1)
@@ -185,12 +185,13 @@ int
 	t_shell		mini;
 	char		last_state;
 	t_command	*cmd_list;
-	//t_hash	*export_list;export된 변수 관리용
+	t_hash		*export_list;//export된 변수 관리용
 
 	(void)&argc;
 	(void)argv;
-	//if (parse_env(&envp))//export_list인자 추가
-	//	return(1);
+	export_list = NULL;
+	if (parse_env(&envp, &export_list))//export_list인자 추가
+		return(1);
 	initialize(&mini);
 	while (1)
 	{
@@ -204,17 +205,16 @@ int
 			return (errno);
 		}
 		add_history(line);
-		printf("%d\n", parse_line(line));
 		free(line);
-		/*parseing?*/
-		printf("cat << eof > out.txt\n");
 		cmd_list = make_cmd();
-		excute_main(cmd_list, envp);//export_list인자 추가
-		free(cmd_list->file.out);
-		free(cmd_list->file.in);
+		ms_export(cmd_list->argv, envp, cmd_list->stream, &export_list);
+		ms_export(cmd_list->next->argv, envp, cmd_list->stream, &export_list);
+//		excute_main(cmd_list, envp, &export_list);//export_list인자 추가
+//		free(cmd_list->file.out);
+//		free(cmd_list->file.in);
 		free(cmd_list);
 	}
-	//exit_eof_test(&mini);
+	exit_eof_test(&mini);
 }
 
 

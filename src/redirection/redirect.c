@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/21 13:40:47 by snpark           ###   ########.fr       */
+/*   Updated: 2021/10/21 13:46:43 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,7 @@ int
 			cmd->stream.in = read_all_line(cmd->file.in->file);
 		cmd->file.in = cmd->file.in->next;
 		if (cmd->file.in)
-		{
-			printf("close\n");
 			close(cmd->stream.in);
-		}
 	}
 	while (cmd->file.out != NULL)
 	{

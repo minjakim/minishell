@@ -6,14 +6,14 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:40:38 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/19 18:04:40 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/11 15:11:13 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 int
-	is_builtin(const char *command, t_command cmd, char **envp)
+	is_builtin(const char *command, t_command cmd, char **envp, t_hash **ex_list)
 {
 	t_io	stream;
 
@@ -32,9 +32,9 @@ int
 	if (!strcmp(command, "pwd"))
 		return (pwd(cmd.argv, envp, stream.out));
 	if (!strcmp(command, "export"))
-		return (ms_export(cmd.argv, envp, stream));
+		return (ms_export(cmd.argv, envp, stream, ex_list));
 	if (!strcmp(command, "unset"))
-		return (ms_unset(cmd.argv, envp));
+		return (ms_unset(cmd.argv, envp, ex_list));
 	if (!strcmp(command, "env"))
 		return (ms_env(cmd.argv, envp, stream.out));
 	if (!strcmp(command, "exit"))
@@ -45,10 +45,10 @@ int
 }
 
 int
-	shell_execve(t_command cmd, char **env)
+	shell_execve(t_command cmd, char **env, t_hash **export_list)
 {
 	const char	*command = cmd.argv[0];
-	const int	built_in = is_builtin(command, cmd, env);
+	const int	built_in = is_builtin(command, cmd, env, export_list);
 	pid_t		fd;
 	int			exit_status;
 

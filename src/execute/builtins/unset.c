@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 07:56:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/17 13:00:48 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/11 15:48:19 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ int
 }
 
 int
-	ms_unset(char **argv, char **envp)
+	ms_unset(char **argv, char **envp, t_hash **ex_list)
 {
 	t_key_value_idx	idx;
 	int				last_i;
+	t_hash			*ex_handle;
 
 	if (argv == NULL || argv[1] == NULL)
 		return (1);
@@ -45,8 +46,28 @@ int
 		write(2, "bash: ", 6);
 		write(2, "unset: `", 8);
 		write(2, argv[1], strlen(argv[1]));
-		write(2, "': is not a valid identifier\n", 29);
+		write(2, "': not a valid identifier\n", 26);
 		exit(1);
+	}
+	ex_handle = *ex_list;
+	while (ex_handle && strcmp(ex_handle->key, argv[1]) != 0)
+		ex_handle = ex_handle->next;
+	if (ex_handle && strcmp(ex_handle->key, argv[1]) == 0)
+	{
+		if (ex_handle->prev == NULL)
+		{
+			*ex_list = ex_handle->next;
+			ex_handle->next->prev = NULL;
+		}
+		else
+		{
+			ex_handle->prev->next = ex_handle->next;
+			ex_handle->next->prev = ex_handle->prev;
+		}
+		free(ex_handle->key);
+		if (ex_handle->value)
+			free(ex_handle->value);
+		free(ex_handle);
 	}
 	last_i = -1;
 	while (envp[++last_i] != NULL)
