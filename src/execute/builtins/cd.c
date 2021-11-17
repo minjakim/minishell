@@ -6,36 +6,29 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 16:03:49 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/16 13:36:51 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/15 17:23:16 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
 int
-	cd(char **argv, char **envp)
+	cd(char **argv, char **envp, int *exit_status)
 {
 	const char	*path = argv[1];
 	int			ret;
 	char		*tmp;
 
-	(void)envp;
 	if (path == NULL)
 		ret = chdir(envp[ms_getenv("HOME", envp).key]);
 	else
 		ret = chdir(path);
 	if (ret == -1)
 	{
-		//stderr bash: cd: argv[1]: strerror(errno)
-		write(2, "bash: cd: ", 10);
-		write(2, argv[1], strlen(argv[1]));
-		write(2, ": ", 2);
-		write(2, strerror(errno), strlen(strerror(errno)));
-		//exit satus3
+		bash_cmd_arg_err("cd", argv[1]);
+		*exit_status = 1;
 	}
-	//check current wd
-	tmp = getcwd(NULL, 0);
-	printf("%s\n", tmp);
-	free(tmp);
+	else
+		*exit_status = 0;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/21 13:34:05 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/13 20:40:27 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,45 @@ t_command
 	cmd1 = malloc(sizeof(t_command));
 	if (!cmd1)
 		exit(1);
-	cmd1->argv = malloc(sizeof(char *) * 2);
+	cmd1->argv = malloc(sizeof(char *) * 4);
 	if (!cmd1->argv)
 		exit(1);
-	cmd1->argv[0] = "cat";//cat
-	cmd1->argv[1] = NULL; 
+	cmd1->argv[0] = "./cat";
+	cmd1->argv[1] = NULL;
+	cmd1->argv[2] = NULL;
+	cmd1->argv[3] = NULL; 
 	cmd1->stream.out = 1;
 	cmd1->stream.in = 0;
 	cmd1->pipe.in = -1;
 	cmd1->pipe.out = -1;
 	cmd1->next = NULL;
 	cmd1->file.out = NULL;
+	cmd1->file.in = NULL;
+//	cmd1->file.in = malloc(sizeof(t_file));
+//	cmd1->file.in->file = "notexitst";
+//	cmd1->file.in->redirection = 0b100;
+//	cmd1->file.in->next = NULL;
+ //	cmd1->next = malloc(sizeof(t_command));
+ //	cmd1->next->argv = malloc(sizeof(char *) * 2);
+ //	cmd1->next->argv[0] = "exit";
+ //	cmd1->next->argv[1] = NULL;
+ //	cmd1->next->stream.out = 1;
+ //	cmd1->next->stream.in = 0;
+ //	cmd1->next->pipe.in = 1;
+ //	cmd1->next->pipe.out = -1;
+ //	cmd1->next->file.out = NULL;
+ //	cmd1->next->file.in = NULL;
+ //	cmd1->next->next = NULL;
 //	if (!(cmd1->file.out = malloc(sizeof(t_file))))
 //		exit(1);
 //	cmd1->file.out->file = "out.txt";
 //	cmd1->file.out->redirection = 1;//> out.txt
 //	cmd1->file.out->next = NULL;
-	if (!(cmd1->file.in = malloc(sizeof(t_file))))
-		exit(1);
-	cmd1->file.in->file = "eof";
-	cmd1->file.in->redirection = 0b1000;//<< eof
-	cmd1->file.in->next = NULL;
+//	if (!(cmd1->file.in = malloc(sizeof(t_file))))
+//		exit(1);
+//	cmd1->file.in->file = "eof";
+//	cmd1->file.in->redirection = 0b1000;//<< eof
+//	cmd1->file.in->next = NULL;
 	return (cmd1);
 }
 

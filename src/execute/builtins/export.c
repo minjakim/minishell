@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:30:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/11/11 15:46:58 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/15 17:22:35 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,71 +28,60 @@ int
 }
 
 void
-	print_export_list(t_hash *ex_list)
+	print_export_list(t_hash *ex_list, t_io stream)
 {
 	while (ex_list)
 	{
-		printf("declare -x %s", ex_list->key);
+		write(stream.out, "declare -x ", 11);
+		write(stream.out, ex_list->key, strlen(ex_list->key));
 		if (ex_list->value != NULL)
-			printf("=\"%s\"", ex_list->value);
-		printf("\n");
+		{
+			write(stream.out, "=\"", 2);
+			write(stream.out, ex_list->value, strlen(ex_list->value));
+			write(stream.out, "\"", 1);
+		}
+		write(stream.out, "\n", 1);
 		ex_list = ex_list->next;
 	}
 }
 
 int
-	ms_export(char **argv, char **envp, t_io stream, t_hash **ex_list)
+	update_export_list(int offset, char **argv, int *exit_status, t_hash **ex_list)
 {
-	t_key_value_idx	idx;
-	int				offset;
-	int				i;
 	t_hash			*ex_handle;
-
-	(void)stream;
-	if (argv == NULL)
-		exit(1);
-	if (argv[1] == NULL)
-	{
-		print_export_list(*ex_list);
-		return (1);
-	}
-	offset = find_offset(argv[1]);
+	
 	if (offset != -1)
 		argv[1][offset] = '\0';
-	if (legal_identifier(argv[1]) == 0)
+	if (legal_identifier("export", argv[1]) == 0)
 	{
-		write(2, "bash: ", 6);
-		write(2, "export: `", 8);
-		write(2, argv[1], strlen(argv[1]));
-		write(2, "': is not a valid identifier\n", 29);
-		argv[1][offset] = '=';
-		exit(1);
+		*exit_status = 1;
+		return (-1);
 	}
 	ex_handle = *ex_list;
 	while (ex_handle && strcmp(ex_handle->key, argv[1]) != 0)
 		ex_handle = ex_handle->next;
-//	if (ex_handle == NULL)
-//	{
-//		ex_handle = malloc(sizeof(t_hash));
-//		if (ex_handle == NULL)
-//			exit(1);
-//		*ex_list = ex_handle;
-//		memset(ex_handle, 0, sizeof(t_hash));
-//	}
-	if (ex_handle == NULL)
+	if (ex_handle == NULL)/*매칭되는 키가 없을 경우 추가*/
 	{
 		if (offset != -1)
 			argv[1][offset] = '=';
 		add_export_list(argv[1], ex_list);
 	}
-	else if (strcmp(argv[1], ex_handle->key) == 0 && offset != -1)
+	else if (strcmp(argv[1], ex_handle->key) == 0 && offset != -1)/*매칭되는 키가 있을 경우 밸류만 업데이트*/
 	{
 		if (ex_handle->value != NULL)
 			free(ex_handle->value);
 		ex_handle->value = strdup(argv[1] + offset + 1);
 	}
+	return (1);
+}
+
+int
+	update_envp(char **argv, char **envp)
+{
+	t_key_value_idx	idx;
+	int				i;
+
 	idx = ms_getenv(argv[1], envp);
-	argv[1][offset] = '=';
 	if (idx.key == -1)
 	{
 		i = -1;
@@ -108,5 +97,26 @@ int
 		free(envp[idx.key]);
 		envp[idx.key] = strdup(argv[1]);
 	}
+	return (1);
+}
+
+int
+	ms_export(t_command cmd, char **envp, t_hash **ex_list, int *exit_status)
+{
+	int				offset;
+	char			**argv;
+
+	argv = cmd.argv;
+	if (argv && argv[1] == NULL)
+	{
+		print_export_list(*ex_list, cmd.stream);
+		*exit_status = 0;
+		return (1);
+	}
+	offset = find_offset(argv[1]);
+	if (update_export_list(offset, argv, exit_status, ex_list) == -1)
+		return (1);
+	update_envp(argv, envp);
+	*exit_status = 0;
 	return (1);
 }

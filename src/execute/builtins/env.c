@@ -6,21 +6,21 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:29:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/15 12:13:22 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/11/14 20:44:26 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
 int
-	ms_env(char **argv, char **envp, int stream_out)
+	ms_env(char **argv, char **envp, int stream_out, int *exit_status)
 {
 	if (argv[1] != NULL)
 	{
-		write(2, "env: ", 5);
-		write(2, argv[1], strlen(argv[1]));
-		write(2, ": No such file of directory\n", 28);
-		exit(errno);
+		errno = ENOENT;
+		cmd_arg_err("env", argv[1]); 
+		*exit_status = 127;
+		return (1);
 	}
 	while (*envp != NULL)
 	{
@@ -28,5 +28,6 @@ int
 		write(stream_out, "\n", 1);
 		++envp;
 	}
+	*exit_status = 0;
 	return (1);
 }

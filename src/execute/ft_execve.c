@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 13:05:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/21 15:41:03 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/14 19:58:58 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char
 }
 
 int
-	ft_execve(char **argv, char **envp)
+	ft_execve(char **argv, char **envp, int *exit_status)
 {
 	char	**path;
 	char	*command;
@@ -132,6 +132,13 @@ int
 		exit(1);
 	command = return_path(path, argv[0]);
 	free(path);
-	execve(command, argv, envp);
+	if (execve(command, argv, envp) == -1)
+	{
+		if (errno == EACCES)
+			*exit_status = 126;
+		else
+			*exit_status = 127;	
+		bash_arg_err(command);
+	}
 	return (0);
 }

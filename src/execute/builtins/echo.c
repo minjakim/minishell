@@ -6,19 +6,18 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 11:18:16 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/19 11:49:59 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/11/15 17:23:41 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
 int
-	builtin_echo(char **argv, char **envp, t_io stream)
+	builtin_echo(char **argv, t_io stream, int *exit_status)
 {
 	int	display_return;
 	int	i;
 
-	(void)envp;
 	if (argv == NULL)
 		return (0);
 	display_return = 1;
@@ -33,5 +32,6 @@ int
 	}
 	if (display_return)
 		write(stream.out, "\n", 1);
+	*exit_status = 0;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/10/21 13:46:43 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/13 20:42:25 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int
 }
 
 int
-	redirect(t_command *cmd)
+	redirect(t_command *cmd, int *exit_status)
 {
 	while (cmd->file.in != NULL)
 	{
@@ -72,6 +72,12 @@ int
 			cmd->stream.in = open(cmd->file.in->file, O_RDONLY);
 		if (cmd->file.in->redirection == 0b1000)
 			cmd->stream.in = read_all_line(cmd->file.in->file);
+		if (cmd->stream.in == -1)
+		{
+			*exit_status = 1;
+			bash_arg_err(cmd->file.in->file);
+			return (-1);
+		}
 		cmd->file.in = cmd->file.in->next;
 		if (cmd->file.in)
 			close(cmd->stream.in);

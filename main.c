@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/11/11 15:51:49 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/17 11:08:09 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int
 }
 
 static void
-	exit_eof_test(t_shell *mini)
+	exit_eof_test(t_shell *mini, int exit_status)
 {
 	mini->config.current.c_lflag &= ~ICANON;
 	mini->config.current.c_lflag &= ~ECHO;
@@ -93,7 +93,7 @@ static void
 	tputs(tgoto(mini->curses.move, mini->curses.column += sizeof(PROMPT) - 1, mini->curses.row -= 2), 1, putchar_tc);
 	printf("exit\n");
 	tcsetattr(STDIN_FILENO, TCSANOW, &mini->config.backup);
-	exit(errno);
+	exit(exit_status);
 }
 
 static void
@@ -121,11 +121,10 @@ static void
 	rl_catch_signals = 0;
 }
 
-static void
-	excute_sub(t_command *cmd, char **envp, t_hash **export_list)
+static int
+	excute_sub(t_command *cmd, char **envp, t_hash **export_list, int *exit_status)
 {
 	pid_t	pid;
-	int		exit_status;
 
 	if (cmd->pipe.out != -1)
 	{
@@ -141,34 +140,35 @@ static void
 		if (cmd->pipe.in != -1)
 			dup2(cmd->pipe.in, 0);
 		//replace_env();
-		redirect(cmd);
-		shell_execve(*cmd, envp, export_list);
+		if (redirect(cmd, exit_status) == -1)
+			return (-1);
+		shell_execve(*cmd, envp, export_list, exit_status);
 	}
 	else if (pid > 0)
 	{
 		if (cmd->pipe.in != -1 && cmd->pipe.out == -1)/*마지막 파이프 커맨드*/
 		{
-			waitpid(pid, &exit_status, 0);/*파이프의 마지막 커맨드의 종료상태 반환*/
+			waitpid(pid, exit_status, 0);/*파이프의 마지막 커맨드의 종료상태 반환*/
 			while(wait(NULL) != -1)/*자식프로세스가 없을 때까지 대기*/
 				;
 		}
 	}
+	return (0);
 }
 
-static void
-	excute_main(t_command *cmd, char **envp, t_hash **export_list)
+static int 
+	excute_main(t_command *cmd, char **envp, t_hash **export_list, int *exit_status)
 {
-	int		exit_status;
-
 	while (cmd)
 	{
-		if (cmd->pipe.in != -1 || cmd->pipe.out != -1)
-			excute_sub(cmd, envp, export_list);
+		if (!(cmd->pipe.in == -1 && cmd->pipe.out == -1))
+			excute_sub(cmd, envp, export_list, exit_status);
 		else//main
 		{
 			//replace_env(); 환경변수 치환하는 함수
-			redirect(cmd);
-			shell_execve(*cmd, envp, export_list);
+			if (redirect(cmd, exit_status) == -1)
+				return (-1);
+			shell_execve(*cmd, envp, export_list, exit_status);
 		}
 		cmd = cmd->next;
 		//if (flag == "&&" && exit_status == 1)
@@ -176,16 +176,52 @@ static void
 		//if (flag == "||" && exit_status == 0)
 		//	eixt();
 	}
+	return (0);
 }
 
-int
-	main(int argc, char **argv, char **envp)
+void
+	clear_argv(char **argv)
+{
+	int	i;
+
+	i = -1;
+	while (argv[++i])
+		free(argv[i]);
+	free(argv);
+}
+
+void
+	clear_cmd_list(t_command **cmd_list)
+{
+	t_command *handle;
+	t_command *tmp;
+
+	if (cmd_list == NULL || *cmd_list == NULL)
+		return ;
+	handle = *cmd_list;
+	while (handle)
+	{
+		if (handle->argv != NULL)
+			clear_argv(handle->argv);
+		if (handle->file.in != NULL)
+			;
+		if (handle->file.out!= NULL)
+			;
+		tmp = handle;
+		handle = handle->next;
+		free(tmp);
+	}
+	*cmd_list = NULL;
+}
+
+int main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_shell		mini;
 	char		last_state;
 	t_command	*cmd_list;
 	t_hash		*export_list;//export된 변수 관리용
+	int			exit_status;
 
 	(void)&argc;
 	(void)argv;
@@ -207,14 +243,10 @@ int
 		add_history(line);
 		free(line);
 		cmd_list = make_cmd();
-		ms_export(cmd_list->argv, envp, cmd_list->stream, &export_list);
-		ms_export(cmd_list->next->argv, envp, cmd_list->stream, &export_list);
-//		excute_main(cmd_list, envp, &export_list);//export_list인자 추가
-//		free(cmd_list->file.out);
-//		free(cmd_list->file.in);
-		free(cmd_list);
+		excute_main(cmd_list, envp, &export_list, &exit_status);//export_list인자 추가
+		clear_cmd_list(&cmd_list);
 	}
-	exit_eof_test(&mini);
+	exit_eof_test(&mini, exit_status);
 }
 
 
