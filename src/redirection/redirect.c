@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/11/13 20:42:25 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/22 15:03:15 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int
 }
 
 int
-	redirect(t_command *cmd, int *exit_status)
+	redirect(t_command *cmd, int *exit_status, t_hash *export_list)
 {
 	while (cmd->file.in != NULL)
 	{

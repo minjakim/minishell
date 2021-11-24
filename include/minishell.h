@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/11/15 17:23:48 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/24 18:56:41 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	shell_execve(t_command cmd, char **env, t_hash **export_list, int *exis_stat
 
 int ft_execve(char **argv, char **envp, int *exit_status);
 
-int	redirect(t_command *cmd, int *exit_status);
+int	redirect(t_command *cmd, int *exit_status, t_hash *export_list);
+
+int replace_env(char **str, int expand, t_hash *export_list);
 /*
 **builtin function
 */

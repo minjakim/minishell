@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/11/17 11:08:09 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/24 21:35:39 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,77 @@ static void
 	rl_catch_signals = 0;
 }
 
+static char 
+	*cat_3_str(char *first, char *second, char *third)
+{
+	char *dest;
+
+	dest = malloc(sizeof(char) * (strlen(first) + strlen(second) + strlen(third) + 1));
+	if (dest == NULL)
+		return (NULL);
+	while (*third != '\0' && *third != ' ')
+		third++;
+	strcpy(dest, first);
+	strcat(dest, second);
+	strcat(dest, third);
+	if (dest == NULL)
+		return (NULL);
+	return (dest);
+}
+
+static char
+	*replace_env_find_key(char *key, t_hash *export_list)
+{
+	int	i;
+
+	i = 0;
+	while(key[i] != ' ' && key[i] != '\0')
+		i++;
+	while (export_list)
+	{
+		if (strncmp(key, export_list->key, i) == 0)
+			return (export_list->value);
+		export_list = export_list->next;
+	}
+	return (NULL);
+}
+
+int
+	replace_env(char **str, int expand, t_hash *export_list)
+{
+	int		i;
+	char	*dest;
+	char	*tmp;
+	char	*value;
+
+	if (expand == 0)
+		return (0);
+	i = 0;
+	dest = strdup(*str);
+	if (dest == NULL)
+		return (-1);
+	tmp = NULL;
+	while(dest[i] != '\0')
+	{
+		if (dest[i] == '$')
+		{
+			dest[i++] = '\0';
+			value = replace_env_find_key(dest + i, export_list);
+			if (value == NULL)
+				return (-2);/*매칭 되는 환경 변수가 없을 때*/
+			tmp= cat_3_str(dest, value, dest + i);
+			if (tmp == NULL)
+				return (-1);
+			free(dest);
+			dest = tmp;
+		}
+		++i;
+	}
+	free(*str);
+	*str = dest;
+	return (0);
+}
+
 static int
 	excute_sub(t_command *cmd, char **envp, t_hash **export_list, int *exit_status)
 {
@@ -140,7 +211,7 @@ static int
 		if (cmd->pipe.in != -1)
 			dup2(cmd->pipe.in, 0);
 		//replace_env();
-		if (redirect(cmd, exit_status) == -1)
+		if (redirect(cmd, exit_status, *export_list) == -1)
 			return (-1);
 		shell_execve(*cmd, envp, export_list, exit_status);
 	}
@@ -166,7 +237,7 @@ static int
 		else//main
 		{
 			//replace_env(); 환경변수 치환하는 함수
-			if (redirect(cmd, exit_status) == -1)
+			if (redirect(cmd, exit_status, *export_list) == -1)
 				return (-1);
 			shell_execve(*cmd, envp, export_list, exit_status);
 		}
@@ -222,6 +293,7 @@ int main(int argc, char **argv, char **envp)
 	t_command	*cmd_list;
 	t_hash		*export_list;//export된 변수 관리용
 	int			exit_status;
+	char		*test;
 
 	(void)&argc;
 	(void)argv;
@@ -229,6 +301,8 @@ int main(int argc, char **argv, char **envp)
 	if (parse_env(&envp, &export_list))//export_list인자 추가
 		return(1);
 	initialize(&mini);
+	test = strdup("hello $NAME");
+	replace_env(&test, 1, export_list);
 	while (1)
 	{
 		line = readline(PROMPT);

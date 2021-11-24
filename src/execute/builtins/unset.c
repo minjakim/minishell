@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 07:56:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/11/15 17:29:10 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/24 19:05:35 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,12 @@ int
 		if (legal_variable_starter(name[i]) == 0)
 		{
 			write(2, "bash: ", 6);
-			write(2, cmd, strlen(cmd)); 
-			write(2, ": `", 3);
+			if (cmd != NULL)
+			{
+				write(2, cmd, strlen(cmd)); 
+				write(2, ": ", 2);
+			}
+			write(2, "`", 1);
 			write(2, name, strlen(name));
 			write(2, "': not a valid identifier\n", 26);
 			return (0);

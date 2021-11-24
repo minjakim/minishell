@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 13:05:00 by snpark            #+#    #+#             */
-/*   Updated: 2021/11/11 15:36:07 by snpark           ###   ########.fr       */
+/*   Updated: 2021/11/24 19:04:33 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void
 		str[offset] = '\0';
 	}
 	val->key = strdup(str);
-	if (legal_identifier(val->key) == 0)
+	if (legal_identifier(NULL, val->key) == 0)
 		;//error message;
 	sort_export_list(val, list);
 }
