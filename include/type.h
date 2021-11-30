@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/19 19:33:11 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/11/30 12:10:30 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct	s_word
 	int		expand;
 	char	*word;
 }	t_word;
-
+/*
 typedef union u_io
 {
 	struct
@@ -88,6 +88,7 @@ typedef struct s_key_value_idx
 	int	key;
 	int	value;
 }	t_key_value_idx;
+*/
 
 typedef	struct s_valiable
 {
@@ -107,6 +108,8 @@ typedef struct s_hash
 	char	*key;
 	char	*value;
 	t_hash	*next;
-	t_hash	*prev;
 }	t_hash;
+
+typedef
+
 #endif

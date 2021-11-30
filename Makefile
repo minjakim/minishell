@@ -20,11 +20,11 @@ parse=parse_env.c \
 redirection=redirect.c
 
 SRC=../main.c\
-	shell.c\
-	$(execute:%=execute/%)\
-	$(input:%=input/%)\
-	$(parse:%=parse/%)\
-	$(redirection:%=redirection/%)
+#	shell.c\
+#	$(execute:%=execute/%)\
+#	$(input:%=input/%)\
+#	$(parse:%=parse/%)\
+#	$(redirection:%=redirection/%)
 
 SRCS=$(SRC:%=./src/%)
 OBJ=$(SRCS:%.c=%.o)
