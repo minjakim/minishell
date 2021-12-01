@@ -1,29 +1,29 @@
 NAME=minishell
 
-builtin_function=cd.c\
-				 echo.c\
-				 env.c\
-				 exit.c\
-				 export.c\
-				 ms_getenv.c\
-				 pwd.c\
-				 unset.c
+builtin_function=mini_env.c\
+				 mini_export.c\
+				 mini_unset.c
 
 execute=$(builtin_function:%=builtins/%)\
-	execute_cmd.c\
-	ft_execve.c
+#	execute_cmd.c\
+#	ft_execve.c
 
 readline=
 input=$(readline:%=readline/%)
-parse=parse_env.c \
-	parse_line.c
+parse=parse_envp.c 
 redirection=redirect.c
+declare=declare.c\
+		general.c\
+		make_envp.c\
+		edit_declare_value.c
 
 SRC=../main.c\
+	initialize.c\
+	$(parse:%=parse/%)\
+	$(execute:%=execute/%)\
+	$(declare:%=declare/%)
 #	shell.c\
-#	$(execute:%=execute/%)\
 #	$(input:%=input/%)\
-#	$(parse:%=parse/%)\
 #	$(redirection:%=redirection/%)
 
 SRCS=$(SRC:%=./src/%)

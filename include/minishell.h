@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/11/30 12:12:32 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/01 17:22:49 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,41 +16,34 @@
 # include "resource.h"
 # include "type.h"
 
-/*
-int parse_env(char ***original_envp, t_hash **export_list);
-void add_export_list(char *str, t_hash **list);
-int parse_line(char *line);
+int	initialize(t_shell *mini);
+/*parse_envp.c*/
+int parse_envp(t_env *env);
+int replace_envp(t_env *env, int flag);
 
-int	shell_execve(t_command cmd, char **env, t_hash **export_list, int *exis_status);
+/*general.c*/
+int legal_variable_starter(char c);
+int legal_variable_char(char c);
+int legal_identifier (char *name);
+int assignment (const char *string);
+t_hash *check_declare_key(t_hash *head, char *key);
+/*make_envp.c*/
+void free_envp(char **envp);
+int envplen(t_hash *handle);
+int make_envp(char **new_envp, t_hash *handle);
+/*declare.c*/
+int	make_declare_head(t_hash **head, t_hash *back, t_hash tmp);
+int make_declare(t_hash *back, t_hash tmp);
+int add_declare_unit(t_hash **head, t_hash *back, t_hash tmp);
+int add_declare(t_hash **head, char *str, int flag);
+/*edit_declare_value.c*/
+int edit_declare_value(char *value, t_hash *hash, int flag);
+/*builtins*/
 
-int ft_execve(char **argv, char **envp, int *exit_status);
-
-int	redirect(t_command *cmd, int *exit_status, t_hash *export_list);
-
-int replace_env(char **str, int expand, t_hash *export_list);
-*/
-/*
-**builtin function
-*/
-/*
-int	builtin_echo(char **argv, t_io stream, int *exit_status);
-int	cd(char **argv, char **envp, int *exit_status);
-int	pwd(int stream_out, int *exit_status);
-int ms_export(t_command cmd, char **envp, t_hash **ex_list, int *exit_status);
-t_key_value_idx ms_getenv(char *key, char **envp);
-int	find_offset(char *str);
-int	ms_unset(char **argv, char **envp, t_hash **ex_list, int *exit_status);
-int	ms_env(char **argv, char **envp, int stream_out, int *exit_status);
-int	ms_exit(char **argv, t_io pipe, int *exit_status);
-int	legal_identifier(const char *cmd, char *name);
-*/
-/*tmp*/
-//t_command *make_cmd(void);
-/*error print
- * need to move from excute_cmd.c to another file*/
-/*
-void bash_arg_err(const char *arg);
-void bash_cmd_arg_err(const char *cmd, const char *arg);
-void cmd_arg_err(const char *cmd, const char *arg);
-*/
+/*mini_env.c*/
+int print_envp(char **envp);
+int mini_env(t_shell *mini);
+/*mini_export.c*/
+int print_export(t_hash *handle);
+int mini_export(t_shell *mini);
 #endif
