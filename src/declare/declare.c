@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/01 17:22:10 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/01 18:26:22 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int
 	add_declare(t_hash **head, char *str, int flag)
 {
 	int		offset;
-	t_hash	*back;
 	t_hash	tmp;
 
 	offset = assignment(str);
@@ -103,7 +102,6 @@ int
 		tmp.value = NULL;
 		flag |= H_KEYONLY;
 	}
-	back = check_declare_key(*head, tmp.key);
 	tmp.flag = flag;
-	return (add_declare_unit(head, back, tmp));
+	return (add_declare_unit(head, check_declare_key(*head, tmp.key), tmp));
 }
