@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:06:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/01 17:29:31 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/01 18:07:04 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ int
 	const int		envp_len = envplen(env->declare);
 	int				i;
 
-	new_envp = malloc(sizeof(char *) * (envp_len + 1));
+	new_envp = malloc(sizeof(char *) * (envp_len + 2));
 	if (new_envp == NULL)
 		return (1);
-	memset(new_envp, 0, envp_len + 1); 
+	memset(new_envp, 0, envp_len + 2); 
 	if (make_envp(new_envp, env->declare) != 0)
 		return (1);
 	if (flag == 1)
