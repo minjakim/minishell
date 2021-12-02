@@ -5,12 +5,14 @@ builtin_function=mini_env.c\
 				 mini_unset.c
 
 execute=$(builtin_function:%=builtins/%)\
-#	execute_cmd.c\
+	execute_cmd.c\
 #	ft_execve.c
 
 readline=
 input=$(readline:%=readline/%)
-parse=parse_envp.c 
+parse=parse_envp.c\
+	  make_cmd.c\
+	  parse_line.c
 redirection=redirect.c
 declare=declare.c\
 		general.c\
@@ -19,6 +21,7 @@ declare=declare.c\
 
 SRC=../main.c\
 	initialize.c\
+	minishell.c\
 	$(parse:%=parse/%)\
 	$(execute:%=execute/%)\
 	$(declare:%=declare/%)

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/01 17:57:29 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/02 11:16:58 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ int	initialize(t_shell *mini);
 int parse_envp(t_env *env);
 int replace_envp(t_env *env, int flag);
 
+/*minishell.c*/
+int minishell(t_shell *mini);
+
+/*parse_line.c*/
+int	parse_line(t_shell *mini);
+
+/*make_cmd.c*/
+int	make_cmd(t_shell *mini);
+
+/*execute_cmd.c*/
+int	execute_cmd(t_shell *mini);
 /*general.c*/
 int legal_variable_starter(char c);
 int legal_variable_char(char c);

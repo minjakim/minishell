@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/10/19 20:50:29 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/02 15:06:30 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <sys/cdefs.h>
 # include "../lib/readline_arm64/include/readline.h"
 # include "../lib/readline_arm64/include/history.h"
-# include "../lib/bash-3.2.57/command.h"
+//# include "../lib/bash-3.2.57/command.h"
 
 //pid_t
 # include <sys/types.h>
