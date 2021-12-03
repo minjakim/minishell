@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:43:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/02 21:16:11 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/03 10:01:06 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int
 	word_start(t_shell *mini)
 {
 	t_word_list		*handle;
-
+	return (0);
 }
 
 int

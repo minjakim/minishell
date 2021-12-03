@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mini_pwd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/03 11:39:49 by snpark           ###   ########.fr       */
+/*   Created: 2021/12/03 09:53:58 by snpark            #+#    #+#             */
+/*   Updated: 2021/12/03 10:39:11 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
-#include <string.h>
+#include "../../../include/minishell.h"
 
-int	g_exit_status;
-
-int main(int argc, char **argv, char **envp)
+int
+	mini_pwd(t_shell *mini)
 {
-	t_shell		mini;
+	char	*path;
 
-	(void)argc;
-	(void)argv;
-	mini.env.envp = envp;
-	if (initialize(&mini) != 0)
+	(void)mini;
+	path = getcwd(NULL, 0);
+	if (path == NULL)
 		return (1);
-//	if (minishell(&mini) != 0)
-//		return (1);
-	mini_cd(&mini);
+	printf("%s\n", path);
+	free(path);
 	return (0);
 }
+

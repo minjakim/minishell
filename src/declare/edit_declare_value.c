@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:20:26 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/01 17:27:21 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/03 11:07:53 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static int
 		return (1);
 	return (0);
 }
+
 int
 	edit_declare_value(char *value, t_hash *hash, int flag)
 {

@@ -2,7 +2,9 @@ NAME=minishell
 
 builtin_function=mini_env.c\
 				 mini_export.c\
-				 mini_unset.c
+				 mini_unset.c\
+				 mini_pwd.c\
+				 mini_cd.c
 
 execute=$(builtin_function:%=builtins/%)\
 	execute_cmd.c\

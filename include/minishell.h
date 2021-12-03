@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/02 11:16:58 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/03 10:38:56 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,8 @@ int mini_export(t_shell *mini);
 /*mini_unset.c*/
 int remove_declare(t_hash **head, char *key);
 int mini_unset(t_shell *mini);
+/*mini_pwd.c*/
+int mini_pwd(t_shell *mini);
+/*mini_cd.c*/
+int mini_cd(t_shell *mini);
 #endif

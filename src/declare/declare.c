@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/01 18:26:22 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/03 11:13:26 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,6 @@ int
 		flag |= H_KEYONLY;
 	}
 	tmp.flag = flag;
+	check_declare_key(*head, tmp.key);
 	return (add_declare_unit(head, check_declare_key(*head, tmp.key), tmp));
 }
