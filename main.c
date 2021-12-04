@@ -6,12 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/03 11:39:49 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/04 20:49:02 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
-#include <string.h>
 
 int	g_exit_status;
 
@@ -26,6 +25,5 @@ int main(int argc, char **argv, char **envp)
 		return (1);
 //	if (minishell(&mini) != 0)
 //		return (1);
-	mini_cd(&mini);
 	return (0);
 }

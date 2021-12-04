@@ -6,11 +6,14 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:39:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/02 22:03:56 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/04 15:53:36 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#ifndef STRING_H
+# include <string.h>
+#endif
 
 void
 	free_envp(char **envp)
@@ -18,7 +21,7 @@ void
 	int		i;
 
 	i = -1;
-	while(envp[++i])
+	while (envp[++i])
 		free(envp[i]);
 	free(envp);
 }
@@ -26,7 +29,7 @@ void
 int
 	envplen(t_hash *handle)
 {
-	int envp_len;
+	int		envp_len;
 
 	envp_len = 0;
 	while (handle)
@@ -48,11 +51,11 @@ int
 	{
 		if (handle->flag & H_EXPORT && !(handle->flag & H_KEYONLY))
 		{
-			new_envp[i] = malloc(sizeof(char)\
-					* (strlen(handle->key) + strlen(handle->value)  + 2));
+			new_envp[i] = malloc(sizeof(char) \
+					* (strlen(handle->key) + strlen(handle->value) + 2));
 			if (new_envp[i] == NULL)
 				return (1);
-			strcat(strcat(strcpy(new_envp[i], handle->key), "="),\
+			strcat(strcat(strcpy(new_envp[i], handle->key), "="), \
 					handle->value);
 			++i;
 		}

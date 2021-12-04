@@ -6,13 +6,14 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:06:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/01 18:07:04 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/04 16:20:35 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-extern char **environ;
+#ifndef STRING_H
+# include <string.h>
+#endif
 
 static int
 	declare_env(t_env *env)
@@ -21,7 +22,7 @@ static int
 	char	*tmp;
 
 	i = -1;
-	while(env->envp[++i])
+	while (env->envp[++i])
 	{
 		tmp = strdup(env->envp[i]);
 		if (tmp == NULL)
@@ -40,11 +41,12 @@ int
 	t_hash			*handle;
 	const int		envp_len = envplen(env->declare);
 	int				i;
+	extern char		**environ;
 
 	new_envp = malloc(sizeof(char *) * (envp_len + 2));
 	if (new_envp == NULL)
 		return (1);
-	memset(new_envp, 0, envp_len + 2); 
+	memset(new_envp, 0, envp_len + 2);
 	if (make_envp(new_envp, env->declare) != 0)
 		return (1);
 	if (flag == 1)

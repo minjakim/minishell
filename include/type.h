@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/02 12:59:04 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/04 16:34:03 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,8 @@ typedef struct s_shell
 	char		*line;
 	t_word_list	*list;
 	t_command	*cmd;
-	t_error		*err;
+	t_error		err;
+	int			internal;
 }	t_shell;
 
 #endif

@@ -6,16 +6,39 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/03 11:13:26 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/04 17:46:26 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#ifndef STRING_H
+# include <string.h>
+#endif
+
+t_hash
+	*check_declare_key(t_hash *head, const char *const key)
+{
+	t_hash	*back;
+	t_hash	*handle;
+
+	handle = head;
+	back = handle;
+	while (handle)
+	{
+		if (*key == *handle->key && strcmp(key, handle->key) == 0)
+			return (back);
+		if (strcmp(key, handle->key) < 0)
+			return (back);
+		back = handle;
+		handle = handle->next;
+	}
+	return (back);
+}
 
 int	
 	make_declare_head(t_hash **head, t_hash *back, t_hash tmp)
 {
-	t_hash *new;
+	t_hash	*new;
 
 	new = malloc(sizeof(t_hash));
 	if (new == NULL)
@@ -41,7 +64,7 @@ int
 int
 	make_declare(t_hash *back, t_hash tmp)
 {
-	t_hash *new;
+	t_hash	*new;
 
 	new = malloc(sizeof(t_hash));
 	if (new == NULL)
@@ -67,7 +90,7 @@ int
 int
 	add_declare_unit(t_hash **head, t_hash *back, t_hash tmp)
 {
-	if (back && back->next && strcmp(tmp.key, back->next->key) == 0\
+	if (back && back->next && strcmp(tmp.key, back->next->key) == 0 \
 			&& tmp.value == NULL)
 		return (0);
 	else if (back && back->next && strcmp(tmp.key, back->next->key) == 0)
@@ -79,7 +102,7 @@ int
 	return (1);
 }
 
-int 
+int
 	add_declare(t_hash **head, char *str, int flag)
 {
 	int		offset;

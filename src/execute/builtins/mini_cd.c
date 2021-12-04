@@ -6,16 +6,19 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/03 11:56:34 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/04 15:54:27 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
+#ifndef STRING_H
+# include <string.h>
+#endif
 
 int
 	set_path(t_shell *mini, char *dirname, char *key)
 {
-	char 			*assignment;
+	char			*assignment;
 	const int		len = sizeof(char) * (strlen(dirname) + strlen(key) + 2);
 
 	assignment = malloc(len);
@@ -35,21 +38,25 @@ static char
 	*mini_cd_getpath(char **argv)
 {
 	char	*dirname;	
-	
+
 	if (argv && argv[0] != NULL && argv[1] == NULL)
 	{
 		dirname = getenv("HOME");
-		return (dirname);//HOME not set"
+		return (dirname);
 	}
 	else if (argv && argv[0] != NULL && strcmp(argv[1], "-") == 0)
 	{
 		dirname = getenv("OLDPWD");
-		return (dirname);//"OLDPWD not set"
+		return (dirname);
 	}
 	else
 		return (argv[1]);
 	return (NULL);
 }
+/*getenv("HOME") == NULL
+ * error msg "HOME not set"
+ * getenv("OLDPWD") == NULL
+ * error msg "OLDPWD not set"*/
 
 int
 	mini_cd(t_shell *mini)
@@ -72,6 +79,6 @@ int
 		return (1);
 	free(oldpwd);
 	if (replace_envp(&mini->env, 1) != 0)
-		return (1); 
+		return (1);
 	return (0);
 }
