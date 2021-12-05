@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/04 17:28:17 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/05 10:49:37 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@
 
 # define PROMPT "mini ^o^)/ $> "
 
+# define CMD_COMMAND_BUILTIN		0x00000001
+# define CMD_STDIN_REDIR			0x00000002
+# define CMD_STDOUT_REDIR			0x00000004
+# define CMD_NO_FORK				0x00000008
+# define CMD_INHIBIT_EXPANSION		0x0000000f
+# define CMD_NOFUNCTION				0x00000010
+# define CMD_IGNORE_RETURN			0x00000020
+# define CMD_PIPE					0x00000040
 
 enum e_flag_exception
 {

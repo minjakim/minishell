@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 19:22:25 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/02 15:16:25 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/04 20:53:31 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int
 	{
 		mini->line = readline(PROMPT);
 		if (mini->line == NULL)
-			break;
+			break ;
 		add_history(mini->line);
 		if (parse_line(mini) != 0)
 			return (1);

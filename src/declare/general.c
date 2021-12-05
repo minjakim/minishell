@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:37:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 17:56:48 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/04 20:51:24 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 int
 	legal_number(const char *str)
 {
-	unsigned long long			n;
-	int					negative;
+	unsigned long long		n;
+	int						negative;
 
 	while ((*str >= 9 && *str <= 13) || *str == 0x20)
 		++str;

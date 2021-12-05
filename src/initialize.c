@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/02 15:17:17 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/04 20:53:13 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,5 @@ int
 	mini->line = NULL;
 	mini->list = NULL;
 	mini->cmd = NULL;
-	mini->err = NULL;
-	return (0);	
+	return (0);
 }
