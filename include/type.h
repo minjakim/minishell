@@ -3,10 +3,9 @@
 /*                                                        :::      ::::::::   */
 /*   type.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */ /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/04 16:34:03 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/05 20:56:20 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +82,7 @@ typedef struct	s_simple
 {
 	t_redirect	*redirects;
 	t_word_list	*words;
-	t_io		stream;
+	t_io		io;
 	char		*path;
 	char		**argv;
 }	t_simple;
@@ -92,7 +91,7 @@ typedef struct	s_connection
 {
 	t_redirect			*redirects;
 	t_word_list			*words;
-	t_io				stream;
+	t_io				io;
 	char				*path;
 	char				**argv;
 	struct s_command	*next;
@@ -144,7 +143,7 @@ typedef struct s_error
 	char	*cmd;
 	char	*arg;
 	char	*message;
-	int		exit_staus;
+	int		exit_status;
 	int		error;
 }	t_error;
 
@@ -159,7 +158,7 @@ typedef struct s_shell
 	t_word_list	*list;
 	t_command	*cmd;
 	t_error		err;
-	int			internal;
+	int			interactive;
 }	t_shell;
 
 #endif

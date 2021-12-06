@@ -10,6 +10,10 @@ builtin_function=mini_env.c\
 
 execute=$(builtin_function:%=builtins/%)\
 	execute_cmd.c\
+	expand_cmd.c\
+	find_cmd.c\
+	ft_execve.c\
+	redirect.c
 #	ft_execve.c
 
 readline=
