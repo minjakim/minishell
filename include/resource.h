@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/05 10:49:37 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/07 15:33:19 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <sys/types.h>
 
 # include <limits.h>
+# include <sys/stat.h>
 
 # define PROMPT "mini ^o^)/ $> "
 

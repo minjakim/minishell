@@ -13,7 +13,11 @@ execute=$(builtin_function:%=builtins/%)\
 	expand_cmd.c\
 	find_cmd.c\
 	ft_execve.c\
-	redirect.c
+	redirect.c\
+	expand_word.c\
+	ft_teilde_expand.c\
+	strmove.c\
+	glob.c
 #	ft_execve.c
 
 readline=

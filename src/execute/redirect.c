@@ -6,14 +6,14 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/06 10:37:17 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/06 17:39:39 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <string.h>
 
-int
+static int
 	is_eof(char **line, const char *const eof)
 {
 	*line = readline("heredoc> ");
@@ -48,19 +48,22 @@ int
 	t_redirect *handle;
 	t_io		*io;
 
-	io = &mini->cmd->value.simple.io;
-	handle = mini->cmd->value.simple.redirects;
 	while (handle)
 	{
 		if (io->fd[handle->redirector] != handle->redirector)
 			close(io->fd[handle->redirector]);
-		if (handle->here_doc_eof == NULL)
-			io->fd[handle->redirector] = open(handle->redirectee.filename->word, handle->flags);
-		else
+		if (handle->here_doc_eof == NULL && handle->redirectee.filename && \
+				handle->redirectee.filename->word)
+			io->fd[handle->redirector] = open(handle->redirectee.filename->word, handle->flags, 0644);
+		else if (handle->here_doc_eof != NULL)
 			io->fd[handle->redirector] = heredoc(handle->here_doc_eof);
+		else
+			return (1);
 		if (io->fd[handle->redirector] == -1)
 			return (1);
 		handle = handle->next;
 	}
+	if (redirect_stdio(*io) != 0)
+		return (1);
 	return (0);
 }

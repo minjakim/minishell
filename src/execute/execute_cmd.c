@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/06 10:43:21 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/08 15:00:44 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,16 @@ int
 	return (0);
 }
 
-int
+static void 
+	close_io(t_io io)
+{
+	if (io.in != STDIN_FILENO)
+		close(io.in);
+	if (io.out != STDOUT_FILENO)
+		close(io.out);
+}
+
+static int
 	set_pipe(t_shell *mini)
 {
 	t_command	*cmd;
@@ -41,7 +50,22 @@ int
 	pid = fork();
 	if (pid == 0)
 		mini->interactive = 0;
+	if (pid > 0 && cmd->type == cm_simple)
+	{
+		waitpid(pid, &mini->err.exit_status, 0); 
+		while (wait(NULL) != -1)
+			;
+	}
 	return (pid);
+}
+
+static int
+	next_cmd(t_command *cmd)
+{
+	return (cmd->type == cm_connection);// && \
+//			(cmd->value.connection.connector == "&&" && exit_status == 0 || \
+//			 cmd->value.connection.connector == "||" && exit_status != 0 || \
+//			 cmd->value.connection.connector == "|"));
 }
 
 int
@@ -52,33 +76,31 @@ int
 	t_io		pipe_fd;
 
 	cmd = mini->cmd;
-	pid = 0;
 	while (cmd)
 	{
+		pid = 0;
 		if (cmd->flags & CMD_PIPE)
 			pid = set_pipe(mini);
 		if (pid < 0)
 			return (1);
 		if (pid == 0)
 		{
-			//expand_cmd();
+			//if (expand_cmd() != 0)
+			//	return (1);
 			//if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
-			//	redirect();
-			//find_cmd();
+			//	if (redirect() != 0)
+			//		return (1);
+			//if (find_cmd() != 0)
+			//	return (127);
 			//mini->err.exit_status = shell_execve[is_builtin()](mini);
 			if (mini->interactive == 0)
 				exit(mini->err.exit_status);
 		}
-		if (pid > 0 && cmd->type == cm_simple)
-		{
-			waitpid(pid, &mini->err.exit_status, 0); 
-			while (wait(NULL) != -1)
-				;
-		}
+		//close_io(cmd->value.simple.io);
 		//redirect_stdio(mini->backup.io);
-		if (cmd->type == cm_connection)
+		if (next_cmd(cmd))
 			cmd = cmd->value.connection.next;
-		else if (cmd->type == cm_simple)
+		else
 			return (0);
 	}
 	return (0);

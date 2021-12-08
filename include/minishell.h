@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 20:38:14 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/08 16:11:31 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,17 @@ int	make_cmd(t_shell *mini);
 
 /*execute_cmd.c*/
 int	execute_cmd(t_shell *mini);
+int redirect_stdio(t_io io);
+/*expand_cmd.c*/
+int expand_cmd(t_shell *mini);
+/*expand_word.c*/
+int expand_word(t_word_desc *desc);
+void remove_quote(char *str);
+/*ft_teilde_expand.c*/
+int is_teilde(const char *const str, int i, int quote);
+char *ft_teilde_expand(char *filename, int i);
+/*redirect.c*/
+int redirect(t_shell *mini);
 /*general.c*/
 int legal_number(const char *str);
 int legal_variable_starter(const char c);
@@ -50,7 +61,8 @@ int add_declare_unit(t_hash **head, t_hash *back, t_hash tmp);
 int add_declare(t_hash **head, char *str, int flag);
 /*edit_declare_value.c*/
 int edit_declare_value(char *value, t_hash *hash, int flag);
-
+/*glob.c*/
+char **glob_expand(t_word_desc *word);
 /*builtins*/
 /*mini_env.c*/
 int print_envp(const char **envp);
@@ -70,4 +82,7 @@ int	mini_echo(t_shell *mini);
 /*mini_exit.c*/
 long long mini_strtoll(const char *str);
 int	mini_exit(t_shell *mini);
+
+/*strmove.c*/
+void strmove(char *dest, char *src, int len);
 #endif
