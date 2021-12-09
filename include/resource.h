@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/07 15:33:19 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/09 12:00:29 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,19 @@ enum e_bool
 {
 	FALSE,
 	TRUE
+};
+
+enum e_execute
+{
+	FT_EXECVE,
+	MINI_CD,
+	MINI_ECHO,
+	MINI_ENV,
+	MINI_EXIT,
+	MINI_EXPORT,
+	MINI_PWD,
+	MINI_UNSET,
+	MINI_NULL
 };
 
 #endif
