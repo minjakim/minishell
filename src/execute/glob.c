@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 10:07:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/08 17:04:16 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/09 11:29:19 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char
 	if (slash != NULL && slash[1] != '\0')
 		return (0);
 	is_dir = (slash != NULL);
+	if ()
 	dirinfo = opendir(".");
 	if (dirinfo == NULL)
 		return (NULL);//opendir err
