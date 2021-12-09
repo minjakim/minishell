@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/08 16:11:31 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/09 12:12:49 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	make_cmd(t_shell *mini);
 /*execute_cmd.c*/
 int	execute_cmd(t_shell *mini);
 int redirect_stdio(t_io io);
+int	ft_execve(t_shell *mini);
 /*expand_cmd.c*/
 int expand_cmd(t_shell *mini);
 /*expand_word.c*/
@@ -82,6 +83,7 @@ int	mini_echo(t_shell *mini);
 /*mini_exit.c*/
 long long mini_strtoll(const char *str);
 int	mini_exit(t_shell *mini);
+int	mini_null(t_shell *mini);
 
 /*strmove.c*/
 void strmove(char *dest, char *src, int len);

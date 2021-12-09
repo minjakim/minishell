@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */ /*                                                +#+#+#+#+#+   +#+           */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/05 20:56:20 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/09 12:08:32 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +36,8 @@
 
 #define	W_FILENAME			0x00002000
 #define	W_ARG				0x00004000
+
+typedef struct s_shell	t_shell;
 
 typedef struct s_word_desc
 {
@@ -149,7 +152,7 @@ typedef struct s_error
 
 /*shell*/
 
-typedef struct s_shell
+struct s_shell
 {
 	int			stdin;
 	int			stdout;
@@ -159,6 +162,7 @@ typedef struct s_shell
 	t_command	*cmd;
 	t_error		err;
 	int			interactive;
-}	t_shell;
+	int			(*execute[9])(t_shell *);
+};
 
 #endif

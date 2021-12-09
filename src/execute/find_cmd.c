@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/08 14:53:05 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/09 12:00:20 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ char
 {
 	char		*full_path;
 	struct stat	finfo;
-	
+
 	full_path = malloc(sizeof(char) * (strlen(name) + strlen(path) + 2));
 	if (full_path == NULL)
 		return (NULL);
 	memset(full_path, 0, strlen(name) + strlen(path) + 2);
-	strcat(strcat(strcpy(full_path, path), "/"), name); 
+	strcat(strcat(strcpy(full_path, path), "/"), name);
 	if (stat(full_path, &finfo) < 0)
 	{
 		free(full_path);
@@ -67,25 +67,25 @@ int
 	is_builtin(const char *str)
 {
 	if (!str || !*str || *str == ':')
-		return (8);
+		return (MINI_NULL);
 	else if (*str == 'c' && str[1] == 'd' && str[2] == '\0')
-		return (1);
+		return (MINI_CD);
 	else if (*str == 'e')
 	{
 		if (str[1] == 'c' && strcmp(str + 2, "ho") == 0)
-			return (2);
+			return (MINI_ECHO);
 		else if (str[1] == 'n' && strcmp(str + 2, "v") == 0)
-			return (3);
+			return (MINI_ENV);
 		else if (str[1] == 'x' && strcmp(str + 2, "it") == 0)
-			return (4);
+			return (MINI_EXIT);
 		else if (str[1] == 'x' && strcmp(str + 2, "port") == 0)
-			return (5);
+			return (MINI_EXPORT);
 	}
 	else if (*str == 'p' && str[1] == 'w' && str[2] == 'd' && str[3] == '\0')
-		return (6);
+		return (MINI_PWD);
 	else if (*str == 'u' && strcmp(str + 1, "nset") == 0)
-		return (7);
-	return (0);
+		return (MINI_UNSET);
+	return (FT_EXECVE);
 }
 
 int
@@ -103,7 +103,7 @@ int
 		if (path == NULL)
 			break ;
 		mini->cmd->value.simple.path = find_in_path_element(\
-				mini->cmd->value.simple.argv[0], path); 
+				mini->cmd->value.simple.argv[0], path);
 		free(path);
 		if (mini->cmd->value.simple.path != NULL)
 			return (0);
