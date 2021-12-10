@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mini_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:35:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 16:21:09 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:43:40 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
-#ifndef STRING_H
-# include <string.h>
-#endif
 
 void
 	free_declare(t_hash *tmp)

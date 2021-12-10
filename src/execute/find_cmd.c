@@ -6,12 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/09 12:00:20 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 07:39:59 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <string.h>
 
 char
 	*get_next_path_element(char *string, int *p_index)

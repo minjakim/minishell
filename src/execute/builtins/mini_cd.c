@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 15:54:27 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:43:14 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
-#ifndef STRING_H
-# include <string.h>
-#endif
 
 int
 	set_path(t_shell *mini, char *dirname, char *key)
@@ -37,7 +34,7 @@ int
 static char
 	*mini_cd_getpath(char **argv)
 {
-	char	*dirname;	
+	char	*dirname;
 
 	if (argv && argv[0] != NULL && argv[1] == NULL)
 	{
@@ -61,7 +58,7 @@ static char
 int
 	mini_cd(t_shell *mini)
 {
-	char	*dirname;	
+	char	*dirname;
 	char	*oldpwd;
 
 	oldpwd = getcwd(NULL, 0);

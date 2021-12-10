@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:05:04 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 15:54:34 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:43:18 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
-#ifndef STRING_H
-# include <string.h>
-#endif
 
 int
 	mini_echo(t_shell *mini)

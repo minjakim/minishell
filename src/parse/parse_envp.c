@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_envp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:06:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 16:20:35 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:42:27 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#ifndef STRING_H
-# include <string.h>
-#endif
 
 static int
 	declare_env(t_env *env)

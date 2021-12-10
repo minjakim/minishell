@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/09 15:11:37 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:43:28 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
-/*허락 되지 않은 함수 atoi*/
 
-/*in bash 
+/*in bash
  * check internal and internal_shell variable
  * and if it's not internal(false)
  * don't print exit\n and exit*/

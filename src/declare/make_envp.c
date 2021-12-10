@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   make_envp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:39:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 15:53:36 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:42:49 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#ifndef STRING_H
-# include <string.h>
-#endif
 
 void
 	free_envp(char **envp)

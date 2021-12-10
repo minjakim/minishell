@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   edit_declare_value.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:20:26 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 15:47:54 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:42:57 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#ifndef STRING_H
-# include <string.h>
-#endif
 
 static int
 	cat_declare_value(char *value, t_hash *hash, int flag)

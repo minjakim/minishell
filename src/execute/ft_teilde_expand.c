@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_teilde_expand.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:51:12 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/08 09:53:42 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:42:06 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <string.h>
 
 /*
  * ~
@@ -62,5 +61,3 @@ char
 	free(filename);
 	return (dest);
 }
-
-/*NEED TEST*/

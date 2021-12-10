@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   general.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:37:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 20:51:24 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:42:54 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#ifndef STRING_H
-# include <string.h>
-#endif
 
 int
 	legal_number(const char *str)

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 19:22:25 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/10 21:07:11 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:39:40 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <stdio.h>
 
 static inline char
 	*ft_readline(t_buffer *buffer)

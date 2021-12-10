@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   declare.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 17:46:26 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:43:00 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#ifndef STRING_H
-# include <string.h>
-#endif
 
 t_hash
 	*check_declare_key(t_hash *head, const char *const key)
@@ -35,7 +32,7 @@ t_hash
 	return (back);
 }
 
-int	
+int
 	make_declare_head(t_hash **head, t_hash *back, t_hash tmp)
 {
 	t_hash	*new;

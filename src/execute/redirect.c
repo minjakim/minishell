@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/10 13:13:10 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:42:18 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <string.h>
 
 static int
 	is_eof(char **line, const char *const eof)

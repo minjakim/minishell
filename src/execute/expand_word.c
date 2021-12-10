@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_word.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/10 14:09:07 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 07:39:55 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <string.h>
 
 int
 	is_quote(const char c, int quote)
@@ -39,9 +38,9 @@ static char
 		;
 	hash.key = strndup(src + i + 1, key_len - 1);
 	hash.value = getenv(hash.key);
-	if (i == 0 && flags & W_FILENAME && (!hash.value || !*hash.value)) 
+	if (i == 0 && flags & W_FILENAME && (!hash.value || !*hash.value))
 		return (NULL);//bash: argv[1]: ambiguas redirect
-	dest_len = strlen(src) - key_len + strlen(hash.value); 
+	dest_len = strlen(src) - key_len + strlen(hash.value);
 	dest = malloc(sizeof(char) * dest_len);
 	if (dest == NULL)
 		return (NULL);
@@ -88,7 +87,7 @@ int
 			handle = ft_teilde_expand(handle, i);
 		if (handle == NULL)
 			return (1);
-		if (is_quote(handle[i], quote)) 
+		if (is_quote(handle[i], quote))
 			quote ^= handle[i];
 		++i;
 	}
