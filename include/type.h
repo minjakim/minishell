@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/09 12:08:32 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/10 13:32:56 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,28 @@
 #define W_QUOTED			0x00000002
 #define W_DQUOTED			0x00000004
 #define W_NOSPLIT			0x00000008
-#define W_GLOBEXP			0x0000000f
-#define W_NOGLOB			0x00000010
-#define W_TILDEEXP			0x00000020
-#define W_ITILDE			0x00000040
-#define W_NOEXPAND			0x00000080
-#define W_ASSNBLTIN			0x000000f0
-#define W_ASSIGNARG			0x00000100
-#define W_HASHQUOTEDNULL	0x00000200
+#define W_GLOBEXP			0x00000010
+#define W_NOGLOB			0x00000020
+#define W_TILDEEXP			0x00000040
+#define W_ITILDE			0x00000080
+#define W_NOEXPAND			0x00000100
+#define W_ASSNBLTIN			0x00000200
+#define W_ASSIGNARG			0x00000400
+#define W_HASHQUOTEDNULL	0x00000800
 
-#define W_PIPE				0x00000400
-#define W_REDIRECT			0x00000800
-#define W_HEREDOC			0x00000f00
-#define	W_CONTROL			0x00001000
+#define W_PIPE				0x00001000
+#define W_REDIRECT			0x00002000
+#define W_HEREDOC			0x00004000
+#define	W_CONTROL			0x00008000
 
-#define	W_FILENAME			0x00002000
-#define	W_ARG				0x00004000
+#define	W_FILENAME			0x00010000
+#define	W_ARG				0x00020000
+#define W_AND_AND			0x00040000
+#define	W_OR_OR				0x00080000
+#define W_GRATER			0x00100000
+#define W_GRATER_GRATER		0x00200000
+#define W_LESS				0x00400000
+#define	W_LESS_LESS			0x00800000
 
 typedef struct s_shell	t_shell;
 
@@ -48,7 +54,7 @@ typedef struct s_word_desc
 typedef struct s_word_list
 {
 	struct s_word_list	*next;
-	t_word_desc			*word;
+	t_word_desc			word;
 }	t_word_list;
 
 /*redirect*/
@@ -56,7 +62,7 @@ typedef struct s_word_list
 typedef union	u_redirectee
 {
 	int			dest;
-	t_word_desc	*filename;
+	t_word_desc	filename;
 }	t_redirectee;
 
 typedef struct	s_redirect
@@ -120,6 +126,12 @@ typedef struct	s_command
 	t_cmd_type		value;
 }	t_command;
 
+typedef struct s_termios
+{
+	struct termios	current;
+	struct termios	backup;
+}	t_termios;
+
 /*hash*/
 # define	H_EXPORT	1
 # define	H_KEYONLY	2
@@ -139,29 +151,28 @@ typedef struct s_env
 	char	**envp;
 }	t_env;
 
-/*error*/
-typedef struct s_error
+typedef struct	s_status
 {
-	char	*bash;
-	char	*cmd;
-	char	*arg;
-	char	*message;
-	int		exit_status;
-	int		error;
-}	t_error;
+	int			interactive;
+	int			exit;
+	int			error;
+}	t_status;
+
+typedef struct	s_buffer
+{
+	char		*line;
+	t_word_list	*node;
+}	t_buffer;
 
 /*shell*/
 
 struct s_shell
 {
-	int			stdin;
-	int			stdout;
+	t_termios	config;
+	t_io		backup;
 	t_env		env;
-	char		*line;
-	t_word_list	*list;
 	t_command	*cmd;
-	t_error		err;
-	int			interactive;
+	t_status	status;
 	int			(*execute[9])(t_shell *);
 };
 

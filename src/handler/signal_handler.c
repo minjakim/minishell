@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   temp.c                                             :+:      :+:    :+:   */
+/*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/10 14:11:58 by snpark           ###   ########.fr       */
+/*   Created: 2021/12/04 21:30:46 by minjakim          #+#    #+#             */
+/*   Updated: 2021/12/04 22:48:47 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
-int
-	mini_null(t_shell *mini)
-{
-	(void)mini;
-	return (0);
-}
+#include "../../include/minishell.h"
 
 void
-	tmp_print_list(t_word_list *tmp)
+	signal_handler(int signum)
 {
-	while (tmp)
-	{
-		printf("%s %d\n", tmp->word.word, tmp->word.flags);
-		tmp = tmp->next;
-	}
+	if (signum != SIGINT)
+		return ;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 1);
+	rl_redisplay();
 }
-

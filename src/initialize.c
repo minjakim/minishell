@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/09 12:17:47 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/09 13:09:31 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static void
 static int
 	back_up_stdin_stdout(t_shell *mini)
 {
-	mini->stdin = dup(0);
-	if (mini->stdin == -1)
+	mini->backup.in= dup(0);
+	if (mini->backup.in == -1)
 		return (1);
-	mini->stdout = dup(1);
-	if (mini->stdout == -1)
+	mini->backup.out = dup(1);
+	if (mini->backup.out == -1)
 		return (1);
 	return (0);
 }
@@ -45,9 +45,17 @@ int
 		return (1);
 	if (parse_envp(&mini->env) != 0)
 		return (1);
-	mini->line = NULL;
-	mini->list = NULL;
-	mini->cmd = NULL;
 	init_builtins(mini);
+	tgetent(NULL, "xterm");
+	tcgetattr(STDIN_FILENO, &mini->config.current);
+	mini->config.backup = mini->config.current;
+	mini->config.current.c_cc[VQUIT] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &mini->config.current);
+	signal(SIGINT, signal_handler);
+	rl_catch_signals = 0;
+	mini->cmd = NULL;
+	mini->status.exit = 0;
+	mini->status.interactive = 1;
+	mini->status.error = 0;
 	return (0);
 }

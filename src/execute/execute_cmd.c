@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/08 15:00:44 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/10 14:14:00 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ static int
 	redirect_stdio(cmd->value.connection.io);
 	pid = fork();
 	if (pid == 0)
-		mini->interactive = 0;
+		mini->status.interactive = 0;
 	if (pid > 0 && cmd->type == cm_simple)
 	{
-		waitpid(pid, &mini->err.exit_status, 0); 
+		waitpid(pid, &mini->status.exit, 0); 
 		while (wait(NULL) != -1)
 			;
 	}
@@ -85,6 +85,11 @@ int
 			return (1);
 		if (pid == 0)
 		{
+			expand_cmd(mini);
+			if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
+				redirect(mini);
+			find_cmd(mini);
+			mini->execute[is_builtin(mini->cmd->value.simple.argv[0])](mini);
 			//if (expand_cmd() != 0)
 			//	return (1);
 			//if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
@@ -93,8 +98,8 @@ int
 			//if (find_cmd() != 0)
 			//	return (127);
 			//mini->err.exit_status = shell_execve[is_builtin()](mini);
-			if (mini->interactive == 0)
-				exit(mini->err.exit_status);
+			if (mini->status.interactive == 0)
+				exit(mini->status.exit);
 		}
 		//close_io(cmd->value.simple.io);
 		//redirect_stdio(mini->backup.io);

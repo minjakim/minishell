@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/06 17:03:02 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/09 15:11:37 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ int
 {
 	char	**argv;
 
-	if (mini->interactive)
+	if (mini->status.interactive)
 		write(2, "exit\n", 5);
 	if (mini && mini->cmd && mini->cmd->value.simple.argv)
 		argv = mini->cmd->value.simple.argv;
 	if (argv[0] != NULL && argv[1])
-		exit(mini->err.exit_status);
+		exit(mini->status.exit);
 	if (argv[0] != NULL && legal_number(argv[1]) == 0)
 	{
 		//bash: exit: argv[1]: numeric argument required*/

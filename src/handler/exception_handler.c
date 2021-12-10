@@ -1,31 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   temp.c                                             :+:      :+:    :+:   */
+/*   exception_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/10 14:11:58 by snpark           ###   ########.fr       */
+/*   Created: 2021/12/04 22:54:15 by minjakim          #+#    #+#             */
+/*   Updated: 2021/12/04 22:54:18 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../include/minishell.h"
-
-int
-	mini_null(t_shell *mini)
-{
-	(void)mini;
-	return (0);
-}
-
-void
-	tmp_print_list(t_word_list *tmp)
-{
-	while (tmp)
-	{
-		printf("%s %d\n", tmp->word.word, tmp->word.flags);
-		tmp = tmp->next;
-	}
-}
 

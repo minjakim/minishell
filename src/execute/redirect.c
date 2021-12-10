@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/06 17:39:39 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/10 13:13:10 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,9 @@ int
 	{
 		if (io->fd[handle->redirector] != handle->redirector)
 			close(io->fd[handle->redirector]);
-		if (handle->here_doc_eof == NULL && handle->redirectee.filename && \
-				handle->redirectee.filename->word)
-			io->fd[handle->redirector] = open(handle->redirectee.filename->word, handle->flags, 0644);
-		else if (handle->here_doc_eof != NULL)
+		if (handle->flags != 0 && handle->redirectee.filename.word)
+			io->fd[handle->redirector] = open(handle->redirectee.filename.word, handle->flags, 0644);
+		else if (handle->flags == 0)
 			io->fd[handle->redirector] = heredoc(handle->here_doc_eof);
 		else
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 16:29:14 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/05 18:06:53 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/09 15:14:01 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int
 	}
 	else if (pid > 0)
 	{
-		waitpid(pid, &mini->err.exit_status, 0);
-		return (mini->err.exit_status);
+		waitpid(pid, &mini->status.exit, 0);
+		return (mini->status.exit);
 	}
 	else if (pid < 0)
 		return (1);

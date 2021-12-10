@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/08 14:58:41 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/10 14:16:02 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char
 	i = -1;
 	while (list)
 	{
-		dest[++i] = strdup(list->word->word);//그냥 바로 집어넣을 수도 있음
+		dest[++i] = strdup(list->word.word);//그냥 바로 집어넣을 수도 있음
 		if (dest[i] == NULL)
 			return (NULL);
 		list = list->next;
@@ -69,12 +69,12 @@ static int
 		argc = 0;
 		while (list)
 		{
-			if (is_expand(list->word->flags))
-				if (expand_word(list->word) != 0)
+			if (is_expand(list->word.flags))
+				if (expand_word(&list->word) != 0)
 					return (1);
 //			if (list->word->flags & W_GLOBEXP)
 //				glob_expand(list);
-			remove_quote(list->word->word);
+			remove_quote(list->word.word);
 			list = list->next;
 			++argc;
 		}
@@ -94,17 +94,15 @@ static int
 {
 	while (redirects)
 	{
-		if (redirects->here_doc_eof == NULL && redirects->redirectee.filename \
-				&& is_expand(redirects->redirectee.filename->flags))
+		if (redirects->flags != 0 && is_expand(redirects->redirectee.filename.flags))
 		{
-			if (expand_word(redirects->redirectee.filename) != 0)
+			if (expand_word(&redirects->redirectee.filename) != 0)
 				return (1);
 //			if (glob_expand() != 0)
 //				return (1);//argv[1]: ambiguas redirection
-			remove_quote(redirects->redirectee.filename->word);
+			remove_quote(redirects->redirectee.filename.word);
 		}
-		if (redirects->here_doc_eof != NULL && !redirects->redirectee.filename \
-				&& redirects->flags & (W_QUOTED | W_DQUOTED))
+		if (redirects->flags == 0 && redirects->redirectee.filename.flags & (W_QUOTED | W_DQUOTED))
 			remove_quote(redirects->here_doc_eof);
 		redirects = redirects->next;
 	}

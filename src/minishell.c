@@ -6,30 +6,36 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 19:22:25 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 20:53:31 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/10 14:16:37 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <stdio.h>
+
+static inline char
+	*ft_readline(t_buffer *buffer)
+{
+	buffer->line = readline(PROMPT);
+	return (buffer->line);
+}
 
 int
 	minishell(t_shell *mini)
 {
+	t_buffer	buffer;
+
 	while (1)
 	{
-		mini->line = readline(PROMPT);
-		if (mini->line == NULL)
+		if (!ft_readline(&buffer))
+		{
+			eof_handler(mini);
 			break ;
-		add_history(mini->line);
-		if (parse_line(mini) != 0)
-			return (1);
-		if (make_cmd(mini) != 0)
-			return (1);
-		if (execute_cmd(mini) != 0)
-			return (1);
-		free(mini->line);
+		}
+		add_history(buffer.line);
+		parse_line(&buffer);
+		make_cmd(buffer.node, mini);
+		execute_cmd(mini);
 	}
-	if (mini->line == NULL)
-		;//handling_eof();
-	return (0);
+	return (mini->status.exit);
 }

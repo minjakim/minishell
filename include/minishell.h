@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/09 12:12:49 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/10 13:46:32 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,25 @@
 
 # include "resource.h"
 # include "type.h"
+# include "temp.h"
 
 int	initialize(t_shell *mini);
 /*parse_envp.c*/
 int parse_envp(t_env *env);
 int replace_envp(t_env *env, int flag);
 
+/*handler.c*/
+void signal_handler(int signum);
+void eof_handler(t_shell *mini);
+
 /*minishell.c*/
 int minishell(t_shell *mini);
 
 /*parse_line.c*/
-int	parse_line(t_shell *mini);
+int	parse_line(t_buffer *buffer);
 
 /*make_cmd.c*/
-int	make_cmd(t_shell *mini);
+int	make_cmd(t_word_list *words, t_shell *mini);
 
 /*execute_cmd.c*/
 int	execute_cmd(t_shell *mini);
@@ -39,6 +44,8 @@ int expand_cmd(t_shell *mini);
 /*expand_word.c*/
 int expand_word(t_word_desc *desc);
 void remove_quote(char *str);
+int is_quote(const char c, int quote);
+int is_key(const char *str, const int i, const int quote);
 /*ft_teilde_expand.c*/
 int is_teilde(const char *const str, int i, int quote);
 char *ft_teilde_expand(char *filename, int i);
@@ -87,4 +94,9 @@ int	mini_null(t_shell *mini);
 
 /*strmove.c*/
 void strmove(char *dest, char *src, int len);
+
+/*find_cmd.c*/
+int find_cmd(t_shell *mini);
+int is_builtin(const char *str);
+
 #endif

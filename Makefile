@@ -30,13 +30,18 @@ declare=declare.c\
 		general.c\
 		make_envp.c\
 		edit_declare_value.c
+handler=signal_handler.c\
+		eof_handler.c\
+		exception_handler.c
 
 SRC=../main.c\
+	temp.c\
 	initialize.c\
 	minishell.c\
 	$(parse:%=parse/%)\
 	$(execute:%=execute/%)\
-	$(declare:%=declare/%)
+	$(declare:%=declare/%)\
+	$(handler:%=handler/%)
 #	shell.c\
 #	$(input:%=input/%)\
 #	$(redirection:%=redirection/%)
@@ -59,3 +64,9 @@ $(NAME) : $(OBJ)
 
 clean :
 	rm -rf $(OBJ)
+
+fclean : clean
+	rm minishell
+
+re : fclean all
+	

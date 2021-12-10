@@ -6,24 +6,24 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/08 14:59:43 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/10 14:09:07 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <string.h>
 
-static int
+int
 	is_quote(const char c, int quote)
 {
 	return ((c == '\'' || c == '\"') && ((quote ^ c )!= 5));
 }
 
-static int
-	is_key(const char c1, const char c2, int quote)
+int
+	is_key(const char *str, const int i, const int quote)
 {
-	return ((quote == '\"' || quote == '\0') && c1 == '$' && \
-			legal_variable_starter(c2));
+	return ((quote == '\"' || quote == '\0') && str[i] == '$' && \
+			legal_variable_starter(str[i + 1]));
 }
 
 static char
@@ -66,7 +66,7 @@ void
 			strmove(str, str + 1, strlen(str + 1));
 		}
 		else
-			++(*str);
+			++str;
 	}
 }
 
@@ -82,7 +82,7 @@ int
 	i = 0;
 	while (handle[i])
 	{
-		if (is_key(handle[i], handle[i + 1], quote))
+		if (is_key(handle, i, quote))
 			handle = expand_env(handle, i, desc->flags);
 		else if (is_teilde(handle, i, quote))
 			handle = ft_teilde_expand(handle, i);

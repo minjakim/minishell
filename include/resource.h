@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/09 12:00:29 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/10 13:53:57 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@
 # define CMD_STDIN_REDIR			0x00000002
 # define CMD_STDOUT_REDIR			0x00000004
 # define CMD_NO_FORK				0x00000008
-# define CMD_INHIBIT_EXPANSION		0x0000000f
-# define CMD_NOFUNCTION				0x00000010
-# define CMD_IGNORE_RETURN			0x00000020
-# define CMD_PIPE					0x00000040
+# define CMD_INHIBIT_EXPANSION		0x00000010
+# define CMD_NOFUNCTION				0x00000020
+# define CMD_IGNORE_RETURN			0x00000040
+# define CMD_PIPE					0x00000080
 
 enum e_flag_exception
 {
@@ -70,4 +70,11 @@ enum e_execute
 	MINI_NULL
 };
 
+enum e_status
+{
+	EXCEPTION = -2,
+	ERROR = -1,
+	FAIL,
+	SUCCESS
+};
 #endif
