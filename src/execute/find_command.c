@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 12:53:55 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 15:07:02 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int
 	return (FT_EXECVE);
 }
 
-char
+static char
 	*get_next_path_element(char *string, int *p_index)
 {
 	int		i;
@@ -66,7 +66,7 @@ char
 	return (path);
 }
 
-char
+static char
 	*find_in_path_element(char *name, char *path)
 {
 	char		*full_path;

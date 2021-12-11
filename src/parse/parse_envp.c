@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:06:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 12:05:30 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 15:08:07 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ static int
 			new_envp[i] = malloc(sizeof(char) \
 					* (ft_strlen(handle->key) + ft_strlen(handle->value) + 2));
 			if (new_envp[i] == NULL)
-				return (1);
+				return (FAIL);
 			strcat(strcat(ft_strcpy(new_envp[i], handle->key), "="), \
 					handle->value);
 			++i;
 		}
 		handle = handle->next;
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 static int
@@ -72,12 +72,12 @@ static int
 	{
 		tmp = ft_strdup(env->envp[i]);
 		if (tmp == NULL)
-			return (1);
+			return (FAIL);
 		if (declare_add(&env->declare, tmp, H_EXPORT) != 0)
-			return (1);
+			return (FAIL);
 		free(tmp);
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 int
@@ -90,23 +90,23 @@ int
 
 	new_envp = malloc(sizeof(char *) * (envp_len + 2));
 	if (new_envp == NULL)
-		return (1);
+		return (FAIL);
 	ft_memset(new_envp, 0, envp_len + 2);
-	if (make_envp(new_envp, env->declare) != 0)
-		return (1);
+	if (!make_envp(new_envp, env->declare))
+		return (FAIL);
 	if (flag == 1)
 		free_envp(env->envp);
 	env->envp = new_envp;
 	environ = new_envp;
-	return (0);
+	return (SUCCESS);
 }
 
 int
 	parse_envp(t_env *env)
 {
-	if (declare_env(env) != 0)
-		return (1);
-	if (replace_envp(env, 0) != 0)
-		return (1);
-	return (0);
+	if (!declare_env(env))
+		return (FAIL);
+	if (!replace_envp(env, 0))
+		return (FAIL);
+	return (SUCCESS);
 }

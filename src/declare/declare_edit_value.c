@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:20:26 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 12:53:55 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 15:03:22 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int
 int
 	declare_edit_value(char *value, t_hash *hash, int flag)
 {
-	if (value && hash && hash->value && strcmp(value, hash->value) == 0 \
+	if (value && hash && hash->value && ft_strcmp(value, hash->value) == 0 \
 			&& !(flag & H_CAT))
 		return (0);
 	if (value == NULL && hash && hash->value == NULL)

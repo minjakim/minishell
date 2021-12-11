@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 13:34:20 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 15:03:01 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int
 		flag |= H_KEYONLY;
 	}
 	tmp.flag = flag;
-	declare_check_key(*head, tmp.key);
+	declare_check_key(*head, tmp.key)
 	return (declare_add_unit(head, declare_check_key(*head, tmp.key), tmp));
 }
 
