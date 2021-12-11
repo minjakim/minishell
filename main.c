@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 08:10:09 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 11:52:29 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static inline char
 	buffer->line = NULL;
 	buffer->line = readline(PROMPT);
 	if (!buffer->line)
-		eof_handler(mini);
+		handler_eof(mini);
 	else
 		add_history(buffer->line);
 	return (buffer->line);
@@ -33,14 +33,14 @@ int
 {
 	t_buffer	buffer;
 
-	while (1)
+	while (LOOP)
 	{
 		if (!ft_readline(&buffer))
 			break ;
 		parse_line(&buffer);
-		make_cmd(buffer.node, mini);
-		execute_cmd(mini);
-		clean_cmd(mini);
+		make_command(buffer.node, mini);
+		execute_command(mini);
+		clean_command(mini);
 	}
 	return (mini->status.exit);
 }

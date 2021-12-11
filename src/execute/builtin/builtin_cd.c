@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 11:14:39 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 12:48:47 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ static int
 	set_path(t_shell *mini, char *dirname, char *key)
 {
 	char			*assignment;
-	const int		len = sizeof(char) * (strlen(dirname) + ft_strlen(key) + 2);
+	const int		len = sizeof(char) * (ft_strlen(dirname) + ft_strlen(key) + 2);
 
 	assignment = malloc(len);
 	if (assignment == NULL)
 		return (1);
 	ft_memset(assignment, 0, len);
-	strcat(strcpy(assignment, key), dirname);
+	ft_strcat(ft_strcpy(assignment, key), dirname);
 	if (assignment == NULL)
 		return (1);
 	if (declare_add(&mini->env.declare, assignment, H_EXPORT) != 0)
@@ -32,7 +32,7 @@ static int
 }
 
 static char
-	*builtin_cd_getpath(char **argv)
+	*get_path(char **argv)
 {
 	char	*dirname;
 
@@ -41,7 +41,7 @@ static char
 		dirname = getenv("HOME");
 		return (dirname);
 	}
-	else if (argv && argv[0] != NULL && strcmp(argv[1], "-") == 0)
+	else if (argv && argv[0] != NULL && ft_strcmp(argv[1], "-") == 0)
 	{
 		dirname = getenv("OLDPWD");
 		return (dirname);
@@ -65,7 +65,7 @@ int
 	if (oldpwd == NULL)
 		return (1);
 	if (mini && mini->command)
-		dirname = builtin_cd_getpath(mini->command->value.simple.argv);
+		dirname = get_path(mini->command->value.simple.argv);
 	if (dirname == NULL)
 		return (1);
 	if (chdir(dirname) == ERROR)

@@ -6,12 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 11:17:27 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 14:38:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
-#include <unistd.h>
 
 static inline unsigned char
 	convert(unsigned char *c, const char *str)
@@ -47,36 +46,6 @@ static int
  * and if it's not internal(false)
  * don't print exit\n and exit*/
 
-static long long
-	builtin_strtoll(const char *str)
-{
-	unsigned long long		n;
-	int						negative;
-
-	while ((*str >= 9 && *str <= 13) || *str == 0x20)
-		++str;
-	negative = 0;
-	if (*str == '+' || *str == '-')
-	{
-		negative = (*str == '-');
-		++str;
-	}
-	n = 0;
-	while (*str && *str >= '0' && *str <= '9')
-	{
-		if ((negative && n * 10 + *str - '0' > \
-					(unsigned long long)LLONG_MAX + 1) \
-				|| (!negative && n * 10 + *str - '0' > LLONG_MAX))
-			return (0);
-		n *= 10;
-		n += *str - '0';
-		++str;
-	}
-	if (*str)
-		return (0);
-	return (n);
-}
-
 int
 	builtin_exit(t_shell *mini)
 {
@@ -98,7 +67,7 @@ int
 		//write(2, "bash: exit: too many arguments\n", 31);
 		return (1);
 	}
-	if (argv[0] != NULL && argv[1] != NULL)
-		exit(builtin_strtoll(argv[1]) & 0xff);
+	//if (argv[0] != NULL && argv[1] != NULL)
+		//exit(builtin_strtoll(argv[1]) & 0xff);
 	return (0);
 }

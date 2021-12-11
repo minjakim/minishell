@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:51:12 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 09:44:13 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 12:53:55 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * ~+ ~-
  */
 
-int
+static int
 	is_teilde(const char *const str, int i, int quote)
 {
 	if (quote != 0 && \
@@ -55,9 +55,9 @@ char
 		return (NULL);
 	ft_memset(dest, 0, sizeof(char) * dest_len);
 	if (type == 1)
-		strcat(strcat(strncpy(dest, filename, i), dirname), filename + i + 1);
+		ft_strcat(ft_strcat(strncpy(dest, filename, i), dirname), filename + i + 1);
 	else
-		strcat(strcat(strncpy(dest, filename, i), dirname), filename + i + 2);
+		ft_strcat(ft_strcat(strncpy(dest, filename, i), dirname), filename + i + 2);
 	free(filename);
 	return (dest);
 }

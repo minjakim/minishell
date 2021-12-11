@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_cmd.c                                       :+:      :+:    :+:   */
+/*   expand_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 12:59:25 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,24 @@ static int
 //	// 여러개 있으면 ambiguas redirect란 에러메시지가 출력 된다.
 //	//일치하는게 없으면 그대로 놔둔다.
 //}
+
+void
+	remove_quote(char *str)
+{
+	int		quote;
+
+	quote = 0;
+	while (*str)
+	{
+		if (is_quote(*str, quote))
+		{
+			quote ^= *str;
+			ft_strmove(str, str + 1, ft_strlen(str + 1));
+		}
+		else
+			++str;
+	}
+}
 
 static char
 	**make_argv(t_word_list *list, int argc)

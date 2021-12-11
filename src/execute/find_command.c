@@ -1,16 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_cmd.c                                         :+:      :+:    :+:   */
+/*   find_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:22:22 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 12:53:55 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static int
+	is_builtin(const char *str)
+{
+	if (!str || !*str || *str == ':')
+		return (MINI_NULL);
+	else if (*str == 'c' && str[1] == 'd' && str[2] == '\0')
+		return (MINI_CD);
+	else if (*str == 'e')
+	{
+		if (str[1] == 'c' && strcmp(str + 2, "ho") == 0)
+			return (MINI_ECHO);
+		else if (str[1] == 'n' && strcmp(str + 2, "v") == 0)
+			return (MINI_ENV);
+		else if (str[1] == 'x' && strcmp(str + 2, "it") == 0)
+			return (MINI_EXIT);
+		else if (str[1] == 'x' && strcmp(str + 2, "port") == 0)
+			return (MINI_EXPORT);
+	}
+	else if (*str == 'p' && str[1] == 'w' && str[2] == 'd' && str[3] == '\0')
+		return (MINI_PWD);
+	else if (*str == 'u' && strcmp(str + 1, "nset") == 0)
+		return (MINI_UNSET);
+	return (FT_EXECVE);
+}
 
 char
 	*get_next_path_element(char *string, int *p_index)
@@ -51,7 +76,7 @@ char
 	if (full_path == NULL)
 		return (NULL);
 	ft_memset(full_path, 0, ft_strlen(name) + ft_strlen(path) + 2);
-	strcat(strcat(strcpy(full_path, path), "/"), name);
+	ft_strcat(ft_strcat(strcpy(full_path, path), "/"), name);
 	if (stat(full_path, &finfo) < 0)
 	{
 		free(full_path);
@@ -60,31 +85,6 @@ char
 	if (finfo.st_mode & S_IFDIR)
 		return (NULL);
 	return (full_path);
-}
-
-int
-	is_builtin(const char *str)
-{
-	if (!str || !*str || *str == ':')
-		return (MINI_NULL);
-	else if (*str == 'c' && str[1] == 'd' && str[2] == '\0')
-		return (MINI_CD);
-	else if (*str == 'e')
-	{
-		if (str[1] == 'c' && strcmp(str + 2, "ho") == 0)
-			return (MINI_ECHO);
-		else if (str[1] == 'n' && strcmp(str + 2, "v") == 0)
-			return (MINI_ENV);
-		else if (str[1] == 'x' && strcmp(str + 2, "it") == 0)
-			return (MINI_EXIT);
-		else if (str[1] == 'x' && strcmp(str + 2, "port") == 0)
-			return (MINI_EXPORT);
-	}
-	else if (*str == 'p' && str[1] == 'w' && str[2] == 'd' && str[3] == '\0')
-		return (MINI_PWD);
-	else if (*str == 'u' && strcmp(str + 1, "nset") == 0)
-		return (MINI_UNSET);
-	return (FT_EXECVE);
 }
 
 int
@@ -113,11 +113,11 @@ int
 }
 
 int
-	find_cmd(t_shell *mini)
+	find_command(t_shell *mini)
 {
 	const char	*name = mini->command->value.simple.argv[0];
 
-	if (strchr(name, '/') != NULL && stat(name, NULL) == 0)
+	if (ft_strchr(name, '/') != NULL && stat(name, NULL) == 0)
 		mini->command->value.simple.path = strdup(name);
 	else if (is_builtin(name))
 		mini->command->flags |= CMD_COMMAND_BUILTIN;

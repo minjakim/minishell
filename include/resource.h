@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/11 10:08:22 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 11:50:23 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@
 
 # define PROMPT "mini ^o^)/ $> "
 
-# define LOMAGIC 0x0101010101010101
-# define HIMAGIC 0x8080808080808080
+# define LOMAGIC				0x0101010101010101
+# define HIMAGIC				0x8080808080808080
 # define OPSIZ					8
+# define LOOP					1
 
 # define CMD_COMMAND_BUILTIN	0x00000001
 # define CMD_STDIN_REDIR		0x00000002
@@ -77,18 +78,26 @@
 # define H_KEYONLY				2
 # define H_CAT					4
 
-enum e_flag_exception
+enum e_bool
+{
+	FALSE,
+	TRUE
+};
+
+enum e_status
+{
+	EXCEPTION = -2,
+	ERROR = -1,
+	FAIL,
+	SUCCESS
+};
+
+enum e_exception
 {
 	SINGLE_QUOTES,
 	DOUBLE_QUOTES,
 	BACK_SLASH,
 	SEMICOLON
-};
-
-enum e_bool
-{
-	FALSE,
-	TRUE
 };
 
 enum e_execute
@@ -102,13 +111,5 @@ enum e_execute
 	MINI_PWD,
 	MINI_UNSET,
 	MINI_NULL
-};
-
-enum e_status
-{
-	EXCEPTION = -2,
-	ERROR = -1,
-	FAIL,
-	SUCCESS
 };
 #endif

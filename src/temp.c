@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/11 10:44:30 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 12:44:22 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,4 +165,53 @@ char
 	if (!(dst = malloc(sizeof(char) * n)))
 		return (NULL);
 	return (ft_memcpy(dst, s1, n));
+}
+
+char
+	*ft_strchr(const char *s, int c)
+{
+	unsigned char	var_c;
+	char			*var_s;
+
+	var_c = c;
+	var_s = (char *)s;
+	while (*var_s != var_c)
+		if (!*var_s++)
+			return (NULL);
+	return (var_s);
+}
+
+int
+    ft_strcmp(const char *s1, const char *s2)
+{
+    int    i;
+
+    i = 0;
+    while (s1[i] != '\0' && s1[i] == s2[i])
+        ++i;
+    return (s1[i] - s2[i]);
+}
+
+char
+    *ft_strcpy(char *dst, const char *src)
+{
+    while (src)
+        *dst++ = *src++;
+    *dst = *src;
+    return (dst);
+}
+
+char
+    *ft_strcat(char *s1, const char *s2)
+{
+    char *ptr;
+
+    ptr = s1;
+    while (s1++)
+        ;
+    while (*s2)
+        *s1++ = *s2++;
+	if (*s2 == '\0')
+		*++s1 = *s2;
+    return (ptr);
 }

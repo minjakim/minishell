@@ -6,19 +6,19 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 09:57:26 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 12:59:12 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int
+static int
 	is_quote(const char c, int quote)
 {
 	return ((c == '\'' || c == '\"') && ((quote ^ c ) != 5));
 }
 
-int
+static int
 	is_key(const char *str, const int i, const int quote)
 {
 	return ((quote == '\"' || quote == '\0') && str[i] == '$' && \
@@ -45,28 +45,10 @@ static char
 	if (dest == NULL)
 		return (NULL);
 	ft_memset(dest, 0, sizeof(char) * dest_len);
-	strcat(strcat(strncpy(dest, src, i), hash.value), src + i + key_len);
+	ft_strcat(ft_strcat(strncpy(dest, src, i), hash.value), src + i + key_len);
 	free(hash.key);
 	free(src);
 	return (dest);
-}
-
-void
-	remove_quote(char *str)
-{
-	int		quote;
-
-	quote = 0;
-	while (*str)
-	{
-		if (is_quote(*str, quote))
-		{
-			quote ^= *str;
-			ft_strmove(str, str + 1, ft_strlen(str + 1));
-		}
-		else
-			++str;
-	}
 }
 
 int

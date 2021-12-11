@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:06:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 11:12:58 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 12:05:30 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ static int
 		if (handle->flag & H_EXPORT && !(handle->flag & H_KEYONLY))
 		{
 			new_envp[i] = malloc(sizeof(char) \
-					* (strlen(handle->key) + ft_strlen(handle->value) + 2));
+					* (ft_strlen(handle->key) + ft_strlen(handle->value) + 2));
 			if (new_envp[i] == NULL)
 				return (1);
-			strcat(strcat(strcpy(new_envp[i], handle->key), "="), \
+			strcat(strcat(ft_strcpy(new_envp[i], handle->key), "="), \
 					handle->value);
 			++i;
 		}
@@ -70,7 +70,7 @@ static int
 	i = -1;
 	while (env->envp[++i])
 	{
-		tmp = strdup(env->envp[i]);
+		tmp = ft_strdup(env->envp[i]);
 		if (tmp == NULL)
 			return (1);
 		if (declare_add(&env->declare, tmp, H_EXPORT) != 0)

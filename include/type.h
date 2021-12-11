@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/11 10:15:36 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 11:57:35 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 # include <termios.h>
 
-typedef struct s_shell	t_shell;
-typedef unsigned long	t_op;
-typedef unsigned char	t_byte;
+typedef struct s_shell		t_shell;
+typedef struct s_command	t_command;
+typedef unsigned long		t_op;
+typedef unsigned char		t_byte;
 
 typedef struct s_word_desc
 {
@@ -68,20 +69,14 @@ typedef struct s_simple
 
 typedef struct s_connection
 {
-	t_redirect			*redirects;
-	t_word_list			*words;
-	t_io				io;
-	char				*path;
-	char				**argv;
-	struct s_command	*next;
-	int					connector;
+	t_redirect	*redirects;
+	t_word_list	*words;
+	t_io		io;
+	char		*path;
+	char		**argv;
+	t_command	*next;
+	int			connector;
 }	t_connection;
-
-typedef union u_cmd_type
-{
-	t_simple		simple;
-	t_connection	connection;
-}	t_cmd_type;
 
 typedef	enum e_command_type
 {
@@ -93,7 +88,11 @@ typedef struct s_command
 {
 	int				flags;
 	t_command_type	type;
-	t_cmd_type		value;
+	union
+	{
+		t_simple		simple;
+		t_connection	connection;
+	}	value;
 }	t_command;
 
 typedef struct s_termios

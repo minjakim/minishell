@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:45:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 11:17:50 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 13:30:08 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int
 		return (print_export(mini->env.declare));
 	while (*++argv)
 	{
+		//if (legal_identifier(key) == 0)
+		//	return (1);
 		if (declare_add(&mini->env.declare, *argv, H_EXPORT) != 0)
 			return (1);
 	}

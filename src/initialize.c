@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:44:30 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 11:33:03 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int
 	signal(SIGINT, handler_signal);
 	rl_catch_signals = FALSE;
 	mini->command = NULL;
-	mini->status.exit = 0;
 	mini->status.interactive = TRUE;
+	mini->status.exit = 0;
 	mini->status.error = 0;
 	return (SUCCESS);
 }
