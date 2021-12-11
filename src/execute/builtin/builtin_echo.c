@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                        :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:05:04 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 13:23:34 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int
 		argv = mini->command->value.simple.argv;
 	else
 		return (0);
-	if (argv[0] != NULL && strcmp(argv[1], "-n") == 0 && ++i)
+	if (argv[0] != NULL && ft_strcmp(argv[1], "-n") == 0 && ++i)
 	{
 		display_return = 0;
 		++i;

@@ -6,13 +6,13 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:22:22 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 13:00:56 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char
+static char
 	*get_next_path_element(char *string, int *p_index)
 {
 	int		i;
@@ -41,7 +41,7 @@ char
 	return (path);
 }
 
-char
+static char
 	*find_in_path_element(char *name, char *path)
 {
 	char		*full_path;

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 09:57:26 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 14:19:49 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char
 	key_len = 0;
 	while (legal_variable_char(src[++key_len + i]))
 		;
-	hash.key = strndup(src + i + 1, key_len - 1);
+	hash.key = ft_strndup(src + i + 1, key_len - 1);
 	hash.value = getenv(hash.key);
 	if (i == 0 && flags & W_FILENAME && (!hash.value || !*hash.value))
 		return (NULL);//bash: argv[1]: ambiguas redirect
@@ -45,7 +45,7 @@ static char
 	if (dest == NULL)
 		return (NULL);
 	ft_memset(dest, 0, sizeof(char) * dest_len);
-	strcat(strcat(strncpy(dest, src, i), hash.value), src + i + key_len);
+	ft_strcat(ft_strcat(strncpy(dest, src, i), hash.value), src + i + key_len);
 	free(hash.key);
 	free(src);
 	return (dest);
@@ -86,10 +86,10 @@ int
 		else if (is_teilde(handle, i, quote))
 			handle = ft_teilde_expand(handle, i);
 		if (handle == NULL)
-			return (1);
+			return (FAIL);
 		if (is_quote(handle[i], quote))
 			quote ^= handle[i];
 		++i;
 	}
-	return (0);
+	return (SUCCESS);
 }

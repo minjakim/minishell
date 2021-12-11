@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 09:43:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 12:49:32 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int
 {
 	*line = readline("heredoc> ");
 	if (*line && strcmp(*line, eof))
-		return (1);
-	return (0);
+		return (TRUE);
+	return (FALSE);
 }
 
 static int
@@ -56,12 +56,12 @@ int
 		else if (handle->flags == 0)
 			io->fd[handle->redirector] = heredoc(handle->here_doc_eof);
 		else
-			return (1);
+			return (FAIL);
 		if (io->fd[handle->redirector] == ERROR)
-			return (1);
+			return (FAIL);
 		handle = handle->next;
 	}
 	if (redirect_stdio(io) != 0)
-		return (1);
-	return (0);
+		return (FAIL);
+	return (SUCCESS);
 }

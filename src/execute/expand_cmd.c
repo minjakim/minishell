@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 13:25:06 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char
 	i = -1;
 	while (list)
 	{
-		dest[++i] = strdup(list->word.word);//그냥 바로 집어넣을 수도 있음
+		dest[++i] = ft_strdup(list->word.word);//그냥 바로 집어넣을 수도 있음
 		if (dest[i] == NULL)
 			return (NULL);
 		list = list->next;
@@ -69,8 +69,8 @@ static int
 		while (list)
 		{
 			if (is_expand(list->word.flags))
-				if (expand_word(&list->word) != 0)
-					return (1);
+				if (!expand_word(&list->word))
+					return (FALSE);
 //			if (list->word->flags & W_GLOBEXP)
 //				glob_expand(list);
 			remove_quote(list->word.word);
@@ -79,13 +79,13 @@ static int
 		}
 		cmd->value.simple.argv = make_argv(cmd->value.simple.words, argc);
 		if (cmd->value.simple.argv == NULL)
-			return (1);
+			return (FALSE);
 		if (cmd->type == cm_connection)
 			cmd = cmd->value.connection.next;
 		else if (cmd->type == cm_simple)
-			return (0);
+			break;
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 static int
@@ -95,25 +95,25 @@ static int
 	{
 		if (redirects->flags != 0 && is_expand(redirects->redirectee.filename.flags))
 		{
-			if (expand_word(&redirects->redirectee.filename) != 0)
-				return (1);
+			if (!expand_word(&redirects->redirectee.filename))
+				return (FAIL);
 //			if (glob_expand() != 0)
-//				return (1);//argv[1]: ambiguas redirection
+//				return (FAIL);//argv[1]: ambiguas redirection
 			remove_quote(redirects->redirectee.filename.word);
 		}
 		if (redirects->flags == 0 && redirects->redirectee.filename.flags & (W_QUOTED | W_DQUOTED))
 			remove_quote(redirects->here_doc_eof);
 		redirects = redirects->next;
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 int
 	expand_cmd(t_shell *mini)
 {
-	if (expand_argv(mini->command) != 0)
-		return (1);
-	if (expand_filename(mini->command->value.simple.redirects))
-		return (1);
-	return (0);
+	if (!expand_argv(mini->command))
+		return (FAIL);
+	if (!expand_filename(mini->command->value.simple.redirects))
+		return (FAIL);
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:45:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 11:17:50 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 11:59:44 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int
 		if (declare_add(&mini->env.declare, *argv, H_EXPORT) != 0)
 			return (1);
 	}
-	if (replace_envp(&mini->env, 1) != 0)
+	if (!replace_envp(&mini->env, 1))
 		return (1);
 	return (0);
 }

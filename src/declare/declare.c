@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:59:52 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 13:56:04 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static t_hash
 	back = handle;
 	while (handle)
 	{
-		if (*key == *handle->key && strcmp(key, handle->key) == 0)
+		if (*key == *handle->key && ft_strcmp(key, handle->key) == 0)
 			return (back);
-		if (strcmp(key, handle->key) < 0)
+		if (ft_strcmp(key, handle->key) < 0)
 			return (back);
 		back = handle;
 		handle = handle->next;
@@ -44,14 +44,14 @@ static int
 	new->flag = tmp.flag;
 	*head = new;
 	new->next = back;
-	new->key = strdup(tmp.key);
+	new->key = ft_strdup(tmp.key);
 	if (new->key == NULL)
 		return (1);
 	if (new->flag & H_KEYONLY)
 		new->value = NULL;
 	else
 	{
-		new->value = strdup(tmp.value);
+		new->value = ft_strdup(tmp.value);
 		if (new->value == NULL)
 			return (1);
 	}
@@ -70,14 +70,14 @@ static int
 	new->flag = tmp.flag;
 	new->next = back->next;
 	back->next = new;
-	new->key = strdup(tmp.key);
+	new->key = ft_strdup(tmp.key);
 	if (new->key == NULL)
 		return (1);
 	if (new->flag & H_KEYONLY)
 		new->value = NULL;
 	else
 	{
-		new->value = strdup(tmp.value);
+		new->value = ft_strdup(tmp.value);
 		if (new->value == NULL)
 			return (1);
 	}
@@ -87,12 +87,12 @@ static int
 static int
 	declare_add_unit(t_hash **head, t_hash *back, t_hash tmp)
 {
-	if (back && back->next && strcmp(tmp.key, back->next->key) == 0 \
+	if (back && back->next && ft_strcmp(tmp.key, back->next->key) == 0 \
 			&& tmp.value == NULL)
 		return (0);
-	else if (back && back->next && strcmp(tmp.key, back->next->key) == 0)
+	else if (back && back->next && ft_strcmp(tmp.key, back->next->key) == 0)
 		return (declare_edit_value(tmp.value, back->next, tmp.flag));
-	else if (back == NULL || (back && strcmp(tmp.key, back->key) < 0))
+	else if (back == NULL || (back && ft_strcmp(tmp.key, back->key) < 0))
 		return (declare_make_head(head, back, tmp));
 	else
 		return (declare_make(back, tmp));
@@ -123,6 +123,6 @@ int
 		flag |= H_KEYONLY;
 	}
 	tmp.flag = flag;
-	declare_check_key(*head, tmp.key);
+	declare_check_key(*head, tmp.key)
 	return (declare_add_unit(head, declare_check_key(*head, tmp.key), tmp));
 }

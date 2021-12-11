@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 12:24:45 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 14:17:28 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	ft_strmove(char *dest, char *src, int len);
 void	*ft_memset(void *b, int c, size_t len);
 void	*ft_memcpy(char *sdt, const char*src, size_t n);
 char	*ft_strdup(const char *s1);
+char	*ft_strndup(const char *s1, size_t n);
 size_t	ft_strlen(const char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcpy(char *dst, const char *src);

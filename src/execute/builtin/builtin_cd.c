@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 11:14:39 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 13:56:04 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ static int
 	set_path(t_shell *mini, char *dirname, char *key)
 {
 	char			*assignment;
-	const int		len = sizeof(char) * (strlen(dirname) + ft_strlen(key) + 2);
+	const int		len = sizeof(char) * (ft_strlen(dirname) + ft_strlen(key) + 2);
 
 	assignment = malloc(len);
 	if (assignment == NULL)
-		return (1);
+		return (FAIL);
 	ft_memset(assignment, 0, len);
-	strcat(strcpy(assignment, key), dirname);
+	ft_strcat(ft_strcpy(assignment, key), dirname);
 	if (assignment == NULL)
-		return (1);
+		return (FAIL);
 	if (declare_add(&mini->env.declare, assignment, H_EXPORT) != 0)
-		return (1);
+		return (FAIL);
 	free(assignment);
-	return (0);
+	return (SUCCESS);
 }
 
 static char
@@ -41,7 +41,7 @@ static char
 		dirname = getenv("HOME");
 		return (dirname);
 	}
-	else if (argv && argv[0] != NULL && strcmp(argv[1], "-") == 0)
+	else if (argv && argv[0] != NULL && ft_strcmp(argv[1], "-") == 0)
 	{
 		dirname = getenv("OLDPWD");
 		return (dirname);
@@ -70,12 +70,12 @@ int
 		return (1);
 	if (chdir(dirname) == ERROR)
 		return (1);
-	if (set_path(mini, oldpwd, "OLDPWD=") != 0)
+	if (!set_path(mini, oldpwd, "OLDPWD="))
 		return (1);
-	if (set_path(mini, dirname, "PWD=") != 0)
+	if (!set_path(mini, dirname, "PWD="))
 		return (1);
 	free(oldpwd);
-	if (replace_envp(&mini->env, 1) != 0)
+	if (!replace_envp(&mini->env, 1))
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:35:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 11:18:45 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 13:24:44 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ int
 		return (0);
 	if (legal_identifier(key) == 0)
 		return (1);
-	back = check_declare_key(*head, key);
-	if (back == *head && strcmp(key, back->key) == 0)
+	back = declare_check_key(*head, key);
+	if (back == *head && ft_strcmp(key, back->key) == 0)
 	{
 		*head = back->next;
 		free_declare(back);
 	}
-	if (back->next && strcmp(key, back->next->key) == 0)
+	if (back->next && ft_strcmp(key, back->next->key) == 0)
 	{
 		back->next = back->next->next;
 		free_declare(back->next);
@@ -57,7 +57,7 @@ int
 		if (remove_declare(&mini->env.declare, *argv) != 0)
 			return (1);
 	}
-	if (replace_envp(&mini->env, 1) != 0)
+	if (!replace_envp(&mini->env, 1))
 		return (1);
 	return (0);
 }
