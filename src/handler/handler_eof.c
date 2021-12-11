@@ -6,11 +6,12 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:35:43 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/05 10:58:06 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 09:34:11 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <unistd.h>
 
 static int
 	get_cursor_position(void)
@@ -19,7 +20,7 @@ static int
 	int		row;
 	int		i;
 
-	write(1, "\033[6n", 4);
+	write(STDOUT_FILENO, "\033[6n", 4);
 	i = read(0, buffer, 255);
 	buffer[i] = '\0';
 	i = 1;
@@ -34,7 +35,7 @@ static int
 static int
 	putchar_tc(int tc)
 {
-	write(1, &tc, 1);
+	write(STDOUT_FILENO, &tc, 1);
 	return (0);
 }
 

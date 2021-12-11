@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:51:12 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 07:42:06 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 09:44:13 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ char
 		dirname = getenv("PWD");
 	else if (type == 3)
 		dirname = getenv("OLDPWD");
-	dest_len = strlen(filename) + strlen(dirname) + 1;
+	dest_len = ft_strlen(filename) + ft_strlen(dirname) + 1;
 	dest = malloc(sizeof(char) * dest_len);
 	if (dest == NULL)
 		return (NULL);
-	memset(dest, 0, sizeof(char) * dest_len);
+	ft_memset(dest, 0, sizeof(char) * dest_len);
 	if (type == 1)
 		strcat(strcat(strncpy(dest, filename, i), dirname), filename + i + 1);
 	else

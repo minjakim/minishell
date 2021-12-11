@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_pwd.c                                         :+:      :+:    :+:   */
+/*   builtin_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 09:53:58 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 14:47:48 by snpark           ###   ########.fr       */
+/*   Created: 2021/12/01 15:17:56 by snpark            #+#    #+#             */
+/*   Updated: 2021/12/04 15:54:49 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
 int
-	mini_pwd(t_shell *mini)
+	print_envp(const char **envp)
 {
-	char	*path;
-
-	(void)mini;
-	path = getcwd(NULL, 0);
-	if (path == NULL)
-		return (1);
-	printf("%s\n", path);
-	free(path);
+	while (*envp)
+		printf("%s\n", *envp++);
 	return (0);
+}
+
+int
+	builtin_env(t_shell *mini)
+{
+	return (print_envp((const char **)mini->env.envp));
 }

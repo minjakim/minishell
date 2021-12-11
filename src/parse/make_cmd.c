@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:10:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/10 14:13:04 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_word_list
 	new_unit = malloc(sizeof(t_redirect));
 	if (new_unit == NULL)
 		return (NULL);//error
-	memset(new_unit, 0, sizeof(t_redirect));
+	ft_memset(new_unit, 0, sizeof(t_redirect));
 	if (words->word.flags & (W_LESS | W_LESS_LESS))
 	{
 		new_unit->redirector = STDIN_FILENO;
@@ -69,7 +69,7 @@ t_word_list
 	words = words->next;
 	free(tmp->word.word);
 	free(tmp);
-	
+
 	if (!(words->word.flags & W_FILENAME))
 		return (NULL);//error
 	if (new_unit->flags == 0)
@@ -106,10 +106,10 @@ t_word_list
 	if (next_cmd == NULL)
 		return (NULL);//error;
 	cmd->value.connection.next = next_cmd;
-	
+
 	cmd->value.connection.connector = words->word.flags & (W_PIPE | W_AND_AND | W_OR_OR);
 
-	if (words->word.flags & W_PIPE)	
+	if (words->word.flags & W_PIPE)
 	{
 		cmd->flags |= CMD_PIPE | CMD_IGNORE_RETURN | CMD_NO_FORK;
 		next_cmd->flags |= CMD_PIPE | CMD_NO_FORK;
@@ -129,7 +129,7 @@ int
 	cmd = malloc(sizeof(t_command));
 	if (cmd == NULL)
 		return (1);
-	mini->cmd = cmd;
+	mini->command = cmd;
 	while (words)
 	{
 		if (words->word.flags & (W_PIPE | W_AND_AND | W_OR_OR))

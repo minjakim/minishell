@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/09 13:09:31 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 10:44:30 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,46 +16,46 @@ static void
 	init_builtins(t_shell *mini)
 {
 	mini->execute[FT_EXECVE] = ft_execve;
-	mini->execute[MINI_CD] = mini_cd;
-	mini->execute[MINI_ECHO] = mini_echo;
-	mini->execute[MINI_ENV] = mini_env;
-	mini->execute[MINI_EXIT] = mini_exit;
-	mini->execute[MINI_EXPORT] = mini_export;
-	mini->execute[MINI_PWD] = mini_pwd;
-	mini->execute[MINI_UNSET] = mini_unset;
-	mini->execute[MINI_NULL] = mini_null;
+	mini->execute[MINI_CD] = builtin_cd;
+	mini->execute[MINI_ECHO] = builtin_echo;
+	mini->execute[MINI_ENV] = builtin_env;
+	mini->execute[MINI_EXIT] = builtin_exit;
+	mini->execute[MINI_EXPORT] = builtin_export;
+	mini->execute[MINI_PWD] = builtin_pwd;
+	mini->execute[MINI_UNSET] = builtin_unset;
+	mini->execute[MINI_NULL] = builtin_null;
 }
 
 static int
-	back_up_stdin_stdout(t_shell *mini)
+	backup_stdio(t_ios *mini)
 {
-	mini->backup.in= dup(0);
-	if (mini->backup.in == -1)
-		return (1);
-	mini->backup.out = dup(1);
-	if (mini->backup.out == -1)
-		return (1);
-	return (0);
+	mini->backup.in= dup(STDIN_FILENO);
+	if (mini->backup.in == ERROR)
+		return (FAIL);
+	mini->backup.out = dup(STDOUT_FILENO);
+	if (mini->backup.out == ERROR)
+		return (FAIL);
+	return (SUCCESS);
 }
 
 int
 	initialize(t_shell *mini)
 {
-	if (back_up_stdin_stdout(mini) != 0)
-		return (1);
-	if (parse_envp(&mini->env) != 0)
-		return (1);
+	if (!backup_stdio(&mini->ios))
+		return (FAIL);
+	if (!parse_envp(&mini->env))
+		return (FAIL);
 	init_builtins(mini);
 	tgetent(NULL, "xterm");
 	tcgetattr(STDIN_FILENO, &mini->config.current);
 	mini->config.backup = mini->config.current;
-	mini->config.current.c_cc[VQUIT] = 0;
+	mini->config.current.c_cc[VQUIT] = FALSE;
 	tcsetattr(STDIN_FILENO, TCSANOW, &mini->config.current);
-	signal(SIGINT, signal_handler);
-	rl_catch_signals = 0;
-	mini->cmd = NULL;
+	signal(SIGINT, handler_signal);
+	rl_catch_signals = FALSE;
+	mini->command = NULL;
 	mini->status.exit = 0;
-	mini->status.interactive = 1;
+	mini->status.interactive = TRUE;
 	mini->status.error = 0;
-	return (0);
+	return (SUCCESS);
 }

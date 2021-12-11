@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_cd.c                                          :+:      :+:    :+:   */
+/*   builtin_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 07:43:14 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@ int
 	set_path(t_shell *mini, char *dirname, char *key)
 {
 	char			*assignment;
-	const int		len = sizeof(char) * (strlen(dirname) + strlen(key) + 2);
+	const int		len = sizeof(char) * (strlen(dirname) + ft_strlen(key) + 2);
 
 	assignment = malloc(len);
 	if (assignment == NULL)
 		return (1);
-	memset(assignment, 0, len);
+	ft_memset(assignment, 0, len);
 	strcat(strcpy(assignment, key), dirname);
 	if (assignment == NULL)
 		return (1);
-	if (add_declare(&mini->env.declare, assignment, H_EXPORT) != 0)
+	if (declare_add(&mini->env.declare, assignment, H_EXPORT) != 0)
 		return (1);
 	free(assignment);
 	return (0);
 }
 
 static char
-	*mini_cd_getpath(char **argv)
+	*builtin_cd_getpath(char **argv)
 {
 	char	*dirname;
 
@@ -56,7 +56,7 @@ static char
  * error msg "OLDPWD not set"*/
 
 int
-	mini_cd(t_shell *mini)
+	builtin_cd(t_shell *mini)
 {
 	char	*dirname;
 	char	*oldpwd;
@@ -64,11 +64,11 @@ int
 	oldpwd = getcwd(NULL, 0);
 	if (oldpwd == NULL)
 		return (1);
-	if (mini && mini->cmd)
-		dirname = mini_cd_getpath(mini->cmd->value.simple.argv);
+	if (mini && mini->command)
+		dirname = builtin_cd_getpath(mini->command->value.simple.argv);
 	if (dirname == NULL)
 		return (1);
-	if (chdir(dirname) == -1)
+	if (chdir(dirname) == ERROR)
 		return (1);
 	if (set_path(mini, oldpwd, "OLDPWD=") != 0)
 		return (1);

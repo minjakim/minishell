@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/10 14:14:00 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 int
-	redirect_stdio(t_io io)
+	redirect_stdio(t_io *io)
 {
-	if (dup2(io.in, STDIN_FILENO) == -1)
+	if (dup2(io->in, STDIN_FILENO) == ERROR)
 		return (1);
-	if (dup2(io.out, STDOUT_FILENO) == -1)
+	if (dup2(io->out, STDOUT_FILENO) == ERROR)
 		return (1);
 	return (0);
 }
 
-static void 
-	close_io(t_io io)
+static void
+	close_io(t_io *io)
 {
-	if (io.in != STDIN_FILENO)
-		close(io.in);
-	if (io.out != STDOUT_FILENO)
-		close(io.out);
+	if (io->in != STDIN_FILENO)
+		close(io->in);
+	if (io->out != STDOUT_FILENO)
+		close(io->out);
 }
 
 static int
@@ -38,7 +38,7 @@ static int
 	pid_t		pid;
 	t_io		pipe_fd;
 
-	cmd = mini->cmd;
+	cmd = mini->command;
 	if (cmd->type == cm_connection && \
 			cmd->value.connection.connector == '|')
 	{
@@ -46,13 +46,13 @@ static int
 		cmd->value.connection.io.out = pipe_fd.in;
 		cmd->value.connection.next->value.simple.io.in = pipe_fd.out;
 	}
-	redirect_stdio(cmd->value.connection.io);
+	redirect_stdio(&cmd->value.connection.io);
 	pid = fork();
 	if (pid == 0)
 		mini->status.interactive = 0;
 	if (pid > 0 && cmd->type == cm_simple)
 	{
-		waitpid(pid, &mini->status.exit, 0); 
+		waitpid(pid, &mini->status.exit, 0);
 		while (wait(NULL) != -1)
 			;
 	}
@@ -75,7 +75,7 @@ int
 	pid_t		pid;
 	t_io		pipe_fd;
 
-	cmd = mini->cmd;
+	cmd = mini->command;
 	while (cmd)
 	{
 		pid = 0;
@@ -89,7 +89,7 @@ int
 			if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
 				redirect(mini);
 			find_cmd(mini);
-			mini->execute[is_builtin(mini->cmd->value.simple.argv[0])](mini);
+			mini->execute[is_builtin(mini->command->value.simple.argv[0])](mini);
 			//if (expand_cmd() != 0)
 			//	return (1);
 			//if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))

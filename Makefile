@@ -1,12 +1,12 @@
 NAME=minishell
 
-builtin_function=mini_env.c\
-				 mini_export.c\
-				 mini_unset.c\
-				 mini_pwd.c\
-				 mini_cd.c\
-				 mini_echo.c\
-				 mini_exit.c
+builtin_function=builtin_env.c\
+				 builtin_export.c\
+				 builtin_unset.c\
+				 builtin_pwd.c\
+				 builtin_cd.c\
+				 builtin_echo.c\
+				 builtin_exit.c
 
 execute=$(builtin_function:%=builtins/%)\
 	execute_cmd.c\
@@ -69,4 +69,4 @@ fclean : clean
 	rm minishell
 
 re : fclean all
-	
+

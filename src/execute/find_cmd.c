@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 07:39:59 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 10:22:22 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char
 
 	if (string == NULL)
 		return (NULL);
-	if (*p_index >= strlen(string))
+	if (*p_index >= ft_strlen(string))
 		return (NULL);
 	i = *p_index;
 	if (i > 0 && string[i] == ':')
@@ -47,10 +47,10 @@ char
 	char		*full_path;
 	struct stat	finfo;
 
-	full_path = malloc(sizeof(char) * (strlen(name) + strlen(path) + 2));
+	full_path = malloc(sizeof(char) * (ft_strlen(name) + ft_strlen(path) + 2));
 	if (full_path == NULL)
 		return (NULL);
-	memset(full_path, 0, strlen(name) + strlen(path) + 2);
+	ft_memset(full_path, 0, ft_strlen(name) + ft_strlen(path) + 2);
 	strcat(strcat(strcpy(full_path, path), "/"), name);
 	if (stat(full_path, &finfo) < 0)
 	{
@@ -101,13 +101,13 @@ int
 		path = get_next_path_element(path_list, &path_index);
 		if (path == NULL)
 			break ;
-		mini->cmd->value.simple.path = find_in_path_element(\
-				mini->cmd->value.simple.argv[0], path);
+		mini->command->value.simple.path = find_in_path_element(\
+				mini->command->value.simple.argv[0], path);
 		free(path);
-		if (mini->cmd->value.simple.path != NULL)
+		if (mini->command->value.simple.path != NULL)
 			return (0);
 	}
-	if (!path_list || !*path_list || !mini->cmd->value.simple.path)
+	if (!path_list || !*path_list || !mini->command->value.simple.path)
 		return (127);// no such file of directory
 	return (0);
 }
@@ -115,12 +115,12 @@ int
 int
 	find_cmd(t_shell *mini)
 {
-	const char	*name = mini->cmd->value.simple.argv[0];
+	const char	*name = mini->command->value.simple.argv[0];
 
 	if (strchr(name, '/') != NULL && stat(name, NULL) == 0)
-		mini->cmd->value.simple.path = strdup(name);
+		mini->command->value.simple.path = strdup(name);
 	else if (is_builtin(name))
-		mini->cmd->flags |= CMD_COMMAND_BUILTIN;
+		mini->command->flags |= CMD_COMMAND_BUILTIN;
 	else
 		return (find_in_path_command(mini));
 	return (0);

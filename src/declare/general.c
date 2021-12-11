@@ -6,53 +6,52 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:37:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 07:42:54 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 08:26:44 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+static inline unsigned char
+	convert(unsigned char *c, const char *str)
+{
+	return (*c = *str - '0');
+}
+
 int
 	legal_number(const char *str)
 {
-	unsigned long long		n;
-	int						negative;
+	unsigned long long	n;
+	unsigned char		c;
+	int					digit;
+	int					negative;
 
-	while ((*str >= 9 && *str <= 13) || *str == 0x20)
+	while (*str == ' ' || *str == '\t')
 		++str;
-	negative = 0;
+	negative = (*str == '-');
 	if (*str == '+' || *str == '-')
-	{
-		negative = (*str == '-');
 		++str;
-	}
 	n = 0;
-	while (*str && *str >= '0' && *str <= '9')
-	{
-		if ((negative && n * 10 + *str - '0' > \
-					(unsigned long long)LLONG_MAX + 1) \
-				|| (!negative && n * 10 + *str - '0' > LLONG_MAX))
-			return (0);
-		n *= 10;
-		n += *str - '0';
-		++str;
-	}
-	if (*str)
-		return (0);
-	return (1);
+	digit = 0;
+	while (*str && convert(&c, str) < 10 && ++digit < 20)
+		n = (n << 1) + (n << 3) + c && str++;
+	if (*str || (!negative && n > LLONG_MAX)
+		|| (n > (unsigned long long)LLONG_MAX + 1))
+		return (FALSE);
+	return (TRUE);
 }
 
 int
 	legal_variable_starter(const char c)
 {
-	return (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+	return ((((unsigned)c | 32) - 97 < 26) || (c == '_')) ;
 }
 
 int
 	legal_variable_char(const char c)
 {
-	return (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') \
-			|| (c >= '0' && c <= '9'));
+	return ((((unsigned)c | 32) - 97 < 26) || ((unsigned)c - 48 < 10) \
+			|| (c == '_'));
 }
 
 int
@@ -72,22 +71,22 @@ int
 	assignment(const char *string)
 {
 	unsigned char	c;
-	int				indx;
+	int				index;
 
 	c = string[0];
-	indx = 0;
+	index = 0;
 	if (legal_variable_starter (c) == 0)
 		return (0);
-	while (string[indx])
+	while (string[index])
 	{
-		c = string[indx];
+		c = string[index];
 		if (c == '=')
-			return (indx);
-		if (c == '+' && string[indx + 1] == '=')
-			return (indx + 1);
+			return (index);
+		if (c == '+' && string[index + 1] == '=')
+			return (index + 1);
 		if (legal_variable_char (c) == 0)
 			return (0);
-		indx++;
+		++index;
 	}
 	return (0);
 }

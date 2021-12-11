@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 07:39:50 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char
 	dest = malloc(sizeof(char *) * (argc + 1));
 	if (dest == NULL)
 		return (NULL);
-	memset(dest, 0, sizeof(char *) * (argc + 1));
+	ft_memset(dest, 0, sizeof(char *) * (argc + 1));
 	i = -1;
 	while (list)
 	{
@@ -111,9 +111,9 @@ static int
 int
 	expand_cmd(t_shell *mini)
 {
-	if (expand_argv(mini->cmd) != 0)
+	if (expand_argv(mini->command) != 0)
 		return (1);
-	if (expand_filename(mini->cmd->value.simple.redirects))
+	if (expand_filename(mini->command->value.simple.redirects))
 		return (1);
 	return (0);
 }

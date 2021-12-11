@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 16:29:14 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/09 15:14:01 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int
 {
 	pid_t	pid;
 
-	if (mini->cmd->flags & CMD_NOFUNCTION)
+	if (mini->command->flags & CMD_NOFUNCTION)
 		return (0);
 	pid = 0;
-	if (!(mini->cmd->flags & CMD_NO_FORK))
+	if (!(mini->command->flags & CMD_NO_FORK))
 		pid = fork();
 	if (pid == 0)
 	{
-		if (execve(mini->cmd->value.simple.path, mini->cmd->value.simple.argv, mini->env.envp) == -1)
+		if (execve(mini->command->value.simple.path, mini->command->value.simple.argv, mini->env.envp) == ERROR)
 			exit(126);
 	}
 	else if (pid > 0)

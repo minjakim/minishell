@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_exit.c                                        :+:      :+:    :+:   */
+/*   builtin_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 07:43:28 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
+#include <unistd.h>
 
 /*in bash
  * check internal and internal_shell variable
@@ -18,7 +19,7 @@
  * don't print exit\n and exit*/
 
 long long
-	mini_strtoll(const char *str)
+	builtin_strtoll(const char *str)
 {
 	unsigned long long		n;
 	int						negative;
@@ -48,14 +49,14 @@ long long
 }
 
 int
-	mini_exit(t_shell *mini)
+	builtin_exit(t_shell *mini)
 {
 	char	**argv;
 
 	if (mini->status.interactive)
-		write(2, "exit\n", 5);
-	if (mini && mini->cmd && mini->cmd->value.simple.argv)
-		argv = mini->cmd->value.simple.argv;
+		write(STDERR_FILENO, "exit\n", 5);
+	if (mini && mini->command && mini->command->value.simple.argv)
+		argv = mini->command->value.simple.argv;
 	if (argv[0] != NULL && argv[1])
 		exit(mini->status.exit);
 	if (argv[0] != NULL && legal_number(argv[1]) == 0)
@@ -69,6 +70,6 @@ int
 		return (1);
 	}
 	if (argv[0] != NULL && argv[1] != NULL)
-		exit(mini_strtoll(argv[1]) & 0xff);
+		exit(builtin_strtoll(argv[1]) & 0xff);
 	return (0);
 }

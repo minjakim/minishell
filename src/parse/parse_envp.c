@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:06:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 07:42:27 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 10:43:21 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int
 		tmp = strdup(env->envp[i]);
 		if (tmp == NULL)
 			return (1);
-		if (add_declare(&env->declare, tmp, H_EXPORT) != 0)
+		if (declare_add(&env->declare, tmp, H_EXPORT) != 0)
 			return (1);
 		free(tmp);
 	}
@@ -34,16 +34,15 @@ static int
 int
 	replace_envp(t_env *env, int flag)
 {
-	char			**new_envp;
-	t_hash			*handle;
-	const int		envp_len = envplen(env->declare);
-	int				i;
-	extern char		**environ;
+	extern char	**environ;
+	const int	envp_len = envplen(env->declare);
+	char		**new_envp;
+	int			i;
 
 	new_envp = malloc(sizeof(char *) * (envp_len + 2));
 	if (new_envp == NULL)
 		return (1);
-	memset(new_envp, 0, envp_len + 2);
+	ft_memset(new_envp, 0, envp_len + 2);
 	if (make_envp(new_envp, env->declare) != 0)
 		return (1);
 	if (flag == 1)

@@ -6,14 +6,14 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/10 14:11:58 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 10:44:30 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int
-	mini_null(t_shell *mini)
+	builtin_null(t_shell *mini)
 {
 	(void)mini;
 	return (0);
@@ -29,3 +29,140 @@ void
 	}
 }
 
+void
+	ft_strmove(char *dest, char *src, int len)
+{
+	if (len < 0)
+		return ;
+	while(len--)
+		*dest++ = *src++;
+	*dest = *src;
+}
+
+static inline size_t
+	test_byte(const char *p, const char *s)
+{
+	if (!p[0])
+		return (p - s);
+	if (!p[1])
+		return (p - s + 1);
+	if (!p[2])
+		return (p - s + 2);
+	if (!p[3])
+		return (p - s + 3);
+	if (!p[4])
+		return (p - s + 4);
+	if (!p[5])
+		return (p - s + 5);
+	if (!p[6])
+		return (p - s + 6);
+	if (!p[7])
+		return (p - s + 7);
+	return (0);
+}
+
+size_t
+	ft_strlen(const char *s)
+{
+	const	char			*p;
+	const	unsigned long	*lp;
+	size_t					len;
+
+	if (!*(p = s))
+		return (0);
+	while ((unsigned long)p & (sizeof(long) - 1))
+	{
+		if (!*p)
+			return (p - s);
+		++p;
+	}
+	lp = (const unsigned long *)p;
+	while (TRUE)
+	{
+		if ((*lp - LOMAGIC) & HIMAGIC)
+		{
+			p = (const char *)(lp);
+			if ((len = test_byte(p, s)))
+				return (len);
+		}
+		++lp;
+	}
+}
+
+void
+	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned char	*var_b;
+	unsigned char	var_c;
+
+	var_b = b;
+	var_c = c;
+	while (len--)
+		*var_b++ = var_c;
+	return (b);
+}
+
+static void
+	wordcpy(t_op dstp, t_op srcp, size_t n)
+{
+	t_op a0;
+	t_op a1;
+
+	if (n & 1)
+	{
+		((t_op *)dstp)[0] = ((t_op *)srcp)[0];
+		if (n == 1)
+			return ;
+		srcp += OPSIZ;
+		dstp += OPSIZ;
+		--n;
+	}
+	while (n)
+	{
+		a0 = ((t_op *)srcp)[0];
+		a1 = ((t_op *)srcp)[1];
+		((t_op *)dstp)[0] = a0;
+		((t_op *)dstp)[1] = a1;
+		srcp += 16;
+		dstp += 16;
+		n -= 2;
+	}
+}
+
+void
+	*ft_memcpy(char *dst, const char *src, size_t n)
+{
+	t_op	dstp;
+	t_op	srcp;
+	t_byte	*dstd;
+	t_byte	*srcd;
+
+	dstp = (t_op)dst;
+	srcp = (t_op)src;
+	if (dst == src)
+		return (NULL);
+	if (n >= 16)
+	{
+		wordcpy(dstp, srcp, n >> 3);
+		srcp += n & -OPSIZ;
+		dstp += n & -OPSIZ;
+		n %= OPSIZ;
+	}
+	dstd = (t_byte *)dstp;
+	srcd = (t_byte *)srcp;
+	while (n--)
+		*dstd++ = *srcd++;
+	return (dst);
+}
+
+char
+	*ft_strdup(const char *s1)
+{
+	void	*dst;
+	size_t	n;
+
+	n = ft_strlen(s1) + 1;
+	if (!(dst = malloc(sizeof(char) * n)))
+		return (NULL);
+	return (ft_memcpy(dst, s1, n));
+}

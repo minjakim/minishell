@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 07:42:18 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 09:43:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int
 	pipe(io.fd);
 	while (is_eof(&line, eof))
 	{
-		write(io.fd[1], line, strlen(line));
+		write(io.fd[1], line, ft_strlen(line));
 		write(io.fd[1], "\n", 1);
 		free(line);
 	}
@@ -57,11 +57,11 @@ int
 			io->fd[handle->redirector] = heredoc(handle->here_doc_eof);
 		else
 			return (1);
-		if (io->fd[handle->redirector] == -1)
+		if (io->fd[handle->redirector] == ERROR)
 			return (1);
 		handle = handle->next;
 	}
-	if (redirect_stdio(*io) != 0)
+	if (redirect_stdio(io) != 0)
 		return (1);
 	return (0);
 }

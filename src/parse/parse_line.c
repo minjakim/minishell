@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/10 12:55:39 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 08:23:46 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ static int
 	{
 		new_node = malloc(sizeof(t_word_list));
 		if (!new_node)
-			return (0);
+			return (FAIL);
 		new_node->next = NULL;
 		new_node->word.word = line;
 		node->next = new_node;
 	}
-	return (1);
+	return (SUCCESS);
 }
 
 static int
@@ -118,7 +118,7 @@ int
 	buffer->node = malloc(sizeof(t_word_list));
 	buffer->node->next = NULL;
 	buffer->node->word.word = NULL;
-	
+
 	buffer->node->word.flags |= W_ARG;
 	split_line(buffer->line, buffer->node, '\0');
 //	flag_word(buffer->node);

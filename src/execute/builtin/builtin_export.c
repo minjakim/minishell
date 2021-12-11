@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_export.c                                      :+:      :+:    :+:   */
+/*   builtin_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:45:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/04 14:55:41 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int
 }
 
 int
-	mini_export(t_shell *mini)
+	builtin_export(t_shell *mini)
 {
 	char	**argv;
 
-	if (mini && mini->cmd && mini->cmd->value.simple.argv)
-		argv = mini->cmd->value.simple.argv;
+	if (mini && mini->command && mini->command->value.simple.argv)
+		argv = mini->command->value.simple.argv;
 	else
 		return (0);
 	if (argv[0] != NULL && argv[1] == NULL)

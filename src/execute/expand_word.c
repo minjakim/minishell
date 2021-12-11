@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 07:39:55 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 09:57:26 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int
 	is_quote(const char c, int quote)
 {
-	return ((c == '\'' || c == '\"') && ((quote ^ c )!= 5));
+	return ((c == '\'' || c == '\"') && ((quote ^ c ) != 5));
 }
 
 int
@@ -40,11 +40,11 @@ static char
 	hash.value = getenv(hash.key);
 	if (i == 0 && flags & W_FILENAME && (!hash.value || !*hash.value))
 		return (NULL);//bash: argv[1]: ambiguas redirect
-	dest_len = strlen(src) - key_len + strlen(hash.value);
+	dest_len = ft_strlen(src) - key_len + ft_strlen(hash.value);
 	dest = malloc(sizeof(char) * dest_len);
 	if (dest == NULL)
 		return (NULL);
-	memset(dest, 0, sizeof(char) * dest_len);
+	ft_memset(dest, 0, sizeof(char) * dest_len);
 	strcat(strcat(strncpy(dest, src, i), hash.value), src + i + key_len);
 	free(hash.key);
 	free(src);
@@ -62,7 +62,7 @@ void
 		if (is_quote(*str, quote))
 		{
 			quote ^= *str;
-			strmove(str, str + 1, strlen(str + 1));
+			ft_strmove(str, str + 1, ft_strlen(str + 1));
 		}
 		else
 			++str;

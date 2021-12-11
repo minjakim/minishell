@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_unset.c                                       :+:      :+:    :+:   */
+/*   builtin_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:35:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 07:43:40 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ int
 }
 
 int
-	mini_unset(t_shell *mini)
+	builtin_unset(t_shell *mini)
 {
 	char	**argv;
 
-	if (mini && mini->cmd && mini->cmd->value.simple.argv)
-		argv = mini->cmd->value.simple.argv;
+	if (mini && mini->command && mini->command->value.simple.argv)
+		argv = mini->command->value.simple.argv;
 	if (argv[0] != NULL && argv[1] == NULL)
 		return (0);
 	while (*++argv)

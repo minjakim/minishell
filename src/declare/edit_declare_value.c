@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:20:26 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 07:42:57 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 09:43:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int
 {
 	char	*tmp;
 
-	tmp = malloc(sizeof(char *) * (strlen(hash->value) + strlen(value) + 1));
+	tmp = malloc(sizeof(char *) * (strlen(hash->value) + ft_strlen(value) + 1));
 	if (tmp == NULL)
 		return (1);
 	*tmp = '\0';

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/11 07:35:59 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 10:15:36 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <termios.h>
 
 typedef struct s_shell	t_shell;
+typedef unsigned long	t_op;
+typedef unsigned char	t_byte;
 
 typedef struct s_word_desc
 {
@@ -29,13 +31,13 @@ typedef struct s_word_list
 	t_word_desc			word;
 }	t_word_list;
 
-typedef union	u_redirectee
+typedef union u_redirectee
 {
 	int			dest;
 	t_word_desc	filename;
 }	t_redirectee;
 
-typedef struct	s_redirect
+typedef struct s_redirect
 {
 	struct s_redirect	*next;
 	int					redirector;
@@ -55,7 +57,7 @@ typedef	union	u_io
 	long long	init;
 }	t_io;
 
-typedef struct	s_simple
+typedef struct s_simple
 {
 	t_redirect	*redirects;
 	t_word_list	*words;
@@ -64,7 +66,7 @@ typedef struct	s_simple
 	char		**argv;
 }	t_simple;
 
-typedef struct	s_connection
+typedef struct s_connection
 {
 	t_redirect			*redirects;
 	t_word_list			*words;
@@ -75,19 +77,19 @@ typedef struct	s_connection
 	int					connector;
 }	t_connection;
 
-typedef union	u_cmd_type
+typedef union u_cmd_type
 {
 	t_simple		simple;
 	t_connection	connection;
 }	t_cmd_type;
 
-typedef	enum	e_command_type
+typedef	enum e_command_type
 {
 	cm_simple,
 	cm_connection,
 }	t_command_type;
 
-typedef struct	s_command
+typedef struct s_command
 {
 	int				flags;
 	t_command_type	type;
@@ -99,6 +101,12 @@ typedef struct s_termios
 	struct termios	current;
 	struct termios	backup;
 }	t_termios;
+
+typedef struct s_ios
+{
+	t_io	current;
+	t_io	backup;
+}	t_ios;
 
 typedef struct s_hash
 {
@@ -114,14 +122,14 @@ typedef struct s_env
 	char	**envp;
 }	t_env;
 
-typedef struct	s_status
+typedef struct s_status
 {
 	int			interactive;
 	int			exit;
 	int			error;
 }	t_status;
 
-typedef struct	s_buffer
+typedef struct s_buffer
 {
 	char		*line;
 	t_word_list	*node;
@@ -130,9 +138,9 @@ typedef struct	s_buffer
 struct s_shell
 {
 	t_termios	config;
-	t_io		backup;
+	t_ios		ios;
 	t_env		env;
-	t_command	*cmd;
+	t_command	*command;
 	t_status	status;
 	int			(*execute[9])(t_shell *);
 };

@@ -6,14 +6,14 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 07:43:00 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 10:41:55 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 t_hash
-	*check_declare_key(t_hash *head, const char *const key)
+	*declare_check_key(t_hash *head, const char *const key)
 {
 	t_hash	*back;
 	t_hash	*handle;
@@ -33,14 +33,14 @@ t_hash
 }
 
 int
-	make_declare_head(t_hash **head, t_hash *back, t_hash tmp)
+	declare_make_head(t_hash **head, t_hash *back, t_hash tmp)
 {
 	t_hash	*new;
 
 	new = malloc(sizeof(t_hash));
 	if (new == NULL)
 		return (1);
-	memset(new, 0, sizeof(t_hash));
+	ft_memset(new, 0, sizeof(t_hash));
 	new->flag = tmp.flag;
 	*head = new;
 	new->next = back;
@@ -59,14 +59,14 @@ int
 }
 
 int
-	make_declare(t_hash *back, t_hash tmp)
+	declare_make(t_hash *back, t_hash tmp)
 {
 	t_hash	*new;
 
 	new = malloc(sizeof(t_hash));
 	if (new == NULL)
 		return (1);
-	memset(new, 0, sizeof(t_hash));
+	ft_memset(new, 0, sizeof(t_hash));
 	new->flag = tmp.flag;
 	new->next = back->next;
 	back->next = new;
@@ -85,17 +85,17 @@ int
 }
 
 int
-	add_declare_unit(t_hash **head, t_hash *back, t_hash tmp)
+	declare_add_unit(t_hash **head, t_hash *back, t_hash tmp)
 {
 	if (back && back->next && strcmp(tmp.key, back->next->key) == 0 \
 			&& tmp.value == NULL)
 		return (0);
 	else if (back && back->next && strcmp(tmp.key, back->next->key) == 0)
-		return (edit_declare_value(tmp.value, back->next, tmp.flag));
+		return (declare_edit_value(tmp.value, back->next, tmp.flag));
 	else if (back == NULL || (back && strcmp(tmp.key, back->key) < 0))
-		return (make_declare_head(head, back, tmp));
+		return (declare_make_head(head, back, tmp));
 	else
-		return (make_declare(back, tmp));
+		return (declare_make(back, tmp));
 	return (1);
 }
 
@@ -123,6 +123,6 @@ int
 		flag |= H_KEYONLY;
 	}
 	tmp.flag = flag;
-	check_declare_key(*head, tmp.key);
-	return (add_declare_unit(head, check_declare_key(*head, tmp.key), tmp));
+	declare_check_key(*head, tmp.key);
+	return (declare_add_unit(head, declare_check_key(*head, tmp.key), tmp));
 }
