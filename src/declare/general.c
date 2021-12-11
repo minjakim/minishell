@@ -6,40 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:37:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 08:26:44 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 11:06:22 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static inline unsigned char
-	convert(unsigned char *c, const char *str)
-{
-	return (*c = *str - '0');
-}
-
-int
-	legal_number(const char *str)
-{
-	unsigned long long	n;
-	unsigned char		c;
-	int					digit;
-	int					negative;
-
-	while (*str == ' ' || *str == '\t')
-		++str;
-	negative = (*str == '-');
-	if (*str == '+' || *str == '-')
-		++str;
-	n = 0;
-	digit = 0;
-	while (*str && convert(&c, str) < 10 && ++digit < 20)
-		n = (n << 1) + (n << 3) + c && str++;
-	if (*str || (!negative && n > LLONG_MAX)
-		|| (n > (unsigned long long)LLONG_MAX + 1))
-		return (FALSE);
-	return (TRUE);
-}
 
 int
 	legal_variable_starter(const char c)

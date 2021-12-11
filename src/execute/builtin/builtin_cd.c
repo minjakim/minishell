@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                          :+:      :+:    :+:   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 11:14:39 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
-int
+static int
 	set_path(t_shell *mini, char *dirname, char *key)
 {
 	char			*assignment;

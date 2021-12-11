@@ -6,11 +6,60 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:06:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:43:21 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 11:12:58 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static void
+	free_envp(char **envp)
+{
+	int		i;
+
+	i = -1;
+	while (envp[++i])
+		free(envp[i]);
+	free(envp);
+}
+
+static int
+	envplen(t_hash *handle)
+{
+	int		envp_len;
+
+	envp_len = 0;
+	while (handle)
+	{
+		if (handle->flag & H_EXPORT && !(handle->flag & H_KEYONLY))
+			++envp_len;
+		handle = handle->next;
+	}
+	return (envp_len);
+}
+
+static int
+	make_envp(char **new_envp, t_hash *handle)
+{
+	int	i;
+
+	i = 0;
+	while (handle)
+	{
+		if (handle->flag & H_EXPORT && !(handle->flag & H_KEYONLY))
+		{
+			new_envp[i] = malloc(sizeof(char) \
+					* (strlen(handle->key) + ft_strlen(handle->value) + 2));
+			if (new_envp[i] == NULL)
+				return (1);
+			strcat(strcat(strcpy(new_envp[i], handle->key), "="), \
+					handle->value);
+			++i;
+		}
+		handle = handle->next;
+	}
+	return (0);
+}
 
 static int
 	declare_env(t_env *env)

@@ -28,8 +28,7 @@ parse=parse_envp.c\
 redirection=redirect.c
 declare=declare.c\
 		general.c\
-		make_envp.c\
-		edit_declare_value.c
+		declare_eidt_value.c
 handler=signal_handler.c\
 		eof_handler.c\
 		exception_handler.c

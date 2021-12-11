@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:44:30 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 11:18:01 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,26 +48,15 @@ int		is_teilde(const char *const str, int i, int quote);
 int		is_quote(const char c, int quote);
 int		is_key(const char *str, const int i, const int quote);
 
-int		legal_number(const char *str);
 int		legal_variable_starter(const char c);
 int		legal_variable_char(const char c);
 int		legal_identifier (const char *name);
 int		assignment (const char *string);
 
-void	free_envp(char **envp);
-int		envplen(t_hash *handle);
-int		make_envp(char **new_envp, t_hash *handle);
-
-t_hash	*declare_check_key(t_hash *head, const char *const key);
-int		declare_make_head(t_hash **head, t_hash *back, t_hash tmp);
-int		declare_make(t_hash *back, t_hash tmp);
 int		declare_remove(t_hash **head, const char *const key);
-int		declare_add_unit(t_hash **head, t_hash *back, t_hash tmp);
 int		declare_add(t_hash **head, char *str, int flag);
 int		declare_edit_value(char *value, t_hash *hash, int flag);
 
-int		print_envp(const char **envp);
-int		print_export(t_hash *handle);
 int		builtin_env(t_shell *mini);
 int		builtin_export(t_shell *mini);
 int		builtin_unset(t_shell *mini);

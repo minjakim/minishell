@@ -6,13 +6,13 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:41:55 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 10:59:52 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_hash
+static t_hash
 	*declare_check_key(t_hash *head, const char *const key)
 {
 	t_hash	*back;
@@ -32,7 +32,7 @@ t_hash
 	return (back);
 }
 
-int
+static int
 	declare_make_head(t_hash **head, t_hash *back, t_hash tmp)
 {
 	t_hash	*new;
@@ -58,7 +58,7 @@ int
 	return (0);
 }
 
-int
+static int
 	declare_make(t_hash *back, t_hash tmp)
 {
 	t_hash	*new;
@@ -84,7 +84,7 @@ int
 	return (0);
 }
 
-int
+static int
 	declare_add_unit(t_hash **head, t_hash *back, t_hash tmp)
 {
 	if (back && back->next && strcmp(tmp.key, back->next->key) == 0 \
@@ -100,7 +100,7 @@ int
 }
 
 int
-	add_declare(t_hash **head, char *str, int flag)
+	declare_add(t_hash **head, char *str, int flag)
 {
 	int		offset;
 	t_hash	tmp;

@@ -1,24 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                        :+:      :+:    :+:   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 11:17:27 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 #include <unistd.h>
 
+static inline unsigned char
+	convert(unsigned char *c, const char *str)
+{
+	return (*c = *str - '0');
+}
+
+static int
+	legal_number(const char *str)
+{
+	unsigned long long	n;
+	unsigned char		c;
+	int					digit;
+	int					negative;
+
+	while (*str == ' ' || *str == '\t')
+		++str;
+	negative = (*str == '-');
+	if (*str == '+' || *str == '-')
+		++str;
+	n = 0;
+	digit = 0;
+	while (*str && convert(&c, str) < 10 && ++digit < 20)
+		n = (n << 1) + (n << 3) + c && str++;
+	if (*str || (!negative && n > LLONG_MAX)
+		|| (n > (unsigned long long)LLONG_MAX + 1))
+		return (FALSE);
+	return (TRUE);
+}
+
 /*in bash
  * check internal and internal_shell variable
  * and if it's not internal(false)
  * don't print exit\n and exit*/
 
-long long
+static long long
 	builtin_strtoll(const char *str)
 {
 	unsigned long long		n;
