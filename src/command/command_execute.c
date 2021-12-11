@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_command.c                                      :+:      :+:    :+:   */
+/*   command_execute.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,10 +16,10 @@ int
 	redirect_stdio(t_io *io)
 {
 	if (dup2(io->in, STDIN_FILENO) == ERROR)
-		return (1);
+		return (FAIL);
 	if (dup2(io->out, STDOUT_FILENO) == ERROR)
-		return (1);
-	return (0);
+		return (FAIL);
+	return (SUCCESS);
 }
 
 static void
@@ -60,7 +60,7 @@ static int
 }
 
 static int
-	next_command(t_command *command)
+	command_next(t_command *command)
 {
 	return (command->type == cm_connection);// && \
 //			(command->value.connection.connector == "&&" && exit_status == 0 || \
@@ -69,7 +69,7 @@ static int
 }
 
 int
-	execute_command(t_shell *mini)
+	command_execute(t_shell *mini)
 {
 	t_command	*command;
 	pid_t		pid;
@@ -102,7 +102,7 @@ int
 		}
 		//close_io(command->value.simple.io);
 		//redirect_stdio(mini->backup.io);
-		if (next_command(command))
+		if (command_next(command))
 			command = command->value.connection.next;
 		else
 			return (0);

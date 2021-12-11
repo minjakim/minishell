@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 15:05:55 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 16:12:07 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../../include/minishell.h"
 
 static int
 	is_quote(const char c, int quote)
@@ -66,7 +66,7 @@ int
 		if (is_key(handle, i, quote))
 			handle = expand_env(handle, i, desc->flags);
 		else if (is_teilde(handle, i, quote))
-			handle = ft_teilde_expand(handle, i);
+			handle = expand_teilde(handle, i);
 		if (handle == NULL)
 			return (FAIL);
 		if (is_quote(handle[i], quote))

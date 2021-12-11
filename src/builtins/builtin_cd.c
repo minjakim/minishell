@@ -6,17 +6,17 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 15:03:43 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 18:36:08 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../include/minishell.h"
 
 static int
 	set_path(t_shell *mini, char *dirname, char *key)
 {
-	char			*assignment;
-	const int		len = sizeof(char) * (ft_strlen(dirname) + ft_strlen(key) + 2);
+	char		*assignment;
+	const int	len = sizeof(char) * (ft_strlen(dirname) + ft_strlen(key) + 2);
 
 	assignment = malloc(len);
 	if (assignment == NULL)
@@ -75,7 +75,7 @@ int
 	if (!set_path(mini, dirname, "PWD="))
 		return (1);
 	free(oldpwd);
-	if (!replace_envp(&mini->env, 1))
+	if (!envp_update(&mini->env, 1))
 		return (1);
 	return (0);
 }

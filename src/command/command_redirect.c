@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
+/*   command_redirect.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 12:49:32 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 17:18:05 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int
 	is_eof(char **line, const char *const eof)
 {
 	*line = readline("heredoc> ");
-	if (*line && strcmp(*line, eof))
+	if (*line && ft_strcmp(*line, eof))
 		return (TRUE);
 	return (FALSE);
 }
@@ -61,7 +61,7 @@ int
 			return (FAIL);
 		handle = handle->next;
 	}
-	if (redirect_stdio(io) != 0)
+	if (!redirect_stdio(io))
 		return (FAIL);
 	return (SUCCESS);
 }

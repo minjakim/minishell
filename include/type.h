@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/11 11:57:35 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 18:41:52 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ typedef struct s_shell		t_shell;
 typedef struct s_command	t_command;
 typedef unsigned long		t_op;
 typedef unsigned char		t_byte;
+
+typedef struct s_globvector
+{
+	struct s_globvector	*next;
+	char				*str;
+}	t_globvector;
 
 typedef struct s_word_desc
 {
@@ -131,7 +137,7 @@ typedef struct s_status
 typedef struct s_buffer
 {
 	char		*line;
-	t_word_list	*node;
+	t_word_list	*words;
 }	t_buffer;
 
 struct s_shell

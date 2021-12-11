@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_cmd.c                                         :+:      :+:    :+:   */
+/*   command_make.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:10:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 17:29:46 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_word_list
 }
 
 t_word_list
-	*end_cmd(t_command **dest, t_command *cmd, t_word_list *words)
+	*command_end(t_command **dest, t_command *cmd, t_word_list *words)
 {
 	t_command	*next_cmd;
 	t_word_list	*tmp;
@@ -121,26 +121,25 @@ t_word_list
 }
 
 int
-	make_cmd(t_word_list *words, t_shell *mini)
+	command_make(t_word_list *words, t_shell *mini)
 {
-	t_command	*cmd;
-	t_redirect	*redx;
+	t_command	*command;
 
-	cmd = malloc(sizeof(t_command));
-	if (cmd == NULL)
+	command = malloc(sizeof(t_command));
+	if (command == NULL)
 		return (1);
-	mini->command = cmd;
+	mini->command = command;
 	while (words)
 	{
 		if (words->word.flags & (W_PIPE | W_AND_AND | W_OR_OR))
-			words = end_cmd(&cmd, cmd, words);
+			words = command_end(&command, command, words);
 		else if (words->word.flags & W_REDIRECT)
-			words = attach_redirect(cmd, words);
+			words = attach_redirect(command, words);
 		else if (words->word.flags & W_ARG)
-			words = attach_words(cmd, words);
+			words = attach_words(command, words);
 		else
 			words = words->next;
 	}
-	cmd->type = cm_simple;
+	command->type = cm_simple;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/11 08:23:46 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 19:02:34 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static int
 }
 
 static int
-	add_word_list(t_word_list *node, char *line)
+	add_word_list(t_word_list *words, char *line)
 {
 	t_word_list *new_node;
 
-	if (node->word.word == NULL)
-		node->word.word = line;
+	if (words->word.word == NULL)
+		words->word.word = line;
 	else
 	{
 		new_node = malloc(sizeof(t_word_list));
@@ -47,13 +47,13 @@ static int
 			return (FAIL);
 		new_node->next = NULL;
 		new_node->word.word = line;
-		node->next = new_node;
+		words->next = new_node;
 	}
 	return (SUCCESS);
 }
 
 static int
-	split_line(char *line, t_word_list *node, char temp)
+	split_line(char *line, t_word_list *words, char temp)
 {
 	while (*line)
 	{
@@ -61,12 +61,12 @@ static int
 			*line++ = '\0';
 		if (*line == '\0')
 			return (SUCCESS);
-		if (!add_word_list(node, line))
-			return (EXCEPTION);
-		if (node->next != NULL)
+		if (!add_word_list(words, line))
+			return (FAIL);
+		if (words->next != NULL)
 		{
-			node = node->next;
-			node->word.flags |= W_ARG;
+			words = words->next;
+			words->word.flags |= W_ARG;
 		}
 		while (*line && *line != ' ' && *line != '\t')
 		{
@@ -83,44 +83,48 @@ static int
 }
 
 //static int
-//	flag_word(t_word_list *node)
+//	flag_word(t_word_list *words)
 //{
 //	int		i;
 //	int		quote;
 //
-//	while (node)
+//	while (words)
 //	{
 //		i = 0;
 //		quote = 0;
-//		while (node->word.word[i])
+//		while (words->word.word[i])
 //		{
-//			if (is_quote(node->word.word[i], quote))
+//			if (is_quote(words->word.word[i], quote))
 //			{
-//				quote ^= node->word.word[i];
+//				quote ^= words->word.word[i];
 //				if (quote == '\"')
-//					node->word.flags |= W_DQUOTED;
+//					words->word.flags |= W_DQUOTED;
 //				else if (quote == '\'')
-//					node->word.flags |= W_QUOTED;
+//					words->word.flags |= W_QUOTED;
 //			}
-//			if (node->word.word[i] && is_key(node->word.word, i, quote))
-//				node->word.flags |= W_HASHDOLLAR;
+//			if (words->word.word[i] && is_key(words->word.word, i, quote))
+//				words->word.flags |= W_HASHDOLLAR;
 //			++i;
 //		}
-//		node = node->next;
+//		words = words->next;
 //	}
 //}
 
-int
-	parse_line(t_buffer *buffer)
+t_word_list
+	*parse_line(char *line)
 {
-	if (is_exception(buffer->line))
-		return (EXCEPTION);
-	buffer->node = malloc(sizeof(t_word_list));
-	buffer->node->next = NULL;
-	buffer->node->word.word = NULL;
+	t_word_list	*words;
 
-	buffer->node->word.flags |= W_ARG;
-	split_line(buffer->line, buffer->node, '\0');
-//	flag_word(buffer->node);
-	return (SUCCESS);
+	if (is_exception(line))
+		return (NULL);
+	words = malloc(sizeof(t_word_list));
+	if (!words)
+		return (NULL);
+	words->next = NULL;
+	words->word.word = NULL;
+	words->word.flags |= W_ARG;
+	if (!split_line(line, words, '\0'))
+		return (NULL);
+//	flag_word(buffer->words);
+	return (words);
 }

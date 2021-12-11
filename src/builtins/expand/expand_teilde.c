@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_teilde_expand.c                                 :+:      :+:    :+:   */
+/*   expand_teilde.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../../include/minishell.h"
 
 /*
  * ~
@@ -36,7 +36,7 @@ static int
 }
 
 char
-	*ft_teilde_expand(char *filename, int i)
+	*expand_teilde(char *filename, int i)
 {
 	char			*dirname;
 	char			*dest;

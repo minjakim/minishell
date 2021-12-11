@@ -1,42 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 12:05:04 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 13:23:34 by snpark           ###   ########.fr       */
+/*   Created: 2021/12/05 16:29:14 by snpark            #+#    #+#             */
+/*   Updated: 2021/12/11 16:18:03 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../include/minishell.h"
 
 int
-	builtin_echo(t_shell *mini)
+	ft_execve(t_shell *mini)
 {
-	int		display_return;
-	int		i;
-	char	**argv;
+	pid_t	pid;
 
-	display_return = 1;
-	i = 1;
-	if (mini && mini->command)
-		argv = mini->command->value.simple.argv;
-	else
+	if (mini->command->flags & CMD_NOFUNCTION)
 		return (0);
-	if (argv[0] != NULL && ft_strcmp(argv[1], "-n") == 0 && ++i)
+	pid = 0;
+	if (!(mini->command->flags & CMD_NO_FORK))
+		pid = fork();
+	if (pid == 0)
 	{
-		display_return = 0;
-		++i;
+		if (execve(mini->command->value.simple.path, mini->command->value.simple.argv, mini->env.envp) == ERROR)
+			exit(126);
 	}
-	while (argv[i])
+	else if (pid > 0)
 	{
-		printf("%s", argv[i]);
-		if (argv[++i])
-			printf(" ");
+		waitpid(pid, &mini->status.exit, 0);
+		return (mini->status.exit);
 	}
-	if (display_return)
-		printf("\n");
+	else if (pid < 0)
+		return (1);
 	return (0);
 }

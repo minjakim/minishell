@@ -1,51 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 15:45:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 15:04:07 by snpark           ###   ########.fr       */
+/*   Created: 2021/12/01 17:35:19 by snpark            #+#    #+#             */
+/*   Updated: 2021/12/11 16:56:14 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
-
-static int
-	print_export(t_hash *handle)
-{
-	while (handle && handle->flag & H_EXPORT)
-	{
-		printf("declare -x ");
-		printf("%s", handle->key);
-		if (!(handle->flag & H_KEYONLY))
-			printf("=\"%s\"", handle->value);
-		printf("\n");
-		handle = handle->next;
-	}
-	return (0);
-}
+#include "../../include/minishell.h"
 
 int
-	builtin_export(t_shell *mini)
+	builtin_unset(t_shell *mini)
 {
 	char	**argv;
 
 	if (mini && mini->command && mini->command->value.simple.argv)
 		argv = mini->command->value.simple.argv;
-	else
-		return (0);
 	if (argv[0] != NULL && argv[1] == NULL)
-		return (print_export(mini->env.declare));
+		return (0);
 	while (*++argv)
 	{
 		//if (legal_identifier(key) == 0)
 		//	return (1);
-		if (declare_add(&mini->env.declare, *argv, H_EXPORT) != 0)
+		if (declare_remove(&mini->env.declare, *argv) != 0)
 			return (1);
 	}
-	if (!replace_envp(&mini->env, 1))
-		return (1);
 	return (0);
 }

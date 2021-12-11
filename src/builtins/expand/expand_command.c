@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 15:05:34 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 17:33:03 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../../include/minishell.h"
 
 static int
 	is_expand(int flags)
@@ -19,11 +19,11 @@ static int
 				W_TILDEEXP | W_HASHQUOTEDNULL));
 }
 
-//int glob_expand(t_word_list *list)
+//int expand_glob(t_word_list *list)
 //{
 //	char	*cwd;
 //	t_word_desc	;
-//	t_word_list	glob_expand_list;
+//	t_word_list	expand_glob_list;
 //
 //	cwd = getcwd(NULL, 0);
 //
@@ -90,7 +90,7 @@ static int
 				if (!expand_word(&list->word))
 					return (FALSE);
 //			if (list->word->flags & W_GLOBEXP)
-//				glob_expand(list);
+//				expand_glob(list);
 			remove_quote(list->word.word);
 			list = list->next;
 			++argc;
@@ -115,7 +115,7 @@ static int
 		{
 			if (!expand_word(&redirects->redirectee.filename))
 				return (FAIL);
-//			if (glob_expand() != 0)
+//			if (expand_glob() != 0)
 //				return (FAIL);//argv[1]: ambiguas redirection
 			remove_quote(redirects->redirectee.filename.word);
 		}
@@ -127,7 +127,7 @@ static int
 }
 
 int
-	expand_cmd(t_shell *mini)
+	expand_command(t_shell *mini)
 {
 	if (!expand_argv(mini->command))
 		return (FAIL);

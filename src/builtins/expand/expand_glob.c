@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   glob.c                                             :+:      :+:    :+:   */
+/*   expand_glob.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 10:07:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/09 15:14:16 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 16:20:48 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
-
-typedef struct s_globvector
-{
-	struct s_globvector	*next;
-	char				*str;
-}	t_globvector;
+#include "../../../include/minishell.h"
 
 int
 	strmatch(char *pat, char *str, int flag)
@@ -43,18 +37,18 @@ int
 }
 
 char
- 	**glob_expand(t_word_desc *word)
+ 	**expand_glob(t_word_desc *word)
 {
 	char 	*filename;
 	char	*slash;
 	DIR		*dirinfo;
 	struct dirent	*entry;
 	int		is_dir;
-	
 
-	//filename = word->word; 
+
+	//filename = word->word;
 	filename = "hello";
-	slash = strchr(filename, '/');
+	slash = ft_strchr(filename, '/');
 	if (slash != NULL && slash[1] != '\0')
 		return (0);
 	is_dir = (slash != NULL);

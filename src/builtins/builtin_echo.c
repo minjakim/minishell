@@ -1,38 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_execve.c                                        :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/05 16:29:14 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
+/*   Created: 2021/12/03 12:05:04 by snpark            #+#    #+#             */
+/*   Updated: 2021/12/11 16:55:03 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 int
-	ft_execve(t_shell *mini)
+	builtin_echo(t_shell *mini)
 {
-	pid_t	pid;
+	int		display_return;
+	int		i;
+	char	**argv;
 
-	if (mini->command->flags & CMD_NOFUNCTION)
+	display_return = 1;
+	i = 1;
+	if (mini && mini->command)
+		argv = mini->command->value.simple.argv;
+	else
 		return (0);
-	pid = 0;
-	if (!(mini->command->flags & CMD_NO_FORK))
-		pid = fork();
-	if (pid == 0)
+	if (argv[0] != NULL && ft_strcmp(argv[1], "-n") == 0 && ++i)
 	{
-		if (execve(mini->command->value.simple.path, mini->command->value.simple.argv, mini->env.envp) == ERROR)
-			exit(126);
+		display_return = 0;
+		++i;
 	}
-	else if (pid > 0)
+	while (argv[i])
 	{
-		waitpid(pid, &mini->status.exit, 0);
-		return (mini->status.exit);
+		printf("%s", argv[i]);
+		if (argv[++i])
+			printf(" ");
 	}
-	else if (pid < 0)
-		return (1);
+	if (display_return)
+		printf("\n");
 	return (0);
 }

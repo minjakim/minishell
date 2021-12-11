@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 15:07:24 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 16:48:10 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static void
 	init_builtins(t_shell *mini)
@@ -27,9 +27,9 @@ static void
 }
 
 static int
-	backup_stdio(t_ios *mini)
+	init_stdio(t_ios *mini)
 {
-	mini->backup.in= dup(STDIN_FILENO);
+	mini->backup.in = dup(STDIN_FILENO);
 	if (mini->backup.in == ERROR)
 		return (FAIL);
 	mini->backup.out = dup(STDOUT_FILENO);
@@ -38,14 +38,22 @@ static int
 	return (SUCCESS);
 }
 
-int
-	initialize(t_shell *mini)
+static int
+	init_declare(t_env *env)
 {
-	if (!backup_stdio(&mini->ios))
+
+	return (SUCCESS);
+}
+
+int
+	init_minishell(t_shell *mini)
+{
+	if (!init_stdio(&mini->ios))
 		return (FAIL);
-	if (!parse_envp(&mini->env))
+	if (!init_declare(&mini->env))
 		return (FAIL);
 	init_builtins(mini);
+
 	tgetent(NULL, "xterm");
 	tcgetattr(STDIN_FILENO, &mini->config.current);
 	mini->config.backup = mini->config.current;

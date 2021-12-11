@@ -1,16 +1,115 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   declare.c                                          :+:      :+:    :+:   */
+/*   declare_envp.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 15:03:01 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/11 16:58:49 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../../include/minishell.h"
+
+static void
+	envp_free(char **envp)
+{
+	int		i;
+
+	i = -1;
+	while (envp[++i])
+		free(envp[i]);
+	free(envp);
+}
+
+static int
+	envp_len(t_hash *handle)
+{
+	int		envp_len;
+
+	envp_len = 0;
+	while (handle)
+	{
+		if (handle->flag & H_EXPORT && !(handle->flag & H_KEYONLY))
+			++envp_len;
+		handle = handle->next;
+	}
+	return (envp_len);
+}
+
+static int
+	envp_make(char **new_envp, t_hash *handle)
+{
+	int	i;
+
+	i = 0;
+	while (handle)
+	{
+		if (handle->flag & H_EXPORT && !(handle->flag & H_KEYONLY))
+		{
+			new_envp[i] = malloc(sizeof(char) \
+					* (ft_strlen(handle->key) + ft_strlen(handle->value) + 2));
+			if (new_envp[i] == NULL)
+				return (FAIL);
+			strcat(strcat(ft_strcpy(new_envp[i], handle->key), "="), \
+					handle->value);
+			++i;
+		}
+		handle = handle->next;
+	}
+	return (SUCCESS);
+}
+
+int
+	envp_update(t_env *env, int flag)
+{
+	extern char	**environ;
+	const int	envplen = envp_len(env->declare);
+	char		**new_envp;
+	int			i;
+
+	new_envp = malloc(sizeof(char *) * (envplen + 2));
+	if (new_envp == NULL)
+		return (FAIL);
+	ft_memset(new_envp, 0, envplen + 2);
+	if (!envp_make(new_envp, env->declare))
+		return (FAIL);
+	if (flag == 1)
+		envp_free(env->envp);
+	env->envp = new_envp;
+	environ = new_envp;
+	return (SUCCESS);
+}
+
+static int
+	declare_env(t_env *env)
+{
+	int		i;
+	char	*tmp;
+
+	i = -1;
+	while (env->envp[++i])
+	{
+		tmp = ft_strdup(env->envp[i]);
+		if (tmp == NULL)
+			return (FAIL);
+		if (declare_add(&env->declare, tmp, H_EXPORT) != 0)
+			return (FAIL);
+		free(tmp);
+	}
+	return (SUCCESS);
+}
+
+int
+	handler_envp(t_env *env)
+{
+	if (!declare_env(env))
+		return (FAIL);
+	if (!envp_update(env, 0))
+		return (FAIL);
+	return (SUCCESS);
+}
 
 static void
 	declare_free(t_hash *tmp)
@@ -131,7 +230,7 @@ int
 		flag |= H_KEYONLY;
 	}
 	tmp.flag = flag;
-	declare_check_key(*head, tmp.key)
+	declare_check_key(*head, tmp.key);
 	return (declare_add_unit(head, declare_check_key(*head, tmp.key), tmp));
 }
 

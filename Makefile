@@ -15,7 +15,7 @@ execute=$(builtin_function:%=builtins/%)\
 	ft_execve.c\
 	redirect.c\
 	expand_word.c\
-	ft_teilde_expand.c\
+	expand_teilde.c\
 	strmove.c\
 	glob.c
 #	ft_execve.c
