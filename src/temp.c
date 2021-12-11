@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/11 10:44:30 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/11 12:19:27 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,4 +165,37 @@ char
 	if (!(dst = malloc(sizeof(char) * n)))
 		return (NULL);
 	return (ft_memcpy(dst, s1, n));
+}
+
+int
+	ft_strcmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0')
+		++i;
+	return (s1[i] - s2[i]);
+}
+
+char
+	*ft_strcpy(char *dst, const char *src)
+{
+	while (*src)
+		*dst++ = *src++;
+	*dst = *src;
+	return (dst);
+}
+
+char
+	*ft_strcat(char *s1, const char *s2)
+{
+	char *dst;
+
+	dst = s1;
+	while (*s1++)
+		;
+	while (*s2)
+		*s1++ = *s2++;
+	return (dst);
 }
