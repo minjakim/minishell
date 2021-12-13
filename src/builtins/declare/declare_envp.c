@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 09:36:43 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 12:14:07 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int
 			new_envp[i] = malloc(sizeof(char) \
 					* (ft_strlen(handle->key) + ft_strlen(handle->value) + 2));
 			if (new_envp[i] == NULL)
-				return (FAIL);
+				return (FAILURE);
 			strcat(strcat(ft_strcpy(new_envp[i], handle->key), "="), \
 					handle->value);
 			++i;
@@ -71,10 +71,10 @@ int
 
 	new_envp = malloc(sizeof(char *) * (envplen + 2));
 	if (new_envp == NULL)
-		return (FAIL);
+		return (FAILURE);
 	ft_memset(new_envp, 0, envplen + 2);
 	if (!envp_make(new_envp, env->declare))
-		return (FAIL);
+		return (FAILURE);
 	if (flag == 1)
 		envp_free(env->envp);
 	env->envp = new_envp;
@@ -93,9 +93,9 @@ static int
 	{
 		temp = ft_strdup(env->envp[i]);
 		if (temp == NULL)
-			return (FAIL);
+			return (FAILURE);
 		if (declare_add(&env->declare, temp, H_EXPORT) != 0)
-			return (FAIL);
+			return (FAILURE);
 		free(temp);
 	}
 	return (SUCCESS);
@@ -105,9 +105,9 @@ int
 	handler_envp(t_env *env)
 {
 	if (!declare_env(env))
-		return (FAIL);
+		return (FAILURE);
 	if (!envp_update(env, 0))
-		return (FAIL);
+		return (FAILURE);
 	return (SUCCESS);
 }
 

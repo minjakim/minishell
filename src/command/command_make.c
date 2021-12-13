@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:10:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 09:34:24 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 13:54:24 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_word_list
 	while (handler->next && ++count <= 16)
 		handler = handler->next;
 	if (count > 16)
-		return (NULL);//error 리다이렉트 수 제한 넘김
+		return (NULL);
 	handler->next = new_unit;
 	return (temp);
 }
@@ -124,7 +124,7 @@ int
 
 	command = malloc(sizeof(t_command));
 	if (!command)
-		return (FAIL);
+		return (FAILURE);
 	mini->command = command;
 	while (words)
 	{

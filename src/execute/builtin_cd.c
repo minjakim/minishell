@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/12 15:14:37 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 12:14:07 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static int
 
 	assignment = malloc(len);
 	if (assignment == NULL)
-		return (FAIL);
+		return (FAILURE);
 	ft_memset(assignment, 0, len);
 	ft_strcat(ft_strcpy(assignment, key), dirname);
 	if (assignment == NULL)
-		return (FAIL);
+		return (FAILURE);
 	if (declare_add(&mini->env.declare, assignment, H_EXPORT) != 0)
-		return (FAIL);
+		return (FAILURE);
 	free(assignment);
 	return (SUCCESS);
 }

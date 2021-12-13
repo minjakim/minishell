@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_line.c                                       :+:      :+:    :+:   */
+/*   word_list_make.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/12 13:54:43 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 12:14:07 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int
 	{
 		new_node = malloc(sizeof(t_word_list));
 		if (!new_node)
-			return (FAIL);
+			return (FAILURE);
 		new_node->next = NULL;
 		new_node->word.word = line;
 		words->next = new_node;
@@ -62,7 +62,7 @@ static int
 		if (*line == '\0')
 			return (SUCCESS);
 		if (!word_list_add(words, line))
-			return (FAIL);
+			return (FAILURE);
 		if (words->next != NULL)
 		{
 			words = words->next;

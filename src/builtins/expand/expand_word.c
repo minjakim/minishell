@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 09:38:48 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 12:14:07 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int
 		else if (is_teilde(handle, i, quote))
 			handle = expand_teilde(handle, i);
 		if (handle == NULL)
-			return (FAIL);
+			return (FAILURE);
 		if (is_quote(handle[i], quote))
 			quote ^= handle[i];
 		++i;

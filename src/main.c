@@ -6,13 +6,13 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 11:24:29 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 16:37:09 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_shell	*g_mini;
+t_status	g_status;
 
 static int
 	put_tc(int tc)
@@ -22,7 +22,7 @@ static int
 }
 
 static void
-	eof_handler(void)
+	handling_eof(void)
 {
 	t_termios	temp;
 	char		buffer[255];
@@ -47,7 +47,7 @@ static void
 }
 
 static inline char
-	*ft_readline(char **line)
+	*mini_readline(char **line)
 {
 	if (*line)
 		free(*line);
@@ -55,7 +55,7 @@ static inline char
 	*line = readline(PROMPT);
 
 	if (!*line)
-		eof_handler();
+		handling_eof();
 	else
 		add_history(*line);
 	return (*line);
@@ -69,11 +69,11 @@ int
 
 	while (LOOP)
 	{
-		if (!ft_readline(&line))
+		if (!mini_readline(&line))
 			break ;
 		words = word_list_make(line);
 		if (!words)
-			return (GENERAL_ERROR);
+			return (EXIT_FAILURE);
 	}
 	return (builtin_exit(mini));
 }
@@ -81,13 +81,13 @@ int
 int
 	main(int argc, char **argv, char **envp)
 {
+	t_shell	mini;
+
 	(void)argc;
 	(void)argv;
-	g_mini = malloc(sizeof(t_shell));
-	if (!g_mini)
-		return (GENERAL_ERROR);
-	g_mini->env.envp = envp;
-	if (!initialize(g_mini))
-		return (GENERAL_ERROR);
-	return (minishell(g_mini));
+	mini.status = &g_status;
+	mini.env.envp = envp;
+	if (!initialize(&mini))
+		return (EXIT_FAILURE);
+	return (minishell(&mini));
 }

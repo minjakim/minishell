@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/12 15:20:11 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 12:14:07 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,9 @@ static int
 		if (redirects->flags != 0 && is_expand(redirects->redirectee.filename.flags))
 		{
 			if (!expand_word(&redirects->redirectee.filename))
-				return (FAIL);
+				return (FAILURE);
 //			if (expand_glob() != 0)
-//				return (FAIL);//argv[1]: ambiguas redirection
+//				return (FAILURE);//argv[1]: ambiguas redirection
 			remove_quote(redirects->redirectee.filename.word);
 		}
 		if (redirects->flags == 0 && redirects->redirectee.filename.flags & (W_QUOTED | W_DQUOTED))
@@ -127,8 +127,8 @@ int
 	expand_command(t_shell *mini)
 {
 	if (!expand_argv(mini->command))
-		return (FAIL);
+		return (FAILURE);
 	if (!expand_filename(mini->command->redirects))
-		return (FAIL);
+		return (FAILURE);
 	return (SUCCESS);
 }

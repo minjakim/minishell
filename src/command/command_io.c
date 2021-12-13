@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 14:16:40 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/12 15:05:48 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 12:14:07 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int
 	command_io_set(t_io *io)
 {
 	if (dup2(io->in, STDIN_FILENO) == ERROR)
-		return (FAIL);
+		return (FAILURE);
 	if (dup2(io->out, STDOUT_FILENO) == ERROR)
-		return (FAIL);
+		return (FAILURE);
 	return (SUCCESS);
 }
 

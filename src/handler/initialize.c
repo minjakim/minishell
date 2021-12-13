@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 11:17:09 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 16:38:09 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void
 	mini->execute[MINI_EXPORT] = builtin_export;
 	mini->execute[MINI_PWD] = builtin_pwd;
 	mini->execute[MINI_UNSET] = builtin_unset;
-	mini->execute[MINI_NULL] = builtin_null;
+	mini->execute[MINI_NULL] = mini_null;
 }
 
 static int
@@ -31,10 +31,10 @@ static int
 {
 	io->in = dup(STDIN_FILENO);
 	if (io->in == ERROR)
-		return (FAIL);
+		return (FAILURE);
 	io->out = dup(STDOUT_FILENO);
 	if (io->out == ERROR)
-		return (FAIL);
+		return (FAILURE);
 	return (SUCCESS);
 }
 
@@ -50,9 +50,9 @@ int
 	t_termios	attr;
 
 	if (!init_io(&mini->backup.stdio))
-		return (FAIL);
+		return (FAILURE);
 	if (!init_env(&mini->env))
-		return (FAIL);
+		return (FAILURE);
 	init_execute(mini);
 	tgetent(NULL, "xterm");
 	tcgetattr(STDIN_FILENO, &attr);
@@ -61,8 +61,6 @@ int
 	signal(SIGINT, handler_signal);
 	rl_catch_signals = FALSE;
 	mini->command = NULL;
-	mini->status.interactive = TRUE;
-	mini->status.exit = 0;
-	mini->status.error = 0;
+	mini->status->interactive = TRUE;
 	return (SUCCESS);
 }

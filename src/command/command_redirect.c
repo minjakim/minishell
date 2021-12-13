@@ -6,39 +6,31 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/12 15:27:03 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:04:56 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static int
-	is_eof(char **line, const char *const eof)
-{
-	*line = readline("heredoc> ");
-	if (*line && ft_strcmp(*line, eof))
-		return (TRUE);
-	return (FALSE);
-}
-
-static int
 	heredoc(const char *const eof)
 {
 	char	*line;
-	t_io	io;
 
-	line = NULL;
-	pipe(io.fd);
-	while (is_eof(&line, eof))
+	pipe(g_status.heredoc.fd);
+	while (LOOP)
 	{
-		write(io.fd[1], line, ft_strlen(line));
-		write(io.fd[1], "\n", 1);
+		line = readline("> ");
+		if (!line || ft_strcmp(line, eof))
+			break ;
+		write(g_status.heredoc.out, line, ft_strlen(line));
+		write(g_status.heredoc.out, "\n", 1);
 		free(line);
 	}
 	if (line)
 		free(line);
-	close(io.fd[1]);
-	return (io.fd[0]);
+	close(g_status.heredoc.out);
+	return (g_status.heredoc.in);
 }
 
 int
@@ -56,12 +48,12 @@ int
 		else if (ptr->flags == 0)
 			io->fd[ptr->redirector] = heredoc(ptr->here_doc_eof);
 		else
-			return (FAIL);
+			return (FAILURE);
 		if (io->fd[ptr->redirector] == ERROR)
-			return (FAIL);
+			return (FAILURE);
 		ptr = ptr->next;
 	}
 	if (!command_io_set(io))
-		return (FAIL);
+		return (FAILURE);
 	return (SUCCESS);
 }

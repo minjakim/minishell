@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 10:58:55 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 16:36:28 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "resource.h"
 # include "type.h"
 # include "temp.h"
+
+extern t_status	g_status;
 
 void		eof_exit(t_shell *mini);
 int			initialize(t_shell *mini);
@@ -52,7 +54,7 @@ int			builtin_exit(t_shell *mini);
 int			builtin_export(t_shell *mini);
 int			builtin_pwd(t_shell *mini);
 int			builtin_unset(t_shell *mini);
-int			builtin_null(t_shell *mini);
+int			mini_null(t_shell *mini);
 
 void		error_fatal(const char *const str, const size_t nbyte);
 

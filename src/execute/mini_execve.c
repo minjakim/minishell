@@ -6,11 +6,18 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 16:29:14 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/12 15:16:53 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 16:38:26 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int
+	mini_null(t_shell *mini)
+{
+	(void)mini;
+	return (0);
+}
 
 int
 	mini_execve(t_shell *mini)
@@ -30,8 +37,8 @@ int
 	}
 	else if (pid > 0)
 	{
-		waitpid(pid, &mini->status.exit, 0);
-		return (mini->status.exit);
+		waitpid(pid, &mini->status->exit, 0);
+		return (mini->status->exit);
 	}
 	else if (pid < 0)
 		return (1);

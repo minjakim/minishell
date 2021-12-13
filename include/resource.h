@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/13 10:42:46 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 12:15:33 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,11 @@ enum e_bool
 	TRUE
 };
 
-enum e_status
+enum e_return
 {
 	EXCEPTION = -2,
-	ERROR = -1,
-	FAIL,
+	ERROR,
+	FAILURE,
 	SUCCESS
 };
 
@@ -105,7 +105,6 @@ enum e_size
 
 enum e_exit_status
 {
-	GENERAL_ERROR = 1,
 	b,
 	c,
 	d,
