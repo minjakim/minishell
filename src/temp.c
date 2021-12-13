@@ -6,26 +6,26 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/11 15:09:25 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/13 09:34:24 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int
-	builtin_null(t_shell *mini)
+	execute_builtin_null(t_shell *mini)
 {
 	(void)mini;
 	return (0);
 }
 
 void
-	tmp_print_list(t_word_list *tmp)
+	temp_print_list(t_word_list *temp)
 {
-	while (tmp)
+	while (temp)
 	{
-		printf("%s %d\n", tmp->word.word, tmp->word.flags);
-		tmp = tmp->next;
+		printf("%s %d\n", temp->word.word, temp->word.flags);
+		temp = temp->next;
 	}
 }
 
@@ -214,6 +214,7 @@ char
 	if (*s2 == '\0')
 		*++s1 = *s2;
     return (ptr);
+}
 
 char
 	*ft_strndup(const char *s1, size_t n)
@@ -236,5 +237,5 @@ char
 {
 	if (!dst)
 		return (dst);
-	
+	return (dst);
 }

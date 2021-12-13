@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 16:12:07 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 09:38:48 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int
 static char
 	*expand_env(char *src, int i, int flags)
 {
-	t_hash	hash;
+	t_declare	declare;
 	int		key_len;
 	int		dest_len;
 	char	*dest;
@@ -36,17 +36,17 @@ static char
 	key_len = 0;
 	while (legal_variable_char(src[++key_len + i]))
 		;
-	hash.key = ft_strndup(src + i + 1, key_len - 1);
-	hash.value = getenv(hash.key);
-	if (i == 0 && flags & W_FILENAME && (!hash.value || !*hash.value))
+	declare.key = ft_strndup(src + i + 1, key_len - 1);
+	declare.value = getenv(declare.key);
+	if (i == 0 && flags & W_FILENAME && (!declare.value || !*declare.value))
 		return (NULL);//bash: argv[1]: ambiguas redirect
-	dest_len = ft_strlen(src) - key_len + ft_strlen(hash.value);
+	dest_len = ft_strlen(src) - key_len + ft_strlen(declare.value);
 	dest = malloc(sizeof(char) * dest_len);
 	if (dest == NULL)
 		return (NULL);
 	ft_memset(dest, 0, sizeof(char) * dest_len);
-	ft_strcat(ft_strcat(strncpy(dest, src, i), hash.value), src + i + key_len);
-	free(hash.key);
+	ft_strcat(ft_strcat(strncpy(dest, src, i), declare.value), src + i + key_len);
+	free(declare.key);
 	free(src);
 	return (dest);
 }

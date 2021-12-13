@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 17:18:05 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/12 15:27:03 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,26 @@ static int
 }
 
 int
-	redirect(t_shell *mini)
+	command_redirect(t_shell *mini)
 {
-	t_redirect *handle;
-	t_io		*io;
+	const t_redirect	*ptr = mini->command->redirects;
+	t_io				*io;
 
-	while (handle)
+	while (ptr)
 	{
-		if (io->fd[handle->redirector] != handle->redirector)
-			close(io->fd[handle->redirector]);
-		if (handle->flags != 0 && handle->redirectee.filename.word)
-			io->fd[handle->redirector] = open(handle->redirectee.filename.word, handle->flags, 0644);
-		else if (handle->flags == 0)
-			io->fd[handle->redirector] = heredoc(handle->here_doc_eof);
+		if (io->fd[ptr->redirector] != ptr->redirector)
+			close(io->fd[ptr->redirector]);
+		if (ptr->flags != 0 && ptr->redirectee.filename.word)
+			io->fd[ptr->redirector] = open(ptr->redirectee.filename.word, ptr->flags, 0644);
+		else if (ptr->flags == 0)
+			io->fd[ptr->redirector] = heredoc(ptr->here_doc_eof);
 		else
 			return (FAIL);
-		if (io->fd[handle->redirector] == ERROR)
+		if (io->fd[ptr->redirector] == ERROR)
 			return (FAIL);
-		handle = handle->next;
+		ptr = ptr->next;
 	}
-	if (!redirect_stdio(io))
+	if (!command_io_set(io))
 		return (FAIL);
 	return (SUCCESS);
 }

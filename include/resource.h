@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/11 17:43:20 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 10:42:46 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,17 @@
 # include <limits.h>
 # include <sys/stat.h>
 
-# define PROMPT "mini ^o^)/ $> "
+# define PROMPT					"mini ^o^)/ $> "
+
+# define T_PTR					void *
 
 # define LOMAGIC				0x0101010101010101
 # define HIMAGIC				0x8080808080808080
 # define OPSIZ					8
 # define LOOP					1
+
+# define EXIT					"exit\n"
+# define ERROR_FATAL			"out of virtual memory\n"
 
 # define CMD_COMMAND_BUILTIN	0x00000001
 # define CMD_STDIN_REDIR		0x00000002
@@ -92,26 +97,20 @@ enum e_status
 	SUCCESS
 };
 
-//Exit Code Number	Meaning	Example	Comments
-//1	Catchall for general errors	let "var1 = 1/0"	Miscellaneous errors, such as "divide by zero" and other impermissible operations
-//2	Misuse of shell builtins (according to Bash documentation)	empty_function() {}	Missing keyword or command, or permission problem (and diff return code on a failed binary file comparison).
-//126	Command invoked cannot execute	/dev/null	Permission problem or command is not an executable
-//127	"command not found"	illegal_command	Possible problem with $PATH or a typo
-//128	Invalid argument to exit	exit 3.14159	exit takes only integer args in the range 0 - 255 (see first footnote)
-//128+n	Fatal error signal "n"	kill -9 $PPID of script	$? returns 137 (128 + 9)
-//130	Script terminated by Control-C	Ctl-C	Control-C is fatal error signal 2, (130 = 128 + 2, see above)
-//255*	Exit status out of range	exit -1	exit takes only integer args in the range 0 - 255
+enum e_size
+{
+	LEN_EXIT = sizeof(EXIT) - 1,
+	LEN_PROMPT = sizeof(PROMPT) - 1
+};
 
 enum e_exit_status
 {
-	GENERAL_ERRORS = 1,
+	GENERAL_ERROR = 1,
 	b,
 	c,
 	d,
 	e,
-	f,
-
-
+	f
 };
 
 enum e_exception

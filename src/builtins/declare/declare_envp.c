@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 16:58:49 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 09:36:43 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void
 }
 
 static int
-	envp_len(t_hash *handle)
+	envp_len(t_declare *handle)
 {
 	int		envp_len;
 
@@ -39,7 +39,7 @@ static int
 }
 
 static int
-	envp_make(char **new_envp, t_hash *handle)
+	envp_make(char **new_envp, t_declare *handle)
 {
 	int	i;
 
@@ -86,17 +86,17 @@ static int
 	declare_env(t_env *env)
 {
 	int		i;
-	char	*tmp;
+	char	*temp;
 
 	i = -1;
 	while (env->envp[++i])
 	{
-		tmp = ft_strdup(env->envp[i]);
-		if (tmp == NULL)
+		temp = ft_strdup(env->envp[i]);
+		if (temp == NULL)
 			return (FAIL);
-		if (declare_add(&env->declare, tmp, H_EXPORT) != 0)
+		if (declare_add(&env->declare, temp, H_EXPORT) != 0)
 			return (FAIL);
-		free(tmp);
+		free(temp);
 	}
 	return (SUCCESS);
 }
@@ -112,18 +112,18 @@ int
 }
 
 static void
-	declare_free(t_hash *tmp)
+	declare_free(t_declare *temp)
 {
-	free(tmp->key);
-	free(tmp->value);
-	free(tmp);
+	free(temp->key);
+	free(temp->value);
+	free(temp);
 }
 
-static t_hash
-	*declare_check_key(t_hash *head, const char *const key)
+static t_declare
+	*declare_check_key(t_declare *head, const char *const key)
 {
-	t_hash	*back;
-	t_hash	*handle;
+	t_declare	*back;
+	t_declare	*handle;
 
 	handle = head;
 	back = handle;
@@ -140,25 +140,25 @@ static t_hash
 }
 
 static int
-	declare_make_head(t_hash **head, t_hash *back, t_hash tmp)
+	declare_make_head(t_declare **head, t_declare *back, t_declare temp)
 {
-	t_hash	*new;
+	t_declare	*new;
 
-	new = malloc(sizeof(t_hash));
+	new = malloc(sizeof(t_declare));
 	if (new == NULL)
 		return (1);
-	ft_memset(new, 0, sizeof(t_hash));
-	new->flag = tmp.flag;
+	ft_memset(new, 0, sizeof(t_declare));
+	new->flag = temp.flag;
 	*head = new;
 	new->next = back;
-	new->key = ft_strdup(tmp.key);
+	new->key = ft_strdup(temp.key);
 	if (new->key == NULL)
 		return (1);
 	if (new->flag & H_KEYONLY)
 		new->value = NULL;
 	else
 	{
-		new->value = ft_strdup(tmp.value);
+		new->value = ft_strdup(temp.value);
 		if (new->value == NULL)
 			return (1);
 	}
@@ -166,25 +166,25 @@ static int
 }
 
 static int
-	declare_make(t_hash *back, t_hash tmp)
+	declare_make(t_declare *back, t_declare temp)
 {
-	t_hash	*new;
+	t_declare	*new;
 
-	new = malloc(sizeof(t_hash));
+	new = malloc(sizeof(t_declare));
 	if (new == NULL)
 		return (1);
-	ft_memset(new, 0, sizeof(t_hash));
-	new->flag = tmp.flag;
+	ft_memset(new, 0, sizeof(t_declare));
+	new->flag = temp.flag;
 	new->next = back->next;
 	back->next = new;
-	new->key = ft_strdup(tmp.key);
+	new->key = ft_strdup(temp.key);
 	if (new->key == NULL)
 		return (1);
 	if (new->flag & H_KEYONLY)
 		new->value = NULL;
 	else
 	{
-		new->value = ft_strdup(tmp.value);
+		new->value = ft_strdup(temp.value);
 		if (new->value == NULL)
 			return (1);
 	}
@@ -192,25 +192,25 @@ static int
 }
 
 static int
-	declare_add_unit(t_hash **head, t_hash *back, t_hash tmp)
+	declare_add_unit(t_declare **head, t_declare *back, t_declare temp)
 {
-	if (back && back->next && ft_strcmp(tmp.key, back->next->key) == 0 \
-			&& tmp.value == NULL)
+	if (back && back->next && ft_strcmp(temp.key, back->next->key) == 0 \
+			&& temp.value == NULL)
 		return (0);
-	else if (back && back->next && ft_strcmp(tmp.key, back->next->key) == 0)
-		return (declare_edit_value(tmp.value, back->next, tmp.flag));
-	else if (back == NULL || (back && ft_strcmp(tmp.key, back->key) < 0))
-		return (declare_make_head(head, back, tmp));
+	else if (back && back->next && ft_strcmp(temp.key, back->next->key) == 0)
+		return (declare_edit(temp.value, back->next, temp.flag));
+	else if (back == NULL || (back && ft_strcmp(temp.key, back->key) < 0))
+		return (declare_make_head(head, back, temp));
 	else
-		return (declare_make(back, tmp));
+		return (declare_make(back, temp));
 	return (1);
 }
 
 int
-	declare_add(t_hash **head, char *str, int flag)
+	declare_add(t_declare **head, char *str, int flag)
 {
 	int		offset;
-	t_hash	tmp;
+	t_declare	temp;
 
 	//offset = assignment(str);
 	//if (offset == 0)
@@ -222,22 +222,22 @@ int
 	}
 	if (offset != 0)
 		str[offset] = '\0';
-	tmp.key = str;
-	tmp.value = str + offset + 1;
+	temp.key = str;
+	temp.value = str + offset + 1;
 	if (offset == 0)
 	{
-		tmp.value = NULL;
+		temp.value = NULL;
 		flag |= H_KEYONLY;
 	}
-	tmp.flag = flag;
-	declare_check_key(*head, tmp.key);
-	return (declare_add_unit(head, declare_check_key(*head, tmp.key), tmp));
+	temp.flag = flag;
+	declare_check_key(*head, temp.key);
+	return (declare_add_unit(head, declare_check_key(*head, temp.key), temp));
 }
 
 int
-	declare_remove(t_hash **head, const char *const key)
+	declare_remove(t_declare **head, const char *const key)
 {
-	t_hash	*back;
+	t_declare	*back;
 
 	if (*head == NULL || key == NULL)
 		return (0);

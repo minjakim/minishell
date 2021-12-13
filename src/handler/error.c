@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   handler_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 15:17:56 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 16:54:36 by minjakim         ###   ########.fr       */
+/*   Created: 2021/12/12 11:23:36 by minjakim          #+#    #+#             */
+/*   Updated: 2021/12/12 11:41:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int
-	print_envp(const char **envp)
+void
+	error_fatal(const char *const str, const size_t nbyte)
 {
-	while (*envp)
-		printf("%s\n", *envp++);
-	return (0);
-}
-
-int
-	builtin_env(t_shell *mini)
-{
-	return (print_envp((const char **)mini->env.envp));
+	write(STDERR_FILENO, str, nbyte);
 }

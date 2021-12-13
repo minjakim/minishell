@@ -6,14 +6,14 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:45:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 16:56:05 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 09:36:43 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static int
-	print_export(t_hash *handle)
+	print_export(t_declare *handle)
 {
 	while (handle && handle->flag & H_EXPORT)
 	{
@@ -32,8 +32,8 @@ int
 {
 	char	**argv;
 
-	if (mini && mini->command && mini->command->value.simple.argv)
-		argv = mini->command->value.simple.argv;
+	if (mini && mini->command && mini->command->argv)
+		argv = mini->command->argv;
 	else
 		return (0);
 	if (argv[0] != NULL && argv[1] == NULL)

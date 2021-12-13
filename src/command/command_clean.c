@@ -1,64 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dispose_handler.c                                  :+:      :+:    :+:   */
+/*   command_clean.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/11 08:02:58 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/11 09:58:33 by minjakim         ###   ########.fr       */
+/*   Created: 2021/12/12 15:43:57 by minjakim          #+#    #+#             */
+/*   Updated: 2021/12/13 09:34:24 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 void
-	clean_cmd(t_shell *mini)
+	cmmand_clean(t_shell *mini)
 {
 	t_word_list *wl_handler;
 	t_redirect	*rd_handler;
-	void		*tmp;
+	void		*temp;
 	int			i;
 
 	while (mini->command)
 	{
-		wl_handler = mini->command->value.simple.words;
+		wl_handler = mini->command->words;
 		while (wl_handler)
 		{
-			tmp = wl_handler->next;
+			temp = wl_handler->next;
 			free(wl_handler);
-			wl_handler = tmp;
+			wl_handler = temp;
 		}
 		i = -1;
-		if (mini->command->value.simple.argv)
+		if (mini->command->argv)
 		{
-			while (mini->command->value.simple.argv[++i])
-				free(mini->command->value.simple.argv[i]);
-			free(mini->command->value.simple.argv);
+			while (mini->command->argv[++i])
+				free(mini->command->argv[i]);
+			free(mini->command->argv);
 		}
-		rd_handler = mini->command->value.simple.redirects;
+		rd_handler = mini->command->redirects;
 		while (rd_handler)
 		{
 			if (rd_handler->flags == 0)
 				free(rd_handler->here_doc_eof);
 			else
 				free(rd_handler->redirectee.filename.word);
-			tmp = rd_handler->next;
+			temp = rd_handler->next;
 			free(rd_handler);
-			rd_handler = tmp;
+			rd_handler = temp;
 		}
-		if (mini->command->value.simple.path)
-			free(mini->command->value.simple.path);
-		if (mini->command->type == cm_connection)
-		{
-			tmp = mini->command->value.connection.next;
-			free(mini->command);
-			mini->command = tmp;
-		}
-		if (mini->command->type == cm_simple)
-		{
-			free(mini->command);
-			mini->command = NULL;
-		}
+		if (mini->command->path)
+			free(mini->command->path);
+		free(mini->command);
+		mini->command = temp;
 	}
 }

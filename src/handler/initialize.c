@@ -6,16 +6,16 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 16:48:10 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 11:17:09 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static void
-	init_builtins(t_shell *mini)
+	init_execute(t_shell *mini)
 {
-	mini->execute[FT_EXECVE] = ft_execve;
+	mini->execute[FT_EXECVE] = mini_execve;
 	mini->execute[MINI_CD] = builtin_cd;
 	mini->execute[MINI_ECHO] = builtin_echo;
 	mini->execute[MINI_ENV] = builtin_env;
@@ -27,38 +27,37 @@ static void
 }
 
 static int
-	init_stdio(t_ios *mini)
+	init_io(t_io *io)
 {
-	mini->backup.in = dup(STDIN_FILENO);
-	if (mini->backup.in == ERROR)
+	io->in = dup(STDIN_FILENO);
+	if (io->in == ERROR)
 		return (FAIL);
-	mini->backup.out = dup(STDOUT_FILENO);
-	if (mini->backup.out == ERROR)
+	io->out = dup(STDOUT_FILENO);
+	if (io->out == ERROR)
 		return (FAIL);
 	return (SUCCESS);
 }
 
 static int
-	init_declare(t_env *env)
+	init_env(t_env *env)
 {
-
 	return (SUCCESS);
 }
 
 int
-	init_minishell(t_shell *mini)
+	initialize(t_shell *mini)
 {
-	if (!init_stdio(&mini->ios))
-		return (FAIL);
-	if (!init_declare(&mini->env))
-		return (FAIL);
-	init_builtins(mini);
+	t_termios	attr;
 
+	if (!init_io(&mini->backup.stdio))
+		return (FAIL);
+	if (!init_env(&mini->env))
+		return (FAIL);
+	init_execute(mini);
 	tgetent(NULL, "xterm");
-	tcgetattr(STDIN_FILENO, &mini->config.current);
-	mini->config.backup = mini->config.current;
-	mini->config.current.c_cc[VQUIT] = FALSE;
-	tcsetattr(STDIN_FILENO, TCSANOW, &mini->config.current);
+	tcgetattr(STDIN_FILENO, &attr);
+	mini->backup.attr = attr;
+	tcsetattr(STDIN_FILENO, TCSANOW, &attr);
 	signal(SIGINT, handler_signal);
 	rl_catch_signals = FALSE;
 	mini->command = NULL;

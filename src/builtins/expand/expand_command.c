@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 17:33:03 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/12 15:20:11 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int
 
 	while (cmd)
 	{
-		list = cmd->value.simple.words;
+		list = cmd->words;
 		argc = 0;
 		while (list)
 		{
@@ -95,13 +95,10 @@ static int
 			list = list->next;
 			++argc;
 		}
-		cmd->value.simple.argv = make_argv(cmd->value.simple.words, argc);
-		if (cmd->value.simple.argv == NULL)
+		cmd->argv = make_argv(cmd->words, argc);
+		if (cmd->argv == NULL)
 			return (FALSE);
-		if (cmd->type == cm_connection)
-			cmd = cmd->value.connection.next;
-		else if (cmd->type == cm_simple)
-			break;
+		cmd = cmd->next;
 	}
 	return (SUCCESS);
 }
@@ -131,7 +128,7 @@ int
 {
 	if (!expand_argv(mini->command))
 		return (FAIL);
-	if (!expand_filename(mini->command->value.simple.redirects))
+	if (!expand_filename(mini->command->redirects))
 		return (FAIL);
 	return (SUCCESS);
 }

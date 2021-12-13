@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_command.c                                     :+:      :+:    :+:   */
+/*   command_find.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 15:07:02 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/12 15:24:02 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ static int
 		return (MINI_CD);
 	else if (*str == 'e')
 	{
-		if (str[1] == 'c' && strcmp(str + 2, "ho") == 0)
+		if (str[1] == 'c' && ft_strcmp(str + 2, "ho") == 0)
 			return (MINI_ECHO);
-		else if (str[1] == 'n' && strcmp(str + 2, "v") == 0)
+		else if (str[1] == 'n' && ft_strcmp(str + 2, "v") == 0)
 			return (MINI_ENV);
-		else if (str[1] == 'x' && strcmp(str + 2, "it") == 0)
+		else if (str[1] == 'x' && ft_strcmp(str + 2, "it") == 0)
 			return (MINI_EXIT);
-		else if (str[1] == 'x' && strcmp(str + 2, "port") == 0)
+		else if (str[1] == 'x' && ft_strcmp(str + 2, "port") == 0)
 			return (MINI_EXPORT);
 	}
 	else if (*str == 'p' && str[1] == 'w' && str[2] == 'd' && str[3] == '\0')
 		return (MINI_PWD);
-	else if (*str == 'u' && strcmp(str + 1, "nset") == 0)
+	else if (*str == 'u' && ft_strcmp(str + 1, "nset") == 0)
 		return (MINI_UNSET);
 	return (FT_EXECVE);
 }
@@ -59,7 +59,7 @@ static char
 	{
 		if (string[i])
 			++(*p_index);
-		path = strdup(".");
+		path = ft_strdup(".");
 	}
 	else
 		path = strndup(string + start, i);
@@ -88,7 +88,7 @@ static char
 }
 
 int
-	find_in_path_command(t_shell *mini)
+	command_find_in_path(t_shell *mini)
 {
 	char		*path_list;
 	char		*path;
@@ -101,27 +101,27 @@ int
 		path = get_next_path_element(path_list, &path_index);
 		if (path == NULL)
 			break ;
-		mini->command->value.simple.path = find_in_path_element(\
-				mini->command->value.simple.argv[0], path);
+		mini->command->path = find_in_path_element(\
+				mini->command->argv[0], path);
 		free(path);
-		if (mini->command->value.simple.path != NULL)
+		if (mini->command->path != NULL)
 			return (0);
 	}
-	if (!path_list || !*path_list || !mini->command->value.simple.path)
+	if (!path_list || !*path_list || !mini->command->path)
 		return (127);// no such file of directory
 	return (0);
 }
 
 int
-	find_command(t_shell *mini)
+	command_find(t_shell *mini)
 {
-	const char	*name = mini->command->value.simple.argv[0];
+	const char	*name = mini->command->argv[0];
 
 	if (ft_strchr(name, '/') != NULL && stat(name, NULL) == 0)
-		mini->command->value.simple.path = strdup(name);
+		mini->command->path = strdup(name);
 	else if (is_builtin(name))
 		mini->command->flags |= CMD_COMMAND_BUILTIN;
 	else
-		return (find_in_path_command(mini));
+		return (command_find_in_path(mini));
 	return (0);
 }

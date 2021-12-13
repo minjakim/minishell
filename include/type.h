@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/11 18:41:52 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 11:16:59 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 typedef struct s_shell		t_shell;
 typedef struct s_command	t_command;
+typedef struct termios		t_termios;
 typedef unsigned long		t_op;
 typedef unsigned char		t_byte;
 
@@ -28,8 +29,8 @@ typedef struct s_globvector
 
 typedef struct s_word_desc
 {
-	char	*word;
-	int		flags;
+	char				*word;
+	int					flags;
 }	t_word_desc;
 
 typedef struct s_word_list
@@ -40,8 +41,8 @@ typedef struct s_word_list
 
 typedef union u_redirectee
 {
-	int			dest;
-	t_word_desc	filename;
+	int					dest;
+	t_word_desc			filename;
 }	t_redirectee;
 
 typedef struct s_redirect
@@ -53,101 +54,69 @@ typedef struct s_redirect
 	char				*here_doc_eof;
 }	t_redirect;
 
-typedef	union	u_io
+typedef union u_io
 {
 	struct
 	{
-		int		in;
-		int		out;
+		int				in;
+		int				out;
 	};
-	int			fd[2];
-	long long	init;
+	int					fd[2];
+	long long			init;
 }	t_io;
-
-typedef struct s_simple
-{
-	t_redirect	*redirects;
-	t_word_list	*words;
-	t_io		io;
-	char		*path;
-	char		**argv;
-}	t_simple;
-
-typedef struct s_connection
-{
-	t_redirect	*redirects;
-	t_word_list	*words;
-	t_io		io;
-	char		*path;
-	char		**argv;
-	t_command	*next;
-	int			connector;
-}	t_connection;
-
-typedef	enum e_command_type
-{
-	cm_simple,
-	cm_connection,
-}	t_command_type;
 
 typedef struct s_command
 {
-	int				flags;
-	t_command_type	type;
-	union
-	{
-		t_simple		simple;
-		t_connection	connection;
-	}	value;
+	int					flags;
+	t_redirect			*redirects;
+	t_word_list			*words;
+	t_io				io;
+	char				*path;
+	char				**argv;
+	t_command			*next;
+	int					connector;
 }	t_command;
 
-typedef struct s_termios
+typedef struct s_declare
 {
-	struct termios	current;
-	struct termios	backup;
-}	t_termios;
-
-typedef struct s_ios
-{
-	t_io	current;
-	t_io	backup;
-}	t_ios;
-
-typedef struct s_hash
-{
-	char			*key;
-	char			*value;
-	int				flag;
-	struct s_hash	*next;
-}	t_hash;
+	char				*key;
+	char				*value;
+	int					flag;
+	struct s_declare	*next;
+}	t_declare;
 
 typedef struct s_env
 {
-	t_hash	*declare;
-	char	**envp;
+	t_declare			*declare;
+	char				**envp;
 }	t_env;
 
 typedef struct s_status
 {
-	int			interactive;
-	int			exit;
-	int			error;
+	int					interactive;
+	int					exit;
+	int					error;
 }	t_status;
 
 typedef struct s_buffer
 {
-	char		*line;
-	t_word_list	*words;
+	char				*line;
+	t_word_list			*words;
 }	t_buffer;
+
+typedef struct s_backup
+{
+	t_termios			attr;
+	t_io				stdio;
+}	t_backup;
 
 struct s_shell
 {
-	t_termios	config;
-	t_ios		ios;
-	t_env		env;
-	t_command	*command;
-	t_status	status;
-	int			(*execute[9])(t_shell *);
+	t_backup			backup;
+	t_status			status;
+	t_env				env;
+	t_command			*command;
+	int					(*execute[9])(t_shell *);
 };
 
 #endif

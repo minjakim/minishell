@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:37:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 16:14:27 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/12 14:50:07 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int
 //}
 
 int
-	assignment(const char *str)
+	declare_check(const char *str)
 {
 	unsigned char	c;
 	int				index;

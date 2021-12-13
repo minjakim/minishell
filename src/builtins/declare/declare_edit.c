@@ -1,56 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   declare_edit_value.c                               :+:      :+:    :+:   */
+/*   declare_edit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:20:26 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 16:14:36 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 09:38:48 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
 static int
-	declare_cat_value(char *value, t_hash *hash, int flag)
+	declare_cat(char *value, t_declare *declare, int flag)
 {
-	char	*tmp;
+	char	*temp;
 
-	tmp = malloc(sizeof(char *) * (ft_strlen(hash->value) + ft_strlen(value) + 1));
-	if (tmp == NULL)
+	temp = malloc(sizeof(char *) * (ft_strlen(declare->value) + ft_strlen(value) + 1));
+	if (temp == NULL)
 		return (1);
-	*tmp = '\0';
-	ft_strcat(ft_strcpy(tmp, hash->value), value);
-	free(hash->value);
-	hash->value = tmp;
+	*temp = '\0';
+	ft_strcat(ft_strcpy(temp, declare->value), value);
+	free(declare->value);
+	declare->value = temp;
 	return (0);
 }
 
 static int
-	declare_change_value(char *value, t_hash *hash)
+	declare_change(char *value, t_declare *declare)
 {
-	if (hash->value != NULL)
-		free(hash->value);
+	if (declare->value != NULL)
+		free(declare->value);
 	else
-		hash->flag &= ~H_KEYONLY;
-	hash->value = ft_strdup(value);
-	if (hash->value == NULL)
+		declare->flag &= ~H_KEYONLY;
+	declare->value = ft_strdup(value);
+	if (declare->value == NULL)
 		return (1);
 	return (0);
 }
 
 int
-	declare_edit_value(char *value, t_hash *hash, int flag)
+	declare_edit(char *value, t_declare *declare, int flag)
 {
-	if (value && hash && hash->value && ft_strcmp(value, hash->value) == 0 \
+	if (value && declare && declare->value && ft_strcmp(value, declare->value) == 0 \
 			&& !(flag & H_CAT))
 		return (0);
-	if (value == NULL && hash && hash->value == NULL)
+	if (value == NULL && declare && declare->value == NULL)
 		return (0);
 	if (flag & H_CAT)
-		return (declare_cat_value(value, hash, flag));
+		return (declare_cat(value, declare, flag));
 	else
-		return (declare_change_value(value, hash));
+		return (declare_change(value, declare));
 	return (0);
 }

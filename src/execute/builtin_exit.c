@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 16:54:54 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 11:29:13 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static inline unsigned char
 }
 
 static int
-	legal_number(const char *str)
+	check_number(const char *str)
 {
 	unsigned long long	n;
 	unsigned char		c;
@@ -41,23 +41,14 @@ static int
 	return (TRUE);
 }
 
-/*in bash
- * check internal and internal_shell variable
- * and if it's not internal(false)
- * don't print exit\n and exit*/
-
 int
 	builtin_exit(t_shell *mini)
 {
-	char	**argv;
-
 	if (mini->status.interactive)
-		write(STDERR_FILENO, "exit\n", 5);
-	if (mini && mini->command && mini->command->value.simple.argv)
-		argv = mini->command->value.simple.argv;
-	if (argv[0] != NULL && argv[1])
+		write(STDERR_FILENO, EXIT, sizeof(EXIT) - 1);
+	if (mini->command->argv[0] != NULL && mini->command->argv[1])
 		exit(mini->status.exit);
-	if (argv[0] != NULL && legal_number(argv[1]) == 0)
+	if (argv[0] != NULL && check_number(argv[1]) == 0)
 	{
 		//bash: exit: argv[1]: numeric argument required*/
 		exit(255);
@@ -67,7 +58,5 @@ int
 		//write(2, "bash: exit: too many arguments\n", 31);
 		return (1);
 	}
-	//if (argv[0] != NULL && argv[1] != NULL)
-		//exit(builtin_strtoll(argv[1]) & 0xff);
 	return (0);
 }

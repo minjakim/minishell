@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 18:36:08 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/12 15:14:37 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int
 	if (oldpwd == NULL)
 		return (1);
 	if (mini && mini->command)
-		dirname = get_path(mini->command->value.simple.argv);
+		dirname = get_path(mini->command->argv);
 	if (dirname == NULL)
 		return (1);
 	if (chdir(dirname) == ERROR)

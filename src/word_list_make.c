@@ -6,14 +6,14 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/11 19:02:34 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/12 13:54:43 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../include/minishell.h"
 
 static int
-	is_exception(char *line)
+	line_is_exception(char *line)
 {
 	int	result;
 
@@ -34,7 +34,7 @@ static int
 }
 
 static int
-	add_word_list(t_word_list *words, char *line)
+	word_list_add(t_word_list *words, char *line)
 {
 	t_word_list *new_node;
 
@@ -53,7 +53,7 @@ static int
 }
 
 static int
-	split_line(char *line, t_word_list *words, char temp)
+	line_split(char *line, t_word_list *words, char temp)
 {
 	while (*line)
 	{
@@ -61,7 +61,7 @@ static int
 			*line++ = '\0';
 		if (*line == '\0')
 			return (SUCCESS);
-		if (!add_word_list(words, line))
+		if (!word_list_add(words, line))
 			return (FAIL);
 		if (words->next != NULL)
 		{
@@ -81,6 +81,32 @@ static int
 	}
 	return (SUCCESS);
 }
+
+//static int
+//	line_parse()
+//{
+//	return (0);
+//}
+
+t_word_list
+	*word_list_make(char *line)
+{
+	t_word_list	*result;
+
+	if (line_is_exception(line))
+		return (NULL);
+	result = malloc(sizeof(t_word_list));
+	if (!result)
+		return (NULL);
+	result->next = NULL;
+	result->word.word = NULL;
+	result->word.flags |= W_ARG;
+	if (!line_split(line, result, '\0'))
+		return (NULL);
+//	flag_word(buffer->result);
+	return (result);
+}
+
 
 //static int
 //	flag_word(t_word_list *words)
@@ -109,22 +135,3 @@ static int
 //		words = words->next;
 //	}
 //}
-
-t_word_list
-	*parse_line(char *line)
-{
-	t_word_list	*words;
-
-	if (is_exception(line))
-		return (NULL);
-	words = malloc(sizeof(t_word_list));
-	if (!words)
-		return (NULL);
-	words->next = NULL;
-	words->word.word = NULL;
-	words->word.flags |= W_ARG;
-	if (!split_line(line, words, '\0'))
-		return (NULL);
-//	flag_word(buffer->words);
-	return (words);
-}

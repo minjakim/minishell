@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   temp.h                                             :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/09 15:16:59 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 09:43:51 by minjakim         ###   ########.fr       */
+/*   Created: 2021/12/04 21:30:46 by minjakim          #+#    #+#             */
+/*   Updated: 2021/12/13 10:10:10 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEMP_H
-# define TEMP_H
+#include "../../include/minishell.h"
 
-# include "type.h"
-
-int		builtin_null(t_shell *mini);
-void	temp_print_list(t_word_list *temp);
-#endif
+void
+	signal_handler(int signum)
+{
+	if (signum != SIGINT)
+		return ;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 1);
+	rl_redisplay();
+}

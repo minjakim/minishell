@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   temp.h                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/09 15:16:59 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 09:43:51 by minjakim         ###   ########.fr       */
+/*   Created: 2021/12/12 11:07:20 by minjakim          #+#    #+#             */
+/*   Updated: 2021/12/13 10:01:06 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEMP_H
-# define TEMP_H
+#include "../../include/minishell.h"
 
-# include "type.h"
+T_PTR
+	xmalloc(size_t bytes)
+{
+	T_PTR	temp;
 
-int		builtin_null(t_shell *mini);
-void	temp_print_list(t_word_list *temp);
-#endif
+	temp = malloc(bytes);
+	if (!temp)
+		error_fatal(ERROR_FATAL, sizeof(ERROR_FATAL));
+	return (temp);
+}

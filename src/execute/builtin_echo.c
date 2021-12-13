@@ -1,32 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 17:35:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 16:56:14 by minjakim         ###   ########.fr       */
+/*   Created: 2021/12/03 12:05:04 by snpark            #+#    #+#             */
+/*   Updated: 2021/12/12 15:14:40 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 int
-	builtin_unset(t_shell *mini)
+	builtin_echo(t_shell *mini)
 {
+	int		display_return;
+	int		i;
 	char	**argv;
 
-	if (mini && mini->command && mini->command->value.simple.argv)
-		argv = mini->command->value.simple.argv;
-	if (argv[0] != NULL && argv[1] == NULL)
+	display_return = 1;
+	i = 1;
+	if (mini && mini->command)
+		argv = mini->command->argv;
+	else
 		return (0);
-	while (*++argv)
+	if (argv[0] != NULL && ft_strcmp(argv[1], "-n") == 0 && ++i)
 	{
-		//if (legal_identifier(key) == 0)
-		//	return (1);
-		if (declare_remove(&mini->env.declare, *argv) != 0)
-			return (1);
+		display_return = 0;
+		++i;
 	}
+	while (argv[i])
+	{
+		printf("%s", argv[i]);
+		if (argv[++i])
+			printf(" ");
+	}
+	if (display_return)
+		printf("\n");
 	return (0);
 }

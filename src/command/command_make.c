@@ -6,38 +6,38 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:10:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 17:29:46 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 09:34:24 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 t_word_list
-	*attach_words(t_command *cmd, t_word_list *words)
+	*attach_words(t_command *command, t_word_list *words)
 {
 	t_word_list	*handler;
-	t_word_list	*tmp;
+	t_word_list	*temp;
 
-	if (cmd->value.simple.words == NULL)
-		cmd->value.simple.words = words;
+	if (command->words == NULL)
+		command->words = words;
 	else
 	{
-		handler = cmd->value.simple.words;
+		handler = command->words;
 		while (handler->next)
 			handler = handler->next;
 		handler->next = words;
 	}
-	tmp = words->next;
+	temp = words->next;
 	words->next = NULL;
-	return (tmp);
+	return (temp);
 }
 
 t_word_list
-	*attach_redirect(t_command *cmd, t_word_list *words)
+	*attach_redirect(t_command *command, t_word_list *words)
 {
 	t_redirect	*handler;
 	t_redirect	*new_unit;
-	t_word_list	*tmp;
+	t_word_list	*temp;
 	int			count;
 
 
@@ -48,12 +48,12 @@ t_word_list
 	if (words->word.flags & (W_LESS | W_LESS_LESS))
 	{
 		new_unit->redirector = STDIN_FILENO;
-		cmd->flags |= CMD_STDIN_REDIR;
+		command->flags |= CMD_STDIN_REDIR;
 	}
 	else if (words->word.flags & (W_GRATER | W_GRATER_GRATER))
 	{
 		new_unit->redirector = STDOUT_FILENO;
-		cmd->flags |= CMD_STDOUT_REDIR;
+		command->flags |= CMD_STDOUT_REDIR;
 	}
 
 	if (words->word.flags & W_LESS)
@@ -65,10 +65,10 @@ t_word_list
 	else
 		new_unit->flags = 0;
 
-	tmp = words;
+	temp = words;
 	words = words->next;
-	free(tmp->word.word);
-	free(tmp);
+	free(temp->word.word);
+	free(temp);
 
 	if (!(words->word.flags & W_FILENAME))
 		return (NULL);//error
@@ -80,44 +80,41 @@ t_word_list
 		new_unit->redirectee.filename.flags |= words->word.flags;
 	}
 
-	tmp = words->next;
+	temp = words->next;
 	free(words);
 
-	if (cmd->value.simple.redirects == NULL)
-		cmd->value.simple.redirects = new_unit;
-	handler = cmd->value.simple.redirects;
+	if (command->redirects == NULL)
+		command->redirects = new_unit;
+	handler = command->redirects;
 	count = 0;
 	while (handler->next && ++count <= 16)
 		handler = handler->next;
 	if (count > 16)
 		return (NULL);//error 리다이렉트 수 제한 넘김
 	handler->next = new_unit;
-	return (tmp);
+	return (temp);
 }
 
 t_word_list
-	*command_end(t_command **dest, t_command *cmd, t_word_list *words)
+	*command_end(t_command **dest, t_command *command, t_word_list *words)
 {
-	t_command	*next_cmd;
-	t_word_list	*tmp;
+	t_command	*next_command;
+	t_word_list	*temp;
 
-	cmd->type = cm_connection;
-	next_cmd = malloc(sizeof(t_command));
-	if (next_cmd == NULL)
+	next_command = malloc(sizeof(t_command));
+	if (next_command == NULL)
 		return (NULL);//error;
-	cmd->value.connection.next = next_cmd;
-
-	cmd->value.connection.connector = words->word.flags & (W_PIPE | W_AND_AND | W_OR_OR);
-
+	command->next = next_command;
+	command->connector = words->word.flags & (W_PIPE | W_AND_AND | W_OR_OR);
 	if (words->word.flags & W_PIPE)
 	{
-		cmd->flags |= CMD_PIPE | CMD_IGNORE_RETURN | CMD_NO_FORK;
-		next_cmd->flags |= CMD_PIPE | CMD_NO_FORK;
+		command->flags |= CMD_PIPE | CMD_IGNORE_RETURN | CMD_NO_FORK;
+		next_command->flags |= CMD_PIPE | CMD_NO_FORK;
 	}
-	tmp = words->next;
+	temp = words->next;
 	free(words->word.word);
 	free(words);
-	return (tmp);
+	return (temp);
 }
 
 int
@@ -126,8 +123,8 @@ int
 	t_command	*command;
 
 	command = malloc(sizeof(t_command));
-	if (command == NULL)
-		return (1);
+	if (!command)
+		return (FAIL);
 	mini->command = command;
 	while (words)
 	{
@@ -140,6 +137,5 @@ int
 		else
 			words = words->next;
 	}
-	command->type = cm_simple;
 	return (0);
 }
