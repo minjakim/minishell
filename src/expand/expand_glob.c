@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 10:07:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 16:20:48 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:09:21 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../include/minishell.h"
 
 int
 	strmatch(char *pat, char *str, int flag)

@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:20:26 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 09:38:48 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:49:31 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../include/minishell.h"
 
 static int
 	declare_cat(char *value, t_declare *declare, int flag)

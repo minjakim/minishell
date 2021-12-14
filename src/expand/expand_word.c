@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 12:14:07 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:09:42 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../include/minishell.h"
 
 static int
 	is_quote(const char c, int quote)

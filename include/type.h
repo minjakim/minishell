@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/13 16:46:22 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:19:37 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef union u_io
 		int				out;
 	};
 	int					fd[2];
-	long long			init;
+	long long			value;
 }	t_io;
 
 typedef struct s_command

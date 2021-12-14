@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 16:37:09 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:01:39 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ t_status	g_status;
 static int
 	put_tc(int tc)
 {
-	write(STDOUT_FILENO, &tc, 1);
-	return (0);
+	return (write(STDOUT_FILENO, &tc, 1));
 }
 
 static void
@@ -53,7 +52,6 @@ static inline char
 		free(*line);
 	*line = NULL;
 	*line = readline(PROMPT);
-
 	if (!*line)
 		handling_eof();
 	else
@@ -62,7 +60,7 @@ static inline char
 }
 
 int
-	minishell(t_shell *mini)
+	mini_shell(t_shell *mini)
 {
 	char		*line;
 	t_word_list	*words;
@@ -89,5 +87,5 @@ int
 	mini.env.envp = envp;
 	if (!initialize(&mini))
 		return (EXIT_FAILURE);
-	return (minishell(&mini));
+	return (mini_shell(&mini));
 }

@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/13 11:54:44 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 12:04:58 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void
 	temp_print_list(t_word_list *temp)

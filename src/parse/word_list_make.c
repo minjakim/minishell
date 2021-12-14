@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/13 12:14:07 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:05:40 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static int
 	line_is_exception(char *line)

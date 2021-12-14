@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 12:14:07 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:49:37 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../include/minishell.h"
 
 static void
 	envp_free(char **envp)

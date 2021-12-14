@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 11:29:13 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:36:12 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,12 @@ static int
 int
 	builtin_exit(t_shell *mini)
 {
-	if (mini->status.interactive)
-		write(STDERR_FILENO, EXIT, sizeof(EXIT) - 1);
-	if (mini->command->argv[0] != NULL && mini->command->argv[1])
-		exit(mini->status.exit);
+	char **const argv = mini->command->argv;
+
+	if (g_status.interactive)
+		write(STDERR_FILENO, EXIT, LEN_EXIT);
+	if (argv[0] != NULL && argv[1])
+		exit(g_status.exit);
 	if (argv[0] != NULL && check_number(argv[1]) == 0)
 	{
 		//bash: exit: argv[1]: numeric argument required*/
