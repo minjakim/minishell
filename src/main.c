@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 11:01:39 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 12:12:10 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static inline char
 }
 
 int
-	mini_shell(t_shell *mini)
+	ft_minishell(t_shell *mini)
 {
 	char		*line;
 	t_word_list	*words;
@@ -87,5 +87,5 @@ int
 	mini.env.envp = envp;
 	if (!initialize(&mini))
 		return (EXIT_FAILURE);
-	return (mini_shell(&mini));
+	return (ft_minishell(&mini));
 }
