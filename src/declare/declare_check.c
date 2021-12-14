@@ -6,19 +6,19 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:37:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 12:26:42 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/14 16:23:07 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int
+int
 	legal_variable_starter(const char c)
 {
 	return ((((unsigned)c | 32) - 97 < 26) || (c == '_')) ;
 }
 
-static int
+int
 	legal_variable_char(const char c)
 {
 	return ((((unsigned)c | 32) - 97 < 26) || ((unsigned)c - 48 < 10) \
