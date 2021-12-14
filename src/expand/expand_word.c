@@ -6,13 +6,13 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 11:09:42 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 16:11:19 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int
+int
 	is_quote(const char c, int quote)
 {
 	return ((c == '\'' || c == '\"') && ((quote ^ c ) != 5));

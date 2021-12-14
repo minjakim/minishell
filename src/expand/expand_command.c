@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 11:09:26 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 16:06:53 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int
 //	//일치하는게 없으면 그대로 놔둔다.
 //}
 
-void
+static void
 	remove_quote(char *str)
 {
 	int		quote;
