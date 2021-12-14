@@ -40,8 +40,8 @@ int
 			//if (find_command() != 0)
 			//	return (127);
 			//mini->err.exit_status = shell_execve[is_builtin()](mini);
-			if (mini->status.interactive == 0)
-				exit(mini->status.exit);
+			if (mini->status->interactive == 0)
+				exit(mini->status->exit);
 		}
 		//close_io(command->value.simple.io);
 		//redirect_stdio(mini->backup.io);
