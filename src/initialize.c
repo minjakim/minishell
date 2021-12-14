@@ -6,11 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 12:50:05 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 13:06:59 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../include/minishell.h"
 
 static void
 	init_execute(t_shell *mini)
@@ -47,21 +47,18 @@ static int
 int
 	initialize(t_shell *mini)
 {
-	t_termios	attr;
-
-	if (!init_io(&mini->backup.stdio))
-		return (FAILURE);
 	if (!init_env(&mini->env))
 		return (FAILURE);
-	init_execute(mini);
+	if (!init_io(&mini->backup.stdio))
+		return (FAILURE);
 	tgetent(NULL, "xterm");
-	tcgetattr(STDIN_FILENO, &attr);
-	mini->backup.attr = attr;
-	tcsetattr(STDIN_FILENO, TCSANOW, &attr);
+	tcgetattr(STDIN_FILENO, &mini->backup.attr);
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, signal_handler);
+	signal(SIGTERM, signal_handler);
 	rl_catch_signals = FALSE;
+	mini->status->haschild = FALSE;
 	mini->command = NULL;
-	mini->status->interactive = TRUE;
+	init_execute(mini);
 	return (SUCCESS);
 }

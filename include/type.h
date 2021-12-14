@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/13 17:19:37 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 13:03:20 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ typedef struct s_env
 typedef struct s_status
 {
 	t_io				heredoc;
-	int					interactive;
+	int					haschild;
 	int					exit;
 	int					error;
 }	t_status;
@@ -113,9 +113,9 @@ typedef struct s_backup
 
 struct s_shell
 {
+	t_env				env;
 	t_backup			backup;
 	t_status			*status;
-	t_env				env;
 	t_command			*command;
 	int					(*execute[9])(t_shell *);
 };
