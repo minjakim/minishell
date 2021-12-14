@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 12:49:05 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 13:17:15 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,15 @@ int			declare_remove(t_declare **head, const char *const key);
 int			declare_add(t_declare **head, char *str, int flag);
 int			declare_edit(char *value, t_declare *declare, int flag);
 
-int			mini_execve(t_shell *mini);
-int			builtin_cd(t_shell *mini);
-int			builtin_echo(t_shell *mini);
-int			builtin_env(t_shell *mini);
-int			builtin_exit(t_shell *mini);
-int			builtin_export(t_shell *mini);
-int			builtin_pwd(t_shell *mini);
-int			builtin_unset(t_shell *mini);
-int			mini_null(t_shell *mini);
+int			mini_execve(t_command *command);
+int			builtin_cd(t_command *command);
+int			builtin_echo(t_command *command);
+int			builtin_env(t_command *command);
+int			builtin_exit(t_command *command);
+int			builtin_export(t_command *command);
+int			builtin_pwd(t_command *command);
+int			builtin_unset(t_command *command);
+int			mini_null(t_command *command);
 
 void		error_fatal(const char *const str, const size_t nbyte);
 

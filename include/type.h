@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/14 13:03:20 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 13:16:43 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ struct s_shell
 	t_backup			backup;
 	t_status			*status;
 	t_command			*command;
-	int					(*execute[9])(t_shell *);
+	int					(*execute[9])(t_command *);
 };
 
 #endif

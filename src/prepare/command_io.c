@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 14:16:40 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/14 12:26:42 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 13:10:17 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int
 	command_io_set(&command->io);
 	pid = fork();
 	if (pid == 0)
-		mini->status->interactive = 0;
+		mini->status->haschild = 0;
 	if (pid > 0 && command->next == NULL)
 	{
 		waitpid(pid, &mini->status->exit, 0);

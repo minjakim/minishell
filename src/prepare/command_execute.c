@@ -40,7 +40,7 @@ int
 			//if (find_command() != 0)
 			//	return (127);
 			//mini->err.exit_status = shell_execve[is_builtin()](mini);
-			if (mini->status->interactive == 0)
+			if (mini->status->haschild == 0)
 				exit(mini->status->exit);
 		}
 		//close_io(command->value.simple.io);

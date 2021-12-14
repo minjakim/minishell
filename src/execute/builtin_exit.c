@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 17:36:12 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 13:21:22 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ static int
 }
 
 int
-	builtin_exit(t_shell *mini)
+	builtin_exit(t_command *command)
 {
-	char **const argv = mini->command->argv;
+	char **const argv = command->argv;
 
-	if (g_status.interactive)
+	if (!g_status.haschild)
 		write(STDERR_FILENO, EXIT, LEN_EXIT);
 	if (argv[0] != NULL && argv[1])
 		exit(g_status.exit);
