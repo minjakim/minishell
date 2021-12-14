@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 16:36:28 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 12:49:05 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 
 extern t_status	g_status;
 
-void		eof_exit(t_shell *mini);
 int			initialize(t_shell *mini);
 
-t_word_list	*word_list_make(char *line);
+void		eof_exit(t_shell *mini);
 int			envp_update(t_env *env, int flag);
+t_word_list	*word_list_handler(char *line);
 
-int			command_make(t_word_list *words, t_shell *mini);
+int			command_handler(t_word_list *words, t_shell *mini);
 int			command_find(t_shell *mini);
 void		command_clean(t_shell *mini);
 int			command_execute(t_shell *mini);
@@ -34,8 +34,10 @@ void		command_io_close(t_io *io);
 int			command_io_set(t_io *io);
 int			command_pipe_set(t_shell *mini);
 
-int			handler_envp(t_env *env);
-void		handler_signal(int signum);
+void		sigint_handler(int signum);
+void		signal_handler(int signum);
+
+int			envp_handler(t_env *env);
 
 int			expand_command(t_shell *mini);
 int			expand_word(t_word_desc *desc);

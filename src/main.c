@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 12:12:43 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 12:50:23 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int
 	{
 		if (!mini_readline(&line))
 			break ;
-		words = word_list_make(line);
+		words = word_list_handler(line);
 		if (!words)
 			return (EXIT_FAILURE);
 	}

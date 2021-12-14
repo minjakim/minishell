@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 16:38:09 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 12:50:05 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int
 	tcgetattr(STDIN_FILENO, &attr);
 	mini->backup.attr = attr;
 	tcsetattr(STDIN_FILENO, TCSANOW, &attr);
-	signal(SIGINT, handler_signal);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, signal_handler);
 	rl_catch_signals = FALSE;
 	mini->command = NULL;
 	mini->status->interactive = TRUE;
