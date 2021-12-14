@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:37:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 11:49:26 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 12:26:42 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int
 
 	c = *str;
 	index = 0;
-	if (legal_variable_starter(c) == 0 || legal_identifier(str) == 0)
-		return (0);
+	if (legal_variable_starter(c) == 0)
+		return (-1);
 	while (str[index])
 	{
 		c = str[index];
@@ -73,7 +73,7 @@ int
 		if (c == '+' && str[index + 1] == '=')
 			return (index + 1);
 		if (legal_variable_char(c) == 0)
-			return (0);
+			return (-1);
 		++index;
 	}
 	return (0);
