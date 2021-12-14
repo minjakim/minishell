@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:10:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 13:54:24 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 12:48:09 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ t_word_list
 }
 
 int
-	command_make(t_word_list *words, t_shell *mini)
+	command_handler(t_word_list *words, t_shell *mini)
 {
 	t_command	*command;
 

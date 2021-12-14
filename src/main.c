@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 12:12:43 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 19:39:11 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static void
 	while ((unsigned)buffer[i] - '0' < 10)
 		row = (row << 1) + (row << 3) + (buffer[i++] - '0');
 	tputs(tgoto(tgetstr("cm", NULL), LEN_PROMPT, row - 2), 1, put_tc);
+	tcsetattr(STDIN_FILENO, TCSANOW, &g_status.backup.attr);
+	write(STDERR_FILENO, EXIT, LEN_EXIT);
 }
 
 static inline char
@@ -59,7 +61,7 @@ static inline char
 	return (*line);
 }
 
-int
+static int
 	ft_minishell(t_shell *mini)
 {
 	char		*line;
@@ -69,11 +71,11 @@ int
 	{
 		if (!mini_readline(&line))
 			break ;
-		words = word_list_make(line);
+		words = word_list_handler(line);
 		if (!words)
-			return (EXIT_FAILURE);
+			return (mini_exit(ERR_NO_GENERAL));
 	}
-	return (builtin_exit(mini));
+	return (mini_exit(g_status.exit));
 }
 
 int
@@ -83,9 +85,8 @@ int
 
 	(void)argc;
 	(void)argv;
-	mini.status = &g_status;
-	mini.env.envp = envp;
+	g_status.env.envp = envp;
 	if (!initialize(&mini))
-		return (EXIT_FAILURE);
+		return (ERR_NO_GENERAL);
 	return (ft_minishell(&mini));
 }

@@ -6,14 +6,14 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:43:57 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/13 09:34:24 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 13:08:10 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 void
-	cmmand_clean(t_shell *mini)
+	command_clean(t_shell *mini)
 {
 	t_word_list *wl_handler;
 	t_redirect	*rd_handler;

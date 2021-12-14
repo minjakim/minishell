@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/14 12:04:58 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 14:34:59 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,14 @@ char
 char
 	*ft_strncpy(char *dst, const char *src, size_t len)
 {
-	if (!dst)
-		return (dst);
+	int		i;
+
+	if (dst == NULL)
+		return (NULL);
+	i = -1;
+	while (++i < len && src[i])
+		dst[i] = src[i];
+	while (i < len)
+		dst[i++] = '\0';
 	return (dst);
 }

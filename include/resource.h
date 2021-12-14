@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/13 12:15:33 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 19:45:50 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # include <sys/cdefs.h>
 # include "../lib/readline_arm64/include/readline.h"
 # include "../lib/readline_arm64/include/history.h"
+# include <sysexits.h>
+# include <sys/errno.h>
+# include <sys/event.h>
 
 # include <sys/types.h>
 
@@ -41,7 +44,9 @@
 # define LOOP					1
 
 # define EXIT					"exit\n"
-# define ERROR_FATAL			"out of virtual memory\n"
+# define ERROR_FATAL			"out of virtual memory"
+# define ERR_MSG_EXIT_FMT		"numeric argument required"
+# define ERR_MSG_EXIT_ARGS		"too many arguments"
 
 # define CMD_COMMAND_BUILTIN	0x00000001
 # define CMD_STDIN_REDIR		0x00000002
@@ -105,11 +110,9 @@ enum e_size
 
 enum e_exit_status
 {
-	b,
-	c,
-	d,
-	e,
-	f
+	OK,
+	ERR_NO_GENERAL,
+	ERR_NO_EXIT_FMT = 255
 };
 
 enum e_exception
@@ -122,14 +125,14 @@ enum e_exception
 
 enum e_execute
 {
-	FT_EXECVE,
-	MINI_CD,
-	MINI_ECHO,
-	MINI_ENV,
-	MINI_EXIT,
-	MINI_EXPORT,
-	MINI_PWD,
-	MINI_UNSET,
-	MINI_NULL
+	MINI_EXECVE,
+	FT_CD,
+	FT_ECHO,
+	FT_ENV,
+	FT_EXIT,
+	FT_EXPORT,
+	FT_PWD,
+	FT_UNSET,
+	FT_NULL
 };
 #endif

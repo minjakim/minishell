@@ -6,24 +6,24 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/13 16:38:09 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 19:28:05 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../include/minishell.h"
 
 static void
 	init_execute(t_shell *mini)
 {
-	mini->execute[FT_EXECVE] = mini_execve;
-	mini->execute[MINI_CD] = builtin_cd;
-	mini->execute[MINI_ECHO] = builtin_echo;
-	mini->execute[MINI_ENV] = builtin_env;
-	mini->execute[MINI_EXIT] = builtin_exit;
-	mini->execute[MINI_EXPORT] = builtin_export;
-	mini->execute[MINI_PWD] = builtin_pwd;
-	mini->execute[MINI_UNSET] = builtin_unset;
-	mini->execute[MINI_NULL] = mini_null;
+	mini->execute[MINI_EXECVE] = mini_execve;
+	mini->execute[FT_CD] = builtin_cd;
+	mini->execute[FT_ECHO] = builtin_echo;
+	mini->execute[FT_ENV] = builtin_env;
+	mini->execute[FT_EXIT] = builtin_exit;
+	mini->execute[FT_EXPORT] = builtin_export;
+	mini->execute[FT_PWD] = builtin_pwd;
+	mini->execute[FT_UNSET] = builtin_unset;
+	mini->execute[FT_NULL] = mini_null;
 }
 
 static int
@@ -44,23 +44,34 @@ static int
 	return (SUCCESS);
 }
 
+static int
+	init_status(t_shell *mini)
+{
+	g_status.exit = 0;
+	g_status.interactive = TRUE;
+	g_status.heredoc.value = 0;
+	tgetent(NULL, "xterm");
+	if (!init_env(&g_status.env))
+		return (FAILURE);
+	if (!init_io(&g_status.backup.stdio))
+		return (FAILURE);
+	if (tcgetattr(STDIN_FILENO, &g_status.backup.attr) == ERROR)
+	{
+		g_status.exit = ERR_NO_GENERAL;
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
 int
 	initialize(t_shell *mini)
 {
-	t_termios	attr;
-
-	if (!init_io(&mini->backup.stdio))
-		return (FAILURE);
-	if (!init_env(&mini->env))
-		return (FAILURE);
-	init_execute(mini);
-	tgetent(NULL, "xterm");
-	tcgetattr(STDIN_FILENO, &attr);
-	mini->backup.attr = attr;
-	tcsetattr(STDIN_FILENO, TCSANOW, &attr);
-	signal(SIGINT, handler_signal);
+	init_status(mini);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, signal_handler);
+	signal(SIGTERM, signal_handler);
 	rl_catch_signals = FALSE;
 	mini->command = NULL;
-	mini->status->interactive = TRUE;
+	init_execute(mini);
 	return (SUCCESS);
 }
