@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 13:17:15 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 14:36:45 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void		*ft_memcpy(char *sdt, const char*src, size_t n);
 char		*ft_strdup(const char *s1);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strcpy(char *dst, const char *src);
+char		*ft_strncpy(char *dst, const char *src, size_t len);
 char		*ft_strcat(char *s1, const char *s2);
 size_t		ft_strlen(const char *str);
 int			ft_strcmp(const char *s1, const char *s2);
