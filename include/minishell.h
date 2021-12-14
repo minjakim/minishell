@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 13:17:15 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 19:22:38 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ extern t_status	g_status;
 int			initialize(t_shell *mini);
 
 void		eof_exit(t_shell *mini);
+int			mini_exit(int exit_status);
 int			envp_update(t_env *env, int flag);
 t_word_list	*word_list_handler(char *line);
 
@@ -38,6 +39,7 @@ void		sigint_handler(int signum);
 void		signal_handler(int signum);
 
 int			envp_handler(t_env *env);
+int			error_report(const char *cmd, const char *const pre, const char *const msg, const int error_no);
 
 int			expand_command(t_shell *mini);
 int			expand_word(t_word_desc *desc);
@@ -48,15 +50,15 @@ int			declare_remove(t_declare **head, const char *const key);
 int			declare_add(t_declare **head, char *str, int flag);
 int			declare_edit(char *value, t_declare *declare, int flag);
 
-int			mini_execve(t_command *command);
-int			builtin_cd(t_command *command);
-int			builtin_echo(t_command *command);
-int			builtin_env(t_command *command);
-int			builtin_exit(t_command *command);
-int			builtin_export(t_command *command);
-int			builtin_pwd(t_command *command);
-int			builtin_unset(t_command *command);
-int			mini_null(t_command *command);
+int			mini_execve(const t_command *const command);
+int			builtin_cd(const t_command *const command);
+int			builtin_echo(const t_command *const command);
+int			builtin_env(const t_command *const command);
+int			builtin_exit(const t_command *const command);
+int			builtin_export(const t_command *const command);
+int			builtin_pwd(const t_command *const command);
+int			builtin_unset(const t_command *const command);
+int			mini_null(const t_command *const command);
 
 void		error_fatal(const char *const str, const size_t nbyte);
 

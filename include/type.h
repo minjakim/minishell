@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/14 13:16:43 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 19:42:13 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,19 @@ typedef struct s_env
 	char				**envp;
 }	t_env;
 
+typedef struct s_backup
+{
+	t_termios			attr;
+	t_io				stdio;
+}	t_backup;
+
 typedef struct s_status
 {
-	t_io				heredoc;
-	int					haschild;
 	int					exit;
-	int					error;
+	int					interactive;
+	t_io				heredoc;
+	t_env				env;
+	t_backup			backup;
 }	t_status;
 
 typedef struct s_buffer
@@ -105,19 +112,10 @@ typedef struct s_buffer
 	t_word_list			*words;
 }	t_buffer;
 
-typedef struct s_backup
-{
-	t_termios			attr;
-	t_io				stdio;
-}	t_backup;
-
 struct s_shell
 {
-	t_env				env;
-	t_backup			backup;
-	t_status			*status;
 	t_command			*command;
-	int					(*execute[9])(t_command *);
+	int					(*execute[9])(const t_command *);
 };
 
 #endif

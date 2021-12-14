@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 13:19:38 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:09:03 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,14 @@ static char
 		return (argv[1]);
 	return (NULL);
 }
+
 /*getenv("HOME") == NULL
  * error msg "HOME not set"
  * getenv("OLDPWD") == NULL
  * error msg "OLDPWD not set"*/
 
 int
-	builtin_cd(t_command *command)
+	builtin_cd(const t_command *const command)
 {
 	char	*dirname;
 	char	*oldpwd;

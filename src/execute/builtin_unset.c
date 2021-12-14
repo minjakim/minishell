@@ -6,14 +6,14 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:35:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 13:47:05 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 14:48:20 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 int
-	builtin_unset(t_command *command)
+	builtin_unset(const t_command *const command)
 {
 	char	**argv;
 

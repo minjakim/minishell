@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 13:21:22 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 19:46:10 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static inline unsigned char
 }
 
 static int
-	check_number(const char *str)
+	legal_number(const char *str)
 {
 	unsigned long long	n;
 	unsigned char		c;
@@ -38,27 +38,34 @@ static int
 	if (*str || (!negative && n > LLONG_MAX)
 		|| (n > (unsigned long long)LLONG_MAX + 1))
 		return (FALSE);
+	g_status.exit = (unsigned char)n;
 	return (TRUE);
 }
 
 int
-	builtin_exit(t_command *command)
+	mini_exit(const int exit_status)
 {
-	char **const argv = command->argv;
+	g_status.exit = exit_status;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &g_status.backup.attr) == ERROR)
+		g_status.exit = ERR_NO_GENERAL;
+	exit(g_status.exit);
+}
 
-	if (!g_status.haschild)
+int
+	builtin_exit(const t_command *const command)
+{
+	const char *const *const	argv = (const char *const *const)command->argv;
+
+	if (g_status.interactive)
 		write(STDERR_FILENO, EXIT, LEN_EXIT);
-	if (argv[0] != NULL && argv[1])
-		exit(g_status.exit);
-	if (argv[0] != NULL && check_number(argv[1]) == 0)
-	{
-		//bash: exit: argv[1]: numeric argument required*/
-		exit(255);
-	}
-	if (argv[0] != NULL && argv[1] != NULL && argv[2] != NULL)
-	{
-		//write(2, "bash: exit: too many arguments\n", 31);
-		return (1);
-	}
-	return (0);
+	if (argv[1] == NULL)
+		return (mini_exit(g_status.exit));
+	if (!legal_number(argv[1]))
+		return (mini_exit(error_report(argv[0], argv[1], \
+			ERR_MSG_EXIT_FMT, ERR_NO_EXIT_FMT)));
+	else if (argv[2] != NULL)
+		return (mini_exit(error_report(argv[0], NULL, \
+			ERR_MSG_EXIT_ARGS, ERR_NO_GENERAL)));
+	else
+		return (mini_exit(g_status.exit));
 }

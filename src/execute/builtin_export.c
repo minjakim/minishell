@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:45:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 13:22:42 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 14:48:20 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int
 }
 
 int
-	builtin_export(t_command *command)
+	builtin_export(const t_command *const command)
 {
 	char	**argv;
 

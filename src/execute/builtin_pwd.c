@@ -13,15 +13,13 @@
 #include "../../include/minishell.h"
 
 int
-	builtin_pwd(t_command *command)
+	builtin_pwd(const t_command *const command)
 {
-	char	*cwd;
+	const char *const	cwd = getcwd(NULL, 0);
 
 	(void)command;
-	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
-		return (1);
+		return (FAILURE);
 	printf("%s\n", cwd);
-	free(cwd);
-	return (0);
+	return (SUCCESS);
 }

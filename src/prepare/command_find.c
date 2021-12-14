@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/12 15:24:02 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/14 18:56:25 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,24 @@ static int
 	is_builtin(const char *str)
 {
 	if (!str || !*str || *str == ':')
-		return (MINI_NULL);
+		return (FT_NULL);
 	else if (*str == 'c' && str[1] == 'd' && str[2] == '\0')
-		return (MINI_CD);
+		return (FT_CD);
 	else if (*str == 'e')
 	{
 		if (str[1] == 'c' && ft_strcmp(str + 2, "ho") == 0)
-			return (MINI_ECHO);
+			return (FT_ECHO);
 		else if (str[1] == 'n' && ft_strcmp(str + 2, "v") == 0)
-			return (MINI_ENV);
+			return (FT_ENV);
 		else if (str[1] == 'x' && ft_strcmp(str + 2, "it") == 0)
-			return (MINI_EXIT);
+			return (FT_EXIT);
 		else if (str[1] == 'x' && ft_strcmp(str + 2, "port") == 0)
-			return (MINI_EXPORT);
+			return (FT_EXPORT);
 	}
 	else if (*str == 'p' && str[1] == 'w' && str[2] == 'd' && str[3] == '\0')
-		return (MINI_PWD);
+		return (FT_PWD);
 	else if (*str == 'u' && ft_strcmp(str + 1, "nset") == 0)
-		return (MINI_UNSET);
+		return (FT_UNSET);
 	return (FT_EXECVE);
 }
 
