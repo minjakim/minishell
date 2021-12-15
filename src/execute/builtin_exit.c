@@ -6,14 +6,14 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 19:46:10 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:52:29 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static inline unsigned char
-	convert(unsigned char *c, const char *str)
+	convert(unsigned char *const c, const char *const str)
 {
 	return (*c = *str - '0');
 }

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 19:54:20 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 14:49:11 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void		signal_handler(int signum);
 
 int			envp_handler(t_env *env);
 int			error_report(const char *cmd, const char *const pre, const char *const msg, const int error_no);
+int			error_fatal(const int err_no);
+
 
 int			expand_command(t_shell *mini);
 int			expand_word(t_word_desc *desc);
@@ -66,8 +68,6 @@ int			is_teilde(const char *const str, int i, int quote);
 int			legal_variable_starter(const char c);
 int			legal_variable_char(const char c);
 int			declare_check(const char *str);
-
-void		error_fatal(const char *const str, const size_t nbyte);
 
 void		*ft_memset(void *b, int c, size_t len);
 void		*ft_memcpy(char *sdt, const char*src, size_t n);
