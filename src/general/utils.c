@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 11:07:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/13 10:01:06 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 17:48:21 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ T_PTR
 
 	temp = malloc(bytes);
 	if (!temp)
-		error_fatal(ERROR_FATAL, sizeof(ERROR_FATAL));
+		exception_error_fatal(errno);
 	return (temp);
 }
