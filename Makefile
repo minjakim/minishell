@@ -19,8 +19,7 @@ expand=expand_command.c\
 	   expand_teilde.c\
 	   expand_word.c
 
-general=error.c\
-		exception.c\
+general=exception.c\
 		signal.c\
 		temp.c\
 		utils.c
@@ -45,7 +44,7 @@ SRCS=$(SRC:%=./src/%)
 
 OBJ=$(SRCS:%.c=%.o)
 
-readline=-lreadline -lncurses -L./lib/readline_arm64/lib -I./lib/readline_arm64/include 
+readline=-lreadline -lncurses -L./lib/readline_arm64/lib -I./lib/readline_arm64/include
 
 #CPPFLAG= -Wall -Werror -Wextra
 
