@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 14:49:11 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 14:53:48 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		sigint_handler(int signum);
 void		signal_handler(int signum);
 
 int			envp_handler(t_env *env);
-int			error_report(const char *cmd, const char *const pre, const char *const msg, const int error_no);
+int			exception_report(const char *cmd, const char *const pre, const char *const msg, const int error_no);
 int			error_fatal(const int err_no);
 
 

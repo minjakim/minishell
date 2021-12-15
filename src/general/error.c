@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 11:23:36 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/15 14:50:46 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 14:53:20 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int
 }
 
 int
-	error_report(const char *const cmd, const char *const arg, \
+	exception_report(const char *const cmd, const char *const arg, \
 								const char *const msg, const int err_no)
 {
 	write(STDERR_FILENO, "mnsh: ", 6);
