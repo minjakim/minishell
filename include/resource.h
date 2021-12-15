@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/15 19:54:28 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/15 20:56:30 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@
 # define EX_EXIT_ARGS			"too many arguments"
 # define EX_CD_HOME				"HOME not set"
 # define EX_CD_OLDPWD			"OLDPWD not set"
+# define EX_SYNTAX_UNEXPECT		"syntax error near unexpected token"
+# define EX_USAGE				258
 
 # define EX_NOEXEC				126
 # define EX_NOTFOUND			127
