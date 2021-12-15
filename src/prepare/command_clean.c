@@ -6,11 +6,27 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:43:57 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/14 13:08:10 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 20:41:03 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+t_word_list
+	*word_list_free(t_word_list *words)
+{
+	t_word_list	*tmp;
+
+	while (words)
+	{
+		if (words->word.word)
+			free(words->word.word);
+		tmp = words;
+		words = words->next;
+		free(tmp);
+	}
+	return (NULL);
+}
 
 void
 	command_clean(t_shell *mini)
@@ -22,13 +38,7 @@ void
 
 	while (mini->command)
 	{
-		wl_handler = mini->command->words;
-		while (wl_handler)
-		{
-			temp = wl_handler->next;
-			free(wl_handler);
-			wl_handler = temp;
-		}
+		word_list_free(mini->command->words);
 		i = -1;
 		if (mini->command->argv)
 		{

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/15 20:15:15 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/15 21:21:34 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,22 +101,6 @@ static int
 	return (SUCCESS);
 }
 
-static t_word_list
-	*word_list_free(t_word_list *words)
-{
-	t_word_list	*tmp;
-
-	while (words)
-	{
-		if (words->word.word)
-			free(words->word.word);
-		tmp = words;
-		words = words->next;
-		free(tmp);
-	}
-	return (NULL);
-}
-
 t_word_list
 	*word_list_handler(char *line)
 {
@@ -131,14 +115,8 @@ t_word_list
 	if (!line_split(line, result, '\0'))
 		return (word_list_free(result));
 	if (word_list_flag(result) == EXCEPTION)
-	{
-		printf("syntax error\n");
 		return (word_list_free(result));
-	}
 	while (result)
-	{
-		printf("%x	%s\n", result->word.flags, result->word.word);
 		result = result->next;
-	}
 	return (result);
 }
