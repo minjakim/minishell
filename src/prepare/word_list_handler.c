@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_list_make.c                                   :+:      :+:    :+:   */
+/*   word_list_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/14 12:48:20 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 15:27:03 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static int
-	line_is_exception(char *line)
+	line_is_exception(const char *line)
 {
 	int	result;
 
@@ -22,71 +22,92 @@ static int
 	{
 		if ((*line == ';' || *line == '\\') && !result)
 			return (*line);
-		else if (*line == '\'' || *line == '\"')
-		{
+		else if (is_quote(*line, result))
 			result ^= *line;
-			if (result == 5)
-				result ^= *line;
-		}
 		++line;
-	}
+	}	
 	return (result);
 }
 
 static int
-	word_list_add(t_word_list *words, char *line)
+	is_start(const char *const str, const int i, const int quote)
 {
-	t_word_list *new_node;
+	if (quote)
+		return (FALSE);
+	if ((i == 0 || (str[i - 1] == ' ' || str[i - 1] == '\t' || \
+					str[i - 1] == '<' || str[i - 1] == '>' || \
+					str[i - 1] == '|' || str[i - 1] == '&')) && \
+			(str[i] != ' ' && str[i] != '\t'))
+		return (TRUE);
+	if (((i == 0 || str[i - 1] != '<') && str[i] == '<') || \
+			((i == 0 || str[i - 1] != '>') && str[i] == '>') || \
+			((i == 0 || str[i - 1] != '|') && str[i] == '|') || \
+			((i == 0 || str[i - 1] != '&') && str[i] == '&'))
+		return (TRUE);
+	return (FALSE);
+}
 
-	if (words->word.word == NULL)
-		words->word.word = line;
-	else
+static int
+	is_end(const char *const str, int *i, const int quote)
+{
+	if (quote)
+		return (FALSE);
+	if ((str[*i] == '<' && str[*i + 1] == '<') || \
+			(str[*i] == '>' && str[*i + 1] == '>') || \
+			(str[*i] == '|' && str[*i + 1] == '|') || \
+			(str[*i] == '&' && str[*i + 1] == '&'))
 	{
-		new_node = malloc(sizeof(t_word_list));
-		if (!new_node)
-			return (FAILURE);
-		new_node->next = NULL;
-		new_node->word.word = line;
-		words->next = new_node;
+		++(*i);
+		return (TRUE);
+	}
+	if (str[*i] != ' ' && str[*i] != '\t' && \
+			(str[*i + 1] == ' ' || str[*i + 1] == '\t' || \
+			 str[*i + 1] == '\0' || str[*i + 1] == '<' || \
+			 str[*i + 1] == '>' || str[*i + 1] == '|' || \
+			 str[*i + 1] == '&'))
+		return (TRUE);
+	if ((str[*i] == '<' && str[*i + 1] != '<') || \
+			(str[*i] == '>' && str[*i + 1] != '>') || \
+			(str[*i] == '|' && str[*i + 1] != '|'))
+		return (TRUE);
+	return (FALSE);
+}
+
+static int
+	line_split(const char *line, t_word_list *words, char quote)
+{
+	int		i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (is_start(line, i, quote))
+		{
+			line = line + i;
+			i = 0;
+			if (words->word.word != NULL)
+			{
+				words->next = malloc(sizeof(t_word_list));
+				if (!words->next)
+					return (FAILURE);
+				words = words->next;
+				words->next = NULL;
+			}
+		}
+		if (is_quote(line[i], quote))
+			quote ^= line[i];
+		if (is_end(line, &i, quote))
+			words->word.word = ft_strndup(line, i + 1);
+		i++;
 	}
 	return (SUCCESS);
 }
 
 static int
-	line_split(char *line, t_word_list *words, char temp)
+	flag_word(t_word_list *words)
 {
-	while (*line)
-	{
-		while (*line == ' ' || *line == '\t')
-			*line++ = '\0';
-		if (*line == '\0')
-			return (SUCCESS);
-		if (!word_list_add(words, line))
-			return (FAILURE);
-		if (words->next != NULL)
-		{
-			words = words->next;
-			words->word.flags |= W_ARG;
-		}
-		while (*line && *line != ' ' && *line != '\t')
-		{
-			if (*line == '\'' || *line == '\"')
-			{
-				temp = *line++;
-				while (*line != temp)
-					++line;
-			}
-			++line;
-		}
-	}
 	return (SUCCESS);
 }
-
-//static int
-//	line_parse()
-//{
-//	return (0);
-//}
 
 t_word_list
 	*word_list_handler(char *line)
@@ -100,10 +121,10 @@ t_word_list
 		return (NULL);
 	result->next = NULL;
 	result->word.word = NULL;
-	result->word.flags |= W_ARG;
+	result->word.flags = 0;
 	if (!line_split(line, result, '\0'))
 		return (NULL);
-//	flag_word(buffer->result);
+	//flag_word(result);
 	return (result);
 }
 
