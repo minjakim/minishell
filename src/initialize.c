@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 19:28:05 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 16:20:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int
 		return (FAILURE);
 	if (tcgetattr(STDIN_FILENO, &g_status.backup.attr) == ERROR)
 	{
-		g_status.exit = ERR_NO_GENERAL;
+		g_status.exit = GENERAL_ERROR;
 		return (FAILURE);
 	}
 	return (SUCCESS);

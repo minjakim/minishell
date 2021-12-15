@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 19:39:11 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 18:02:29 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,14 @@ static int
 	char		*line;
 	t_word_list	*words;
 
+	line = NULL;
 	while (LOOP)
 	{
 		if (!mini_readline(&line))
 			break ;
 		words = word_list_handler(line);
 		if (!words)
-			return (mini_exit(ERR_NO_GENERAL));
+			return (mini_exit(GENERAL_ERROR));
 	}
 	return (mini_exit(g_status.exit));
 }
@@ -87,6 +88,6 @@ int
 	(void)argv;
 	g_status.env.envp = envp;
 	if (!initialize(&mini))
-		return (ERR_NO_GENERAL);
+		return (GENERAL_ERROR);
 	return (ft_minishell(&mini));
 }

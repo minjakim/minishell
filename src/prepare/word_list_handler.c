@@ -56,7 +56,7 @@ static int
 			(str[*i] == '>' && str[*i + 1] == '>') || \
 			(str[*i] == '|' && str[*i + 1] == '|') || \
 			(str[*i] == '&' && str[*i + 1] == '&'))
-	{
+  {
 		++(*i);
 		return (TRUE);
 	}
@@ -87,9 +87,7 @@ static int
 			i = 0;
 			if (words->word.word != NULL)
 			{
-				words->next = malloc(sizeof(t_word_list));
-				if (!words->next)
-					return (FAILURE);
+				words->next = xmalloc(sizeof(t_word_list));
 				words = words->next;
 				ft_memset(words, 0, sizeof(t_word_list));
 			}
@@ -126,9 +124,7 @@ t_word_list
 
 	if (line_is_exception(line))
 		return (NULL);
-	result = malloc(sizeof(t_word_list));
-	if (!result)
-		return (NULL);
+	result = xmalloc(sizeof(t_word_list));
 	result->next = NULL;
 	result->word.word = NULL;
 	result->word.flags = 0;

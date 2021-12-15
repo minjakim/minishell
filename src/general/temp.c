@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/14 14:34:59 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/15 18:06:23 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ char
 	size_t	n;
 
 	n = ft_strlen(s1) + 1;
-	if (!(dst = malloc(sizeof(char) * n)))
+	if (!(dst = xmalloc(sizeof(char) * n)))
 		return (NULL);
 	return (ft_memcpy(dst, s1, n));
 }
@@ -216,9 +216,7 @@ char
 
 	if (!s1)
 		return (NULL);
-	dst = malloc(sizeof(char) * (n + 1));
-	if (!dst)
-		return (NULL);
+	dst = xmalloc(sizeof(char) * (n + 1));
 	dst[n] = '\0';
 	while (n--)
 		dst[n] = s1[n];

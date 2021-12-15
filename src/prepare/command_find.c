@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 18:56:25 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 18:06:43 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int
 		return (FT_PWD);
 	else if (*str == 'u' && ft_strcmp(str + 1, "nset") == 0)
 		return (FT_UNSET);
-	return (FT_EXECVE);
+	return (MINI_EXECVE);
 }
 
 static char
@@ -72,9 +72,7 @@ static char
 	char		*full_path;
 	struct stat	finfo;
 
-	full_path = malloc(sizeof(char) * (ft_strlen(name) + ft_strlen(path) + 2));
-	if (full_path == NULL)
-		return (NULL);
+	full_path = xmalloc(sizeof(char) * (ft_strlen(name) + ft_strlen(path) + 2));
 	ft_memset(full_path, 0, ft_strlen(name) + ft_strlen(path) + 2);
 	ft_strcat(ft_strcat(strcpy(full_path, path), "/"), name);
 	if (stat(full_path, &finfo) < 0)

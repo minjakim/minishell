@@ -25,7 +25,6 @@
 # include <sys/cdefs.h>
 # include "../lib/readline_arm64/include/readline.h"
 # include "../lib/readline_arm64/include/history.h"
-# include <sysexits.h>
 # include <sys/errno.h>
 # include <sys/event.h>
 
@@ -44,9 +43,14 @@
 # define LOOP					1
 
 # define EXIT					"exit\n"
-# define ERROR_FATAL			"out of virtual memory"
-# define ERR_MSG_EXIT_FMT		"numeric argument required"
-# define ERR_MSG_EXIT_ARGS		"too many arguments"
+# define EX_EXIT_FMT			"numeric argument required"
+# define EX_EXIT_FMT_NO			255
+# define EX_EXIT_ARGS			"too many arguments"
+# define EX_CD_HOME				"HOME not set"
+# define EX_CD_OLDPWD			"OLDPWD not set"
+
+# define EX_NOEXEC				126
+# define EX_NOTFOUND			127
 
 # define CMD_COMMAND_BUILTIN	0x00000001
 # define CMD_STDIN_REDIR		0x00000002
@@ -113,8 +117,7 @@ enum e_size
 enum e_exit_status
 {
 	OK,
-	ERR_NO_GENERAL,
-	ERR_NO_EXIT_FMT = 255
+	GENERAL_ERROR
 };
 
 enum e_exception
