@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/15 15:27:03 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/15 20:15:15 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static int
 				if (!words->next)
 					return (FAILURE);
 				words = words->next;
-				words->next = NULL;
+				ft_memset(words, 0, sizeof(t_word_list));
 			}
 		}
 		if (is_quote(line[i], quote))
@@ -103,10 +103,20 @@ static int
 	return (SUCCESS);
 }
 
-static int
-	flag_word(t_word_list *words)
+static t_word_list
+	*word_list_free(t_word_list *words)
 {
-	return (SUCCESS);
+	t_word_list	*tmp;
+
+	while (words)
+	{
+		if (words->word.word)
+			free(words->word.word);
+		tmp = words;
+		words = words->next;
+		free(tmp);
+	}
+	return (NULL);
 }
 
 t_word_list
@@ -123,36 +133,16 @@ t_word_list
 	result->word.word = NULL;
 	result->word.flags = 0;
 	if (!line_split(line, result, '\0'))
-		return (NULL);
-	//flag_word(result);
+		return (word_list_free(result));
+	if (word_list_flag(result) == EXCEPTION)
+	{
+		printf("syntax error\n");
+		return (word_list_free(result));
+	}
+	while (result)
+	{
+		printf("%x	%s\n", result->word.flags, result->word.word);
+		result = result->next;
+	}
 	return (result);
 }
-
-
-//static int
-//	flag_word(t_word_list *words)
-//{
-//	int		i;
-//	int		quote;
-//
-//	while (words)
-//	{
-//		i = 0;
-//		quote = 0;
-//		while (words->word.word[i])
-//		{
-//			if (is_quote(words->word.word[i], quote))
-//			{
-//				quote ^= words->word.word[i];
-//				if (quote == '\"')
-//					words->word.flags |= W_DQUOTED;
-//				else if (quote == '\'')
-//					words->word.flags |= W_QUOTED;
-//			}
-//			if (words->word.word[i] && is_key(words->word.word, i, quote))
-//				words->word.flags |= W_HASHDOLLAR;
-//			++i;
-//		}
-//		words = words->next;
-//	}
-//}

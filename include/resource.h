@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/14 19:45:50 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 19:54:28 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
 # define CMD_IGNORE_RETURN		0x00000040
 # define CMD_PIPE				0x00000080
 
+# define W_NOFLAG				0
 # define W_HASHDOLLAR			0x00000001
 # define W_QUOTED				0x00000002
 # define W_DQUOTED				0x00000004
@@ -83,6 +84,7 @@
 # define W_GRATER_GRATER		0x00200000
 # define W_LESS					0x00400000
 # define W_LESS_LESS			0x00800000
+# define W_EXITSTATUS			0x01000000
 
 # define H_EXPORT				1
 # define H_KEYONLY				2

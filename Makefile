@@ -31,7 +31,8 @@ prepare=command_clean.c\
 		command_handler.c\
 		command_io.c\
 		command_redirect.c\
-		word_list_handler.c
+		word_list_handler.c\
+		word_list_flag.c
 
 SRC=main.c\
 	initialize.c\
