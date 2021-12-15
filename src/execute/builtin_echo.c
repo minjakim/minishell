@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:05:04 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 15:36:18 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 17:44:18 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int
 	builtin_echo(const t_command *const command)
 {
-	const char *const *const	argv = (const char **)command->argv;
+	const char *const *const	argv = (const char *const *const)command->argv;
 	int							display_return;
 	int							i;
 
@@ -26,10 +26,10 @@ int
 		display_return = 0;
 		++i;
 	}
-	while (argv[i] && printf("%s", argv[i]))
+	while (argv[i] && write(STDOUT_FILENO, argv[i], ft_strlen(argv[i])))
 		if (argv[++i])
-			printf(" ");
+			write(STDOUT_FILENO, " ", 1);
 	if (display_return)
-		printf("\n");
+			write(STDOUT_FILENO, "\n", 1);
 	return (SUCCESS);
 }

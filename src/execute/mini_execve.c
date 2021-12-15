@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 16:29:14 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 15:43:52 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 17:40:50 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,26 @@ int
 	mini_null(const t_command *const command)
 {
 	(void)command;
-	return (0);
+	return (SUCCESS);
 }
 
 int
 	mini_execve(const t_command *const command)
 {
-	extern char *const *const	environ;
-	pid_t						pid;
-
-	pid = 0;
+	g_status.haschild = 0;
 	if (!(command->flags & CMD_NO_FORK))
-		pid = fork();
-	if (pid == 0)
+		g_status.haschild = fork();
+	if (g_status.haschild == 0)
 	{
-		if (execve(command->path, command->argv, environ) == ERROR)
-			exit(126);
+		if (execve(command->path, command->argv, g_status.env.envp) == ERROR)
+		{
+			if (exception_error(command->argv[0], NULL, errno) == ENOENT)
+				exit(EX_NOTFOUND);
+			exit(EX_NOEXEC);
+		}
 	}
-	else if (pid > 0)
-	{
-		waitpid(pid, &g_status.exit, 0);
-		return (g_status.exit);
-	}
-	else
-		return (FAILURE);
-	return (SUCCESS);
+	else if (g_status.haschild > 0)
+		if (waitpid(g_status.haschild, &g_status.exit, 0) != ERROR)
+			return (g_status.exit);
+	return (exception_error(NULL, NULL, errno));
 }
