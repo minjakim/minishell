@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/14 19:45:50 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 15:15:51 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@
 # define ERROR_FATAL			"out of virtual memory"
 # define ERR_MSG_EXIT_FMT		"numeric argument required"
 # define ERR_MSG_EXIT_ARGS		"too many arguments"
+# define EX_CD_HOME				"HOME not set"
+# define EX_CD_OLDPWD			"OLDPWD not set"
 
 # define CMD_COMMAND_BUILTIN	0x00000001
 # define CMD_STDIN_REDIR		0x00000002

@@ -6,76 +6,55 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 15:09:03 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 16:12:17 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static int
-	set_path(char *dirname, char *key)
+	set_path(const char *const cwd, const char *const path)
 {
-	char		*assignment;
-	const int	len = sizeof(char) * (ft_strlen(dirname) + ft_strlen(key) + 2);
-
-	assignment = malloc(len);
-	if (assignment == NULL)
-		return (FAILURE);
-	ft_memset(assignment, 0, len);
-	ft_strcat(ft_strcpy(assignment, key), dirname);
-	if (assignment == NULL)
-		return (FAILURE);
-	//if (declare_add(&mini->env.declare, assignment, H_EXPORT) != 0)
-	//	return (FAILURE);
-	free(assignment);
 	return (SUCCESS);
 }
 
-static char
-	*get_path(char **argv)
+static const char
+	*get_path(const char *const *const argv)
 {
-	char	*dirname;
+	char	*path;
 
-	if (argv && argv[0] != NULL && argv[1] == NULL)
+	if (argv[1] == NULL)
 	{
-		dirname = getenv("HOME");
-		return (dirname);
+		path = getenv("HOME");
+		if (!path)
+			exception_report(argv[0], NULL, EX_CD_HOME, ERR_NO_GENERAL);
+		return (path);
 	}
-	else if (argv && argv[0] != NULL && ft_strcmp(argv[1], "-") == 0)
+	else if (argv[1][0] == '-' && argv[1][1] == '\0')
 	{
-		dirname = getenv("OLDPWD");
-		return (dirname);
+		path = getenv("OLDPWD");
+		if (!path)
+			exception_report(argv[0], NULL, EX_CD_OLDPWD, ERR_NO_GENERAL);
+		return (path);
 	}
 	else
 		return (argv[1]);
-	return (NULL);
 }
-
-/*getenv("HOME") == NULL
- * error msg "HOME not set"
- * getenv("OLDPWD") == NULL
- * error msg "OLDPWD not set"*/
 
 int
 	builtin_cd(const t_command *const command)
 {
-	char	*dirname;
-	char	*oldpwd;
+	const char *const	path = \
+		get_path((const char *const *const)command->argv);
+	const char	*const	cwd = getcwd(NULL, 0);
 
-	//oldpwd = getcwd(NULL, 0);
-	//if (oldpwd == NULL)
-	//	return (1);
-	dirname = get_path(command->argv);
-	if (dirname == NULL)
-		return (1);
-	if (chdir(dirname) == ERROR)
-		return (1);
-	if (!set_path(oldpwd, "OLDPWD="))
-		return (1);
-	if (!set_path(dirname, "PWD="))
-		return (1);
-	free(oldpwd);
-	//if (!envp_update(&mini->env, 1))
-	//	return (1);
-	return (0);
+	if (cwd == NULL)
+		return (exception_error(command->argv[0], command->argv[1], errno));
+	if (path == NULL)
+		return (ERR_NO_GENERAL);
+	if (chdir(path) == ERROR)
+		return (exception_error(command->argv[0], command->argv[1], errno));
+	if (!set_path(cwd, path))
+		return (ERR_NO_GENERAL);
+	return (SUCCESS);
 }
