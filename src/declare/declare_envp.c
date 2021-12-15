@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 11:49:37 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 18:05:46 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,8 @@ static int
 	{
 		if (handle->flag & H_EXPORT && !(handle->flag & H_KEYONLY))
 		{
-			new_envp[i] = malloc(sizeof(char) \
+			new_envp[i] = xmalloc(sizeof(char) \
 					* (ft_strlen(handle->key) + ft_strlen(handle->value) + 2));
-			if (new_envp[i] == NULL)
-				return (FAILURE);
 			strcat(strcat(ft_strcpy(new_envp[i], handle->key), "="), \
 					handle->value);
 			++i;
@@ -69,9 +67,7 @@ int
 	char		**new_envp;
 	int			i;
 
-	new_envp = malloc(sizeof(char *) * (envplen + 2));
-	if (new_envp == NULL)
-		return (FAILURE);
+	new_envp = xmalloc(sizeof(char *) * (envplen + 2));
 	ft_memset(new_envp, 0, envplen + 2);
 	if (!envp_make(new_envp, env->declare))
 		return (FAILURE);
@@ -144,9 +140,7 @@ static int
 {
 	t_declare	*new;
 
-	new = malloc(sizeof(t_declare));
-	if (new == NULL)
-		return (1);
+	new = xmalloc(sizeof(t_declare));
 	ft_memset(new, 0, sizeof(t_declare));
 	new->flag = temp.flag;
 	*head = new;
@@ -170,9 +164,7 @@ static int
 {
 	t_declare	*new;
 
-	new = malloc(sizeof(t_declare));
-	if (new == NULL)
-		return (1);
+	new = xmalloc(sizeof(t_declare));
 	ft_memset(new, 0, sizeof(t_declare));
 	new->flag = temp.flag;
 	new->next = back->next;

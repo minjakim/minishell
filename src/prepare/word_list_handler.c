@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/15 15:27:03 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/15 18:07:14 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int
 			(str[*i] == '>' && str[*i + 1] == '>') || \
 			(str[*i] == '|' && str[*i + 1] == '|') || \
 			(str[*i] == '&' && str[*i + 1] == '&'))
-	{
+  {
 		++(*i);
 		return (TRUE);
 	}
@@ -87,9 +87,7 @@ static int
 			i = 0;
 			if (words->word.word != NULL)
 			{
-				words->next = malloc(sizeof(t_word_list));
-				if (!words->next)
-					return (FAILURE);
+				words->next = xmalloc(sizeof(t_word_list));
 				words = words->next;
 				words->next = NULL;
 			}
@@ -116,9 +114,7 @@ t_word_list
 
 	if (line_is_exception(line))
 		return (NULL);
-	result = malloc(sizeof(t_word_list));
-	if (!result)
-		return (NULL);
+	result = xmalloc(sizeof(t_word_list));
 	result->next = NULL;
 	result->word.word = NULL;
 	result->word.flags = 0;

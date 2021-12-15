@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 16:07:29 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 18:00:30 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 extern t_status	g_status;
 
+T_PTR		xmalloc(size_t bytes);
 int			initialize(t_shell *mini);
 
 void		eof_exit(t_shell *mini);
@@ -40,10 +41,10 @@ void		signal_handler(int signum);
 int			envp_handler(t_env *env);
 
 int			exception_error_fatal(const int err_no);
-int			exception_report(const char *cmd, const char *const arg, \
-								const char *const msg, const int error_no);
 int			exception_error(const char *const cmd, \
 									const char *const arg, const int err_no);
+int			exception_report(const char *cmd, const char *const arg, \
+								const char *const msg, const int error_no);
 
 
 int			expand_command(t_shell *mini);

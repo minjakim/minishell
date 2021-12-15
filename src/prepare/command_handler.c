@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_make.c                                     :+:      :+:    :+:   */
+/*   command_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:10:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 12:48:09 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 18:07:00 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ t_word_list
 	int			count;
 
 
-	new_unit = malloc(sizeof(t_redirect));
-	if (new_unit == NULL)
-		return (NULL);//error
+	new_unit = xmalloc(sizeof(t_redirect));
 	ft_memset(new_unit, 0, sizeof(t_redirect));
 	if (words->word.flags & (W_LESS | W_LESS_LESS))
 	{
@@ -101,9 +99,7 @@ t_word_list
 	t_command	*next_command;
 	t_word_list	*temp;
 
-	next_command = malloc(sizeof(t_command));
-	if (next_command == NULL)
-		return (NULL);//error;
+	next_command = xmalloc(sizeof(t_command));
 	command->next = next_command;
 	command->connector = words->word.flags & (W_PIPE | W_AND_AND | W_OR_OR);
 	if (words->word.flags & W_PIPE)
@@ -122,7 +118,7 @@ int
 {
 	t_command	*command;
 
-	command = malloc(sizeof(t_command));
+	command = xmalloc(sizeof(t_command));
 	if (!command)
 		return (FAILURE);
 	mini->command = command;
