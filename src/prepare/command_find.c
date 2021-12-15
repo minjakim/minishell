@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 18:56:25 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 17:50:27 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int
 		return (FT_PWD);
 	else if (*str == 'u' && ft_strcmp(str + 1, "nset") == 0)
 		return (FT_UNSET);
-	return (FT_EXECVE);
+	return (MINI_EXECVE);
 }
 
 static char
