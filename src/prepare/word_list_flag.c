@@ -6,13 +6,13 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 16:17:59 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 21:23:59 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/15 21:28:57 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int 
+static int
 	syntax_error(const char *const token)
 {
 	write(STDERR_FILENO, "mnsh: ", 6);
@@ -30,7 +30,7 @@ static int
 	if (str[0] != '>' && str[0] != '<')
 		return (W_NOFLAG);
 	if (old_flags & (W_REDIRECT))
-		return(syntax_error(str));
+		return (syntax_error(str));
 	if (str[0] == '<' && str[1] == '<')
 		words->word.flags |= W_LESS_LESS;
 	else if (str[0] == '<')
@@ -84,7 +84,7 @@ static int
 		if (quote != '\'' && *str == '$' && legal_variable_starter(*(str + 1)))
 			words->word.flags |= W_HASHDOLLAR;
 		if (quote != '\'' && *str == '$' && *(str + 1) == '?')
-			words->word.flags |= W_EXITSTATUS; 
+			words->word.flags |= W_EXITSTATUS;
 		if (quote == 0 && *str == '*')
 			words->word.flags |= W_GLOBEXP;
 		if (quote == 0 && *str == '~')
@@ -115,4 +115,3 @@ int
 	}
 	return (SUCCESS);
 }
-

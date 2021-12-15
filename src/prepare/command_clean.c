@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:43:57 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/15 20:41:03 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/15 21:32:25 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_word_list
 void
 	command_clean(t_shell *mini)
 {
-	t_word_list *wl_handler;
 	t_redirect	*rd_handler;
 	void		*temp;
 	int			i;

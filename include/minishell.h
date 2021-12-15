@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 20:41:31 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/15 21:33:31 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int			exception_error(const char *const cmd, \
 									const char *const arg, const int err_no);
 int			exception_report(const char *cmd, const char *const arg, \
 								const char *const msg, const int error_no);
-
 
 int			expand_command(t_shell *mini);
 int			expand_word(t_word_desc *desc);
