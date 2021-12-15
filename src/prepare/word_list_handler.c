@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_list_make.c                                   :+:      :+:    :+:   */
+/*   word_list_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/14 12:48:20 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 18:07:14 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ static int
 		words->word.word = line;
 	else
 	{
-		new_node = malloc(sizeof(t_word_list));
-		if (!new_node)
-			return (FAILURE);
+		new_node = xmalloc(sizeof(t_word_list));
 		new_node->next = NULL;
 		new_node->word.word = line;
 		words->next = new_node;
@@ -95,9 +93,7 @@ t_word_list
 
 	if (line_is_exception(line))
 		return (NULL);
-	result = malloc(sizeof(t_word_list));
-	if (!result)
-		return (NULL);
+	result = xmalloc(sizeof(t_word_list));
 	result->next = NULL;
 	result->word.word = NULL;
 	result->word.flags |= W_ARG;
