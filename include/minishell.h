@@ -26,6 +26,7 @@ void		eof_exit(t_shell *mini);
 int			mini_exit(int exit_status);
 int			envp_update(t_env *env, int flag);
 t_word_list	*word_list_handler(char *line);
+int			word_list_flag(t_word_list *words);
 
 int			command_handler(t_word_list *words, t_shell *mini);
 int			command_find(t_shell *mini);
