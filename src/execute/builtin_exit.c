@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 15:03:43 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 16:21:46 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int
 {
 	g_status.exit = exit_status;
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &g_status.backup.attr) == ERROR)
-		g_status.exit = ERR_NO_GENERAL;
+		g_status.exit = GENERAL_ERROR;
 	exit(g_status.exit);
 }
 
@@ -62,10 +62,10 @@ int
 		return (mini_exit(g_status.exit));
 	if (!legal_number(argv[1]))
 		return (mini_exit(exception_report(argv[0], argv[1], \
-			ERR_MSG_EXIT_FMT, ERR_NO_EXIT_FMT)));
+			EX_EXIT_FMT, EX_EXIT_FMT_NO)));
 	else if (argv[2] != NULL)
 		return (mini_exit(exception_report(argv[0], NULL, \
-			ERR_MSG_EXIT_ARGS, ERR_NO_GENERAL)));
+			EX_EXIT_ARGS, GENERAL_ERROR)));
 	else
 		return (mini_exit(g_status.exit));
 }

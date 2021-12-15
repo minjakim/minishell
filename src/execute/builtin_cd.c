@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 16:12:17 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 16:20:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ static const char
 	{
 		path = getenv("HOME");
 		if (!path)
-			exception_report(argv[0], NULL, EX_CD_HOME, ERR_NO_GENERAL);
+			exception_report(argv[0], NULL, EX_CD_HOME, GENERAL_ERROR);
 		return (path);
 	}
 	else if (argv[1][0] == '-' && argv[1][1] == '\0')
 	{
 		path = getenv("OLDPWD");
 		if (!path)
-			exception_report(argv[0], NULL, EX_CD_OLDPWD, ERR_NO_GENERAL);
+			exception_report(argv[0], NULL, EX_CD_OLDPWD, GENERAL_ERROR);
 		return (path);
 	}
 	else
@@ -51,10 +51,10 @@ int
 	if (cwd == NULL)
 		return (exception_error(command->argv[0], command->argv[1], errno));
 	if (path == NULL)
-		return (ERR_NO_GENERAL);
+		return (GENERAL_ERROR);
 	if (chdir(path) == ERROR)
 		return (exception_error(command->argv[0], command->argv[1], errno));
 	if (!set_path(cwd, path))
-		return (ERR_NO_GENERAL);
+		return (GENERAL_ERROR);
 	return (SUCCESS);
 }

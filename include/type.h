@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/14 19:42:13 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/15 17:28:47 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_status
 	t_io				heredoc;
 	t_env				env;
 	t_backup			backup;
+	pid_t				haschild;
 }	t_status;
 
 typedef struct s_buffer
