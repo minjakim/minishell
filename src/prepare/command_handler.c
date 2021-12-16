@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:10:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/16 14:30:33 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/16 14:33:37 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ static t_word_list
 	t_word_list	*temp;
 
 	next_command = xmalloc(sizeof(t_command));
+	ft_memset(next_command, 0, sizeof(t_command));
 	command->next = next_command;
 	command->connector = words->word.flags & (W_PIPE | W_AND_AND | W_OR_OR);
 	if (words->word.flags & W_PIPE)
