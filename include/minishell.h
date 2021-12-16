@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 21:33:31 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/16 11:15:21 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int			legal_variable_char(const char c);
 int			declare_check(const char *str);
 
 void		*ft_memset(void *b, int c, size_t len);
-void		*ft_memcpy(char *sdt, const char*src, size_t n);
+void		*ft_memcpy(void *sdt, const void *src, size_t n);
 char		*ft_strdup(const char *s1);
 char		*ft_strndup(const char *s1, size_t n);
 char		*ft_strchr(const char *s, int c);

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/16 10:02:22 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/16 12:19:39 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,27 @@ static int
 	return (SUCCESS);
 }
 
+static int
+	is_heredoc_max(t_word_list *words)
+{
+	int	count;
+
+	count = 0;
+	while (words)
+	{
+		if (words->word.flags & W_HEREDOC)
+			++count;
+		words = words->next;
+	}
+	if (count > 16)
+	{
+		g_status.exit = EX_BADUSAGE;
+		exception_report(NULL, NULL, EX_HEREDOC_MAX, EX_BADUSAGE);
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
 t_word_list
 	*word_list_handler(char *line)
 {
@@ -115,6 +136,8 @@ t_word_list
 	if (!line_split(line, result, '\0'))
 		return (word_list_free(result));
 	if (word_list_flag(result) == EXCEPTION)
+		return (word_list_free(result));
+	if (is_heredoc_max(result))
 		return (word_list_free(result));
 	return (result);
 }

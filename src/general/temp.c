@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/15 18:06:23 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/16 11:42:03 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ static void
 }
 
 void
-	*ft_memcpy(char *dst, const char *src, size_t n)
+	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	t_op	dstp;
 	t_op	srcp;
