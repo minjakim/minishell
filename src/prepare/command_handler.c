@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:10:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/16 14:33:37 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/16 19:33:25 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,17 @@ static t_word_list
 
 static t_word_list
 	*attach_filename(t_command *command, t_word_list *words, \
-			t_redirect *new_unit)
+			t_redirect *new_unit, int flag)
 {
 	t_word_list	*temp;
 	t_redirect	*handler;
 
-	temp = words->next;
-	free(words->word.word);
-	free(words);
-	if (new_unit->flags == 0)
+	if (flag & W_LESS_LESS)
 		new_unit->here_doc_eof = words->word.word;
-	else
-		ft_memcpy(&new_unit->redirectee.filename, words->word.word, \
-				sizeof(t_word_desc));
-	words = temp->next;
+	new_unit->redirectee.filename.word = words->word.word;
+	new_unit->redirectee.filename.flags = words->word.flags;
+	temp = words;
+	words = words->next;
 	free(temp);
 	if (command->redirects == NULL)
 		command->redirects = new_unit;
@@ -58,13 +55,14 @@ static t_word_list
 			handler = handler->next;
 		handler->next = new_unit;
 	}
-	return (temp);
+	return (words);
 }
 
 static t_word_list
 	*attach_redirect(t_command *command, t_word_list *words)
 {
 	t_redirect	*new_unit;
+	t_word_list	*next_word;
 
 	new_unit = xmalloc(sizeof(t_redirect));
 	ft_memset(new_unit, 0, sizeof(t_redirect));
@@ -72,21 +70,21 @@ static t_word_list
 	{
 		new_unit->redirector = STDIN_FILENO;
 		command->flags |= CMD_STDIN_REDIR;
+		new_unit->flags = O_RDONLY;
 	}
 	else if (words->word.flags & (W_GRATER | W_GRATER_GRATER))
 	{
 		new_unit->redirector = STDOUT_FILENO;
 		command->flags |= CMD_STDOUT_REDIR;
 	}
-	if (words->word.flags & W_LESS)
-		new_unit->flags = O_RDONLY;
-	else if (words->word.flags & W_GRATER)
+	if (words->word.flags & W_GRATER)
 		new_unit->flags = O_WRONLY | O_CREAT | O_TRUNC;
 	else if (words->word.flags & W_GRATER_GRATER)
 		new_unit->flags = O_WRONLY | O_CREAT | O_APPEND;
-	else
-		new_unit->flags = 0;
-	return (attach_filename(command, words, new_unit));
+	next_word = attach_filename(command, words->next, new_unit, words->word.flags);
+	free(words->word.word);
+	free(words);
+	return (next_word);
 }
 
 static t_word_list

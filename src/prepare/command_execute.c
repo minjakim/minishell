@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_execute.c                                      :+:      :+:    :+:   */
+/*   command_execute.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/11 10:03:00 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/16 19:45:35 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int
 		if (pid == 0)
 		{
 			expand_command(mini);
-			if (command->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
-				command_redirect(mini);
-			//mini->execute[is_builtin(command->value.simple.argv[0])](mini);
+			//if (command->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
+			//	command_redirect(mini);
+			//mini->execute[is_builtin(command->argv[0])]((const t_command*)mini);
 			//if (expand_command() != 0)
 			//	return (1);
 			//if (command->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))

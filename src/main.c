@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/16 10:20:07 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/16 19:22:50 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,10 @@ static int
 		words = word_list_handler(line);
 		if (!words)
 			continue;
-		if (!command_handler(words, mini))
-			exit(1);
+		command_handler(words, mini);
+		command_heredoc(mini->command);
+		command_execute(mini);
+		command_clean(mini);
 	}
 	return (mini_exit(g_status.exit));
 }
