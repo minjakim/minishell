@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 14:31:22 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 17:23:43 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,39 +23,39 @@ static void
 }
 
 static inline char
-	*mini_readline(char **line)
+	*mini_readline()
 {
-	if (*line)
-		free(*line);
-	*line = NULL;
-	*line = readline(PROMPT);
-	if (!*line)
+	g_status.setjmp = (void *)mini_readline;
+	if (g_status.line)
+		free(g_status.line);
+	g_status.line = NULL;
+	g_status.line = readline(PROMPT);
+	if (!g_status.line)
 		handling_eof();
-	else if (**line)
-		add_history(*line);
-	return (*line);
+	else if (*g_status.line)
+		add_history(g_status.line);
+	return (g_status.line);
 }
 
 static int
-	ft_minishell(t_shell *mini)
+	ft_minishell()
 {
-	char		*line;
 	t_word_list	*words;
+	t_command	*command;
 
-	line = NULL;
 	while (LOOP)
 	{
-		if (!mini_readline(&line))
+		if (!mini_readline())
 			break ;
-		if (!*line)
+		if (!*g_status.line)
 			continue ;
-		words = word_list_handler(line);
+		words = word_list_handler(g_status.line);
 		if (!words)
 			continue ;
-		command_handler(words, mini);
-		command_heredoc(mini->command);
-		command_execute(mini);
-		command_clean(mini);
+		command = command_handler(words);
+		command_heredoc(command);
+		command_execute(command);
+		command_clean(command);
 	}
 	return (mini_exit(g_status.exit));
 }
@@ -63,12 +63,10 @@ static int
 int
 	main(int argc, char **argv, char **envp)
 {
-	t_shell	mini;
-
 	(void)argc;
 	(void)argv;
 	g_status.env.envp = envp;
-	if (!initialize(&mini))
+	if (!initialize())
 		return (GENERAL_ERROR);
-	return (ft_minishell(&mini));
+	return (ft_minishell());
 }

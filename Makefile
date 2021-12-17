@@ -20,12 +20,12 @@ expand=expand_command.c\
 	   expand_word.c
 
 general=exception.c\
+		dispose.c\
 		signal.c\
 		temp.c\
 		utils.c
 
-prepare=command_clean.c\
-		command_execute.c\
+prepare=command_execute.c\
 		command_find.c\
 		command_handler.c\
 		command_io.c\

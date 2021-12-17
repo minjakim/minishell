@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 18:07:43 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 12:48:18 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 15:14:52 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@ static int
 	heredoc(t_redirect *heredoc)
 {
 	char	*line;
-	char	*eof;
 
 	pipe(g_status.heredoc.fd);
 	remove_quote(heredoc->here_doc_eof);
-	eof = heredoc->here_doc_eof;
 	while (LOOP)
 	{
 		line = readline("> ");
-		if (!line || !ft_strcmp(line, eof))
+		if (!line || !ft_strcmp(line, heredoc->here_doc_eof))
 			break ;
 		if (!(heredoc->redirectee.filename.flags & (W_QUOTED | W_DQUOTED)))
 			;//expand_str(line);

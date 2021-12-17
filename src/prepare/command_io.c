@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 14:16:40 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 11:49:24 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 17:26:12 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,11 @@ int
 }
 
 int
-	command_pipe_set(t_shell *mini)
+	command_pipe_set(t_command *command)
 {
-	t_command	*command;
 	pid_t		pid;
 	t_io		pipe_fd;
 
-	command = mini->command;
 	if (command->connector == '|')
 	{
 		pipe(pipe_fd.fd);

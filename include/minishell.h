@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 11:48:56 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 17:22:20 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,23 @@
 extern t_status	g_status;
 
 T_PTR		xmalloc(size_t bytes);
-int			initialize(t_shell *mini);
+int			initialize();
 
-void		eof_exit(t_shell *mini);
 int			mini_exit(int exit_status);
 int			envp_update(t_env *env, int flag);
 t_word_list	*word_list_handler(char *line);
 int			word_list_flag(t_word_list *words);
 t_word_list	*word_list_free(t_word_list *words);
 
-int			command_handler(t_word_list *words, t_shell *mini);
-int			command_find(t_shell *mini);
-void		command_clean(t_shell *mini);
-int			command_execute(t_shell *mini);
-int			command_redirect(t_shell *mini);
+t_command	*command_handler(t_word_list *words);
+int			command_find(t_command *command);
+void		command_clean(t_command *command);
+int			command_execute(t_command *command);
+int			command_redirect(t_command *command);
 int			command_heredoc(t_command *command);
+int			command_pipe_set(t_command *command);
 void		command_io_close(t_io io);
 int			command_io_set(t_io io);
-int			command_pipe_set(t_shell *mini);
 
 void		sigint_handler(int signum);
 void		signal_handler(int signum);
@@ -49,7 +48,7 @@ int			exception_error(const char *const cmd, \
 int			exception_report(const char *cmd, const char *const arg, \
 								const char *const msg, const int error_no);
 
-int			expand_command(t_shell *mini);
+int			expand_command(t_command *command);
 int			expand_word(t_word_desc *desc);
 char		**expand_glob(t_word_desc *word);
 char		*expand_teilde(char *filename, int i);

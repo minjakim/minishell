@@ -6,24 +6,24 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 14:00:29 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 17:18:04 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 static void
-	init_execute(t_shell *mini)
+	init_execute(void)
 {
-	mini->execute[MINI_EXECVE] = mini_execve;
-	mini->execute[FT_CD] = builtin_cd;
-	mini->execute[FT_ECHO] = builtin_echo;
-	mini->execute[FT_ENV] = builtin_env;
-	mini->execute[FT_EXIT] = builtin_exit;
-	mini->execute[FT_EXPORT] = builtin_export;
-	mini->execute[FT_PWD] = builtin_pwd;
-	mini->execute[FT_UNSET] = builtin_unset;
-	mini->execute[FT_NULL] = mini_null;
+	g_status.execute[MINI_EXECVE] = mini_execve;
+	g_status.execute[FT_CD] = builtin_cd;
+	g_status.execute[FT_ECHO] = builtin_echo;
+	g_status.execute[FT_ENV] = builtin_env;
+	g_status.execute[FT_EXIT] = builtin_exit;
+	g_status.execute[FT_EXPORT] = builtin_export;
+	g_status.execute[FT_PWD] = builtin_pwd;
+	g_status.execute[FT_UNSET] = builtin_unset;
+	g_status.execute[FT_NULL] = mini_null;
 }
 
 static int
@@ -45,7 +45,7 @@ static int
 }
 
 static int
-	init_status(t_shell *mini)
+	init_status(void)
 {
 	g_status.exit = 0;
 	g_status.interactive = TRUE;
@@ -64,14 +64,13 @@ static int
 }
 
 int
-	initialize(t_shell *mini)
+	initialize()
 {
-	init_status(mini);
+	init_status();
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, signal_handler);
 	signal(SIGTERM, signal_handler);
 	rl_catch_signals = FALSE;
-	mini->command = NULL;
-	init_execute(mini);
+	init_execute();
 	return (SUCCESS);
 }

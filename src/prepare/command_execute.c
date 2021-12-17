@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 13:09:58 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 17:15:50 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,26 @@ static char
 }
 
 int
-	command_execute(t_shell *mini)
+	command_execute(t_command *command)
 {
-	t_command		*command;
 	pid_t			pid;
 	t_io			pipe_fd;
 
-	command = mini->command;
 	while (command)
 	{
 		pid = 0;
 		if (command->flags & CMD_PIPE)
-			pid = command_pipe_set(mini);
+			pid = command_pipe_set(command);
 		if (pid < 0)
 			return (1);
 		if (pid == 0)
 		{
-			expand_command(mini);
+			expand_command(command);
 			command->argv = make_argv(command->words, command->argc);
 			if (command->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
-				command_redirect(mini);
-			command_find(mini);
-			mini->execute[is_builtin(command->argv[0])]((const t_command*)command);
+				command_redirect(command);
+			command_find(command);
+			g_status.execute[is_builtin(command->argv[0])]((const t_command*)command);
 			//if (expand_command() != 0)
 			//	return (1);
 			//if (command->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))

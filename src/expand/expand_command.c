@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 11:08:52 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 17:24:18 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,11 @@ static int
 }
 
 int
-	expand_command(t_shell *mini)
+	expand_command(t_command *command)
 {
-	if (!expand_argv(mini->command))
+	if (!expand_argv(command))
 		return (FAILURE);
-	if (!expand_filename(mini->command->redirects))
+	if (!expand_filename(command->redirects))
 		return (FAILURE);
 	return (SUCCESS);
 }

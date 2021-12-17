@@ -6,19 +6,19 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 13:01:50 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 17:25:17 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 int
-	command_redirect(t_shell *mini)
+	command_redirect(t_command *command)
 {
-	const t_redirect	*ptr = mini->command->redirects;
+	const t_redirect	*ptr = command->redirects;
 	t_io				*io;
 
-	io = &mini->command->io;
+	io = &command->io;
 	while (ptr)
 	{
 		if (io->fd[ptr->redirector] != ptr->redirector)

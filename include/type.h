@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 13:53:39 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 17:27:51 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,18 +106,8 @@ typedef struct s_status
 	t_env				env;
 	t_backup			backup;
 	pid_t				haschild;
-}	t_status;
-
-typedef struct s_buffer
-{
 	char				*line;
-	t_word_list			*words;
-}	t_buffer;
-
-struct s_shell
-{
-	t_command			*command;
+	char				(*setjmp)(void);
 	int					(*execute[9])(const t_command *);
-};
-
+}	t_status;
 #endif

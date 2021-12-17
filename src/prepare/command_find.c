@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 12:36:37 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 17:34:05 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ static char
 }
 
 int
-	command_find_in_path(t_shell *mini)
+	command_find_in_path(t_command *command)
 {
-	char		*path_list;
-	char		*path;
-	int			path_index;
+	char	*path_list;
+	char	*path;
+	int		path_index;
 
 	path_list = getenv("PATH");
 	path_index = 0;
@@ -99,28 +99,27 @@ int
 		path = get_next_path_element(path_list, &path_index);
 		if (path == NULL)
 			break ;
-		mini->command->path = find_in_path_element(\
-				mini->command->argv[0], path);
+		command->path = find_in_path_element(command->argv[0], path);
 		free(path);
-		if (mini->command->path != NULL)
+		if (command->path != NULL)
 			return (0);
 	}
-	if (!path_list || !*path_list || !mini->command->path)
+	if (!path_list || !*path_list || !command->path)
 		return (127);// no such file of directory
 	return (0);
 }
 
 int
-	command_find(t_shell *mini)
+	command_find(t_command *command)
 {
-	const char	*name = mini->command->argv[0];
+	const char	*name = command->argv[0];
 	struct stat	buf;
 
 	if (ft_strchr(name, '/') != NULL && stat(name, &buf) == 0)
-		mini->command->path = strdup(name);
+		command->path = strdup(name);
 	else if (is_builtin(name))
-		mini->command->flags |= CMD_COMMAND_BUILTIN;
-//	else
-//		return (command_find_in_path(mini));
+		command->flags |= CMD_COMMAND_BUILTIN;
+	//else
+	//	return (command_find_in_path(command));
 	return (0);
 }

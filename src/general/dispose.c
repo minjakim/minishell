@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:43:57 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 14:33:12 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 15:02:29 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,15 @@
 t_word_list
 	*word_list_free(t_word_list *words)
 {
-	t_word_list	*tmp;
+	t_word_list	*temp;
 
 	while (words)
 	{
 		if (words->word.word)
 			free(words->word.word);
-		tmp = words;
-		if (tmp)
-			free(tmp);
+		temp = words;
 		words = words->next;
+		free(temp);
 	}
 	return (NULL);
 }
@@ -54,28 +53,27 @@ static void
 			free(rd_handler->here_doc_eof);
 		else
 			free(rd_handler->redirectee.filename.word);
-		temp = rd_handler->next;
-		free(rd_handler);
-		rd_handler = temp;
+		temp = rd_handler;
+		rd_handler = rd_handler->next;
+		free(temp);
 	}
 }
 
 void
-	command_clean(t_shell *mini)
+	command_clean(t_command *command)
 {
-	void		*temp;
-	int			i;
+	void	*temp;
+	int		i;
 
-	while (mini->command)
+	while (command)
 	{
-		word_list_free(mini->command->words);
-		clean_argv(mini->command->argv);
-		clean_redirect(mini->command->redirects);
-		if (mini->command->path)
-			free(mini->command->path);
-		temp = mini->command->next;
-		free(mini->command);
-		mini->command = temp;
+		word_list_free(command->words);
+		clean_argv(command->argv);
+		clean_redirect(command->redirects);
+		if (command->path)
+			free(command->path);
+		temp = command;
+		command = command->next;
+		free(temp);
 	}
-	mini->command = NULL;
 }

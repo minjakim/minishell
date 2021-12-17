@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:46 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/14 12:46:28 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 17:00:14 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,20 @@ void
 {
 	if (signum != SIGINT)
 		return ;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 1);
-	rl_redisplay();
+	if (g_status.heredoc.value)
+	{
+		close(g_status.heredoc.in);
+		close(g_status.heredoc.out);
+		rl_replace_line("", 1);
+		g_status.setjmp();
+	}
+	else
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
+	}
 }
 
 void
