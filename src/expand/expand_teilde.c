@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:51:12 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 17:58:32 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:05:14 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,11 @@ char
 	else if (type == 3)
 		dirname = getenv("OLDPWD");
 	dest_len = ft_strlen(filename) + ft_strlen(dirname) + 1;
-	dest = xmalloc(sizeof(char) * dest_len);
-	if (dest == NULL)
-		return (NULL);
-	ft_memset(dest, 0, sizeof(char) * dest_len);
+	dest = xcalloc(sizeof(char) * dest_len);
 	if (type == 1)
-		ft_strcat(ft_strcat(strncpy(dest, filename, i), dirname), filename + i + 1);
+		ft_strcat(ft_strcat(ft_strncpy(dest, filename, i), dirname), filename + i + 1);
 	else
-		ft_strcat(ft_strcat(strncpy(dest, filename, i), dirname), filename + i + 2);
+		ft_strcat(ft_strcat(ft_strncpy(dest, filename, i), dirname), filename + i + 2);
 	free(filename);
 	return (dest);
 }

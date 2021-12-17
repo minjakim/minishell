@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 14:06:57 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:23:06 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,7 @@ static int
 }
 
 static int
-	is_start(const char *const str, const int i, const int quote)
-{
-	if (quote)
-		return (FALSE);
-	if ((i == 0 || (str[i - 1] == ' ' || str[i - 1] == '\t' || \
-					str[i - 1] == '<' || str[i - 1] == '>' || \
-					str[i - 1] == '|' || str[i - 1] == '&')) && \
-			(str[i] != ' ' && str[i] != '\t'))
-		return (TRUE);
-	if (((i == 0 || str[i - 1] != '<') && str[i] == '<') || \
-			((i == 0 || str[i - 1] != '>') && str[i] == '>') || \
-			((i == 0 || str[i - 1] != '|') && str[i] == '|') || \
-			((i == 0 || str[i - 1] != '&') && str[i] == '&'))
-		return (TRUE);
-	return (FALSE);
-}
-
-static int
-	is_end(const char *const str, int *i, const int quote)
+	word_is_end(const char *const str, int *i, const int quote)
 {
 	if (quote)
 		return (FALSE);
@@ -74,6 +56,24 @@ static int
 }
 
 static int
+	word_is_start(const char *const str, const int i, const int quote)
+{
+	if (quote)
+		return (FALSE);
+	if ((i == 0 || (str[i - 1] == ' ' || str[i - 1] == '\t' || \
+					str[i - 1] == '<' || str[i - 1] == '>' || \
+					str[i - 1] == '|' || str[i - 1] == '&')) && \
+			(str[i] != ' ' && str[i] != '\t'))
+		return (TRUE);
+	if (((i == 0 || str[i - 1] != '<') && str[i] == '<') || \
+			((i == 0 || str[i - 1] != '>') && str[i] == '>') || \
+			((i == 0 || str[i - 1] != '|') && str[i] == '|') || \
+			((i == 0 || str[i - 1] != '&') && str[i] == '&'))
+		return (TRUE);
+	return (FALSE);
+}
+
+static int
 	line_split(const char *line, t_word_list *words, char quote)
 {
 	int		i;
@@ -81,22 +81,21 @@ static int
 	i = 0;
 	while (line[i])
 	{
-		if (is_start(line, i, quote))
+		if (word_is_start(line, i, quote))
 		{
 			line = line + i;
 			i = 0;
 			if (words->word.word != NULL)
 			{
-				words->next = xmalloc(sizeof(t_word_list));
+				words->next = xcalloc(sizeof(t_word_list));
 				words = words->next;
-				ft_memset(words, 0, sizeof(t_word_list));
 			}
 		}
 		if (is_quote(line[i], quote))
 			quote ^= line[i];
-		if (is_end(line, &i, quote))
+		if (word_is_end(line, &i, quote))
 			words->word.word = ft_strndup(line, i + 1);
-		i++;
+		++i;
 	}
 	return (SUCCESS);
 }
@@ -113,7 +112,7 @@ static int
 			++count;
 		words = words->next;
 	}
-	if (count > 16)
+	if (count > HEREDOC_MAX)
 	{
 		g_status.exit = EX_BADUSAGE;
 		exception_report(NULL, NULL, EX_HEREDOC_MAX, EX_BADUSAGE);
@@ -129,10 +128,7 @@ t_word_list
 
 	if (line_is_exception(line))
 		return (NULL);
-	result = xmalloc(sizeof(t_word_list));
-	result->next = NULL;
-	result->word.word = NULL;
-	result->word.flags = 0;
+	result = xcalloc(sizeof(t_word_list));
 	if (!line_split(line, result, '\0'))
 		return (word_list_free(result));
 	if (word_list_flag(result) == EXCEPTION)

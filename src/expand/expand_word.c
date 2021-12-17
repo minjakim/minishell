@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 18:05:58 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:05:22 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ static char
 	if (i == 0 && flags & W_FILENAME && (!declare.value || !*declare.value))
 		return (NULL);//bash: argv[1]: ambiguas redirect
 	dest_len = ft_strlen(src) - key_len + ft_strlen(declare.value);
-	dest = xmalloc(sizeof(char) * dest_len);
-	ft_memset(dest, 0, sizeof(char) * dest_len);
-	ft_strcat(ft_strcat(strncpy(dest, src, i), declare.value), src + i + key_len);
+	dest = xcalloc(sizeof(char) * dest_len);
+	ft_strcat(ft_strcat(ft_strncpy(dest, src, i), declare.value), src + i + key_len);
 	free(declare.key);
 	free(src);
 	return (dest);

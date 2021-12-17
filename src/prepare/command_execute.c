@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 18:53:12 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 19:51:34 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ static char
 	char	**dest;
 	int		i;
 
-	dest = xmalloc(sizeof(char *) * (argc + 1));
-	ft_memset(dest, 0, sizeof(char *) * (argc + 1));
+	dest = xcalloc(sizeof(char *) * (argc + 1));
 	i = -1;
 	while (list)
 	{

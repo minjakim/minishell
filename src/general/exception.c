@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:54:15 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/15 17:34:32 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:04:15 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int
 	const char *const str_error = strerror(err_no);
 
 	write(STDERR_FILENO, "mnsh: ", 6);
-	write(STDERR_FILENO, str_error, strlen(str_error));
+	write(STDERR_FILENO, str_error, ft_strlen(str_error));
 	write(STDERR_FILENO, "\n", 1);
 	exit(GENERAL_ERROR);
 }
@@ -40,7 +40,7 @@ int
 		write(STDERR_FILENO, arg, ft_strlen(arg));
 		write(STDERR_FILENO, ": ", 2);
 	}
-	write(STDERR_FILENO, str_error, strlen(str_error));
+	write(STDERR_FILENO, str_error, ft_strlen(str_error));
 	write(STDERR_FILENO, "\n", 1);
 	if (err_no == ENOENT)
 		return (ENOENT);

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 17:23:43 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 18:59:46 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void
 static inline char
 	*mini_readline()
 {
-	g_status.setjmp = (void *)mini_readline;
 	if (g_status.line)
 		free(g_status.line);
 	g_status.line = NULL;

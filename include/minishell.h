@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 17:22:20 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 19:43:58 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 extern t_status	g_status;
 
 T_PTR		xmalloc(size_t bytes);
+T_PTR		xcalloc(size_t bytes);
+
 int			initialize();
 
 int			mini_exit(int exit_status);

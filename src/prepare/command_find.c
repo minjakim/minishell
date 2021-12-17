@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 17:45:50 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 20:41:19 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char
 		path = ft_strdup(".");
 	}
 	else
-		path = strndup(string + start, i - start);
+		path = ft_strndup(string + start, i - start);
 	return (path);
 }
 
@@ -73,8 +73,7 @@ static char
 	const int	full_path_len = ft_strlen(name) + ft_strlen(path) + 2;
 	struct stat	finfo;
 
-	full_path = xmalloc(sizeof(char) * full_path_len);
-	ft_memset(full_path, 0, full_path_len);
+	full_path = xcalloc(sizeof(char) * full_path_len);
 	ft_strcat(ft_strcat(strcpy(full_path, path), "/"), name);
 	if (stat(full_path, &finfo) < 0)
 	{
@@ -117,8 +116,10 @@ int
 	const char	*name = command->argv[0];
 	struct stat	buf;
 
+	if (!name)
+		return (0);
 	if (ft_strchr(name, '/') != NULL && stat(name, &buf) == 0)
-		command->path = strdup(name);
+		command->path = ft_strdup(name);
 	else if (is_builtin(name))
 		command->flags |= CMD_COMMAND_BUILTIN;
 	else

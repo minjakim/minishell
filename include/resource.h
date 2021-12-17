@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 13:58:13 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:16:32 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define HIMAGIC				0x8080808080808080
 # define OPSIZ					8
 # define LOOP					1
+# define HEREDOC_MAX			16
 
 # define EXIT					"exit\n"
 # define EX_EXIT_FMT			"numeric argument required"

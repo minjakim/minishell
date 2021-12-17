@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 16:29:14 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 18:45:18 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:36:29 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int
 int
 	mini_execve(const t_command *const command)
 {
-	g_status.haschild = 0;
+	g_status.haschild = FALSE;
 	if (!(command->flags & CMD_NO_FORK))
 		g_status.haschild = fork();
 	if (g_status.haschild == 0)
@@ -37,6 +37,9 @@ int
 	}
 	else if (g_status.haschild > 0)
 		if (waitpid(g_status.haschild, &g_status.exit, 0) != ERROR)
+		{
+			g_status.haschild = FALSE;
 			return (g_status.exit);
+		}
 	return (exception_error(NULL, NULL, errno));
 }

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 18:05:46 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:05:55 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int
 		{
 			new_envp[i] = xmalloc(sizeof(char) \
 					* (ft_strlen(handle->key) + ft_strlen(handle->value) + 2));
-			strcat(strcat(ft_strcpy(new_envp[i], handle->key), "="), \
+			ft_strcat(ft_strcat(ft_strcpy(new_envp[i], handle->key), "="), \
 					handle->value);
 			++i;
 		}
@@ -67,8 +67,7 @@ int
 	char		**new_envp;
 	int			i;
 
-	new_envp = xmalloc(sizeof(char *) * (envplen + 2));
-	ft_memset(new_envp, 0, envplen + 2);
+	new_envp = xcalloc(sizeof(char *) * (envplen + 2));
 	if (!envp_make(new_envp, env->declare))
 		return (FAILURE);
 	if (flag == 1)
@@ -140,8 +139,7 @@ static int
 {
 	t_declare	*new;
 
-	new = xmalloc(sizeof(t_declare));
-	ft_memset(new, 0, sizeof(t_declare));
+	new = xcalloc(sizeof(t_declare));
 	new->flag = temp.flag;
 	*head = new;
 	new->next = back;
@@ -164,8 +162,7 @@ static int
 {
 	t_declare	*new;
 
-	new = xmalloc(sizeof(t_declare));
-	ft_memset(new, 0, sizeof(t_declare));
+	new = xcalloc(sizeof(t_declare));
 	new->flag = temp.flag;
 	new->next = back->next;
 	back->next = new;
