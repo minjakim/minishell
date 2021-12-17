@@ -46,12 +46,12 @@ SRCS=$(SRC:%=./src/%)
 
 OBJ=$(SRCS:%.c=%.o)
 
-readline=-lreadline -lncurses -L./lib/readline_arm64/lib -I./lib/readline_arm64/include
+readline=-lreadline -lncurses -L./lib/readline_x86_64/lib -I./lib/readline_x86_64/include
 
 #CPPFLAG= -Wall -Werror -Wextra
 
 %.o		: %.c
-	gcc $(CPPFLAG) -c $< -o $@
+	gcc $(readline) $(CPPFLAG) -c $< -o $@
 
 all 	: $(NAME)
 
