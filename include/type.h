@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/15 17:28:47 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 10:35:33 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_command
 	t_io				io;
 	char				*path;
 	char				**argv;
+	int					argc;
 	t_command			*next;
 	int					connector;
 }	t_command;

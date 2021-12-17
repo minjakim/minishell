@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:43:57 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/15 21:32:25 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/16 17:37:14 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,43 +22,59 @@ t_word_list
 		if (words->word.word)
 			free(words->word.word);
 		tmp = words;
-		words = words->next;
 		free(tmp);
+		words = words->next;
 	}
 	return (NULL);
+}
+
+static void
+	clean_argv(char **argv)
+{
+	int	i;
+
+	i = -1;
+	if (argv)
+	{
+		while (argv[++i])
+			free(argv[i]);
+		free(argv);
+	}
+}
+
+static void
+	clean_redirect(t_redirect *rd_handler)
+{
+	void		*temp;
+
+	while (rd_handler)
+	{
+		if (rd_handler->here_doc_eof)
+			free(rd_handler->here_doc_eof);
+		else
+			free(rd_handler->redirectee.filename.word);
+		temp = rd_handler->next;
+		free(rd_handler);
+		rd_handler = temp;
+	}
 }
 
 void
 	command_clean(t_shell *mini)
 {
-	t_redirect	*rd_handler;
 	void		*temp;
 	int			i;
 
 	while (mini->command)
 	{
 		word_list_free(mini->command->words);
-		i = -1;
-		if (mini->command->argv)
-		{
-			while (mini->command->argv[++i])
-				free(mini->command->argv[i]);
-			free(mini->command->argv);
-		}
-		rd_handler = mini->command->redirects;
-		while (rd_handler)
-		{
-			if (rd_handler->flags == 0)
-				free(rd_handler->here_doc_eof);
-			else
-				free(rd_handler->redirectee.filename.word);
-			temp = rd_handler->next;
-			free(rd_handler);
-			rd_handler = temp;
-		}
+		clean_argv(mini->command->argv);
+		clean_redirect(mini->command->redirects);
 		if (mini->command->path)
 			free(mini->command->path);
+		temp = mini->command->next;
 		free(mini->command);
 		mini->command = temp;
 	}
+	mini->command = NULL;
 }

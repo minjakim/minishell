@@ -6,13 +6,13 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 18:06:43 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/16 19:33:34 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int
+int
 	is_builtin(const char *str)
 {
 	if (!str || !*str || *str == ':')
