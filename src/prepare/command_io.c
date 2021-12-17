@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 14:16:40 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 17:26:12 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 18:44:52 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int
 	command_io_set(command->io);
 	pid = fork();
 	if (pid == 0)
-		g_status.interactive = 0;
+		g_status.interactive = FALSE;
 	if (pid > 0 && command->next == NULL)
 	{
 		waitpid(pid, &g_status.exit, 0);

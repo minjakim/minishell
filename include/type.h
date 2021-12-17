@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 17:27:51 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 18:55:29 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <termios.h>
 
-typedef struct s_shell		t_shell;
 typedef struct s_command	t_command;
 typedef struct termios		t_termios;
 typedef unsigned long		t_op;
@@ -107,7 +106,6 @@ typedef struct s_status
 	t_backup			backup;
 	pid_t				haschild;
 	char				*line;
-	char				(*setjmp)(void);
 	int					(*execute[9])(const t_command *);
 }	t_status;
 #endif

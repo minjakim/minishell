@@ -6,11 +6,12 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 17:18:04 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 18:25:44 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <unistd.h>
 
 static void
 	init_execute(void)
@@ -44,18 +45,56 @@ static int
 	return (SUCCESS);
 }
 
+static void
+	init_term(t_termios *attr)
+{
+	attr->c_iflag = 27394;
+	attr->c_oflag = 3;
+	attr->c_cflag = 19200;
+	attr->c_lflag = 536872395;
+	attr->c_cc[0] = 4;
+	attr->c_cc[1] = 255;
+	attr->c_cc[2] = 255;
+	attr->c_cc[3] = 127;
+	attr->c_cc[4] = 23;
+	attr->c_cc[5] = 21;
+	attr->c_cc[6] = 18;
+	attr->c_cc[7] = 255;
+	attr->c_cc[8] = 3;
+	attr->c_cc[9] = 28;
+	attr->c_cc[10] = 26;
+	attr->c_cc[11] = 25;
+	attr->c_cc[12] = 17;
+	attr->c_cc[13] = 19;
+	attr->c_cc[14] = 22;
+	attr->c_cc[15] = 15;
+	attr->c_cc[16] = 1;
+	attr->c_cc[17] = 0;
+	attr->c_cc[18] = 20;
+	attr->c_cc[19] = 255;
+}
+
 static int
 	init_status(void)
 {
+	t_termios	attr;
+
 	g_status.exit = 0;
 	g_status.interactive = TRUE;
 	g_status.heredoc.value = 0;
-	tgetent(NULL, "xterm");
 	if (!init_env(&g_status.env))
 		return (FAILURE);
 	if (!init_io(&g_status.backup.stdio))
 		return (FAILURE);
 	if (tcgetattr(STDIN_FILENO, &g_status.backup.attr) == ERROR)
+	{
+		g_status.exit = GENERAL_ERROR;
+		return (FAILURE);
+	}
+	init_term(&attr);
+	attr.c_ispeed = 9600;
+	attr.c_ospeed = 9600;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &attr) == ERROR)
 	{
 		g_status.exit = GENERAL_ERROR;
 		return (FAILURE);
