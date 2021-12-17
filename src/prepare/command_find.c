@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 17:34:05 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 17:45:50 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char
 		path = ft_strdup(".");
 	}
 	else
-		path = strndup(string + start, i);
+		path = strndup(string + start, i - start);
 	return (path);
 }
 
@@ -70,10 +70,11 @@ static char
 	*find_in_path_element(char *name, char *path)
 {
 	char		*full_path;
+	const int	full_path_len = ft_strlen(name) + ft_strlen(path) + 2;
 	struct stat	finfo;
 
-	full_path = xmalloc(sizeof(char) * (ft_strlen(name) + ft_strlen(path) + 2));
-	ft_memset(full_path, 0, ft_strlen(name) + ft_strlen(path) + 2);
+	full_path = xmalloc(sizeof(char) * full_path_len);
+	ft_memset(full_path, 0, full_path_len);
 	ft_strcat(ft_strcat(strcpy(full_path, path), "/"), name);
 	if (stat(full_path, &finfo) < 0)
 	{
@@ -101,11 +102,12 @@ int
 			break ;
 		command->path = find_in_path_element(command->argv[0], path);
 		free(path);
+		path = NULL;
 		if (command->path != NULL)
 			return (0);
 	}
 	if (!path_list || !*path_list || !command->path)
-		return (127);// no such file of directory
+		return (127);
 	return (0);
 }
 
@@ -119,7 +121,7 @@ int
 		command->path = strdup(name);
 	else if (is_builtin(name))
 		command->flags |= CMD_COMMAND_BUILTIN;
-	//else
-	//	return (command_find_in_path(command));
+	else
+		return (command_find_in_path(command));
 	return (0);
 }
