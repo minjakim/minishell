@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 14:16:40 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 21:05:25 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:56:49 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,7 @@ int
 	command_pipe_set(t_command *command)
 {
 	pid_t		pid;
-	t_io		pipe_fd;
 
-	if (command->connector & W_PIPE)
-	{
-		pipe(pipe_fd.fd);
-		command->io.out = pipe_fd.in;
-		command->next->io.in = pipe_fd.out;
-	}
 	command_io_set(command->io);
 	pid = fork();
 	if (pid == 0)

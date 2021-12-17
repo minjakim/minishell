@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:10:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 21:14:57 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:58:08 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,21 +87,26 @@ static t_word_list
 }
 
 static t_word_list
-	*command_end(t_command *command, t_word_list *words)
+	*command_end(t_command **command, t_word_list *words)
 {
 	t_command	*next_command;
 	t_word_list	*temp;
+	t_io		pipe_fd;
 
 	next_command = xcalloc(sizeof(t_command));
 	next_command->io.fd[0] = STDIN_FILENO;
 	next_command->io.fd[1] = STDOUT_FILENO;
-	command->next = next_command;
-	command->connector = words->word.flags & (W_PIPE | W_AND_AND | W_OR_OR);
+	(*command)->next = next_command;
+	(*command)->connector = words->word.flags & (W_PIPE | W_AND_AND | W_OR_OR);
 	if (words->word.flags & W_PIPE)
 	{
-		command->flags |= CMD_PIPE | CMD_IGNORE_RETURN | CMD_NO_FORK;
+		pipe(pipe_fd.fd);
+		(*command)->io.out = pipe_fd.in;
+		next_command->io.in = pipe_fd.out;
+		(*command)->flags |= CMD_PIPE | CMD_IGNORE_RETURN | CMD_NO_FORK;
 		next_command->flags |= CMD_PIPE | CMD_NO_FORK;
 	}
+	(*command) = next_command;
 	temp = words;
 	words = words->next;
 	free(temp->word.word);
@@ -120,7 +125,7 @@ t_command
 	while (words)
 	{
 		if (words->word.flags & (W_PIPE | W_AND_AND | W_OR_OR))
-			words = command_end(command, words);
+			words = command_end(&command, words);
 		else if (words->word.flags & W_REDIRECT)
 			words = attach_redirect(command, words);
 		else if (words->word.flags & W_ARG)
