@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:54:15 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 20:04:15 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:39:10 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int
 {
 	const char *const str_error = strerror(err_no);
 
-	write(STDERR_FILENO, "mnsh: ", 6);
+	write(STDERR_FILENO, "mini: ", 6);
 	write(STDERR_FILENO, str_error, ft_strlen(str_error));
 	write(STDERR_FILENO, "\n", 1);
 	exit(GENERAL_ERROR);
@@ -29,7 +29,7 @@ int
 {
 	const char *const str_error = strerror(err_no);
 
-	write(STDERR_FILENO, "mnsh: ", 6);
+	write(STDERR_FILENO, "mini: ", 6);
 	if (cmd)
 	{
 		write(STDERR_FILENO, cmd, ft_strlen(cmd));
@@ -51,7 +51,7 @@ int
 	exception_report(const char *const cmd, const char *const arg, \
 								const char *const msg, const int err_no)
 {
-	write(STDERR_FILENO, "mnsh: ", 6);
+	write(STDERR_FILENO, "mini: ", 6);
 	if (cmd)
 	{
 		write(STDERR_FILENO, cmd, ft_strlen(cmd));
@@ -66,4 +66,16 @@ int
 		write(STDERR_FILENO, msg, ft_strlen(msg));
 	write(STDERR_FILENO, "\n", 1);
 	return (err_no);
+}
+
+int
+	exception_report_syntax(const char *const token)
+{
+	write(STDERR_FILENO, "mini: ", 6);
+	write(STDERR_FILENO, EX_SYNTAX_UNEXPECT, sizeof(EX_SYNTAX_UNEXPECT));
+	write(STDERR_FILENO, " `", 2);
+	write(STDERR_FILENO, token, ft_strlen(token));
+	write(STDERR_FILENO, "\'\n", 2);
+	g_status.exit = EX_USAGE;
+	return (EXCEPTION);
 }

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 19:51:34 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:58:54 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int
 				command_redirect(command);
 			command_find(command);
 			g_status.execute[is_builtin(command->argv[0])]((const t_command*)command);
+			if (!g_status.interactive)
+				exit(g_status.exit);
 		}
 		command_io_close(command->io);
 		command_io_set(g_status.backup.stdio);

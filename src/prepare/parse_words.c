@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_list_flag.c                                   :+:      :+:    :+:   */
+/*   parse_words.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 16:17:59 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 21:28:57 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 20:53:14 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static int
-	syntax_error(const char *const token)
-{
-	write(STDERR_FILENO, "mnsh: ", 6);
-	write(STDERR_FILENO, EX_SYNTAX_UNEXPECT, sizeof(EX_SYNTAX_UNEXPECT));
-	write(STDERR_FILENO, " `", 2);
-	write(STDERR_FILENO, token, ft_strlen(token));
-	write(STDERR_FILENO, "\'\n", 2);
-	g_status.exit = EX_USAGE;
-	return (EXCEPTION);
-}
 
 static int
 	flag_redirect(t_word_list *words, const char *const str, int old_flags)
@@ -30,7 +18,7 @@ static int
 	if (str[0] != '>' && str[0] != '<')
 		return (W_NOFLAG);
 	if (old_flags & (W_REDIRECT))
-		return (syntax_error(str));
+		return (exception_report_syntax(str));
 	if (str[0] == '<' && str[1] == '<')
 		words->word.flags |= W_LESS_LESS;
 	else if (str[0] == '<')
@@ -40,7 +28,7 @@ static int
 	else if (str[0] == '>')
 		words->word.flags |= W_GRATER;
 	if (words->next == NULL)
-		return (syntax_error("newline"));
+		return (exception_report_syntax("newline"));
 	if (words->word.flags & W_LESS_LESS)
 		words->next->word.flags |= (W_HEREDOC | W_NOEXPAND);
 	else
@@ -61,7 +49,7 @@ static int
 	else
 		return (W_NOFLAG);
 	if (!old_flags || old_flags & (W_AND_AND | W_PIPE | W_OR_OR))
-		return (syntax_error(str));
+		return (exception_report_syntax(str));
 	return (words->word.flags);
 }
 
@@ -95,7 +83,7 @@ static int
 }
 
 int
-	word_list_flag(t_word_list *words)
+	parse_words(t_word_list *words)
 {
 	int	old_flags;
 
@@ -110,7 +98,7 @@ int
 			return (EXCEPTION);
 		old_flags = words->word.flags;
 		if (!words->next && (old_flags & (W_AND_AND | W_OR_OR | W_PIPE)))
-			return (syntax_error(words->word.word));
+			return (exception_report_syntax(words->word.word));
 		words = words->next;
 	}
 	return (SUCCESS);

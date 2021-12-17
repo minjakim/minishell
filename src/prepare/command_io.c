@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 14:16:40 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 18:44:52 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:05:25 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int
 	pid_t		pid;
 	t_io		pipe_fd;
 
-	if (command->connector == '|')
+	if (command->connector & W_PIPE)
 	{
 		pipe(pipe_fd.fd);
 		command->io.out = pipe_fd.in;
@@ -47,7 +47,7 @@ int
 	pid = fork();
 	if (pid == 0)
 		g_status.interactive = FALSE;
-	if (pid > 0 && command->next == NULL)
+	if (pid > 0 && !(command->flags & CMD_IGNORE_RETURN))
 	{
 		waitpid(pid, &g_status.exit, 0);
 		while (wait(NULL) != -1)

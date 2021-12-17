@@ -6,7 +6,7 @@
 #    By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 20:07:46 by minjakim          #+#    #+#              #
-#    Updated: 2021/12/17 20:44:09 by minjakim         ###   ########.fr        #
+#    Updated: 2021/12/17 20:59:39 by minjakim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,8 +43,8 @@ prepare			=	command_execute.c\
 					command_io.c\
 					command_redirect.c\
 					command_heredoc.c\
-					word_list_handler.c\
-					word_list_flag.c
+					parse_line.c\
+					parse_words.c
 
 SRC				=	main.c\
 					initialize.c\

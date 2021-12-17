@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 19:43:58 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:11:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ extern t_status	g_status;
 T_PTR		xmalloc(size_t bytes);
 T_PTR		xcalloc(size_t bytes);
 
-int			initialize();
+int			initialize(void);
 
 int			mini_exit(int exit_status);
 int			envp_update(t_env *env, int flag);
-t_word_list	*word_list_handler(char *line);
-int			word_list_flag(t_word_list *words);
+t_word_list	*parse_line(char *line);
+int			parse_words(t_word_list *words);
 t_word_list	*word_list_free(t_word_list *words);
 
 t_command	*command_handler(t_word_list *words);
@@ -49,6 +49,7 @@ int			exception_error(const char *const cmd, \
 									const char *const arg, const int err_no);
 int			exception_report(const char *cmd, const char *const arg, \
 								const char *const msg, const int error_no);
+int			exception_report_syntax(const char *const token);
 
 int			expand_command(t_command *command);
 int			expand_word(t_word_desc *desc);

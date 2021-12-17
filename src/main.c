@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 18:59:46 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:00:39 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int
 			break ;
 		if (!*g_status.line)
 			continue ;
-		words = word_list_handler(g_status.line);
+		words = parse_line(g_status.line);
 		if (!words)
 			continue ;
 		command = command_handler(words);

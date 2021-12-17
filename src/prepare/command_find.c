@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 20:41:19 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:04:30 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static char
 	*find_in_path_element(char *name, char *path)
 {
 	char		*full_path;
-	const int	full_path_len = ft_strlen(name) + ft_strlen(path) + 2;
+	const int	full_path_len = ft_strlen(path) + ft_strlen(path) + 2;
 	struct stat	finfo;
 
 	full_path = xcalloc(sizeof(char) * full_path_len);
