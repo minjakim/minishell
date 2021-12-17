@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 11:15:53 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 13:09:58 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ int
 		{
 			expand_command(mini);
 			command->argv = make_argv(command->words, command->argc);
-			//if (command->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
-			//	command_redirect(mini);
+			if (command->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
+				command_redirect(mini);
+			command_find(mini);
 			mini->execute[is_builtin(command->argv[0])]((const t_command*)command);
 			//if (expand_command() != 0)
 			//	return (1);
@@ -63,12 +64,9 @@ int
 			if (g_status.interactive == 0)
 				exit(g_status.exit);
 		}
-		//close_io(command->value.simple.io);
-		//redirect_stdio(mini->backup.io);
-		if (command->next)
-			command = command->next;
-		else
-			return (0);
+		command_io_close(command->io);
+		command_io_set(g_status.backup.stdio);
+		command = command->next;
 	}
 	return (0);
 }

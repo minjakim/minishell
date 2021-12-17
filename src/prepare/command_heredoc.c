@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 18:07:43 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/16 19:20:20 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 12:48:18 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int
 	while (LOOP)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, eof))
+		if (!line || !ft_strcmp(line, eof))
 			break ;
 		if (!(heredoc->redirectee.filename.flags & (W_QUOTED | W_DQUOTED)))
 			;//expand_str(line);

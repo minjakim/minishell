@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 11:11:04 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 11:48:56 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void		command_clean(t_shell *mini);
 int			command_execute(t_shell *mini);
 int			command_redirect(t_shell *mini);
 int			command_heredoc(t_command *command);
-void		command_io_close(t_io *io);
-int			command_io_set(t_io *io);
+void		command_io_close(t_io io);
+int			command_io_set(t_io io);
 int			command_pipe_set(t_shell *mini);
 
 void		sigint_handler(int signum);
