@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/16 19:22:50 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 14:31:22 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,11 @@
 
 t_status	g_status;
 
-static int
-	put_tc(int tc)
-{
-	return (write(STDOUT_FILENO, &tc, 1));
-}
-
 static void
 	handling_eof(void)
 {
-	t_termios	temp;
-	char		buffer[255];
-	int			row;
-	int			i;
-
-	temp.c_lflag &= ~ICANON;
-	temp.c_lflag &= ~ECHO;
-	temp.c_cc[VMIN] = 1;
-	temp.c_cc[VTIME] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &temp);
-	write(STDOUT_FILENO, "\033[6n", 4);
-	i = read(STDIN_FILENO, buffer, 254);
-	buffer[i] = '\0';
-	i = 1;
-	row = 0;
-	while (!((unsigned)buffer[i] - '0' < 10))
-		++i;
-	while ((unsigned)buffer[i] - '0' < 10)
-		row = (row << 1) + (row << 3) + (buffer[i++] - '0');
-	tputs(tgoto(tgetstr("cm", NULL), LEN_PROMPT, row - 2), 1, put_tc);
-	tcsetattr(STDIN_FILENO, TCSANOW, &g_status.backup.attr);
+	write(STDOUT_FILENO, "\033[1A", 4);
+	write(STDOUT_FILENO, "\033[14C", 5);
 	write(STDERR_FILENO, EXIT, LEN_EXIT);
 }
 
@@ -56,7 +31,7 @@ static inline char
 	*line = readline(PROMPT);
 	if (!*line)
 		handling_eof();
-	else
+	else if (**line)
 		add_history(*line);
 	return (*line);
 }
@@ -72,9 +47,11 @@ static int
 	{
 		if (!mini_readline(&line))
 			break ;
+		if (!*line)
+			continue ;
 		words = word_list_handler(line);
 		if (!words)
-			continue;
+			continue ;
 		command_handler(words, mini);
 		command_heredoc(mini->command);
 		command_execute(mini);

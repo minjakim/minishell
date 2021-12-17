@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 16:29:14 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 17:40:50 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 14:20:56 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int
 				exit(EX_NOTFOUND);
 			exit(EX_NOEXEC);
 		}
+		exit(OK);
 	}
 	else if (g_status.haschild > 0)
 		if (waitpid(g_status.haschild, &g_status.exit, 0) != ERROR)

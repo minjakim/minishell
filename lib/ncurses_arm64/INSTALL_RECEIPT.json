@@ -1,0 +1,63 @@
+{
+  "homebrew_version": "3.3.3-47-gec1e077",
+  "used_options": [
+
+  ],
+  "unused_options": [
+
+  ],
+  "built_as_bottle": true,
+  "poured_from_bottle": true,
+  "installed_as_dependency": true,
+  "installed_on_request": false,
+  "changed_files": [
+    "bin/ncursesw6-config",
+    "lib/pkgconfig/formw.pc",
+    "lib/pkgconfig/menuw.pc",
+    "lib/pkgconfig/ncurses++w.pc",
+    "lib/pkgconfig/ncursesw.pc",
+    "lib/pkgconfig/panelw.pc",
+    "share/man/man1/captoinfo.1m",
+    "share/man/man1/infocmp.1m",
+    "share/man/man1/infotocap.1m",
+    "share/man/man1/ncursesw6-config.1",
+    "share/man/man1/tic.1m",
+    "share/man/man1/toe.1m",
+    "share/man/man1/tput.1",
+    "share/man/man1/tset.1",
+    "share/man/man3/ncurses.3x",
+    "share/man/man5/term.5",
+    "share/man/man5/terminfo.5",
+    "share/man/man7/term.7",
+    "test/Makefile"
+  ],
+  "time": 1639711753,
+  "source_modified_time": 1634772165,
+  "compiler": "clang",
+  "aliases": [
+
+  ],
+  "runtime_dependencies": [
+
+  ],
+  "source": {
+    "spec": "stable",
+    "versions": {
+      "stable": "6.3",
+      "head": null,
+      "version_scheme": 0
+    },
+    "path": "/opt/homebrew/Library/Taps/homebrew/homebrew-core/Formula/ncurses.rb",
+    "tap_git_head": "e3ad6b313532f25506eff76b3f911d177fd078e4",
+    "tap": "homebrew/core"
+  },
+  "arch": "arm64",
+  "built_on": {
+    "os": "Macintosh",
+    "os_version": "macOS 12.0",
+    "cpu_family": "arm_firestorm_icestorm",
+    "xcode": "13.1",
+    "clt": "13.1.0.0.1.1633545042",
+    "preferred_perl": "5.30"
+  }
+}

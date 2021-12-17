@@ -47,25 +47,26 @@ SRCS=$(SRC:%=./src/%)
 OBJ=$(SRCS:%.c=%.o)
 
 ARCH=$(shell uname -m)
-readline=-lreadline -lncurses -L./lib/readline_$(ARCH)/lib -I./lib/readline_$(ARCH)/include
-
 ifeq ($(ARCH), x86_64)
-	CPPFLAGS=-arch x86_64
+	CPPFLAGS+=-arch x86_64
 endif
+LDFLAGS+=-L./lib/readline_$(ARCH)/lib -L./lib/ncurses_$(ARCH)/lib
+CPPFLAGS+=-I./lib/readline_$(ARCH)/include -I./lib/ncurses_$(ARCH)/include
+TEMP= gcc -lreadline -lncurses
 
 %.o		: %.c
-	gcc $(CPPFLAGS) $(readline) -c $< -o $@
+	gcc -c $< -o $@
 
 all 	: $(NAME)
 
 $(NAME) : $(OBJ)
-	gcc $(CPPFLAGS) $(readline) $(OBJ) -o $@
+	$(TEMP) $(LDFLAGS) $(CPPFLAGS) $(OBJ) -o $@
 
 clean	:
 	rm -rf $(OBJ)
 
 fclean	: clean
-	rm minishell
+	rm -rf minishell
 
 re		: fclean all
 

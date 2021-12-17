@@ -6,32 +6,27 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/16 12:15:13 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 13:58:13 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RESOURCE_H
 # define RESOURCE_H
 
-# include <string.h>
-
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <dirent.h>
 # include <fcntl.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <sys/errno.h>
 # include <termcap.h>
 # include <sys/cdefs.h>
 # include "../lib/readline_arm64/include/readline.h"
 # include "../lib/readline_arm64/include/history.h"
-# include <sys/errno.h>
-# include <sys/event.h>
-
-# include <sys/types.h>
 
 # include <limits.h>
-# include <sys/stat.h>
 
 # define PROMPT					"mini ^o^)/ $> "
 
