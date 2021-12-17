@@ -6,19 +6,38 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/16 19:45:35 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 11:15:53 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+static char
+	**make_argv(t_word_list *list, int argc)
+{
+	char	**dest;
+	int		i;
+
+	dest = xmalloc(sizeof(char *) * (argc + 1));
+	ft_memset(dest, 0, sizeof(char *) * (argc + 1));
+	i = -1;
+	while (list)
+	{
+		dest[++i] = ft_strdup(list->word.word);
+		list = list->next;
+	}
+	dest[i + 1] = NULL;
+	return (dest);
+}
+
 int
 	command_execute(t_shell *mini)
 {
-	const t_command	*command = mini->command;
+	t_command		*command;
 	pid_t			pid;
 	t_io			pipe_fd;
 
+	command = mini->command;
 	while (command)
 	{
 		pid = 0;
@@ -29,9 +48,10 @@ int
 		if (pid == 0)
 		{
 			expand_command(mini);
+			command->argv = make_argv(command->words, command->argc);
 			//if (command->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
 			//	command_redirect(mini);
-			//mini->execute[is_builtin(command->argv[0])]((const t_command*)mini);
+			mini->execute[is_builtin(command->argv[0])]((const t_command*)command);
 			//if (expand_command() != 0)
 			//	return (1);
 			//if (command->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
