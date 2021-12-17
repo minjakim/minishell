@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/16 11:42:03 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 16:29:24 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,9 +188,12 @@ int
 char
     *ft_strcpy(char *dst, const char *src)
 {
-    while (src)
-        *dst++ = *src++;
-    *dst = *src;
+	char	*ptr;
+
+	ptr = dst;
+    while (*src)
+        *ptr++ = *src++;
+    *ptr= *src;
     return (dst);
 }
 
@@ -200,12 +203,12 @@ char
     char *ptr;
 
     ptr = s1;
-    while (s1++)
-        ;
+    while (*s1)
+        ++s1;
     while (*s2)
         *s1++ = *s2++;
 	if (*s2 == '\0')
-		*++s1 = *s2;
+		*s1 = *s2;
     return (ptr);
 }
 
