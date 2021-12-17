@@ -6,27 +6,27 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 14:16:40 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/15 17:51:10 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/17 11:49:24 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 void
-	command_io_close(t_io *io)
+	command_io_close(t_io io)
 {
-	if (io->in != STDIN_FILENO)
-		close(io->in);
-	if (io->out != STDOUT_FILENO)
-		close(io->out);
+	if (io.in != STDIN_FILENO)
+		close(io.in);
+	if (io.out != STDOUT_FILENO)
+		close(io.out);
 }
 
 int
-	command_io_set(t_io *io)
+	command_io_set(t_io io)
 {
-	if (dup2(io->in, STDIN_FILENO) == ERROR)
+	if (dup2(io.in, STDIN_FILENO) == ERROR)
 		return (FAILURE);
-	if (dup2(io->out, STDOUT_FILENO) == ERROR)
+	if (dup2(io.out, STDOUT_FILENO) == ERROR)
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -45,7 +45,7 @@ int
 		command->io.out = pipe_fd.in;
 		command->next->io.in = pipe_fd.out;
 	}
-	command_io_set(&command->io);
+	command_io_set(command->io);
 	pid = fork();
 	if (pid == 0)
 		g_status.interactive = 0;

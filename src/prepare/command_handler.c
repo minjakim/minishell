@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:10:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/16 19:33:25 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 12:03:32 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int
 
 	command = xmalloc(sizeof(t_command));
 	ft_memset(command, 0, sizeof(t_command));
+	command->io.fd[1] = 1;
 	mini->command = command;
 	while (words)
 	{

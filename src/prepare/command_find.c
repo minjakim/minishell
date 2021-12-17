@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/16 19:33:34 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 12:36:37 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,13 @@ int
 	command_find(t_shell *mini)
 {
 	const char	*name = mini->command->argv[0];
+	struct stat	buf;
 
-	if (ft_strchr(name, '/') != NULL && stat(name, NULL) == 0)
+	if (ft_strchr(name, '/') != NULL && stat(name, &buf) == 0)
 		mini->command->path = strdup(name);
 	else if (is_builtin(name))
 		mini->command->flags |= CMD_COMMAND_BUILTIN;
-	else
-		return (command_find_in_path(mini));
+//	else
+//		return (command_find_in_path(mini));
 	return (0);
 }

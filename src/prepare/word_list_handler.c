@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/16 12:19:39 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/17 13:03:12 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ static int
 	int		i;
 
 	i = 0;
+	if (!line[i])
+		words->word.word = ft_strdup("");
 	while (line[i])
 	{
 		if (is_start(line, i, quote))
