@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 18:55:29 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 14:28:10 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <termios.h>
 
-typedef struct s_command	t_command;
+typedef struct s_cmd	t_command;
 typedef struct termios		t_termios;
 typedef unsigned long		t_op;
 typedef unsigned char		t_byte;
@@ -64,7 +64,7 @@ typedef union u_io
 	long long			value;
 }	t_io;
 
-typedef struct s_command
+typedef struct s_cmd
 {
 	int					flags;
 	t_redirect			*redirects;
@@ -102,10 +102,10 @@ typedef struct s_status
 	int					exit;
 	int					interactive;
 	t_io				heredoc;
+	int					need_heredoc;
 	t_env				env;
 	t_backup			backup;
 	pid_t				haschild;
-	char				*line;
 	int					(*execute[9])(const t_command *);
 }	t_status;
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_heredoc.c                                  :+:      :+:    :+:   */
+/*   make_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 18:07:43 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 15:14:52 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 13:08:25 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,20 @@ static int
 }
 
 int
-	command_heredoc(t_command *command)
+	make_heredoc(t_command *cmd)
 {
 	t_redirect	*handler;
 
-	while (command)
+	while (cmd)
 	{
-		handler = command->redirects;
+		handler = cmd->redirects;
 		while (handler)
 		{
 			if (handler->here_doc_eof)
 				handler->redirectee.dest = heredoc(handler);
 			handler = handler->next;
 		}
-		command = command->next;
+		cmd = cmd->next;
 	}
 	return (SUCCESS);
 }

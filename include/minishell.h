@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 21:11:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 17:45:07 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,38 @@ extern t_status	g_status;
 
 T_PTR		xmalloc(size_t bytes);
 T_PTR		xcalloc(size_t bytes);
+void		xfree(void *obj0, void *obj1, void *obj2, void *obj3);
 
 int			initialize(void);
 
 int			mini_exit(int exit_status);
 int			envp_update(t_env *env, int flag);
 t_word_list	*parse_line(char *line);
-int			parse_words(t_word_list *words);
+int			make_words(t_word_list *words);
 t_word_list	*word_list_free(t_word_list *words);
 
-t_command	*command_handler(t_word_list *words);
-int			command_find(t_command *command);
-void		command_clean(t_command *command);
-int			command_execute(t_command *command);
-int			command_redirect(t_command *command);
-int			command_heredoc(t_command *command);
-int			command_pipe_set(t_command *command);
-void		command_io_close(t_io io);
-int			command_io_set(t_io io);
+t_command	*make_cmd(t_word_list *words);
+int			find_cmd(t_command *cmd);
+void		dispose(t_command *cmd);
+int			execute_handler(t_command *cmd);
+int			redirect(t_command *cmd);
+int			make_heredoc(t_command *cmd);
+int			cmd_pipe_set(t_command *cmd);
+void		cmd_io_close(t_io io);
+int			cmd_io_set(t_io io);
 
 void		sigint_handler(int signum);
 void		signal_handler(int signum);
 int			envp_handler(t_env *env);
 
-int			exception_error_fatal(const int err_no);
-int			exception_error(const char *const cmd, \
-									const char *const arg, const int err_no);
-int			exception_report(const char *cmd, const char *const arg, \
-								const char *const msg, const int error_no);
-int			exception_report_syntax(const char *const token);
+int			report_error(const char *const cmd, \
+									const char *const arg, const int error);
+int			report_error_fatal(const int error);
+int			report_error_syntax(const char *const token);
+int			report_exception(const char *cmd, const char *const arg, \
+								const char *const report, const int status);
+int			report_exception_fatal(const char *const report, const int status);
 
-int			expand_command(t_command *command);
 int			expand_word(t_word_desc *desc);
 char		**expand_glob(t_word_desc *word);
 char		*expand_teilde(char *filename, int i);
@@ -60,19 +61,20 @@ int			declare_remove(t_declare **head, const char *const key);
 int			declare_add(t_declare **head, char *str, int flag);
 int			declare_edit(char *value, t_declare *declare, int flag);
 
-int			mini_execve(const t_command *const command);
-int			builtin_cd(const t_command *const command);
-int			builtin_echo(const t_command *const command);
-int			builtin_env(const t_command *const command);
-int			builtin_exit(const t_command *const command);
-int			builtin_export(const t_command *const command);
-int			builtin_pwd(const t_command *const command);
-int			builtin_unset(const t_command *const command);
-int			mini_null(const t_command *const command);
+int			expand_cmd(t_command *cmd);
+
+int			mini_execve(const t_command *const cmd);
+int			builtin_cd(const t_command *const cmd);
+int			builtin_echo(const t_command *const cmd);
+int			builtin_env(const t_command *const cmd);
+int			builtin_exit(const t_command *const cmd);
+int			builtin_export(const t_command *const cmd);
+int			builtin_pwd(const t_command *const cmd);
+int			builtin_unset(const t_command *const cmd);
+int			mini_null(const t_command *const cmd);
 
 int			is_quote(const char c, int quote);
 int			is_teilde(const char *const str, int i, int quote);
-int			is_builtin(const char *str);
 
 int			legal_variable_starter(const char c);
 int			legal_variable_char(const char c);

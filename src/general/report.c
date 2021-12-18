@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exception.c                                        :+:      :+:    :+:   */
+/*   report.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:54:15 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 21:39:10 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 14:52:58 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 int
-	exception_error_fatal(const int err_no)
+	report_error_fatal(const int error)
 {
-	const char *const str_error = strerror(err_no);
+	const char *const str_error = strerror(error);
 
 	write(STDERR_FILENO, "mini: ", 6);
 	write(STDERR_FILENO, str_error, ft_strlen(str_error));
@@ -24,10 +24,22 @@ int
 }
 
 int
-	exception_error(const char *const cmd, const char *const arg, \
-								const int err_no)
+	report_error_syntax(const char *const token)
 {
-	const char *const str_error = strerror(err_no);
+	write(STDERR_FILENO, "mini: ", 6);
+	write(STDERR_FILENO, EX_SYNTAX, sizeof(EX_SYNTAX));
+	write(STDERR_FILENO, " `", 2);
+	write(STDERR_FILENO, token, ft_strlen(token));
+	write(STDERR_FILENO, "\'\n", 2);
+	g_status.exit = ES_USAGE;
+	return (EXCEPTION);
+}
+
+int
+	report_error(const char *const cmd, const char *const arg, \
+								const int error)
+{
+	const char *const str_error = strerror(error);
 
 	write(STDERR_FILENO, "mini: ", 6);
 	if (cmd)
@@ -42,14 +54,24 @@ int
 	}
 	write(STDERR_FILENO, str_error, ft_strlen(str_error));
 	write(STDERR_FILENO, "\n", 1);
-	if (err_no == ENOENT)
+	if (error == ENOENT)
 		return (ENOENT);
 	return (GENERAL_ERROR);
 }
 
 int
-	exception_report(const char *const cmd, const char *const arg, \
-								const char *const msg, const int err_no)
+	report_exception_fatal(const char *const report, const int error)
+{
+	write(STDERR_FILENO, "mini: ", 6);
+	if (report)
+		write(STDERR_FILENO, report, ft_strlen(report));
+	write(STDERR_FILENO, "\n", 1);
+	return (mini_exit(error));
+}
+
+int
+	report_exception(const char *const cmd, const char *const arg, \
+								const char *const report, const int status)
 {
 	write(STDERR_FILENO, "mini: ", 6);
 	if (cmd)
@@ -62,20 +84,8 @@ int
 		write(STDERR_FILENO, arg, ft_strlen(arg));
 		write(STDERR_FILENO, ": ", 2);
 	}
-	if (msg)
-		write(STDERR_FILENO, msg, ft_strlen(msg));
+	if (report)
+		write(STDERR_FILENO, report, ft_strlen(report));
 	write(STDERR_FILENO, "\n", 1);
-	return (err_no);
-}
-
-int
-	exception_report_syntax(const char *const token)
-{
-	write(STDERR_FILENO, "mini: ", 6);
-	write(STDERR_FILENO, EX_SYNTAX_UNEXPECT, sizeof(EX_SYNTAX_UNEXPECT));
-	write(STDERR_FILENO, " `", 2);
-	write(STDERR_FILENO, token, ft_strlen(token));
-	write(STDERR_FILENO, "\'\n", 2);
-	g_status.exit = EX_USAGE;
-	return (EXCEPTION);
+	return (status);
 }

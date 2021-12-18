@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 13:55:39 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 14:23:21 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,19 @@ int
 }
 
 int
-	builtin_exit(const t_command *const command)
+	builtin_exit(const t_command *const cmd)
 {
-	const char *const *const	argv = (const char *const *const)command->argv;
+	const char *const *const	argv = (const char *const *const)cmd->argv;
 
 	if (g_status.interactive)
 		write(STDERR_FILENO, EXIT, LEN_EXIT);
 	if (argv[1] == NULL)
 		return (mini_exit(g_status.exit));
 	if (!legal_number(argv[1]))
-		return (mini_exit(exception_report(argv[0], argv[1], \
-			EX_EXIT_FMT, EX_EXIT_FMT_NO)));
+		return (mini_exit(report_exception(argv[0], argv[1], \
+			EX_EXIT_FMT, ES_EXIT_FMT)));
 	else if (argv[2] != NULL)
-		return (mini_exit(exception_report(argv[0], NULL, \
+		return (mini_exit(report_exception(argv[0], NULL, \
 			EX_EXIT_ARGS, GENERAL_ERROR)));
 	else
 		return (mini_exit(g_status.exit));

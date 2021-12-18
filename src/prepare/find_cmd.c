@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_find.c                                     :+:      :+:    :+:   */
+/*   find_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 21:04:30 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 17:21:32 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int
+static int
 	is_builtin(const char *str)
 {
 	if (!str || !*str || *str == ':')
@@ -35,6 +35,25 @@ int
 	else if (*str == 'u' && ft_strcmp(str + 1, "nset") == 0)
 		return (FT_UNSET);
 	return (MINI_EXECVE);
+}
+
+static char
+	*find_in_path_element(char *name, char *path)
+{
+	char		*full_path;
+	const int	full_path_len = ft_strlen(path) + ft_strlen(path) + 2;
+	struct stat	finfo;
+
+	full_path = xcalloc(sizeof(char) * full_path_len);
+	ft_strcat(ft_strcat(strcpy(full_path, path), "/"), name);
+	if (stat(full_path, &finfo) < 0)
+	{
+		free(full_path);
+		return (NULL);
+	}
+	if (finfo.st_mode & S_IFDIR)
+		return (NULL);
+	return (full_path);
 }
 
 static char
@@ -66,27 +85,8 @@ static char
 	return (path);
 }
 
-static char
-	*find_in_path_element(char *name, char *path)
-{
-	char		*full_path;
-	const int	full_path_len = ft_strlen(path) + ft_strlen(path) + 2;
-	struct stat	finfo;
-
-	full_path = xcalloc(sizeof(char) * full_path_len);
-	ft_strcat(ft_strcat(strcpy(full_path, path), "/"), name);
-	if (stat(full_path, &finfo) < 0)
-	{
-		free(full_path);
-		return (NULL);
-	}
-	if (finfo.st_mode & S_IFDIR)
-		return (NULL);
-	return (full_path);
-}
-
-int
-	command_find_in_path(t_command *command)
+static int
+	find_cmd_in_path(t_command *cmd)
 {
 	char	*path_list;
 	char	*path;
@@ -99,30 +99,34 @@ int
 		path = get_next_path_element(path_list, &path_index);
 		if (path == NULL)
 			break ;
-		command->path = find_in_path_element(command->argv[0], path);
+		cmd->path = find_in_path_element(cmd->argv[0], path);
 		free(path);
 		path = NULL;
-		if (command->path != NULL)
-			return (0);
+		if (cmd->path != NULL)
+			return (MINI_EXECVE);
 	}
-	if (!path_list || !*path_list || !command->path)
-		return (127);
-	return (0);
+	if (!path_list || !*path_list || !cmd->path)
+	{
+		g_status.exit = 127;
+		return (FT_NULL);
+	}
+	return (MINI_EXECVE);
 }
 
 int
-	command_find(t_command *command)
+	find_cmd(t_command *cmd)
 {
-	const char	*name = command->argv[0];
-	struct stat	buf;
+	const char	*name = cmd->argv[0];
+	struct stat	buffer;
 
 	if (!name)
-		return (0);
-	if (ft_strchr(name, '/') != NULL && stat(name, &buf) == 0)
-		command->path = ft_strdup(name);
+		return (FT_NULL);
+	if (ft_strchr(name, '/') != NULL && stat(name, &buffer) == 0)
+		cmd->path = ft_strdup(name);
 	else if (is_builtin(name))
-		command->flags |= CMD_COMMAND_BUILTIN;
-	else
-		return (command_find_in_path(command));
-	return (0);
+	{
+		cmd->flags |= CMD_COMMAND_BUILTIN;
+		return (is_builtin(name));
+	}
+	return (find_cmd_in_path(cmd));
 }

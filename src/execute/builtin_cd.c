@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 16:20:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 14:24:24 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ static const char
 	{
 		path = getenv("HOME");
 		if (!path)
-			exception_report(argv[0], NULL, EX_CD_HOME, GENERAL_ERROR);
+			report_exception(argv[0], NULL, EX_CD_HOME, GENERAL_ERROR);
 		return (path);
 	}
 	else if (argv[1][0] == '-' && argv[1][1] == '\0')
 	{
 		path = getenv("OLDPWD");
 		if (!path)
-			exception_report(argv[0], NULL, EX_CD_OLDPWD, GENERAL_ERROR);
+			report_exception(argv[0], NULL, EX_CD_OLDPWD, GENERAL_ERROR);
 		return (path);
 	}
 	else
@@ -42,18 +42,18 @@ static const char
 }
 
 int
-	builtin_cd(const t_command *const command)
+	builtin_cd(const t_command *const cmd)
 {
 	const char *const	path = \
-		get_path((const char *const *const)command->argv);
+		get_path((const char *const *const)cmd->argv);
 	const char	*const	cwd = getcwd(NULL, 0);
 
 	if (cwd == NULL)
-		return (exception_error(command->argv[0], command->argv[1], errno));
+		return (report_error(cmd->argv[0], cmd->argv[1], errno));
 	if (path == NULL)
 		return (GENERAL_ERROR);
 	if (chdir(path) == ERROR)
-		return (exception_error(command->argv[0], command->argv[1], errno));
+		return (report_error(cmd->argv[0], cmd->argv[1], errno));
 	if (!set_path(cwd, path))
 		return (GENERAL_ERROR);
 	return (SUCCESS);

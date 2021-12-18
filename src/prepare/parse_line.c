@@ -6,13 +6,13 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 21:38:25 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 14:56:15 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int
+static inline int
 	word_is_end(const char *const str, int *i, const int quote)
 {
 	if (quote)
@@ -38,7 +38,7 @@ static int
 	return (FALSE);
 }
 
-static int
+static inline int
 	word_is_start(const char *const str, const int i, const int quote)
 {
 	if (quote)
@@ -59,7 +59,7 @@ static int
 static int
 	line_split(const char *line, t_word_list *words, char quote)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (line[i])
@@ -84,27 +84,6 @@ static int
 }
 
 static int
-	is_heredoc_max(t_word_list *words)
-{
-	int	count;
-
-	count = 0;
-	while (words)
-	{
-		if (words->word.flags & W_HEREDOC)
-			++count;
-		words = words->next;
-	}
-	if (count > HEREDOC_MAX)
-	{
-		g_status.exit = EX_BADUSAGE;
-		exception_report(NULL, NULL, EX_HEREDOC_MAX, EX_BADUSAGE);
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-static int
 	line_is_exception(const char *line)
 {
 	char	result;
@@ -113,29 +92,27 @@ static int
 	while (*line)
 	{
 		if ((*line == ';' || *line == '\\') && !result)
-			return (exception_report_syntax(line));
+			return (report_error_syntax(line));
 		else if (is_quote(*line, result))
 			result ^= *line;
 		++line;
 	}
 	if (result)
-		exception_report_syntax(&result);
+		report_error_syntax(&result);
 	return (result);
 }
 
 t_word_list
 	*parse_line(char *line)
 {
-	t_word_list	*result;
+	t_word_list	*words;
 
 	if (line_is_exception(line))
 		return (NULL);
-	result = xcalloc(sizeof(t_word_list));
-	if (!line_split(line, result, '\0'))
-		return (word_list_free(result));
-	if (parse_words(result) == EXCEPTION)
-		return (word_list_free(result));
-	if (is_heredoc_max(result))
-		return (word_list_free(result));
-	return (result);
+	words = xcalloc(sizeof(t_word_list));
+	if (!line_split(line, words, '\0'))
+		return (word_list_free(words));
+	if (make_words(words) == EXCEPTION)
+		return (word_list_free(words));
+	return (words);
 }

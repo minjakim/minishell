@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 20:07:08 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 14:54:21 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static int
 	g_status.exit = 0;
 	g_status.interactive = TRUE;
 	g_status.heredoc.value = 0;
+	g_status.need_heredoc = 0;
 	if (!init_env(&g_status.env))
 		return (FAILURE);
 	if (!init_io(&g_status.backup.stdio))
@@ -102,7 +103,7 @@ static int
 }
 
 int
-	initialize()
+	initialize(void)
 {
 	init_status();
 	signal(SIGINT, sigint_handler);

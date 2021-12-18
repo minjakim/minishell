@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:17:56 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 15:42:37 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 11:43:50 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static int
 }
 
 int
-	builtin_env(const t_command *const command)
+	builtin_env(const t_command *const cmd)
 {
 	extern const char *const *const	environ;
 
-	(void)command;
+	(void)cmd;
 	return (print_env(environ));
 }

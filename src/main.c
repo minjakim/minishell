@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 21:00:39 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 17:45:07 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,51 @@
 
 t_status	g_status;
 
-static void
+static inline void
 	handling_eof(void)
 {
 	write(STDOUT_FILENO, "\033[1A", 4);
 	write(STDOUT_FILENO, "\033[14C", 5);
-	write(STDERR_FILENO, EXIT, LEN_EXIT);
+	write(STDERR_FILENO, EXIT, sizeof(EXIT) - 1);
+	mini_exit(g_status.exit);
 }
 
 static inline char
-	*mini_readline()
+	mini_readline(char **line)
 {
-	if (g_status.line)
-		free(g_status.line);
-	g_status.line = NULL;
-	g_status.line = readline(PROMPT);
-	if (!g_status.line)
+	if (*line)
+		free(*line);
+	*line = NULL;
+	*line = readline(PROMPT);
+	if (*line == NULL)
 		handling_eof();
-	else if (*g_status.line)
-		add_history(g_status.line);
-	return (g_status.line);
+	else if (**line)
+		add_history(*line);
+	return (**line);
 }
 
 static int
-	ft_minishell()
+	ft_minishell(void)
 {
+	char		*line;
 	t_word_list	*words;
-	t_command	*command;
+	t_command	*cmd;
 
+	line = NULL;
 	while (LOOP)
 	{
-		if (!mini_readline())
-			break ;
-		if (!*g_status.line)
+		if (!mini_readline(&line))
 			continue ;
-		words = parse_line(g_status.line);
+		words = parse_line(line);
 		if (!words)
 			continue ;
-		command = command_handler(words);
-		command_heredoc(command);
-		command_execute(command);
-		command_clean(command);
+		cmd = make_cmd(words);
+		if (!make_heredoc(cmd))
+			continue ;
+		execute_handler(cmd);
+		dispose(cmd);
 	}
-	return (mini_exit(g_status.exit));
+	return (g_status.exit);
 }
 
 int

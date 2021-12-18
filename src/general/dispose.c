@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_clean.c                                    :+:      :+:    :+:   */
+/*   dispose.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:43:57 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 15:02:29 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 13:57:27 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,20 @@ static void
 }
 
 void
-	command_clean(t_command *command)
+	dispose(t_command *cmd)
 {
 	void	*temp;
 	int		i;
 
-	while (command)
+	while (cmd)
 	{
-		word_list_free(command->words);
-		clean_argv(command->argv);
-		clean_redirect(command->redirects);
-		if (command->path)
-			free(command->path);
-		temp = command;
-		command = command->next;
+		word_list_free(cmd->words);
+		clean_argv(cmd->argv);
+		clean_redirect(cmd->redirects);
+		if (cmd->path)
+			free(cmd->path);
+		temp = cmd;
+		cmd = cmd->next;
 		free(temp);
 	}
 }

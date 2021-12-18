@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_command.c                                   :+:      :+:    :+:   */
+/*   expand_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 17:24:18 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 13:07:52 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,24 @@ void
 }
 
 static int
+	expand_filename(t_redirect *redirects)
+{
+	while (redirects)
+	{
+		if (!redirects->here_doc_eof && is_expand(redirects->redirectee.filename.flags))
+		{
+			if (!expand_word(&redirects->redirectee.filename))
+				return (FAILURE);
+//			if (expand_glob() != 0)
+//				return (FAILURE);//argv[1]: ambiguas redirection
+			remove_quote(redirects->redirectee.filename.word);
+		}
+		redirects = redirects->next;
+	}
+	return (SUCCESS);
+}
+
+static int
 	expand_argv(t_command *cmd)
 {
 	t_word_list	*list;
@@ -77,30 +95,12 @@ static int
 	return (SUCCESS);
 }
 
-static int
-	expand_filename(t_redirect *redirects)
-{
-	while (redirects)
-	{
-		if (!redirects->here_doc_eof && is_expand(redirects->redirectee.filename.flags))
-		{
-			if (!expand_word(&redirects->redirectee.filename))
-				return (FAILURE);
-//			if (expand_glob() != 0)
-//				return (FAILURE);//argv[1]: ambiguas redirection
-			remove_quote(redirects->redirectee.filename.word);
-		}
-		redirects = redirects->next;
-	}
-	return (SUCCESS);
-}
-
 int
-	expand_command(t_command *command)
+	expand_cmd(t_command *cmd)
 {
-	if (!expand_argv(command))
+	if (!expand_argv(cmd))
 		return (FAILURE);
-	if (!expand_filename(command->redirects))
+	if (!expand_filename(cmd->redirects))
 		return (FAILURE);
 	return (SUCCESS);
 }

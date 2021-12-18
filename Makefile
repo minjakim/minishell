@@ -6,7 +6,7 @@
 #    By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 20:07:46 by minjakim          #+#    #+#              #
-#    Updated: 2021/12/17 20:59:39 by minjakim         ###   ########.fr        #
+#    Updated: 2021/12/18 17:45:07 by minjakim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,27 +24,26 @@ execute			=	builtin_cd.c\
 					builtin_export.c\
 					builtin_pwd.c\
 					builtin_unset.c\
+					execute_handler.c\
 					mini_execve.c
 
-expand			=	expand_command.c\
+expand			=	expand_cmd.c\
 					expand_glob.c\
 					expand_teilde.c\
 					expand_word.c
 
-general			=	exception.c\
+general			=	report.c\
 					dispose.c\
 					signal.c\
 					temp.c\
 					utils.c
 
-prepare			=	command_execute.c\
-					command_find.c\
-					command_handler.c\
-					command_io.c\
-					command_redirect.c\
-					command_heredoc.c\
+prepare			=	find_cmd.c\
+					redirect.c\
+					make_heredoc.c\
+					make_words.c\
 					parse_line.c\
-					parse_words.c
+					make_cmd.c
 
 SRC				=	main.c\
 					initialize.c\

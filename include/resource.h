@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 20:16:32 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 13:15:42 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,10 @@
 # include <sys/cdefs.h>
 # include "../lib/readline_arm64/include/readline.h"
 # include "../lib/readline_arm64/include/history.h"
-
 # include <limits.h>
 
 # define PROMPT					"mini ^o^)/ $> "
-
 # define T_PTR					void *
-
 # define LOMAGIC				0x0101010101010101
 # define HIMAGIC				0x8080808080808080
 # define OPSIZ					8
@@ -40,17 +37,18 @@
 
 # define EXIT					"exit\n"
 # define EX_EXIT_FMT			"numeric argument required"
-# define EX_EXIT_FMT_NO			255
 # define EX_EXIT_ARGS			"too many arguments"
 # define EX_CD_HOME				"HOME not set"
 # define EX_CD_OLDPWD			"OLDPWD not set"
-# define EX_SYNTAX_UNEXPECT		"syntax error near unexpected token"
-# define EX_USAGE				258
-# define EX_BADUSAGE			2
+# define EX_SYNTAX				"syntax error near unexpected token"
 # define EX_HEREDOC_MAX			"maximum here-docment count exceeded"
+# define EX_CMD_NOT_FOUND		"command not found"
 
-# define EX_NOEXEC				126
-# define EX_NOTFOUND			127
+# define ES_BADUSAGE			2
+# define ES_NOEXEC				126
+# define ES_NOTFOUND			127
+# define ES_EXIT_FMT			255
+# define ES_USAGE				258
 
 # define CMD_COMMAND_BUILTIN	0x00000001
 # define CMD_STDIN_REDIR		0x00000002

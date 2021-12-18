@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_redirect.c                                 :+:      :+:    :+:   */
+/*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 17:25:17 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 13:08:49 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 int
-	command_redirect(t_command *command)
+	redirect(t_command *cmd)
 {
-	const t_redirect	*ptr = command->redirects;
+	const t_redirect	*ptr = cmd->redirects;
 	t_io				*io;
 
-	io = &command->io;
+	io = &cmd->io;
 	while (ptr)
 	{
 		if (io->fd[ptr->redirector] != ptr->redirector)
@@ -32,7 +32,7 @@ int
 			return (FAILURE);
 		ptr = ptr->next;
 	}
-	if (!command_io_set(*io))
+	if (!cmd_io_set(*io))
 		return (FAILURE);
 	return (SUCCESS);
 }
