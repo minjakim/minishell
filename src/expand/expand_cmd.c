@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 13:07:52 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 20:28:52 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,14 @@ static int
 }
 
 static int
-	expand_argv(t_command *cmd)
+	expand_argv(t_command *command)
 {
 	t_word_list	*list;
 	int			i;
 
-	while (cmd)
+	while (command)
 	{
-		list = cmd->words;
+		list = command->words;
 		while (list)
 		{
 //			if (is_expand(list->word.flags))
@@ -88,19 +88,19 @@ static int
 ////				expand_glob(list);
 //			remove_quote(list->word.word);
 			list = list->next;
-			++cmd->argc;
+			++command->argc;
 		}
-		cmd = cmd->next;
+		command = command->next;
 	}
 	return (SUCCESS);
 }
 
 int
-	expand_cmd(t_command *cmd)
+	expand_command(t_command *command)
 {
-	if (!expand_argv(cmd))
+	if (!expand_argv(command))
 		return (FAILURE);
-	if (!expand_filename(cmd->redirects))
+	if (!expand_filename(command->redirects))
 		return (FAILURE);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 17:45:07 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 12:35:22 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int
 {
 	char		*line;
 	t_word_list	*words;
-	t_command	*cmd;
+	t_command	*command;
 
 	line = NULL;
 	while (LOOP)
@@ -52,13 +52,24 @@ static int
 		words = parse_line(line);
 		if (!words)
 			continue ;
-		cmd = make_cmd(words);
-		if (!make_heredoc(cmd))
+		command = parse_words(words);
+		if (!make_heredoc(command))
 			continue ;
-		execute_handler(cmd);
-		dispose(cmd);
+		pj(command);
+		execute_handler(command);
+		dispose(command);
 	}
 	return (g_status.exit);
+}
+
+void
+	pj(const t_command *command)
+{
+	while (command)
+	{
+		printf("flag: %d in: %d out: %d\n", command->flags & CMD_PIPE, command->io.in, command->io.out);
+		command = command->next;
+	}
 }
 
 int

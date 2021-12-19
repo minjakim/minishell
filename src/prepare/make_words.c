@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 16:17:59 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 14:52:17 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 20:03:18 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int
 {
 	if (str[0] != '>' && str[0] != '<')
 		return (W_NOFLAG);
-	if (old_flags & (W_REDIRECT))
+	if (old_flags & W_REDIRECT)
 		return (report_error_syntax(str));
 	if (str[0] == '<' && str[1] == '<')
 		words->word.flags |= W_LESS_LESS;

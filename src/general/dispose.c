@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:43:57 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/18 13:57:27 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 20:27:19 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,20 @@ static void
 }
 
 void
-	dispose(t_command *cmd)
+	dispose(t_command *command)
 {
 	void	*temp;
 	int		i;
 
-	while (cmd)
+	while (command)
 	{
-		word_list_free(cmd->words);
-		clean_argv(cmd->argv);
-		clean_redirect(cmd->redirects);
-		if (cmd->path)
-			free(cmd->path);
-		temp = cmd;
-		cmd = cmd->next;
+		word_list_free(command->words);
+		clean_argv(command->argv);
+		clean_redirect(command->redirects);
+		if (command->path)
+			free(command->path);
+		temp = command;
+		command = command->next;
 		free(temp);
 	}
 }

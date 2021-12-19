@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:46 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/18 15:08:19 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 11:25:06 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,38 @@ void
 {
 	if (signum != SIGINT)
 		return ;
-	//if (g_status.heredoc.value)
-	//{
-	//	close(g_status.heredoc.in);
-	//	close(g_status.heredoc.out);
-	//	rl_replace_line("", 1);
-	//	g_status.setjmp();
-	//}
-	//else
-	//{
-	//	write(STDOUT_FILENO, "\n", 1);
-	//	rl_on_new_line();
-	//	rl_replace_line("", 1);
-	//	rl_redisplay();
-	//}
-	if (g_status.interactive)
+	if (g_status.interactive && !g_status.haschild)
 	{
+		g_status.exit = GENERAL_ERROR;
 		write(STDOUT_FILENO, "\n", 1);
 		rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	else
-		write(STDOUT_FILENO, "\n", 1);
+}
+
+void
+	signal_report(int signum)
+{
+	char itoa[2];
+
+	if (g_status.interactive && g_status.haschild)
+	{
+		g_status.exit += 128;
+		if (signum != SIGINT)
+		{
+			write(STDERR_FILENO, sys_siglist[signum], \
+									ft_strlen(sys_siglist[signum]));
+			write(STDERR_FILENO, ": ", 2);
+			itoa[1] = '0' + (signum % 10);
+			if (signum /= 10)
+				itoa[0] = '0' + (signum % 10);
+			else
+				itoa[0] = '\0';
+			write(STDERR_FILENO, itoa, 2);
+		}
+		write(STDERR_FILENO, "\n", 1);
+	}
 }
 
 void

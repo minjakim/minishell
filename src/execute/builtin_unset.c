@@ -6,18 +6,18 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:35:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 11:43:50 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 23:02:56 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 int
-	builtin_unset(const t_command *const cmd)
+	builtin_unset(const t_command *const command)
 {
 	char	**argv;
 
-	argv = cmd->argv;
+	argv = command->argv;
 	//if (argv[0] != NULL && argv[1] == NULL)
 	//	return (0);
 	//while (*++argv)
@@ -27,5 +27,5 @@ int
 	//	if (declare_remove(&mini->env.declare, *argv) != 0)
 	//		return (1);
 	//}
-	return (0);
+	return (g_status.exit = OK);
 }

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 14:24:24 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 23:00:50 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ static const char
 }
 
 int
-	builtin_cd(const t_command *const cmd)
+	builtin_cd(const t_command *const command)
 {
 	const char *const	path = \
-		get_path((const char *const *const)cmd->argv);
+		get_path((const char *const *const)command->argv);
 	const char	*const	cwd = getcwd(NULL, 0);
 
 	if (cwd == NULL)
-		return (report_error(cmd->argv[0], cmd->argv[1], errno));
+		return (report_error(command->argv[0], NULL, errno));
 	if (path == NULL)
-		return (GENERAL_ERROR);
+		return (g_status.exit = GENERAL_ERROR);
 	if (chdir(path) == ERROR)
-		return (report_error(cmd->argv[0], cmd->argv[1], errno));
+		return (report_error(command->argv[0], path, errno));
 	if (!set_path(cwd, path))
-		return (GENERAL_ERROR);
-	return (SUCCESS);
+		return (g_status.exit = GENERAL_ERROR);
+	return (g_status.exit = OK);
 }

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 18:07:43 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 13:08:25 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 20:27:19 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,20 @@ static int
 }
 
 int
-	make_heredoc(t_command *cmd)
+	make_heredoc(t_command *command)
 {
 	t_redirect	*handler;
 
-	while (cmd)
+	while (command)
 	{
-		handler = cmd->redirects;
+		handler = command->redirects;
 		while (handler)
 		{
 			if (handler->here_doc_eof)
 				handler->redirectee.dest = heredoc(handler);
 			handler = handler->next;
 		}
-		cmd = cmd->next;
+		command = command->next;
 	}
 	return (SUCCESS);
 }

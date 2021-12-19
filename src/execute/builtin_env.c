@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:17:56 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 11:43:50 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 23:01:53 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static int
 	i = 0;
 	while (envp[i])
 		printf("%s\n", envp[i++]);
-	return (SUCCESS);
+	return (g_status.exit = OK);
 }
 
 int
-	builtin_env(const t_command *const cmd)
+	builtin_env(const t_command *const command)
 {
 	extern const char *const *const	environ;
 
-	(void)cmd;
+	(void)command;
 	return (print_env(environ));
 }

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:54:15 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/18 14:52:58 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 22:49:46 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,36 @@
 int
 	report_error_fatal(const int error)
 {
-	const char *const str_error = strerror(error);
+	const char *const	str_error = strerror(error);
 
 	write(STDERR_FILENO, "mini: ", 6);
 	write(STDERR_FILENO, str_error, ft_strlen(str_error));
 	write(STDERR_FILENO, "\n", 1);
-	exit(GENERAL_ERROR);
+	return (mini_exit(GENERAL_ERROR));
+}
+
+int
+	report_error(const char *const command, const char *const arg, \
+								const int error)
+{
+	const char *const	str_error = strerror(error);
+
+	write(STDERR_FILENO, "mini: ", 6);
+	if (command)
+	{
+		write(STDERR_FILENO, command, ft_strlen(command));
+		write(STDERR_FILENO, ": ", 2);
+	}
+	if (arg)
+	{
+		write(STDERR_FILENO, arg, ft_strlen(arg));
+		write(STDERR_FILENO, ": ", 2);
+	}
+	write(STDERR_FILENO, str_error, ft_strlen(str_error));
+	write(STDERR_FILENO, "\n", 1);
+	if (error == ENOENT)
+		return (ENOENT);
+	return (g_status.exit = GENERAL_ERROR);
 }
 
 int
@@ -36,30 +60,6 @@ int
 }
 
 int
-	report_error(const char *const cmd, const char *const arg, \
-								const int error)
-{
-	const char *const str_error = strerror(error);
-
-	write(STDERR_FILENO, "mini: ", 6);
-	if (cmd)
-	{
-		write(STDERR_FILENO, cmd, ft_strlen(cmd));
-		write(STDERR_FILENO, ": ", 2);
-	}
-	if (arg)
-	{
-		write(STDERR_FILENO, arg, ft_strlen(arg));
-		write(STDERR_FILENO, ": ", 2);
-	}
-	write(STDERR_FILENO, str_error, ft_strlen(str_error));
-	write(STDERR_FILENO, "\n", 1);
-	if (error == ENOENT)
-		return (ENOENT);
-	return (GENERAL_ERROR);
-}
-
-int
 	report_exception_fatal(const char *const report, const int error)
 {
 	write(STDERR_FILENO, "mini: ", 6);
@@ -70,13 +70,13 @@ int
 }
 
 int
-	report_exception(const char *const cmd, const char *const arg, \
+	report_exception(const char *const command, const char *const arg, \
 								const char *const report, const int status)
 {
 	write(STDERR_FILENO, "mini: ", 6);
-	if (cmd)
+	if (command)
 	{
-		write(STDERR_FILENO, cmd, ft_strlen(cmd));
+		write(STDERR_FILENO, command, ft_strlen(command));
 		write(STDERR_FILENO, ": ", 2);
 	}
 	if (arg)
@@ -87,5 +87,5 @@ int
 	if (report)
 		write(STDERR_FILENO, report, ft_strlen(report));
 	write(STDERR_FILENO, "\n", 1);
-	return (status);
+	return (g_status.exit = status);
 }

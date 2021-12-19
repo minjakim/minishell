@@ -6,16 +6,16 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:05:04 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 11:43:50 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 12:06:58 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 int
-	builtin_echo(const t_command *const cmd)
+	builtin_echo(const t_command *const command)
 {
-	const char *const *const	argv = (const char *const *const)cmd->argv;
+	const char *const *const	argv = (const char *const *const)command->argv;
 	int							display_return;
 	int							i;
 
@@ -31,5 +31,5 @@ int
 			write(STDOUT_FILENO, " ", 1);
 	if (display_return)
 			write(STDOUT_FILENO, "\n", 1);
-	return (SUCCESS);
+	return (g_status.exit = OK);
 }

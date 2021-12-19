@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/18 13:15:42 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 00:44:53 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/errno.h>
 # include <termcap.h>
 # include <sys/cdefs.h>
+# include <signal.h>
 # include "../lib/readline_arm64/include/readline.h"
 # include "../lib/readline_arm64/include/history.h"
 # include <limits.h>
@@ -42,7 +43,7 @@
 # define EX_CD_OLDPWD			"OLDPWD not set"
 # define EX_SYNTAX				"syntax error near unexpected token"
 # define EX_HEREDOC_MAX			"maximum here-docment count exceeded"
-# define EX_CMD_NOT_FOUND		"command not found"
+# define EX_CMD_NOTFOUND		"command not found"
 
 # define ES_BADUSAGE			2
 # define ES_NOEXEC				126
@@ -58,6 +59,7 @@
 # define CMD_NOFUNCTION			0x00000020
 # define CMD_IGNORE_RETURN		0x00000040
 # define CMD_PIPE				0x00000080
+# define CMD_SUBSHELL			0x00000100
 
 # define W_NOFLAG				0
 # define W_HASHDOLLAR			0x00000001
@@ -92,6 +94,12 @@
 # define H_KEYONLY				2
 # define H_CAT					4
 
+enum e_function
+{
+	DUP,
+	DUP2
+};
+
 enum e_bool
 {
 	FALSE,
@@ -116,14 +124,6 @@ enum e_exit_status
 {
 	OK,
 	GENERAL_ERROR
-};
-
-enum e_exception
-{
-	SINGLE_QUOTES,
-	DOUBLE_QUOTES,
-	BACK_SLASH,
-	SEMICOLON
 };
 
 enum e_execute

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 14:54:21 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 21:55:22 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ static int
 {
 	io->in = dup(STDIN_FILENO);
 	if (io->in == ERROR)
-		return (FAILURE);
+		return (report_error_fatal(errno));
 	io->out = dup(STDOUT_FILENO);
 	if (io->out == ERROR)
-		return (FAILURE);
+		return (report_error_fatal(errno));
 	return (SUCCESS);
 }
 

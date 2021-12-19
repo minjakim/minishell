@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:45:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 11:43:50 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/18 23:02:12 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ static int
 }
 
 int
-	builtin_export(const t_command *const cmd)
+	builtin_export(const t_command *const command)
 {
 	char	**argv;
 
-	argv = cmd->argv;
+	argv = command->argv;
 	//if (argv[0] != NULL && argv[1] == NULL)
 	//	return (print_export(mini->env.declare));
 	//while (*++argv)
@@ -42,5 +42,5 @@ int
 	//	if (declare_add(&mini->env.declare, *argv, H_EXPORT) != 0)
 	//		return (1);
 	//}
-	return (0);
+	return (g_status.exit = OK);
 }
