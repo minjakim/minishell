@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/18 17:53:56 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 19:41:01 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,19 @@ typedef struct s_command	t_command;
 typedef struct termios		t_termios;
 typedef unsigned long		t_op;
 typedef unsigned char		t_byte;
+
+typedef enum e_execute
+{
+	MINI_EXECVE,
+	FT_CD,
+	FT_ECHO,
+	FT_ENV,
+	FT_EXIT,
+	FT_EXPORT,
+	FT_PWD,
+	FT_UNSET,
+	FT_NULL
+}	t_execute;
 
 typedef struct s_globvector
 {
@@ -101,6 +114,7 @@ typedef struct s_status
 {
 	int					exit;
 	int					interactive;
+	int					interrupted;
 	t_io				heredoc;
 	int					need_heredoc;
 	t_env				env;

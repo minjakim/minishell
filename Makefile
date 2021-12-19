@@ -6,7 +6,7 @@
 #    By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 20:07:46 by minjakim          #+#    #+#              #
-#    Updated: 2021/12/18 20:26:35 by minjakim         ###   ########.fr        #
+#    Updated: 2021/12/19 17:23:00 by minjakim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ execute			=	builtin_cd.c\
 					builtin_unset.c\
 					mini_execve.c
 
-expand			=	expand_command.c\
+expand			=	expand_cmd.c\
 					expand_glob.c\
 					expand_teilde.c\
 					expand_word.c
@@ -37,9 +37,9 @@ general			=	report.c\
 					temp.c\
 					utils.c
 
-prepare			=	find_command.c\
+prepare			=	find_cmd.c\
 					redirect_io.c\
-					make_command.c\
+					make_cmd.c\
 					make_heredoc.c\
 					make_words.c\
 					parse_line.c\

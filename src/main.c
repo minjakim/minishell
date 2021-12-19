@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 12:35:22 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 19:36:48 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static inline char
 {
 	if (*line)
 		free(*line);
+	g_status.interrupted = FALSE;
 	*line = NULL;
 	*line = readline(PROMPT);
 	if (*line == NULL)
@@ -42,7 +43,7 @@ static int
 {
 	char		*line;
 	t_word_list	*words;
-	t_command	*command;
+	t_command	*cmd;
 
 	line = NULL;
 	while (LOOP)
@@ -52,32 +53,24 @@ static int
 		words = parse_line(line);
 		if (!words)
 			continue ;
-		command = parse_words(words);
-		if (!make_heredoc(command))
-			continue ;
-		pj(command);
-		execute_handler(command);
-		dispose(command);
+		cmd = parse_words(words);
+		make_heredoc(cmd);
+		if (g_status.interrupted == FALSE)
+			execute_handler(cmd);
+		dispose(cmd);
 	}
 	return (g_status.exit);
-}
-
-void
-	pj(const t_command *command)
-{
-	while (command)
-	{
-		printf("flag: %d in: %d out: %d\n", command->flags & CMD_PIPE, command->io.in, command->io.out);
-		command = command->next;
-	}
 }
 
 int
 	main(int argc, char **argv, char **envp)
 {
+	extern char **environ;
+
 	(void)argc;
 	(void)argv;
 	g_status.env.envp = envp;
+	environ = envp;
 	if (!initialize())
 		return (GENERAL_ERROR);
 	return (ft_minishell());

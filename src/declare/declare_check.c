@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:37:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 16:23:07 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/19 19:02:12 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,6 @@ static int
 			return (FALSE);
 	return (TRUE);
 }
-
-//int
-//	check_identifier (word, check_word)
-//     WORD_DESC *word;
-//     int check_word;
-//{
-//  if ((word->flags & (W_HASDOLLAR|W_QUOTED)) || all_digits (word->word))
-//    {
-//      internal_error (_("`%s': not a valid identifier"), word->word);
-//      return (0);
-//    }
-//  else if (check_word && legal_identifier (word->word) == 0)
-//    {
-//      internal_error (_("`%s': not a valid identifier"), word->word);
-//      return (0);
-//    }
-//  else
-//    return (1);
-//}
 
 int
 	declare_check(const char *str)

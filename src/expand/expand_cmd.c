@@ -6,18 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 20:28:52 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static int
-	is_expand(int flags)
-{
-	return (flags & (W_HASHDOLLAR | W_QUOTED | W_DQUOTED | \
-				W_TILDEEXP | W_HASHQUOTEDNULL));
-}
 
 //int expand_glob(t_word_list *list)
 //{
@@ -33,6 +26,13 @@ static int
 //	// 여러개 있으면 ambiguas redirect란 에러메시지가 출력 된다.
 //	//일치하는게 없으면 그대로 놔둔다.
 //}
+
+static int
+	is_expand(int flags)
+{
+	return (flags & (W_HASHDOLLAR | W_QUOTED | W_DQUOTED | \
+				W_TILDEEXP | W_HASHQUOTEDNULL));
+}
 
 void
 	remove_quote(char *str)
@@ -71,14 +71,14 @@ static int
 }
 
 static int
-	expand_argv(t_command *command)
+	expand_argv(t_command *cmd)
 {
 	t_word_list	*list;
 	int			i;
 
-	while (command)
+	while (cmd)
 	{
-		list = command->words;
+		list = cmd->words;
 		while (list)
 		{
 //			if (is_expand(list->word.flags))
@@ -88,19 +88,30 @@ static int
 ////				expand_glob(list);
 //			remove_quote(list->word.word);
 			list = list->next;
-			++command->argc;
+			++cmd->argc;
 		}
-		command = command->next;
+		cmd = cmd->next;
 	}
 	return (SUCCESS);
 }
 
 int
-	expand_command(t_command *command)
+	expand_command(t_command *cmd)
 {
-	if (!expand_argv(command))
+	t_word_list	*words = cmd->words;
+	int					i;
+
+	if (!expand_argv(cmd))
 		return (FAILURE);
-	if (!expand_filename(command->redirects))
+	if (!expand_filename(cmd->redirects))
 		return (FAILURE);
+	cmd->argv = xcalloc(sizeof(char *) * (cmd->argc + 1));
+	i = -1;
+	while (words)
+	{
+		cmd->argv[++i] = words->word.word;
+		words->word.word = NULL;
+		words = words->next;
+	}
 	return (SUCCESS);
 }

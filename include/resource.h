@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/19 00:44:53 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <limits.h>
 
 # define PROMPT					"mini ^o^)/ $> "
+# define SECOND					"> "
 # define T_PTR					void *
 # define LOMAGIC				0x0101010101010101
 # define HIMAGIC				0x8080808080808080
@@ -43,7 +44,7 @@
 # define EX_CD_OLDPWD			"OLDPWD not set"
 # define EX_SYNTAX				"syntax error near unexpected token"
 # define EX_HEREDOC_MAX			"maximum here-docment count exceeded"
-# define EX_CMD_NOTFOUND		"command not found"
+# define EX_CMD_NOTFOUND		"cmd not found"
 
 # define ES_BADUSAGE			2
 # define ES_NOEXEC				126
@@ -126,16 +127,4 @@ enum e_exit_status
 	GENERAL_ERROR
 };
 
-enum e_execute
-{
-	MINI_EXECVE,
-	FT_CD,
-	FT_ECHO,
-	FT_ENV,
-	FT_EXIT,
-	FT_EXPORT,
-	FT_PWD,
-	FT_UNSET,
-	FT_NULL
-};
 #endif

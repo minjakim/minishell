@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:43:57 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/18 20:27:19 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_word_list
 	*word_list_free(t_word_list *words)
 {
-	t_word_list	*temp;
+	void	*temp;
 
 	while (words)
 	{
@@ -43,37 +43,37 @@ static void
 }
 
 static void
-	clean_redirect(t_redirect *rd_handler)
+	clean_redirect(t_redirect *redirects)
 {
-	void		*temp;
+	void	*temp;
 
-	while (rd_handler)
+	while (redirects)
 	{
-		if (rd_handler->here_doc_eof)
-			free(rd_handler->here_doc_eof);
+		if (redirects->here_doc_eof)
+			free(redirects->here_doc_eof);
 		else
-			free(rd_handler->redirectee.filename.word);
-		temp = rd_handler;
-		rd_handler = rd_handler->next;
+			free(redirects->redirectee.filename.word);
+		temp = redirects;
+		redirects = redirects->next;
 		free(temp);
 	}
 }
 
 void
-	dispose(t_command *command)
+	dispose(t_command *cmd)
 {
 	void	*temp;
 	int		i;
 
-	while (command)
+	while (cmd)
 	{
-		word_list_free(command->words);
-		clean_argv(command->argv);
-		clean_redirect(command->redirects);
-		if (command->path)
-			free(command->path);
-		temp = command;
-		command = command->next;
+		word_list_free(cmd->words);
+		clean_argv(cmd->argv);
+		clean_redirect(cmd->redirects);
+		if (cmd->path)
+			free(cmd->path);
+		temp = cmd;
+		cmd = cmd->next;
 		free(temp);
 	}
 }

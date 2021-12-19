@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:20:26 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/15 18:04:25 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 19:01:38 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ static int
 {
 	char	*temp;
 
-	temp = xmalloc(sizeof(char *) * (ft_strlen(declare->value) + ft_strlen(value) + 1));
-	*temp = '\0';
+	temp = xcalloc(sizeof(char *) * (ft_strlen(declare->value) + ft_strlen(value) + 1));
 	ft_strcat(ft_strcpy(temp, declare->value), value);
 	free(declare->value);
 	declare->value = temp;

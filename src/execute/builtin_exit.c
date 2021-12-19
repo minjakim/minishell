@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 22:49:21 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int
 }
 
 int
-	builtin_exit(const t_command *const command)
+	builtin_exit(const t_command *const cmd)
 {
-	const char *const *const	argv = (const char *const *const)command->argv;
+	const char *const *const	argv = (const char *const *const)cmd->argv;
 
 	if (g_status.interactive)
 		write(STDERR_FILENO, EXIT, LEN_EXIT);

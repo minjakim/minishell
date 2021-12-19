@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:54:15 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/18 22:49:46 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ int
 }
 
 int
-	report_error(const char *const command, const char *const arg, \
+	report_error(const char *const cmd, const char *const arg, \
 								const int error)
 {
 	const char *const	str_error = strerror(error);
 
 	write(STDERR_FILENO, "mini: ", 6);
-	if (command)
+	if (cmd)
 	{
-		write(STDERR_FILENO, command, ft_strlen(command));
+		write(STDERR_FILENO, cmd, ft_strlen(cmd));
 		write(STDERR_FILENO, ": ", 2);
 	}
 	if (arg)
@@ -70,13 +70,13 @@ int
 }
 
 int
-	report_exception(const char *const command, const char *const arg, \
+	report_exception(const char *const cmd, const char *const arg, \
 								const char *const report, const int status)
 {
 	write(STDERR_FILENO, "mini: ", 6);
-	if (command)
+	if (cmd)
 	{
-		write(STDERR_FILENO, command, ft_strlen(command));
+		write(STDERR_FILENO, cmd, ft_strlen(cmd));
 		write(STDERR_FILENO, ": ", 2);
 	}
 	if (arg)

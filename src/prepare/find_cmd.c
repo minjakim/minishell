@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_command.c                                     :+:      :+:    :+:   */
+/*   find_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 23:41:03 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int
+int
 	is_builtin(const char *str)
 {
 	if (!str || !*str || *str == ':')
@@ -86,7 +86,7 @@ static char
 }
 
 static int
-	find_command_in_path(t_command *command)
+	find_command_in_path(t_command *cmd)
 {
 	char	*path_list;
 	char	*path;
@@ -99,34 +99,34 @@ static int
 		path = get_next_path_element(path_list, &path_index);
 		if (path == NULL)
 			break ;
-		command->path = find_in_path_element(command->argv[0], path);
+		cmd->path = find_in_path_element(cmd->argv[0], path);
 		free(path);
 		path = NULL;
-		if (command->path != NULL)
+		if (cmd->path != NULL)
 			return (MINI_EXECVE);
 	}
-	if (!path_list || !*path_list || !command->path)
+	if (!path_list || !*path_list || !cmd->path)
 	{
-		report_exception(command->argv[0], NULL, EX_CMD_NOTFOUND, ES_NOTFOUND);
+		report_exception(cmd->argv[0], NULL, EX_CMD_NOTFOUND, ES_NOTFOUND);
 		return (FT_NULL);
 	}
 	return (MINI_EXECVE);
 }
 
 int
-	find_command(t_command *command)
+	find_command(t_command *cmd)
 {
-	const char	*name = command->argv[0];
+	const char	*name = cmd->argv[0];
 	struct stat	buffer;
 
 	if (!name)
 		return (FT_NULL);
 	if (ft_strchr(name, '/') != NULL && stat(name, &buffer) == 0)
-		command->path = ft_strdup(name);
+		cmd->path = ft_strdup(name);
 	else if (is_builtin(name))
 	{
-		command->flags |= CMD_COMMAND_BUILTIN;
+		cmd->flags |= CMD_COMMAND_BUILTIN;
 		return (is_builtin(name));
 	}
-	return (find_command_in_path(command));
+	return (find_command_in_path(cmd));
 }

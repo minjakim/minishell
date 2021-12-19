@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 12:12:11 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 18:58:16 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,63 +15,47 @@
 void
 	set_io(t_io *io)
 {
-	if (dup2(io->in, STDIN_FILENO) == ERROR)
-		report_error_fatal(errno);
-	if (dup2(io->out, STDOUT_FILENO) == ERROR)
-		report_error_fatal(errno);
+	if (io->in != STDIN_FILENO)
+		if (dup2(io->in, STDIN_FILENO) == ERROR)
+			report_error_fatal(errno);
+	if (io->out != STDOUT_FILENO)
+		if (dup2(io->out, STDOUT_FILENO) == ERROR)
+			report_error_fatal(errno);
 }
 
 void
-	reset_io(t_io *io)
+	close_io(t_io *io)
 {
 	if (io->in != STDIN_FILENO)
 		close(io->in);
 	if (io->out != STDOUT_FILENO)
 		close(io->out);
+}
+
+void
+	reset_io(t_io *io)
+{
+	close_io(io);
 	set_io(&g_status.backup.stdio);
 }
 
-//int
-//	redirect_io(t_command *command)
-//{
-//	const t_redirect	*target = command->redirects;
-
-//	while (target)
-//	{
-//		if (command->io.fd[target->redirector] != target->redirector)
-//			close(command->io.fd[target->redirector]);
-//		if (target->here_doc_eof)
-//			command->io.fd[target->redirector] = target->redirectee.dest;
-//		else
-//			command->io.fd[target->redirector] = \
-//			open(target->redirectee.filename.word, target->flags, 0644);
-//		if (command->io.fd[target->redirector] == ERROR)
-//			return (FAILURE);
-//		target = target->next;
-//	}
-//	set_io(&command->io);
-//	return (SUCCESS);
-//}
 int
-	redirect_io(t_command *command)
+	redirect_io(t_command *cmd)
 {
-	const t_redirect	*ptr = command->redirects;
-	t_io				*io;
+	const t_redirect	*redirects = cmd->redirects;
 
-	io = &command->io;
-	while (ptr)
+	while (redirects)
 	{
-		if (io->fd[ptr->redirector] != ptr->redirector)
-			close(io->fd[ptr->redirector]);
-		if (ptr->here_doc_eof)
-			io->fd[ptr->redirector] = ptr->redirectee.dest;
+		if (cmd->io.fd[redirects->redirector] != redirects->redirector)
+			close(cmd->io.fd[redirects->redirector]);
+		if (redirects->here_doc_eof)
+			cmd->io.fd[redirects->redirector] = redirects->redirectee.dest;
 		else
-			io->fd[ptr->redirector] = open(ptr->redirectee.filename.word, \
-					ptr->flags, 0644);
-		if (io->fd[ptr->redirector] == ERROR)
-			return (FAILURE);
-		ptr = ptr->next;
+			cmd->io.fd[redirects->redirector] = \
+			open(redirects->redirectee.filename.word, redirects->flags, 0644);
+		if (cmd->io.fd[redirects->redirector] == ERROR)
+			report_error("open", redirects->redirectee.filename.word, errno);
+		redirects = redirects->next;
 	}
-	set_io(io);
 	return (SUCCESS);
 }

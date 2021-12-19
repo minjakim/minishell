@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 18:07:43 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/18 20:27:19 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,27 @@ static int
 	heredoc(t_redirect *heredoc)
 {
 	char	*line;
+	ssize_t	len;
 
-	pipe(g_status.heredoc.fd);
+	if (pipe(g_status.heredoc.fd) == ERROR)
+		report_error("heredoc", "pipe", errno);
 	remove_quote(heredoc->here_doc_eof);
-	while (LOOP)
+	while (LOOP && !g_status.interrupted)
 	{
-		line = readline("> ");
-		if (!line || !ft_strcmp(line, heredoc->here_doc_eof))
-			break ;
-		if (!(heredoc->redirectee.filename.flags & (W_QUOTED | W_DQUOTED)))
-			;//expand_str(line);
-		write(g_status.heredoc.out, line, ft_strlen(line));
-		write(g_status.heredoc.out, "\n", 1);
-		free(line);
+		line = readline(SECOND);
+		if (!g_status.interrupted)
+		{
+			if (!line || !ft_strcmp(line, heredoc->here_doc_eof))
+				break ;
+			if (!(heredoc->redirectee.filename.flags & (W_QUOTED | W_DQUOTED)))
+				;
+			len = ft_strlen(line);
+			if (len != write(g_status.heredoc.out, line, len))
+				report_error("heredoc", "write", errno);
+			write(g_status.heredoc.out, "\n", 1);
+			if (line)
+				free(line);
+		}
 	}
 	if (line)
 		free(line);
@@ -37,20 +45,20 @@ static int
 }
 
 int
-	make_heredoc(t_command *command)
+	make_heredoc(const t_command *cmd)
 {
-	t_redirect	*handler;
+	t_redirect	*redirects;
 
-	while (command)
+	while (cmd)
 	{
-		handler = command->redirects;
-		while (handler)
+		redirects = cmd->redirects;
+		while (redirects)
 		{
-			if (handler->here_doc_eof)
-				handler->redirectee.dest = heredoc(handler);
-			handler = handler->next;
+			if (redirects->here_doc_eof)
+				redirects->redirectee.dest = heredoc(redirects);
+			redirects = redirects->next;
 		}
-		command = command->next;
+		cmd = cmd->next;
 	}
 	return (SUCCESS);
 }

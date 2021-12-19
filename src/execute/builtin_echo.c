@@ -6,16 +6,16 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:05:04 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 12:06:58 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 int
-	builtin_echo(const t_command *const command)
+	builtin_echo(const t_command *const cmd)
 {
-	const char *const *const	argv = (const char *const *const)command->argv;
+	const char *const *const	argv = (const char *const *const)cmd->argv;
 	int							display_return;
 	int							i;
 

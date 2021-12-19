@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:46 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/19 11:25:06 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 14:42:57 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,13 @@ void
 {
 	if (signum != SIGINT)
 		return ;
-	if (g_status.interactive && !g_status.haschild)
+	if (g_status.heredoc.value)
+	{
+		g_status.exit = GENERAL_ERROR;
+		g_status.interrupted = TRUE;
+		write(STDOUT_FILENO, "\n", 1);
+	}
+	else if (g_status.interactive && !g_status.haschild)
 	{
 		g_status.exit = GENERAL_ERROR;
 		write(STDOUT_FILENO, "\n", 1);
