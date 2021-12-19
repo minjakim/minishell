@@ -6,7 +6,7 @@
 #    By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 20:07:46 by minjakim          #+#    #+#              #
-#    Updated: 2021/12/19 17:23:00 by minjakim         ###   ########.fr        #
+#    Updated: 2021/12/19 19:45:59 by minjakim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ general			=	report.c\
 
 prepare			=	find_cmd.c\
 					redirect_io.c\
-					make_cmd.c\
+					execute_handler.c\
 					make_heredoc.c\
 					make_words.c\
 					parse_line.c\
