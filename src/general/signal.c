@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:46 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 10:36:47 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 11:49:19 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void
 		rl_replace_line("", 1);
 		rl_done = TRUE;
 	}
-	else if (g_status.interactive && !g_status.haschild)
+	else if (g_status.interactive && !g_status.state.haschild)
 	{
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
@@ -37,7 +37,7 @@ void
 {
 	char itoa[2];
 
-	if (g_status.interactive && g_status.haschild)
+	if (g_status.interactive && g_status.state.haschild)
 	{
 		g_status.exit += 128;
 		if (signum != SIGINT)

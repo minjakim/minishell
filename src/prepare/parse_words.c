@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:10:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 12:23:31 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static t_word_list
 	*attach_words(t_command *cmd, t_word_list *words)
 {
-	t_word_list	*handler;
 	t_word_list	*next_word;
+	t_word_list	*handler;
 
 	if (cmd->words == NULL)
 		cmd->words = words;
@@ -40,8 +40,9 @@ static t_word_list
 	void		*temp;
 
 	if (flag & W_LESS_LESS)
-		redirect->here_doc_eof = words->word.word;
+		redirect->heredoc_eof = words->word.word;
 	redirect->redirectee.filename.word = words->word.word;
+	words->word.word = NULL;
 	redirect->redirectee.filename.flags = words->word.flags;
 	temp = words;
 	words = words->next;
@@ -81,7 +82,7 @@ static t_word_list
 	else if (words->word.flags & W_GRATER_GRATER)
 		redirect->flags = O_WRONLY | O_CREAT | O_APPEND;
 	next_words = attach_filename(cmd, words->next, redirect, words->word.flags);
-	xfree(words->word.word, words, NULL, NULL);
+	disposer(words->word.word, words, NULL, NULL);
 	return (next_words);
 }
 
@@ -89,16 +90,13 @@ static t_word_list
 	*end_of_block(t_command *cmd, t_word_list *words)
 {
 	const int	devNull = open("/dev/null", O_WRONLY);
-	t_command	*next_command;
 	t_word_list	*temp_words;
 	t_io		piped;
 
-	next_command = xcalloc_t_command();
-	cmd->next = next_command;
+	cmd->next = xcalloc_t_command();
 	cmd->connector = words->word.flags & (W_PIPE | W_AND_AND | W_OR_OR);
-	if (words->word.flags & W_PIPE)
+	if ((words->word.flags & W_PIPE) && (xpipe(piped.fd, NULL) != ERROR))
 	{
-		pipe(piped.fd);
 		cmd->io.out = piped.in;
 		cmd->next->io.in = piped.out;
 		cmd->flags |= CMD_PIPE | CMD_IGNORE_RETURN;
@@ -106,7 +104,7 @@ static t_word_list
 	}
 	temp_words = words;
 	words = words->next;
-	xfree(temp_words->word.word, temp_words, NULL, NULL);
+	disposer(temp_words->word.word, temp_words, NULL, NULL);
 	return (words);
 }
 

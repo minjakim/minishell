@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 00:01:34 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 11:55:21 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_redirect
 	int					redirector;
 	int					flags;
 	t_redirectee		redirectee;
-	char				*here_doc_eof;
+	char				*heredoc_eof;
 }	t_redirect;
 
 typedef union u_io
@@ -124,18 +124,17 @@ typedef struct s_state
 		int				any;
 	};
 	int					prompt;
-
+	pid_t				haschild;
 }	t_state;
 
 typedef struct s_status
 {
-	t_state				state;
+	volatile t_state	state;
 	int					exit;
 	int					interactive;
 	t_io				heredoc;
 	t_env				env;
 	t_backup			backup;
-	pid_t				haschild;
 	int					(*execute[9])(const t_command *);
 }	t_status;
 #endif

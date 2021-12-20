@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:31:06 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/18 14:56:15 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 12:25:26 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ t_word_list
 		return (NULL);
 	words = xcalloc(sizeof(t_word_list));
 	if (!line_split(line, words, '\0'))
-		return (word_list_free(words));
+		return (dispose_word_list(words));
 	if (make_words(words) == EXCEPTION)
-		return (word_list_free(words));
+		return (dispose_word_list(words));
 	return (words);
 }

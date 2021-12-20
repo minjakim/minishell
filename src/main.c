@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 10:33:46 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 12:17:15 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,13 @@ t_status	g_status;
 void
 	handling_eof(void)
 {
-	if (!g_status.heredoc.value)
+	if (g_status.heredoc.value)
+	{
+		write(STDOUT_FILENO, "\033[1A", 4);
+		write(STDOUT_FILENO, "\033[2C", 4);
+		g_status.state.prompt += 2;
+	}
+	else
 	{
 		write(STDOUT_FILENO, "\033[1A", 4);
 		while (--g_status.state.prompt)
@@ -25,15 +31,9 @@ void
 		write(STDERR_FILENO, EXIT, sizeof(EXIT) - 1);
 		mini_exit(g_status.exit);
 	}
-	else
-	{
-		write(STDOUT_FILENO, "\033[1A", 4);
-		write(STDOUT_FILENO, "\033[2C", 4);
-		g_status.state.prompt += 2;
-	}
 }
 
-static inline char
+char
 	mini_readline(char **line)
 {
 	if (*line)
@@ -44,10 +44,13 @@ static inline char
 	g_status.state.readline = FALSE;
 	if (*line == NULL)
 		handling_eof();
-	else if (**line)
-		add_history(*line);
-	g_status.state.prompt = sizeof(PROMPT);
-	g_status.state.any = 0;
+	if (!g_status.heredoc.value)
+	{
+		if (**line)
+			add_history(*line);
+		g_status.state.prompt = sizeof(PROMPT);
+		g_status.state.any = 0;
+	}
 	return (**line);
 }
 
@@ -70,7 +73,7 @@ static int
 		make_heredoc(cmd);
 		if (!g_status.state.any)
 			execute_handler(cmd);
-		dispose(cmd);
+		dispose_cmd(cmd);
 	}
 	return (g_status.exit);
 }

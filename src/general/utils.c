@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 11:07:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/19 22:27:51 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 11:59:32 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,33 +35,25 @@ T_PTR
 	return (cmd);
 }
 
-void
-	xfree(void *obj0, void *obj1, void *obj2, void *obj3)
-{
-	if (obj0)
-		free(obj0);
-	if (obj1)
-		free(obj1);
-	if (obj2)
-		free(obj2);
-	if (obj3)
-		free(obj3);
-}
 
 pid_t
 	xfork(void)
 {
-	g_status.haschild = fork();
-	if (g_status.haschild == ERROR)
+	g_status.state.haschild = fork();
+	if (g_status.state.haschild == ERROR)
 		report_error_fatal(errno);
-	if (g_status.haschild == 0)
+	if (g_status.state.haschild == 0)
 		g_status.interactive = FALSE;
-	return (g_status.haschild);
+	return (g_status.state.haschild);
 }
 
-void
-	xpipe(void)
+int
+	xpipe(int fd[2], const char *const str)
 {
-	if (pipe(g_status.heredoc.fd) == ERROR)
-		report_error("pipe", NULL, errno);
+	if (pipe(fd) == ERROR)
+	{
+		g_status.state.error = report_error("pipe", str, errno);
+		return (ERROR);
+	}
+	return (OK);
 }

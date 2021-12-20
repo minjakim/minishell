@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 10:41:25 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 11:44:18 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int
 {
 	while (redirects)
 	{
-		if (!redirects->here_doc_eof && is_expand(redirects->redirectee.filename.flags))
+		if (!redirects->heredoc_eof && is_expand(redirects->redirectee.filename.flags))
 		{
 			if (!expand_word(&redirects->redirectee.filename))
 				return (FAILURE);

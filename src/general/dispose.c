@@ -6,30 +6,44 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:43:57 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 12:22:49 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_word_list
-	*word_list_free(t_word_list *words)
+void
+	xfree(void *obj)
 {
-	void	*temp;
+	if (obj)
+		free(obj);
+}
+
+void
+	disposer(void *obj0, void *obj1, void *obj2, void *obj3)
+{
+	xfree(obj0);
+	xfree(obj1);
+	xfree(obj2);
+	xfree(obj3);
+}
+
+t_word_list
+	*dispose_word_list(t_word_list *words)
+{
+	t_word_list	*temp;
 
 	while (words)
 	{
-		if (words->word.word)
-			free(words->word.word);
 		temp = words;
 		words = words->next;
-		free(temp);
+		disposer(temp->word.word, temp, NULL, NULL);
 	}
 	return (NULL);
 }
 
 static void
-	clean_argv(char **argv)
+	dispose_cmd_argv(char **argv)
 {
 	int	i;
 
@@ -43,37 +57,31 @@ static void
 }
 
 static void
-	clean_redirect(t_redirect *redirects)
+	dispose_cmd_redirect(t_redirect *redirects)
 {
-	void	*temp;
+	t_redirect	*temp;
 
 	while (redirects)
 	{
-		if (redirects->here_doc_eof)
-			free(redirects->here_doc_eof);
-		else
-			free(redirects->redirectee.filename.word);
 		temp = redirects;
 		redirects = redirects->next;
-		free(temp);
+		disposer(temp->heredoc_eof, temp->redirectee.filename.word, temp, NULL);
 	}
 }
 
 void
-	dispose(t_command *cmd)
+	dispose_cmd(t_command *cmd)
 {
-	void	*temp;
-	int		i;
+	t_command	*temp;
+	int			i;
 
 	while (cmd)
 	{
-		word_list_free(cmd->words);
-		clean_argv(cmd->argv);
-		clean_redirect(cmd->redirects);
-		if (cmd->path)
-			free(cmd->path);
+		dispose_word_list(cmd->words);
+		dispose_cmd_argv(cmd->argv);
+		dispose_cmd_redirect(cmd->redirects);
 		temp = cmd;
 		cmd = cmd->next;
-		free(temp);
+		disposer(temp->path, temp, NULL, NULL);
 	}
 }

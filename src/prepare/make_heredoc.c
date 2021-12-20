@@ -6,31 +6,24 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 18:07:43 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 00:02:43 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 12:23:06 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-//remove_quote(heredoc->here_doc_eof);
+//remove_quote(heredoc->heredoc_eof);
 
 static int
-	heredoc(t_redirect *heredoc)
+	write_heredoc(t_redirect *heredoc)
 {
-	char	*line;
-	ssize_t	len;
+	const char *const	eof = heredoc->heredoc_eof;
+	char				*line;
+	ssize_t				len;
 
-	if (pipe(g_status.heredoc.fd) == ERROR)
-		report_error("heredoc", "pipe", errno);
 	while (!g_status.state.any)
 	{
-		g_status.state.readline = TRUE;
-		line = readline(SECOND);
-		g_status.state.readline = FALSE;
-		if (!line)
-			handling_eof();
-		if (g_status.state.any || !line || \
-			 !ft_strcmp(line, heredoc->here_doc_eof))
+		if (!mini_readline(&line) || g_status.state.any || !ft_strcmp(line, eof))
 			break ;
 		if (!(heredoc->redirectee.filename.flags & (W_QUOTED | W_DQUOTED)))
 			;
@@ -41,8 +34,7 @@ static int
 			g_status.state.error = report_error("heredoc", "write", errno);
 		free(line);
 	}
-	if (line)
-		free(line);
+	xfree(line);
 	close(g_status.heredoc.out);
 	return (g_status.heredoc.in);
 }
@@ -57,8 +49,9 @@ int
 		redirects = cmd->redirects;
 		while (!g_status.state.any && redirects)
 		{
-			if (redirects->here_doc_eof)
-				redirects->redirectee.dest = heredoc(redirects);
+			if (redirects->heredoc_eof && \
+							xpipe(g_status.heredoc.fd,"heredoc") != ERROR)
+				redirects->redirectee.dest = write_heredoc(redirects);
 			g_status.heredoc.value = 0;
 			redirects = redirects->next;
 		}

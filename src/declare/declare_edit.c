@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:20:26 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 19:01:38 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 10:51:24 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int
 	declare_cat(char *value, t_declare *declare, int flag)
 {
-	char	*temp;
+	void	*temp;
 
 	temp = xcalloc(sizeof(char *) * (ft_strlen(declare->value) + ft_strlen(value) + 1));
 	ft_strcat(ft_strcpy(temp, declare->value), value);

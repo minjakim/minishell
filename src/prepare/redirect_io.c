@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 23:10:57 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 11:44:18 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int
 	{
 		if (cmd->io.fd[redirects->redirector] != redirects->redirector)
 			close(cmd->io.fd[redirects->redirector]);
-		if (redirects->here_doc_eof)
+		if (redirects->heredoc_eof)
 			cmd->io.fd[redirects->redirector] = redirects->redirectee.dest;
 		else
 			cmd->io.fd[redirects->redirector] = \
