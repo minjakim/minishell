@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 10:41:25 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,17 +95,21 @@ static int
 	return (SUCCESS);
 }
 
+/* 여기에서 확장과 argv 완성 ~  조금 더 윗단(word 완성하는 단계)에서부터
+argc가 채워져서 내려 오면 좋을 것 같음~*/
+
 int
 	expand_command(t_command *cmd)
 {
-	t_word_list	*words = cmd->words;
-	int					i;
+	t_word_list	*words;
+	int			i;
 
 	if (!expand_argv(cmd))
 		return (FAILURE);
 	if (!expand_filename(cmd->redirects))
 		return (FAILURE);
 	cmd->argv = xcalloc(sizeof(char *) * (cmd->argc + 1));
+	words = cmd->words;
 	i = -1;
 	while (words)
 	{

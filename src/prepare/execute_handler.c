@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_cmd.c                                         :+:      :+:    :+:   */
+/*   execute_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 19:28:49 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 23:12:29 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@ int
 	while (cmd)
 	{
 		if ((cmd->flags & CMD_PIPE) && xfork() == 0)
+		{
 			cmd->flags |= CMD_NO_FORK;
+			set_io(&cmd->io);
+		}
 		if (g_status.haschild == 0)
 		{
 			expand_command(cmd);
 			if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
 				redirect_io(cmd);
-			set_io(&cmd->io);
 			g_status.execute[find_command(cmd)]((const t_command*)cmd);
 		}
 		if (g_status.haschild && !(cmd->flags & CMD_IGNORE_RETURN))
@@ -36,7 +38,7 @@ int
 			while (wait(NULL) != ERROR)
 				;
 		}
-		close_io(&cmd->io);
+		reset_io(&cmd->io);
 		cmd = cmd->next;
 	}
 	g_status.haschild = FALSE;

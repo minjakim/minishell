@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/19 12:21:03 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 22:05:53 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ char
 	size_t	n;
 
 	n = ft_strlen(s1) + 1;
-	dst = xmalloc(sizeof(char) * n);
+	dst = xcalloc(sizeof(char) * n);
 	return (ft_memcpy(dst, s1, n));
 }
 
@@ -218,8 +218,7 @@ char
 
 	if (!s1)
 		return (NULL);
-	dst = xmalloc(sizeof(char) * (n + 1));
-	dst[n] = '\0';
+	dst = xcalloc(sizeof(char) * (n + 1));
 	while (n--)
 		dst[n] = s1[n];
 	return (dst);

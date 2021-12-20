@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 16:17:59 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 19:10:54 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 23:16:28 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int
 		words->word.flags |= W_GRATER;
 	if (words->next == NULL)
 		return (report_error_syntax("newline"));
-	if (words->word.flags & W_LESS_LESS && ++g_status.need_heredoc)
+	if (words->word.flags & W_LESS_LESS && ++g_status.state.need_heredoc)
 		words->next->word.flags |= (W_HEREDOC | W_NOEXPAND);
 	else
 		words->next->word.flags |= W_FILENAME;
@@ -92,7 +92,7 @@ int
 	{
 		if (flag_redirect(words, words->word.word, old_flags) == EXCEPTION)
 			return (EXCEPTION);
-		if (g_status.need_heredoc >= HEREDOC_MAX)
+		if (g_status.state.need_heredoc >= HEREDOC_MAX)
 			return (report_exception_fatal(EX_HEREDOC_MAX, ES_BADUSAGE));
 		if (flag_connector(words, words->word.word, old_flags) == EXCEPTION)
 			return (EXCEPTION);
@@ -103,5 +103,6 @@ int
 			return (report_error_syntax(words->word.word));
 		words = words->next;
 	}
+	g_status.state.need_heredoc = 0;
 	return (SUCCESS);
 }

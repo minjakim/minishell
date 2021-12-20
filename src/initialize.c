@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 16:05:42 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 23:45:21 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,8 @@ static int
 	init_status(void)
 {
 	t_termios	attr;
-
-	g_status.exit = 0;
+	g_status.state.prompt = sizeof(PROMPT);
 	g_status.interactive = TRUE;
-	g_status.heredoc.value = 0;
-	g_status.need_heredoc = 0;
 	if (!init_env(&g_status.env))
 		return (FAILURE);
 	if (!init_io(&g_status.backup.stdio))
@@ -110,6 +107,7 @@ int
 	signal(SIGQUIT, signal_handler);
 	signal(SIGTERM, signal_handler);
 	rl_catch_signals = FALSE;
+	rl_event_hook = event_hook;
 	init_execute();
 	return (SUCCESS);
 }

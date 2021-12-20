@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/19 19:41:01 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 00:01:34 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,29 @@ typedef struct s_backup
 	t_io				stdio;
 }	t_backup;
 
+typedef struct s_state
+{
+	union
+	{
+		struct
+		{
+			char		error;
+			char		interrupted;
+			char		need_heredoc;
+			char		readline;
+		};
+		int				any;
+	};
+	int					prompt;
+
+}	t_state;
+
 typedef struct s_status
 {
+	t_state				state;
 	int					exit;
 	int					interactive;
-	int					interrupted;
 	t_io				heredoc;
-	int					need_heredoc;
 	t_env				env;
 	t_backup			backup;
 	pid_t				haschild;

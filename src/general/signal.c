@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:46 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/19 14:42:57 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 10:36:47 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,18 @@
 void
 	sigint_handler(int signum)
 {
-	if (signum != SIGINT)
+	if (!g_status.state.readline)
 		return ;
+	g_status.exit = GENERAL_ERROR;
 	if (g_status.heredoc.value)
 	{
-		g_status.exit = GENERAL_ERROR;
-		g_status.interrupted = TRUE;
-		write(STDOUT_FILENO, "\n", 1);
+		g_status.state.interrupted = TRUE;
+		rl_replace_line("", 1);
+		rl_done = TRUE;
 	}
 	else if (g_status.interactive && !g_status.haschild)
 	{
-		g_status.exit = GENERAL_ERROR;
 		write(STDOUT_FILENO, "\n", 1);
-		rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
 	}
@@ -61,4 +60,10 @@ void
 	signal_handler(int signum)
 {
 	(void)signum;
+}
+
+int
+	event_hook(void)
+{
+	return (OK);
 }

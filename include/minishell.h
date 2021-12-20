@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 19:39:07 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 23:26:04 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 extern t_status	g_status;
 
-T_PTR		xmalloc(size_t bytes);
 T_PTR		xcalloc(size_t bytes);
 T_PTR		xcalloc_t_command(void);
 pid_t		xfork(void);
@@ -28,6 +27,7 @@ void		xfree(void *obj0, void *obj1, void *obj2, void *obj3);
 int			initialize(void);
 int			is_builtin(const char *str);
 
+void		handling_eof(void);
 int			mini_exit(int exit_status);
 int			envp_update(t_env *env, int flag);
 t_word_list	*parse_line(char *line);
@@ -47,6 +47,7 @@ void		reset_io(t_io *io);
 void		sigint_handler(int signum);
 void		signal_handler(int signum);
 void		signal_report(int signum);
+int			event_hook(void);
 int			envp_handler(t_env *env);
 
 int			report_error(const char *const cmd, \

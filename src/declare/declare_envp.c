@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:44:39 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 20:05:55 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/19 22:05:31 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int
 	{
 		if (handle->flag & H_EXPORT && !(handle->flag & H_KEYONLY))
 		{
-			new_envp[i] = xmalloc(sizeof(char) \
+			new_envp[i] = xcalloc(sizeof(char) \
 					* (ft_strlen(handle->key) + ft_strlen(handle->value) + 2));
 			ft_strcat(ft_strcat(ft_strcpy(new_envp[i], handle->key), "="), \
 					handle->value);
