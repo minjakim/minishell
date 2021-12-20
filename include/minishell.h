@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 12:21:31 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 12:52:22 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void		close_io(t_io *io);
 void		reset_io(t_io *io);
 
 void		dispose_cmd(t_command *cmd);
-t_word_list	*dispose_word_list(t_word_list *words);
+void		*dispose_word_list(t_word_list *words);
 
 void		sigint_handler(int signum);
 void		signal_handler(int signum);

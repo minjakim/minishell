@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 11:55:21 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 14:34:34 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,11 @@ typedef struct s_globvector
 
 typedef struct s_word_desc
 {
-	char				*word;
+	union
+	{
+		char			*word;
+		char			*eof;
+	};
 	int					flags;
 }	t_word_desc;
 
@@ -51,7 +55,7 @@ typedef struct s_word_list
 	t_word_desc			word;
 }	t_word_list;
 
-typedef union u_redirectee
+typedef struct u_redirectee
 {
 	int					dest;
 	t_word_desc			filename;
@@ -63,7 +67,6 @@ typedef struct s_redirect
 	int					redirector;
 	int					flags;
 	t_redirectee		redirectee;
-	char				*heredoc_eof;
 }	t_redirect;
 
 typedef union u_io

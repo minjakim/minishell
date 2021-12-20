@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:43:57 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 12:22:49 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 14:31:26 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void
 	xfree(obj3);
 }
 
-t_word_list
+void
 	*dispose_word_list(t_word_list *words)
 {
 	t_word_list	*temp;
@@ -65,7 +65,7 @@ static void
 	{
 		temp = redirects;
 		redirects = redirects->next;
-		disposer(temp->heredoc_eof, temp->redirectee.filename.word, temp, NULL);
+		disposer(temp->redirectee.filename.word, temp, NULL, NULL);
 	}
 }
 

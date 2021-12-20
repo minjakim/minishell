@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 11:07:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 11:59:32 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 14:18:06 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 T_PTR
 	xcalloc(size_t bytes)
 {
-	T_PTR	temp;
+	T_PTR	ptr;
 
-	temp = malloc(bytes);
-	if (!temp)
+	ptr = malloc(bytes);
+	if (!ptr)
 		report_error_fatal(errno);
-	ft_memset(temp, 0, bytes);
-	return (temp);
+	ft_memset(ptr, 0, bytes);
+	return (ptr);
 }
 
 T_PTR

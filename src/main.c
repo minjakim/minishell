@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 12:17:15 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 13:05:53 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,10 @@ char
 	g_status.state.readline = FALSE;
 	if (*line == NULL)
 		handling_eof();
-	if (!g_status.heredoc.value)
-	{
-		if (**line)
-			add_history(*line);
-		g_status.state.prompt = sizeof(PROMPT);
-		g_status.state.any = 0;
-	}
+	if (**line)
+		add_history(*line);
+	g_status.state.prompt = sizeof(PROMPT);
+	g_status.state.any = 0;
 	return (**line);
 }
 
