@@ -39,8 +39,8 @@ static void
 static void
 	set_path(const char *const cwd, const char *const path)
 {
-	const t_str	pwd_key = { .str = PWD, .len = sizeof(PWD) - 1};
-	const t_str	old_key = { .str = OLDPWD, .len = sizeof(OLDPWD) - 1};
+	const t_str	pwd_key = {.str = PWD, .len = sizeof(PWD) - 1};
+	const t_str	old_key = {.str = OLDPWD, .len = sizeof(OLDPWD) - 1};
 
 	set_node(&pwd_key, path);
 	set_node(&old_key, cwd);

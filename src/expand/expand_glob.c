@@ -50,7 +50,7 @@ static int
 }
 
 int
-	expand_glob_word_list(DIR *dirinfo, t_word_list *words, char *pattern ,int *argc)
+	expand_glob_word_list(DIR *dirinfo, t_word_list *words, char *pattern , int *argc)
 {
 	t_word_list		*temp;
 	struct dirent	*entry;

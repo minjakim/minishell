@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-static int
+static t_execute
 	is_builtin(const char *str)
 {
 	if (!str || !*str || *str == ':')
@@ -34,7 +34,7 @@ static int
 		return (FT_PWD);
 	else if (*str == 'u' && ft_strcmp(str + 1, "nset") == 0)
 		return (FT_UNSET);
-	return (MINI_EXECVE);
+	return (NOTFOUND);
 }
 
 static char
@@ -92,25 +92,21 @@ static int
 	char	*path;
 	int		path_index;
 
-	path_list = getenv("PATH");
-	path_index = 0;
+	path_list = getenv(PATH);
 	while (path_list && path_list[path_index])
 	{
 		path = get_next_path_element(path_list, &path_index);
 		if (path == NULL)
 			break ;
 		cmd->path = find_in_path_element(cmd->argv[0], path);
-		free(path);
+		xfree(path);
 		path = NULL;
 		if (cmd->path != NULL)
-			return (MINI_EXECVE);
+			return (cmd->type = MINI_EXECVE);
 	}
 	if (!path_list || !*path_list || !cmd->path)
-	{
 		report_exception(cmd->argv[0], NULL, EX_CMD_NOTFOUND, ES_NOTFOUND);
-		return (FT_NULL);
-	}
-	return (MINI_EXECVE);
+	return (cmd->type);
 }
 
 int
@@ -120,13 +116,11 @@ int
 	struct stat	buffer;
 
 	if (!name)
-		return (FT_NULL);
+		return (cmd->type = FT_NULL);
 	if (ft_strchr(name, '/') != NULL && stat(name, &buffer) == 0)
 		cmd->path = ft_strdup(name);
-	else if (is_builtin(name))
-	{
-		cmd->flags |= CMD_COMMAND_BUILTIN;
-		return (is_builtin(name));
-	}
+	cmd->type = is_builtin(name);
+	if (cmd->type)
+		return (cmd->type);
 	return (find_command_in_path(cmd));
 }

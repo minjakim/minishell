@@ -28,9 +28,10 @@ int
 	pre_execute(t_command *cmd)
 {
 	if (!expand_command(cmd))
-		return (FAILURE);
+		;
 	if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
 		redirect_io(cmd);
+	set_io(&cmd->io);
 	return (OK);
 }
 
@@ -40,12 +41,12 @@ int
 	while (cmd)
 	{
 		if ((cmd->flags & CMD_PIPE) && xfork() == 0)
-			cmd->flags |= CMD_NO_FORK;
+			cmd->flags |= CMD_SUBSHELL;
 		if (g_status.state.haschild == 0)
 		{
 			pre_execute(cmd);
 			g_status.execute[find_command(cmd)]((const t_command*)cmd);
-			if (cmd->flags & CMD_PIPE)
+			if (cmd->flags & CMD_SUBSHELL)
 				exit(g_status.exit);
 		}
 		if (g_status.state.haschild && !(cmd->flags & CMD_IGNORE_RETURN))

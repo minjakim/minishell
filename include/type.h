@@ -23,7 +23,8 @@ typedef unsigned char		t_byte;
 
 typedef enum e_execute
 {
-	MINI_EXECVE,
+	NOTFOUND,
+	FT_NULL,
 	FT_CD,
 	FT_ECHO,
 	FT_ENV,
@@ -31,7 +32,7 @@ typedef enum e_execute
 	FT_EXPORT,
 	FT_PWD,
 	FT_UNSET,
-	FT_NULL
+	MINI_EXECVE
 }	t_execute;
 
 typedef struct s_globvector
@@ -84,14 +85,15 @@ typedef union u_io
 typedef struct s_command
 {
 	int					flags;
+	int					connector;
 	t_redirect			*redirects;
 	t_word_list			*words;
 	t_io				io;
 	char				*path;
 	char				**argv;
 	int					argc;
+	t_execute			type;
 	t_command			*next;
-	int					connector;
 }	t_command;
 
 typedef struct s_str
@@ -149,6 +151,6 @@ typedef struct s_status
 	t_env				env;
 	t_io				heredoc;
 	t_backup			backup;
-	int					(*execute[9])(const t_command *);
+	int					(*execute[10])(const t_command *);
 }	t_status;
 #endif

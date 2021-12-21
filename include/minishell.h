@@ -18,9 +18,6 @@
 
 extern t_status	g_status;
 
-
-void		pj(char *str);
-
 T_PTR		xcalloc(size_t bytes);
 T_PTR		xcalloc_t_command(void);
 pid_t		xfork(void);
@@ -77,7 +74,6 @@ int			legal_variable_starter(const char c);
 int			legal_variable_char(const char c);
 char		*remove_quote(char *str);
 
-
 int			report_error(const char *const cmd, \
 									const char *const arg, const int error);
 int			report_error_fatal(const int error);
@@ -86,8 +82,7 @@ int			report_exception(const char *cmd, const char *const arg, \
 								const char *const report, const int status);
 int			report_exception_fatal(const char *const report, const int status);
 
-int			mini_exit(int exit_status);
-int			mini_execve(const t_command *const cmd);
+int			mini_null(const t_command *const cmd);
 int			builtin_cd(const t_command *const cmd);
 int			builtin_echo(const t_command *const cmd);
 int			builtin_env(const t_command *const cmd);
@@ -95,7 +90,8 @@ int			builtin_exit(const t_command *const cmd);
 int			builtin_export(const t_command *const cmd);
 int			builtin_pwd(const t_command *const cmd);
 int			builtin_unset(const t_command *const cmd);
-int			mini_null(const t_command *const cmd);
+int			mini_execve(const t_command *const cmd);
+int			mini_exit(int exit_status);
 
 void		*ft_memset(void *b, int c, size_t len);
 void		*ft_memcpy(void *sdt, const void *src, size_t n);

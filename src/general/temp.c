@@ -13,12 +13,6 @@
 #include "../../include/minishell.h"
 
 void
-	pj(char *str)
-{
-	printf("%s\n", str);
-}
-
-void
 	temp_print_list(t_word_list *temp)
 {
 	while (temp)

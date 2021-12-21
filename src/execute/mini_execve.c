@@ -22,7 +22,7 @@ int
 int
 	mini_execve(const t_command *const cmd)
 {
-	if ((cmd->flags & CMD_NO_FORK) || xfork() == 0)
+	if ((cmd->flags & CMD_SUBSHELL) || xfork() == 0)
 	{
 		if (execve(cmd->path, cmd->argv, g_status.env.envp) == ERROR)
 		{

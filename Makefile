@@ -13,8 +13,6 @@
 NAME			=	minishell
 
 declare			=	declare_check.c\
-					declare_edit.c\
-					declare_envp.c\
 					declare_handler.c
 
 execute			=	builtin_cd.c\

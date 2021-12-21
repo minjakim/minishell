@@ -37,6 +37,7 @@
 # define HEREDOC_MAX			16
 
 # define HOME					"HOME"
+# define PATH					"PATH"
 # define PWD					"PWD"
 # define OLDPWD					"OLDPWD"
 
