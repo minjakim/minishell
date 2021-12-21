@@ -12,64 +12,96 @@
 
 #include "../../include/minishell.h"
 
-int
-	strmatch(char *pat, char *str, int flag)
+static int
+	glob_compare(char *pat, char *str)
 {
-	while(*pat && *str)
-	{
-		if (*pat == '*')
-		{
-			str++;
-			if (*(pat + 1) == *str)
-				pat++;
-		}
-		if (*pat != '*' && *pat == *str)
-		{
-			str++;
-			pat++;
-		}
-		if (flag && *pat == '/' && *(pat + 1) == '\0' && *str == '\0')
-			pat++;
-		if (*pat != '*' && *pat != *str)
-			return (0);
-	}
-	return (1);
+	while (*pat != '*' && *pat != '\0' && *str == '\0')
+		if (*pat != *str)
+			return (*pat - *str);
+	return (*pat - *str);
 }
 
-char
- 	**expand_glob(t_word_desc *word)
+static int
+	strmatch(char *pat, char *str)
 {
-	char 	*filename;
-	char	*slash;
-	DIR		*dirinfo;
+	int		i;
+	int		skip;
+
+	if (*pat != '.' && *str == '.')
+		return (FAILURE);
+	i = 0;
+	skip = 0;
+	while (*str)
+	{
+		if (pat[i] == '*' && pat[i] != '\0')
+			i++;
+		if (pat[i] != '*' && glob_compare(pat + i, str))
+			++str;
+		else
+			skip = TRUE;
+		if (skip && pat[i] != '*' && pat[i] != '\0')
+			i++;
+		if (skip && pat[i] == '*')
+			skip = FALSE;
+	}
+	if (*pat)
+		return (FAILURE);
+	return (SUCCESS);
+}
+
+int
+	expand_glob_word_list(DIR *dirinfo, t_word_list *words, char *pattern ,int *argc)
+{
+	t_word_list		*temp;
 	struct dirent	*entry;
-	int		is_dir;
+	int		count;
 
-
-	//filename = word->word;
-	filename = "hello";
-	slash = ft_strchr(filename, '/');
-	if (slash != NULL && slash[1] != '\0')
-		return (0);
-	is_dir = (slash != NULL);
-//	if ()
-	dirinfo = opendir(".");
-	if (dirinfo == NULL)
-		return (NULL);//opendir err
-	while (1)
+	temp = words->next;
+	count = -1;
+	while (LOOP)
 	{
 		entry = readdir(dirinfo);
 		if (entry == NULL)
 			break ;
-		printf("%d %d ", is_dir, entry->d_type & DT_DIR);
-		if (strmatch("*/", entry->d_name, (is_dir && entry->d_type & DT_DIR)))
-			printf("match %s\n", entry->d_name);
-		else
-			printf("no match %s\n", entry->d_name);
-//		if (entry->d_type == D_DIR && is_dir)
-//		{
-//		}
+		if (strmatch(pattern, entry->d_name))
+		{
+			++count;
+			words->word.word = ft_strdup(entry->d_name);
+			words->next = xcalloc(sizeof(t_word_list));
+			words->next->word.flags = words->word.flags & ~W_GLOBEXP;
+			words = words->next;
+		}
 	}
+	if (count > -1)
+	{
+	 	xfree(pattern);
+		words->next = temp;
+		*argc += count;
+	}
+	return (SUCCESS);
+}
+
+int
+ 	expand_glob(t_word_list *words, char *pattern, int *argc)
+{
+	char			*path;
+	DIR				*dirinfo;
+	struct dirent	*entry;
+	t_word_list		*temp;
+
+	printf("this is glob exp\n");
+	path = ft_strchr(pattern, '/');
+	if (path != NULL && path[1] != '\0')
+		return (SUCCESS);
+	dirinfo = opendir(".");
+	if (dirinfo == NULL)
+	{
+		report_error(NULL, NULL, errno);
+		return (FAILURE);
+	}
+	if (words)
+		if (!expand_glob_word_list(dirinfo, words, pattern, argc))
+			return (FAILURE);
 	closedir(dirinfo);
-	return (NULL);
+	return (SUCCESS);
 }

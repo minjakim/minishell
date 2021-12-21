@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int
+static int
 	is_builtin(const char *str)
 {
 	if (!str || !*str || *str == ':')

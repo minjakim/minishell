@@ -14,6 +14,7 @@
 # define TYPE_H
 
 # include <termios.h>
+# include <sys/types.h>
 
 typedef struct s_command	t_command;
 typedef struct termios		t_termios;
@@ -93,16 +94,24 @@ typedef struct s_command
 	int					connector;
 }	t_command;
 
+typedef struct s_str
+{
+	char				*str;
+	size_t				len;
+}	t_str;
+
 typedef struct s_declare
 {
-	char				*key;
-	char				*value;
+	t_str				key;
+	t_str				value;
+	char				*line;
 	int					exported;
 	struct s_declare	*next;
 }	t_declare;
 
 typedef struct s_env
 {
+	int					edited;
 	char				**envp;
 	int					envc;
 	t_declare			*head;
@@ -135,10 +144,10 @@ typedef struct s_state
 typedef struct s_status
 {
 	volatile t_state	state;
-	int					exit;
 	int					interactive;
-	t_io				heredoc;
+	int					exit;
 	t_env				env;
+	t_io				heredoc;
 	t_backup			backup;
 	int					(*execute[9])(const t_command *);
 }	t_status;

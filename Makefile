@@ -28,7 +28,6 @@ execute			=	builtin_cd.c\
 
 expand			=	expand_cmd.c\
 					expand_glob.c\
-					expand_teilde.c\
 					expand_word.c
 
 general			=	report.c\

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 21:44:12 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/21 10:39:39 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 
 extern t_status	g_status;
 
+
+void		pj(char *str);
+
 T_PTR		xcalloc(size_t bytes);
 T_PTR		xcalloc_t_command(void);
 pid_t		xfork(void);
@@ -28,22 +31,27 @@ void		disposer(void *obj0, void *obj1, void *obj2, void *obj3);
 
 int			initialize(void);
 int			declare_init(void);
-int			declare_update_envp(void);
+void		declare_update_envp(void);
+int			declare_update_value(t_declare *node, char *str);
+char		*declare_new_line(const t_str *const key, const t_str *const value);
+t_declare	*declare_new(const char *str);
 t_declare	*declare_add(const char *str);
+t_declare	*declare_search(const char *str);
+char		*declare_get_key(const char *str);
 
-int			is_builtin(const char *str);
+int			declare_legal_check(const char *str);
 
 char		mini_readline(char **line);
 void		handling_eof(void);
-int			mini_exit(int exit_status);
 
 t_word_list	*parse_line(char *line);
 int			make_words(t_word_list *words);
 t_command	*parse_words(t_word_list *words);
 int			make_heredoc(const t_command *cmd);
-int			find_command(t_command *cmd);
 int			execute_handler(t_command *cmd);
 int			redirect_io(t_command *cmd);
+int			find_command(t_command *cmd);
+
 void		set_io(const t_io *const io);
 void		close_io(const t_io *const io);
 void		reset_io(const t_io *const io);
@@ -58,20 +66,17 @@ void		signal_report(int signum);
 int			event_hook(void);
 
 char		*expand_str(char *src, int heredoc);
-char		**expand_glob(t_word_desc *word);
-char		*expand_teilde(char *filename, int i);
+int			expand_glob(t_word_list *word, char *pattern, int *argc);
 
 int			expand_command(t_command *cmd);
-void		remove_quote(char *str);
 
 int			is_quote(const char c, int quote);
 int			is_teilde(const char *const str, int i, int quote);
 
 int			legal_variable_starter(const char c);
 int			legal_variable_char(const char c);
-int			declare_check(const char *str);
-
 char		*remove_quote(char *str);
+
 
 int			report_error(const char *const cmd, \
 									const char *const arg, const int error);
@@ -81,6 +86,7 @@ int			report_exception(const char *cmd, const char *const arg, \
 								const char *const report, const int status);
 int			report_exception_fatal(const char *const report, const int status);
 
+int			mini_exit(int exit_status);
 int			mini_execve(const t_command *const cmd);
 int			builtin_cd(const t_command *const cmd);
 int			builtin_echo(const t_command *const cmd);

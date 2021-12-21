@@ -15,18 +15,18 @@
 int
 	legal_variable_starter(const char c)
 {
-	return ((((unsigned)c | 32) - 97 < 26) || (c == '_')) ;
+	return ((((unsigned)c | 32) - 97 < 26) || (c == '_'));
 }
 
 int
 	legal_variable_char(const char c)
 {
-	return ((((unsigned)c | 32) - 97 < 26) || ((unsigned)c - 48 < 10) \
+	return ((((unsigned)c | 32) - 97 < 26) || ((unsigned)c - '0' < 10) \
 			|| (c == '_'));
 }
 
 static int
-	legal_identifier(const char *name)
+	legal_key(const char *name)
 {
 	if (!legal_variable_starter(*name))
 		return (FALSE);
@@ -37,25 +37,22 @@ static int
 }
 
 int
-	declare_check(const char *str)
+	declare_legal_check(const char *str)
 {
-	unsigned char	c;
-	int				index;
+	int	index;
 
-	c = *str;
 	index = 0;
-	if (legal_variable_starter(c) == 0)
-		return (-1);
+	if (!legal_variable_starter(str[index]))
+		return (FALSE);
 	while (str[index])
 	{
-		c = str[index];
-		if (c == '=')
+		if (str[index] == '=')
 			return (index);
-		if (c == '+' && str[index + 1] == '=')
+		if (str[index] == '+' && str[index + 1] == '=')
 			return (index + 1);
-		if (legal_variable_char(c) == 0)
-			return (-1);
+		if (!legal_variable_char(str[index]))
+			return (FALSE);
 		++index;
 	}
-	return (0);
+	return (TRUE);
 }

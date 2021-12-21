@@ -45,7 +45,6 @@ int
 
 	(void)argc;
 	(void)argv;
-	g_status.env.envp = envp;
 	environ = envp;
 	if (!initialize())
 		return (GENERAL_ERROR);

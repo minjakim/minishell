@@ -25,6 +25,16 @@ int
 }
 
 int
+	pre_execute(t_command *cmd)
+{
+	if (!expand_command(cmd))
+		return (FAILURE);
+	if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
+		redirect_io(cmd);
+	return (OK);
+}
+
+int
 	execute_handler(t_command *cmd)
 {
 	while (cmd)
@@ -33,10 +43,7 @@ int
 			cmd->flags |= CMD_NO_FORK;
 		if (g_status.state.haschild == 0)
 		{
-			if (!expand_command(cmd))
-				return (FAILURE);
-			if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
-				redirect_io(cmd);
+			pre_execute(cmd);
 			g_status.execute[find_command(cmd)]((const t_command*)cmd);
 			if (cmd->flags & CMD_PIPE)
 				exit(g_status.exit);

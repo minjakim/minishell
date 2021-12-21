@@ -92,7 +92,7 @@ static int
 }
 
 int
-	init_signal()
+	init_signal(void)
 {
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, signal_handler);
@@ -103,11 +103,35 @@ int
 }
 
 int
+	init_declare(void)
+{
+	extern char	**environ;
+	char		**envp;
+
+	envp = environ;
+	g_status.env.envc = -1;
+	if (envp[++g_status.env.envc])
+	{
+		g_status.env.head = declare_new(envp[g_status.env.envc]);
+		g_status.env.head->exported = TRUE;
+		g_status.env.tail = g_status.env.head;
+		while (envp[++g_status.env.envc])
+			(declare_add(envp[g_status.env.envc]))->exported = TRUE;
+		if (!declare_search(OLDPWD))
+			declare_add(OLDPWD)->exported = TRUE;
+	}
+	g_status.env.envp = NULL;
+	g_status.env.edited = TRUE;
+	declare_update_envp();
+	return (SUCCESS);
+}
+
+int
 	initialize(void)
 {
 	init_status();
 	init_signal();
 	init_execute();
-	declare_init();
+	init_declare();
 	return (SUCCESS);
 }

@@ -12,12 +12,6 @@
 
 #include "../../include/minishell.h"
 
-static int
-	is_expand(int flags)
-{
-	return (flags & (W_HASHDOLLAR | W_EXITSTATUS | W_GLOBEXP | W_ITILDE));
-}
-
 char
 	*remove_quote(char *str)
 {
@@ -39,29 +33,39 @@ char
 	return (dest);
 }
 
+int
+	is_ambiguas(char *filename, t_redirect *redirects)
+{
+	if (!filename || !*filename)
+	{
+		report_exception(NULL, redirects->redirectee.filename.word, \
+				EX_AMBIGUAS, GENERAL_ERROR);
+		if (!*filename)
+			xfree(filename);
+		return (FAILURE);
+	}
+	xfree(redirects->redirectee.filename.word);
+	redirects->redirectee.filename.word = filename;
+	return (SUCCESS);
+}
+
 static int
 	expand_filename(t_redirect *redirects)
 {
-	char	*filename;
-	int		flags;
+	char			*filename;
+	int				flags;
 
 	while (redirects)
 	{
 		filename = ft_strdup(redirects->redirectee.filename.word);
 		flags = redirects->redirectee.filename.flags;
 		if ((flags & (W_HASHDOLLAR | W_EXITSTATUS)) && \
-				!(flags & W_NOEXPAND))
-		{
-			filename = expand_str(filename, FALSE);
-			if (!filename || !*filename)
-			{
-				report_exception(NULL, redirects->redirectee.filename.word, \
-						EX_AMBIGUAS, GENERAL_ERROR);
-				return (FAILURE);
-			}
-			free(redirects->redirectee.filename.word);
-			redirects->redirectee.filename.word = filename;
-		}
+			!(flags & W_NOEXPAND))
+			filename = expand_str(ft_strdup(filename), FALSE);
+		if (!is_ambiguas(filename, redirects))
+			return (FAILURE);
+//		if ((flags & W_GLOBEXP) && !(flags & W_NOEXPAND))
+		//	expand_glob(NULL, filename, NULL);
 		remove_quote(redirects->redirectee.filename.word);
 		redirects = redirects->next;
 	}
@@ -74,24 +78,27 @@ static int
 	t_word_list	*list;
 	int			i;
 
-	cmd->argv = xcalloc(sizeof(char *) * (cmd->argc + 1));
 	list = cmd->words;
-	i = -1;
 	while (list)
 	{
 		if (list->word.flags & (W_HASHDOLLAR | W_EXITSTATUS))
-			cmd->argv[++i] = expand_str(list->word.word, FALSE);
-		else
-			cmd->argv[++i] = list->word.word;
+			list->word.word = expand_str(list->word.word, FALSE);
+		if (list->word.flags & W_GLOBEXP)
+			if (!expand_glob(list, list->word.word, &cmd->argc))
+				return (FAILURE);
+		list = list->next;
+	}
+	cmd->argv = xcalloc(sizeof(char *) * (cmd->argc + 1));
+	list = cmd->words;
+	i = -1;
+	while (++i < cmd->argc)
+	{
+		cmd->argv[i] = remove_quote(list->word.word);
 		list->word.word = NULL;
-		remove_quote(cmd->argv[i]);
 		list = list->next;
 	}
 	return (SUCCESS);
 }
-
-/* 여기에서 확장과 argv 완성 ~  조금 더 윗단(word 완성하는 단계)에서부터
-argc가 채워져서 내려 오면 좋을 것 같음~*/
 
 int
 	expand_command(t_command *cmd)

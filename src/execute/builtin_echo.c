@@ -30,6 +30,6 @@ int
 		if (argv[++i])
 			write(STDOUT_FILENO, " ", 1);
 	if (display_return)
-			write(STDOUT_FILENO, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 	return (g_status.exit = OK);
 }

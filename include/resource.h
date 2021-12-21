@@ -19,7 +19,6 @@
 # include <dirent.h>
 # include <fcntl.h>
 # include <sys/stat.h>
-# include <sys/types.h>
 # include <sys/errno.h>
 # include <termcap.h>
 # include <sys/cdefs.h>
@@ -37,6 +36,10 @@
 # define LOOP					1
 # define HEREDOC_MAX			16
 
+# define HOME					"HOME"
+# define PWD					"PWD"
+# define OLDPWD					"OLDPWD"
+
 # define EXIT					"exit\n"
 # define EX_EXIT_FMT			"numeric argument required"
 # define EX_EXIT_ARGS			"too many arguments"
@@ -45,6 +48,7 @@
 # define EX_SYNTAX				"syntax error near unexpected token"
 # define EX_HEREDOC_MAX			"maximum here-docment count exceeded"
 # define EX_CMD_NOTFOUND		"command not found"
+# define EX_DECLARE				"not a valid identifier"
 # define EX_AMBIGUAS			"ambiguous redirect"
 
 # define ES_BADUSAGE			2

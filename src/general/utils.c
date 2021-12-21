@@ -35,7 +35,6 @@ T_PTR
 	return (cmd);
 }
 
-
 pid_t
 	xfork(void)
 {

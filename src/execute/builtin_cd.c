@@ -12,10 +12,39 @@
 
 #include "../../include/minishell.h"
 
-static int
+static void
+	set_node(const t_str *const key, const char *const str)
+{
+	t_declare	*node;
+	t_str		value;
+
+	node = declare_search(key->str);
+	if (node)
+	{
+		xfree(node->value.str);
+		node->value.str = ft_strdup(str);
+		node->value.len = ft_strlen(node->value.str);
+		xfree(node->line);
+		node->line = declare_new_line(&node->key, &node->value);
+		g_status.env.edited = TRUE;
+	}
+	else
+	{
+		value.str = (char *)str;
+		value.len = ft_strlen(node->value.str);
+		declare_add(declare_new_line(key, &value));
+	}
+}
+
+static void
 	set_path(const char *const cwd, const char *const path)
 {
-	return (SUCCESS);
+	const t_str	pwd_key = { .str = PWD, .len = sizeof(PWD) - 1};
+	const t_str	old_key = { .str = OLDPWD, .len = sizeof(OLDPWD) - 1};
+
+	set_node(&pwd_key, path);
+	set_node(&old_key, cwd);
+	declare_update_envp();
 }
 
 static const char
@@ -25,14 +54,14 @@ static const char
 
 	if (argv[1] == NULL)
 	{
-		path = getenv("HOME");
+		path = getenv(HOME);
 		if (!path)
 			report_exception(argv[0], NULL, EX_CD_HOME, GENERAL_ERROR);
 		return (path);
 	}
 	else if (argv[1][0] == '-' && argv[1][1] == '\0')
 	{
-		path = getenv("OLDPWD");
+		path = getenv(OLDPWD);
 		if (!path)
 			report_exception(argv[0], NULL, EX_CD_OLDPWD, GENERAL_ERROR);
 		return (path);
@@ -46,15 +75,15 @@ int
 {
 	const char *const	path = \
 		get_path((const char *const *const)cmd->argv);
-	const char	*const	cwd = getcwd(NULL, 0);
+	const char *const	cwd = getcwd(NULL, 0);
 
 	if (cwd == NULL)
 		return (report_error(cmd->argv[0], NULL, errno));
 	if (path == NULL)
 		return (g_status.exit = GENERAL_ERROR);
+	printf("%s %s\n", cwd, path);
 	if (chdir(path) == ERROR)
 		return (report_error(cmd->argv[0], path, errno));
-	if (!set_path(cwd, path))
-		return (g_status.exit = GENERAL_ERROR);
+	set_path(cwd, path);
 	return (g_status.exit = OK);
 }

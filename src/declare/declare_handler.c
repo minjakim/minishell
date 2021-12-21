@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int
+void
 	declare_update_envp(void)
 {
 	const t_declare	*node = g_status.env.head;
@@ -20,29 +20,31 @@ int
 	char			**envp;
 	int				i;
 
+	if (g_status.env.edited == FALSE)
+		return ;
 	envp = xcalloc(sizeof(char *) * g_status.env.envc);
 	i = -1;
 	while (node)
 	{
-		if (node->exported)
-		{
-			envp[++i] = xcalloc((ft_strlen(node->key) + \
-											ft_strlen(node->value) + 2));
-			ft_strcat(ft_strcat(ft_strcpy(envp[i], node->key), "="), \
-																node->value);
-		}
+		if (node->line != NULL)
+			envp[++i] = node->line;
 		node = node->next;
 	}
 	environ = envp;
-	dispose_argv(g_status.env.envp);
+	xfree(g_status.env.envp);
 	g_status.env.envp = environ;
-	return (SUCCESS);
 }
 
-int
-	declare_unset(const char *str)
+char
+	*declare_new_line(const t_str *const key, const t_str *const value)
 {
-	return (SUCCESS);
+	char *const	line = xcalloc(key->len + value->len + 2);
+	char		*ptr;
+
+	ft_strcat(line, key->str);
+	*(line + key->len) = '=';
+	ft_strcat((line + key->len), value->str);
+	return (line);
 }
 
 t_declare
@@ -51,8 +53,19 @@ t_declare
 	t_declare	*node;
 
 	node = xcalloc(sizeof(t_declare));
-	node->key = ft_strndup(str, ft_strchr(str, '=') - str);
-	node->value = ft_strdup(ft_strchr(str, '=') + 1);
+	if (!ft_strchr(str, '='))
+	{
+		node->key.str = ft_strdup(str);
+		node->key.len = ft_strlen(str);
+	}
+	else
+	{
+		node->key.len = ft_strchr(str, '=') - str;
+		node->key.str = ft_strndup(str, node->key.len);
+		node->value.str = ft_strdup(ft_strchr(str, '=') + 1);
+		node->value.len = ft_strlen(node->value.str);
+		node->line = ft_strdup(str);
+	}
 	return (node);
 }
 
@@ -64,23 +77,13 @@ t_declare
 	return (g_status.env.tail);
 }
 
-int
-	declare_init(void)
+t_declare
+	*declare_search(const char *str)
 {
-	extern char	**environ;
-	char		**envp;
+	t_declare	*node;
 
-	envp = environ;
-	g_status.env.envc = -1;
-	if (envp[++g_status.env.envc])
-	{
-		g_status.env.head = declare_new(envp[++g_status.env.envc]);
-		g_status.env.head->exported = TRUE;
-		g_status.env.tail = g_status.env.head;
-		while (envp[++g_status.env.envc])
-			(declare_add(envp[g_status.env.envc]))->exported = TRUE;
-	}
-	g_status.env.envp = NULL;
-	declare_update_envp();
-	return (SUCCESS);
+	node = g_status.env.head;
+	while (node && ft_strcmp(str, node->key.str))
+		node = node->next;
+	return (node);
 }

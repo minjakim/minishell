@@ -27,21 +27,21 @@ static int
 static char
 	*expand_hashdollar(char *src, int i)
 {
-	t_declare	env;
+	char		*key;
+	char		*value;
 	int			key_len;
 	char		*dest;
 
 	key_len = 0;
 	while (legal_variable_char(src[++key_len + i]))
 		;
-	env.key = ft_strndup(src + i + 1, key_len - 1);
-	env.value = getenv(env.key);
+	key = ft_strndup(src + i + 1, key_len - 1);
+	value = getenv(key);
 	dest = xcalloc(sizeof(char) * \
-			(ft_strlen(src) - key_len + ft_strlen(env.value)));
-	ft_strcat(ft_strcat(ft_strncpy(dest, src, i), env.value), \
+			(ft_strlen(src) - key_len + ft_strlen(value)));
+	ft_strcat(ft_strcat(ft_strncpy(dest, src, i), value), \
 			src + i + key_len);
-	free(env.key);
-	free(src);
+	disposer(key, src, NULL, NULL);
 	return (dest);
 }
 
@@ -50,7 +50,7 @@ static char
 {
 	char	exit_str[4];
 	char	*dest;
-	int		exit_status;	
+	int		exit_status;
 	int		exit_idx;
 
 	exit_status = g_status.exit;
@@ -67,7 +67,7 @@ static char
 	dest = xcalloc(sizeof(char) * (ft_strlen(src) - 1 + ft_strlen(exit_str)));
 	ft_strcat(ft_strcat(ft_strncpy(dest, src, i), \
 				exit_str + exit_idx), src + i + 2);
-	free(src);
+	xfree(src);
 	return (dest);
 }
 

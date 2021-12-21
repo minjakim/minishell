@@ -13,6 +13,12 @@
 #include "../../include/minishell.h"
 
 void
+	pj(char *str)
+{
+	printf("%s\n", str);
+}
+
+void
 	temp_print_list(t_word_list *temp)
 {
 	while (temp)
@@ -149,17 +155,6 @@ void
 }
 
 char
-	*ft_strdup(const char *s1)
-{
-	void	*dst;
-	size_t	n;
-
-	n = ft_strlen(s1) + 1;
-	dst = xcalloc(sizeof(char) * n);
-	return (ft_memcpy(dst, s1, n));
-}
-
-char
 	*ft_strchr(const char *s, int c)
 {
 	unsigned char	var_c;
@@ -174,26 +169,26 @@ char
 }
 
 int
-    ft_strcmp(const char *s1, const char *s2)
+	ft_strcmp(const char *s1, const char *s2)
 {
-    int    i;
+	int	i;
 
-    i = 0;
-    while (s1[i] != '\0' && s1[i] == s2[i])
-        ++i;
-    return (s1[i] - s2[i]);
+	i = 0;
+	while (s1[i] != '\0' && s1[i] == s2[i])
+		++i;
+	return (s1[i] - s2[i]);
 }
 
 char
-    *ft_strcpy(char *dst, const char *src)
+	*ft_strcpy(char *dst, const char *src)
 {
 	char	*ptr;
 
 	ptr = dst;
-    while (*src)
-        *ptr++ = *src++;
-    *ptr = *src;
-    return (dst);
+	while (*src)
+		*ptr++ = *src++;
+	*ptr = *src;
+	return (dst);
 }
 
 char
@@ -214,15 +209,28 @@ char
 }
 
 char
-	*ft_strndup(const char *s1, size_t n)
+	*ft_strdup(const char *str)
+{
+	void	*dst;
+	size_t	len;
+
+	if (!str)
+		return (NULL);
+	len = ft_strlen(str) + 1;
+	dst = xcalloc(sizeof(char) * len);
+	return (ft_memcpy(dst, str, len));
+}
+
+char
+	*ft_strndup(const char *str, size_t n)
 {
 	char	*dst;
 
-	if (!s1)
+	if (!str)
 		return (NULL);
 	dst = xcalloc(sizeof(char) * (n + 1));
 	while (n--)
-		dst[n] = s1[n];
+		dst[n] = str[n];
 	return (dst);
 }
 

@@ -41,7 +41,7 @@ void
 void
 	signal_report(int signum)
 {
-	char itoa[2];
+	char	itoa[2];
 
 	if (g_status.interactive && g_status.state.haschild)
 	{
@@ -52,8 +52,8 @@ void
 									ft_strlen(sys_siglist[signum]));
 			write(STDERR_FILENO, ": ", 2);
 			itoa[1] = '0' + (signum % 10);
-			if (signum /= 10)
-				itoa[0] = '0' + (signum % 10);
+			if (signum / 10)
+				itoa[0] = '0' + ((signum / 10) % 10);
 			else
 				itoa[0] = '\0';
 			write(STDERR_FILENO, itoa, 2);
@@ -61,7 +61,6 @@ void
 		write(STDERR_FILENO, "\n", 1);
 	}
 }
-
 
 void
 	xwait(const pid_t pid)
