@@ -13,7 +13,7 @@
 #include "../../include/minishell.h"
 
 static t_word_list
-	*attach_words(t_command *cmd, t_word_list *words)
+	*attach_words(t_command *const cmd, t_word_list *const words)
 {
 	t_word_list	*prev;
 	t_word_list	*next;
@@ -34,7 +34,7 @@ static t_word_list
 }
 
 static t_word_list
-	*attach_filename(t_command *cmd, t_word_list *words, \
+	*attach_filename(t_command *const cmd, t_word_list *words, \
 			t_redirect *redirect)
 {
 	t_redirect	*redirects;
@@ -59,7 +59,7 @@ static t_word_list
 }
 
 static t_word_list
-	*attach_redirect(t_command *cmd, t_word_list *words)
+	*attach_redirect(t_command *const cmd, t_word_list *words)
 {
 	t_redirect	*redirect;
 	t_word_list	*next_words;
@@ -86,7 +86,7 @@ static t_word_list
 }
 
 static t_word_list
-	*end_of_block(t_command *cmd, t_word_list *words)
+	*end_of_block(t_command *const cmd, t_word_list *words)
 {
 	const int	devNull = open("/dev/null", O_WRONLY);
 	t_word_list	*temp;

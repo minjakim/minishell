@@ -30,7 +30,8 @@ static int
 		if (!words)
 			continue ;
 		cmd = parse_words(words);
-		make_heredoc(cmd);
+		if (!g_status.state.any)
+			make_heredoc(cmd);
 		if (!g_status.state.any)
 			execute_handler(cmd);
 		dispose_cmd(cmd);

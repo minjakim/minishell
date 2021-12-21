@@ -17,7 +17,7 @@ static int
 {
 	const int connector = cmd->connector;
 
-	if (connector & W_PIPE)
+	if ((connector == W_NOFLAG) || (connector & W_PIPE))
 		return (FALSE);
 	if ((connector & W_AND_AND) && (g_status.exit == OK))
 		return (FALSE);
