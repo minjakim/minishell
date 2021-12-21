@@ -6,22 +6,22 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/21 10:18:40 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/21 10:25:33 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 int
-	is_proceed(t_command *cmd)
+	is_stop(t_command *cmd)
 {
 	if (cmd->connector & W_PIPE)
-		return (TRUE);
+		return (FALSE);
 	if (cmd->connector & W_AND_AND && g_status.exit == OK)
-		return (TRUE);
+		return (FALSE);
 	if (cmd->connector & W_OR_OR && g_status.exit != OK)
-		return (TRUE);
-	return (FALSE);
+		return (FALSE);
+	return (TRUE);
 }
 
 int
@@ -54,8 +54,9 @@ int
 				;
 		}
 		reset_io(&cmd->io);
-		if (is_proceed(cmd))
-			cmd = cmd->next;
+		if (is_stop(cmd))
+			break ;
+		cmd = cmd->next;
 	}
 	g_status.state.haschild = FALSE;
 	return (SUCCESS);
