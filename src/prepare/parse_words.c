@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:10:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 14:45:29 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 16:08:21 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static t_word_list
 	}
 	next = words->next;
 	words->next = NULL;
+	++cmd->argc;
 	return (next);
 }
 

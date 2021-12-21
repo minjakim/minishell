@@ -45,6 +45,7 @@
 # define EX_SYNTAX				"syntax error near unexpected token"
 # define EX_HEREDOC_MAX			"maximum here-docment count exceeded"
 # define EX_CMD_NOTFOUND		"command not found"
+# define EX_AMBIGUAS			"ambiguous redirect"
 
 # define ES_BADUSAGE			2
 # define ES_NOEXEC				126

@@ -6,40 +6,26 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 14:52:33 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/21 10:05:02 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-//int expand_glob(t_word_list *list)
-//{
-//	char	*cwd;
-//	t_word_desc	;
-//	t_word_list	expand_glob_list;
-//
-//	cwd = getcwd(NULL, 0);
-//
-//	//glob expand?
-//	//여러개의 인자가 생길 수 있기 때문에 따로 뺐다.
-//	//리다이렉트의 경우 하나만 특정 가능하면 실행되는데
-//	// 여러개 있으면 ambiguas redirect란 에러메시지가 출력 된다.
-//	//일치하는게 없으면 그대로 놔둔다.
-//}
-
 static int
 	is_expand(int flags)
 {
-	return (flags & (W_HASHDOLLAR | W_QUOTED | W_DQUOTED | \
-				W_TILDEEXP | W_HASHQUOTEDNULL));
+	return (flags & (W_HASHDOLLAR | W_EXITSTATUS | W_GLOBEXP | W_ITILDE));
 }
 
-void
-	remove_quote(char *str)
+char
+	*remove_quote(char *str)
 {
 	int		quote;
+	char	*dest;
 
 	quote = 0;
+	dest = str;
 	while (*str)
 	{
 		if (is_quote(*str, quote))
@@ -50,21 +36,33 @@ void
 		else
 			++str;
 	}
+	return (dest);
 }
 
 static int
 	expand_filename(t_redirect *redirects)
 {
+	char	*filename;
+	int		flags;
+
 	while (redirects)
 	{
-		if (is_expand(redirects->redirectee.filename.flags))
+		filename = ft_strdup(redirects->redirectee.filename.word);
+		flags = redirects->redirectee.filename.flags;
+		if ((flags & (W_HASHDOLLAR | W_EXITSTATUS)) && \
+				!(flags & W_NOEXPAND))
 		{
-			if (!expand_word(&redirects->redirectee.filename))
+			filename = expand_str(filename, FALSE);
+			if (!filename || !*filename)
+			{
+				report_exception(NULL, redirects->redirectee.filename.word, \
+						EX_AMBIGUAS, GENERAL_ERROR);
 				return (FAILURE);
-//			if (expand_glob() != 0)
-//				return (FAILURE);//argv[1]: ambiguas redirection
-			remove_quote(redirects->redirectee.filename.word);
+			}
+			free(redirects->redirectee.filename.word);
+			redirects->redirectee.filename.word = filename;
 		}
+		remove_quote(redirects->redirectee.filename.word);
 		redirects = redirects->next;
 	}
 	return (SUCCESS);
@@ -76,21 +74,18 @@ static int
 	t_word_list	*list;
 	int			i;
 
-	while (cmd)
+	cmd->argv = xcalloc(sizeof(char *) * (cmd->argc + 1));
+	list = cmd->words;
+	i = -1;
+	while (list)
 	{
-		list = cmd->words;
-		while (list)
-		{
-//			if (is_expand(list->word.flags))
-//				if (!expand_word(&list->word))
-//					return (FALSE);
-////			if (list->word->flags & W_GLOBEXP)
-////				expand_glob(list);
-//			remove_quote(list->word.word);
-			list = list->next;
-			++cmd->argc;
-		}
-		cmd = cmd->next;
+		if (list->word.flags & (W_HASHDOLLAR | W_EXITSTATUS))
+			cmd->argv[++i] = expand_str(list->word.word, FALSE);
+		else
+			cmd->argv[++i] = list->word.word;
+		list->word.word = NULL;
+		remove_quote(cmd->argv[i]);
+		list = list->next;
 	}
 	return (SUCCESS);
 }
@@ -104,18 +99,13 @@ int
 	t_word_list	*words;
 	int			i;
 
-	if (!expand_argv(cmd))
-		return (FAILURE);
-	if (!expand_filename(cmd->redirects))
-		return (FAILURE);
-	cmd->argv = xcalloc(sizeof(char *) * (cmd->argc + 1));
-	words = cmd->words;
-	i = -1;
-	while (words)
+	while (cmd)
 	{
-		cmd->argv[++i] = words->word.word;
-		words->word.word = NULL;
-		words = words->next;
+		if (!expand_argv(cmd))
+			return (FAILURE);
+		if (!expand_filename(cmd->redirects))
+			return (FAILURE);
+		cmd = cmd->next;
 	}
 	return (SUCCESS);
 }

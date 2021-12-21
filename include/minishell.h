@@ -57,7 +57,7 @@ void		signal_handler(int signum);
 void		signal_report(int signum);
 int			event_hook(void);
 
-int			expand_word(t_word_desc *desc);
+char		*expand_str(char *src, int heredoc);
 char		**expand_glob(t_word_desc *word);
 char		*expand_teilde(char *filename, int i);
 
@@ -70,6 +70,8 @@ int			is_teilde(const char *const str, int i, int quote);
 int			legal_variable_starter(const char c);
 int			legal_variable_char(const char c);
 int			declare_check(const char *str);
+
+char		*remove_quote(char *str);
 
 int			report_error(const char *const cmd, \
 									const char *const arg, const int error);
