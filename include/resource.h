@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/21 09:25:08 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/20 21:04:36 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,6 @@
 # define H_KEYONLY				2
 # define H_CAT					4
 
-enum e_function
-{
-	DUP,
-	DUP2
-};
-
 enum e_bool
 {
 	FALSE,
@@ -114,12 +108,6 @@ enum e_return
 	ERROR,
 	FAILURE,
 	SUCCESS
-};
-
-enum e_size
-{
-	LEN_EXIT = sizeof(EXIT) - 1,
-	LEN_PROMPT = sizeof(PROMPT) - 1
 };
 
 enum e_exit_status

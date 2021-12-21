@@ -13,13 +13,6 @@
 #include "../../include/minishell.h"
 
 void
-	xfree(void *obj)
-{
-	if (obj)
-		free(obj);
-}
-
-void
 	disposer(void *obj0, void *obj1, void *obj2, void *obj3)
 {
 	xfree(obj0);
@@ -29,7 +22,7 @@ void
 }
 
 void
-	*dispose_word_list(t_word_list *words)
+	*dispose_words(t_word_list *words)
 {
 	t_word_list	*temp;
 
@@ -42,8 +35,8 @@ void
 	return (NULL);
 }
 
-static void
-	dispose_cmd_argv(char **argv)
+void
+	dispose_argv(char **argv)
 {
 	int	i;
 
@@ -57,7 +50,7 @@ static void
 }
 
 static void
-	dispose_cmd_redirect(t_redirect *redirects)
+	dispose_redirect(t_redirect *redirects)
 {
 	t_redirect	*temp;
 
@@ -77,9 +70,9 @@ void
 
 	while (cmd)
 	{
-		dispose_word_list(cmd->words);
-		dispose_cmd_argv(cmd->argv);
-		dispose_cmd_redirect(cmd->redirects);
+		dispose_words(cmd->words);
+		dispose_argv(cmd->argv);
+		dispose_redirect(cmd->redirects);
 		temp = cmd;
 		cmd = cmd->next;
 		disposer(temp->path, temp, NULL, NULL);

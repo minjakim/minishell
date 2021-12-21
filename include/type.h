@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 14:34:34 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:03:28 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,16 @@ typedef struct s_declare
 {
 	char				*key;
 	char				*value;
-	int					flag;
+	int					exported;
 	struct s_declare	*next;
 }	t_declare;
 
 typedef struct s_env
 {
-	t_declare			*declare;
 	char				**envp;
+	int					envc;
+	t_declare			*head;
+	t_declare			*tail;
 }	t_env;
 
 typedef struct s_backup

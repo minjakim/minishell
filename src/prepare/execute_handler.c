@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/21 10:25:33 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/20 21:28:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ int
 	while (cmd)
 	{
 		if ((cmd->flags & CMD_PIPE) && xfork() == 0)
-		{
 			cmd->flags |= CMD_NO_FORK;
-			set_io(&cmd->io);
-		}
 		if (g_status.state.haschild == 0)
 		{
 			if (!expand_command(cmd))
@@ -45,14 +42,7 @@ int
 				exit(g_status.exit);
 		}
 		if (g_status.state.haschild && !(cmd->flags & CMD_IGNORE_RETURN))
-		{
-			if (waitpid(g_status.state.haschild, &g_status.exit, 0) == ERROR)
-				report_error(NULL, NULL, errno);
-			if (g_status.exit && g_status.exit <= SIGUSR2)
-				signal_report(g_status.exit);
-			while (wait(NULL) != ERROR)
-				;
-		}
+			xwait(g_status.state.haschild);
 		reset_io(&cmd->io);
 		if (is_stop(cmd))
 			break ;
