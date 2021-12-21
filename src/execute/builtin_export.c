@@ -6,25 +6,26 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:45:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 20:56:00 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static int
-	print_export(t_declare *handle)
+	print_declare(t_declare *node)
 {
-	while (handle && handle->flag & H_EXPORT)
+	while (node)
 	{
-		printf("declare -x ");
-		printf("%s", handle->key);
-		if (!(handle->flag & H_KEYONLY))
-			printf("=\"%s\"", handle->value);
-		printf("\n");
-		handle = handle->next;
+		if (node->exported)
+		{
+			printf("declare -x %s", node->key);
+			if (node->value)
+				printf("=\"%s\"\n", node->value);
+			node = node->next;
+		}
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 int
@@ -33,14 +34,14 @@ int
 	char	**argv;
 
 	argv = cmd->argv;
-	//if (argv[0] != NULL && argv[1] == NULL)
-	//	return (print_export(mini->env.declare));
-	//while (*++argv)
-	//{
-	//	//if (legal_identifier(key) == 0)
-	//	//	return (1);
-	//	if (declare_add(&mini->env.declare, *argv, H_EXPORT) != 0)
-	//		return (1);
-	//}
+	if (argv[0] != NULL && argv[1] == NULL)
+		return (print_declare(g_status.env.head));
+	while (*++argv)
+	{
+		if (declare_check(*argv) == ERROR)
+			return (GENERAL_ERROR);
+		declare_add(*argv)->exported = TRUE;
+	}
+	declare_update_envp();
 	return (g_status.exit = OK);
 }

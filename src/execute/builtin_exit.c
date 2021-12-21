@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:42:59 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int
 	const char *const *const	argv = (const char *const *const)cmd->argv;
 
 	if (g_status.interactive)
-		write(STDERR_FILENO, EXIT, LEN_EXIT);
+		write(STDERR_FILENO, EXIT, sizeof(EXIT) - 1);
 	if (argv[1] == NULL)
 		return (mini_exit(g_status.exit));
 	if (!legal_number(argv[1]))

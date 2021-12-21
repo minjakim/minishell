@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 12:45:18 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 20:55:48 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,6 @@ static int
 	io->out = dup(STDOUT_FILENO);
 	if (io->out == ERROR)
 		return (report_error_fatal(errno));
-	return (SUCCESS);
-}
-
-static int
-	init_env(t_env *env)
-{
 	return (SUCCESS);
 }
 
@@ -79,8 +73,6 @@ static int
 	t_termios	attr;
 	g_status.state.prompt = sizeof(PROMPT);
 	g_status.interactive = TRUE;
-	if (!init_env(&g_status.env))
-		return (FAILURE);
 	if (!init_io(&g_status.backup.stdio))
 		return (FAILURE);
 	if (tcgetattr(STDIN_FILENO, &g_status.backup.attr) == ERROR)
@@ -100,14 +92,22 @@ static int
 }
 
 int
-	initialize(void)
+	init_signal()
 {
-	init_status();
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, signal_handler);
 	signal(SIGTERM, signal_handler);
 	rl_catch_signals = FALSE;
 	rl_event_hook = event_hook;
+	return (SUCCESS);
+}
+
+int
+	initialize(void)
+{
+	init_status();
+	init_signal();
 	init_execute();
+	declare_init();
 	return (SUCCESS);
 }

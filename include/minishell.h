@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 12:52:22 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:44:12 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "resource.h"
 # include "type.h"
-# include "temp.h"
 
 extern t_status	g_status;
 
@@ -23,12 +22,15 @@ T_PTR		xcalloc(size_t bytes);
 T_PTR		xcalloc_t_command(void);
 pid_t		xfork(void);
 void		xfree(void *obj);
+void		xwait(pid_t pid);
 int			xpipe(int fd[2], const char *const str);
 void		disposer(void *obj0, void *obj1, void *obj2, void *obj3);
 
 int			initialize(void);
+int			declare_init(void);
+int			declare_update_envp(void);
+t_declare	*declare_add(const char *str);
 
-int			envp_update(t_env *env, int flag);
 int			is_builtin(const char *str);
 
 char		mini_readline(char **line);
@@ -42,28 +44,25 @@ int			make_heredoc(const t_command *cmd);
 int			find_command(t_command *cmd);
 int			execute_handler(t_command *cmd);
 int			redirect_io(t_command *cmd);
-void		set_io(t_io *io);
-void		close_io(t_io *io);
-void		reset_io(t_io *io);
+void		set_io(const t_io *const io);
+void		close_io(const t_io *const io);
+void		reset_io(const t_io *const io);
 
 void		dispose_cmd(t_command *cmd);
-void		*dispose_word_list(t_word_list *words);
+void		dispose_argv(char **argv);
+void		*dispose_words(t_word_list *words);
 
 void		sigint_handler(int signum);
 void		signal_handler(int signum);
 void		signal_report(int signum);
 int			event_hook(void);
-int			envp_handler(t_env *env);
 
 int			expand_word(t_word_desc *desc);
 char		**expand_glob(t_word_desc *word);
 char		*expand_teilde(char *filename, int i);
 
-int			declare_remove(t_declare **head, const char *const key);
-int			declare_add(t_declare **head, char *str, int flag);
-int			declare_edit(char *value, t_declare *declare, int flag);
-
 int			expand_command(t_command *cmd);
+void		remove_quote(char *str);
 
 int			is_quote(const char c, int quote);
 int			is_teilde(const char *const str, int i, int quote);
@@ -71,7 +70,6 @@ int			is_teilde(const char *const str, int i, int quote);
 int			legal_variable_starter(const char c);
 int			legal_variable_char(const char c);
 int			declare_check(const char *str);
-void		remove_quote(char *str);
 
 int			report_error(const char *const cmd, \
 									const char *const arg, const int error);

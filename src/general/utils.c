@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 11:07:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 14:18:06 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:01:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,11 @@ int
 		return (ERROR);
 	}
 	return (OK);
+}
+
+void
+	xfree(void *obj)
+{
+	if (obj)
+		free(obj);
 }

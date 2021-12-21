@@ -6,11 +6,17 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:46 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 11:49:19 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:44:18 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void
+	signal_handler(int signum)
+{
+	(void)signum;
+}
 
 void
 	sigint_handler(int signum)
@@ -56,14 +62,14 @@ void
 	}
 }
 
-void
-	signal_handler(int signum)
-{
-	(void)signum;
-}
 
-int
-	event_hook(void)
+void
+	xwait(const pid_t pid)
 {
-	return (OK);
+	if (waitpid(pid, &g_status.exit, 0) == ERROR)
+		report_error(NULL, NULL, errno);
+	while (wait(NULL) != ERROR)
+		;
+	if (g_status.exit && g_status.exit <= SIGUSR2)
+		signal_report(g_status.exit);
 }

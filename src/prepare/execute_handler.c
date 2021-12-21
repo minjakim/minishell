@@ -6,11 +6,21 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 12:59:43 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:28:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int
+	pre_excute(t_command *cmd)
+{
+	expand_command(cmd);
+	if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
+		redirect_io(cmd);
+	set_io(&cmd->io);
+	return (find_command(cmd));
+}
 
 int
 	execute_handler(t_command *cmd)
@@ -18,28 +28,15 @@ int
 	while (cmd)
 	{
 		if ((cmd->flags & CMD_PIPE) && xfork() == 0)
-		{
 			cmd->flags |= CMD_NO_FORK;
-			set_io(&cmd->io);
-		}
 		if (g_status.state.haschild == 0)
 		{
-			expand_command(cmd);
-			if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
-				redirect_io(cmd);
-			g_status.execute[find_command(cmd)]((const t_command*)cmd);
+			g_status.execute[pre_excute(cmd)]((const t_command*)cmd);
 			if (cmd->flags & CMD_PIPE)
 				exit(g_status.exit);
 		}
 		if (g_status.state.haschild && !(cmd->flags & CMD_IGNORE_RETURN))
-		{
-			if (waitpid(g_status.state.haschild, &g_status.exit, 0) == ERROR)
-				report_error(NULL, NULL, errno);
-			if (g_status.exit && g_status.exit <= SIGUSR2)
-				signal_report(g_status.exit);
-			while (wait(NULL) != ERROR)
-				;
-		}
+			xwait(g_status.state.haschild);
 		reset_io(&cmd->io);
 		cmd = cmd->next;
 	}

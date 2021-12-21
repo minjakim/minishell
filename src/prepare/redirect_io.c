@@ -6,14 +6,14 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 14:53:09 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:27:26 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 void
-	set_io(t_io *io)
+	set_io(const t_io *const io)
 {
 	if (io->in != STDIN_FILENO)
 		if (dup2(io->in, STDIN_FILENO) == ERROR)
@@ -24,7 +24,7 @@ void
 }
 
 void
-	close_io(t_io *io)
+	close_io(const t_io *const io)
 {
 	if (io->in != STDIN_FILENO)
 		close(io->in);
@@ -33,10 +33,15 @@ void
 }
 
 void
-	reset_io(t_io *io)
+	reset_io(const t_io *const io)
 {
 	close_io(io);
-	set_io(&g_status.backup.stdio);
+	if (io->in != STDIN_FILENO)
+		if (dup2(g_status.backup.stdio.in, STDIN_FILENO) == ERROR)
+			report_error_fatal(errno);
+	if (io->out != STDOUT_FILENO)
+		if (dup2(g_status.backup.stdio.out, STDOUT_FILENO) == ERROR)
+			report_error_fatal(errno);
 }
 
 int
@@ -57,6 +62,5 @@ int
 			report_error("open", redirects->redirectee.filename.word, errno);
 		redirects = redirects->next;
 	}
-	set_io(&cmd->io);
 	return (SUCCESS);
 }

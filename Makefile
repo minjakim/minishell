@@ -6,7 +6,7 @@
 #    By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 20:07:46 by minjakim          #+#    #+#              #
-#    Updated: 2021/12/19 19:45:59 by minjakim         ###   ########.fr        #
+#    Updated: 2021/12/20 21:42:24 by minjakim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,13 +37,14 @@ general			=	report.c\
 					temp.c\
 					utils.c
 
-prepare			=	find_cmd.c\
-					redirect_io.c\
-					execute_handler.c\
-					make_heredoc.c\
-					make_words.c\
+prepare			=	readline.c\
 					parse_line.c\
-					parse_words.c
+					make_words.c\
+					parse_words.c\
+					make_heredoc.c\
+					execute_handler.c\
+					redirect_io.c\
+					find_cmd.c
 
 SRC				=	main.c\
 					initialize.c\
