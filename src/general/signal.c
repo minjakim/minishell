@@ -43,7 +43,7 @@ void
 {
 	char	itoa[2];
 
-	if (g_status.interactive && g_status.state.haschild)
+	if (g_status.state.haschild)
 	{
 		g_status.exit += 128;
 		if (signum != SIGINT)

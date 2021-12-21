@@ -12,27 +12,29 @@
 
 #include "../../include/minishell.h"
 
-int
-	is_stop(t_command *cmd)
+static int
+	need_break(const t_command *const cmd)
 {
-	if (cmd->connector & W_PIPE)
+	const int connector = cmd->connector;
+
+	if (connector & W_PIPE)
 		return (FALSE);
-	if (cmd->connector & W_AND_AND && g_status.exit == OK)
+	if ((connector & W_AND_AND) && (g_status.exit == OK))
 		return (FALSE);
-	if (cmd->connector & W_OR_OR && g_status.exit != OK)
+	if ((connector & W_OR_OR) && (g_status.exit != OK))
 		return (FALSE);
 	return (TRUE);
 }
 
-int
-	pre_execute(t_command *cmd)
+static int
+	pre_execute(t_command *const cmd)
 {
 	if (!expand_command(cmd))
-		;
+		return (FAILURE);
 	if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
 		redirect_io(cmd);
 	set_io(&cmd->io);
-	return (OK);
+	return (SUCCESS);
 }
 
 int
@@ -44,18 +46,19 @@ int
 			cmd->flags |= CMD_SUBSHELL;
 		if (g_status.state.haschild == 0)
 		{
-			pre_execute(cmd);
-			g_status.execute[find_command(cmd)]((const t_command*)cmd);
+			if (pre_execute(cmd))
+				g_status.execute[find_command(cmd)]((const t_command*)cmd);
 			if (cmd->flags & CMD_SUBSHELL)
 				exit(g_status.exit);
 		}
 		if (g_status.state.haschild && !(cmd->flags & CMD_IGNORE_RETURN))
 			xwait(g_status.state.haschild);
 		reset_io(&cmd->io);
-		if (is_stop(cmd))
+		if (need_break(cmd))
 			break ;
 		cmd = cmd->next;
 	}
 	g_status.state.haschild = FALSE;
+	g_status.interactive = TRUE;
 	return (SUCCESS);
 }

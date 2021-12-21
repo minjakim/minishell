@@ -31,5 +31,6 @@ int
 			exit(ES_NOEXEC);
 		}
 	}
+	g_status.interactive = FALSE;
 	return (OK);
 }
