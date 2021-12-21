@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 18:07:43 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 14:48:45 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/21 10:03:08 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static int
 	write_heredoc(t_redirectee *heredoc)
 {
-	const char *const	eof = heredoc->filename.eof;
+	const char *const	eof = remove_quote(heredoc->filename.eof);
 	char				*line;
 	ssize_t				len;
 
@@ -32,7 +32,7 @@ static int
 		if (!line || g_status.state.any || !ft_strcmp(line, eof))
 			break ;
 		if (!(heredoc->filename.flags & (W_QUOTED | W_DQUOTED)))
-			;
+			line = expand_str(line, TRUE);
 		len = ft_strlen(line);
 		if (len != write(g_status.heredoc.out, line, len))
 			g_status.state.error = report_error("heredoc", "write", errno);

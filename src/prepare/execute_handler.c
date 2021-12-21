@@ -6,11 +6,23 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 12:59:43 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/21 10:18:40 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int
+	is_proceed(t_command *cmd)
+{
+	if (cmd->connector & W_PIPE)
+		return (TRUE);
+	if (cmd->connector & W_AND_AND && g_status.exit == OK)
+		return (TRUE);
+	if (cmd->connector & W_OR_OR && g_status.exit != OK)
+		return (TRUE);
+	return (FALSE);
+}
 
 int
 	execute_handler(t_command *cmd)
@@ -24,7 +36,8 @@ int
 		}
 		if (g_status.state.haschild == 0)
 		{
-			expand_command(cmd);
+			if (!expand_command(cmd))
+				return (FAILURE);
 			if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
 				redirect_io(cmd);
 			g_status.execute[find_command(cmd)]((const t_command*)cmd);
@@ -41,7 +54,8 @@ int
 				;
 		}
 		reset_io(&cmd->io);
-		cmd = cmd->next;
+		if (is_proceed(cmd))
+			cmd = cmd->next;
 	}
 	g_status.state.haschild = FALSE;
 	return (SUCCESS);

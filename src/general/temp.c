@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/19 22:05:53 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/21 09:33:01 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ size_t
 	const	unsigned long	*lp;
 	size_t					len;
 
-	if (!*(p = s))
+	if (!s || !*(p = s))
 		return (0);
 	while ((unsigned long)p & (sizeof(long) - 1))
 	{
@@ -201,6 +201,8 @@ char
 {
     char *ptr;
 
+	if (!s2 || !*s2)
+		return (s1);
     ptr = s1;
     while (*s1)
         ++s1;
