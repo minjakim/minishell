@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 14:58:29 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/21 09:25:08 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define EX_SYNTAX				"syntax error near unexpected token"
 # define EX_HEREDOC_MAX			"maximum here-docment count exceeded"
 # define EX_CMD_NOTFOUND		"command not found"
+# define EX_AMBIGUAS			"ambiguous redirect"
 
 # define ES_BADUSAGE			2
 # define ES_NOEXEC				126

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 12:52:22 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/21 10:03:42 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void		signal_report(int signum);
 int			event_hook(void);
 int			envp_handler(t_env *env);
 
-int			expand_word(t_word_desc *desc);
+char		*expand_str(char *src, int heredoc);
 char		**expand_glob(t_word_desc *word);
 char		*expand_teilde(char *filename, int i);
 
@@ -71,7 +71,7 @@ int			is_teilde(const char *const str, int i, int quote);
 int			legal_variable_starter(const char c);
 int			legal_variable_char(const char c);
 int			declare_check(const char *str);
-void		remove_quote(char *str);
+char		*remove_quote(char *str);
 
 int			report_error(const char *const cmd, \
 									const char *const arg, const int error);
