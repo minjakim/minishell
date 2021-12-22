@@ -20,9 +20,8 @@ void
 	char			**envp;
 	int				i;
 
-	if (g_status.env.edited == FALSE)
+	if (!g_status.env.edited)
 		return ;
-	xfree(g_status.env.envp);
 	envp = xcalloc(sizeof(char *) * g_status.env.envc + 1);
 	i = -1;
 	while (node)
@@ -32,7 +31,9 @@ void
 		node = node->next;
 	}
 	environ = envp;
+	xfree(g_status.env.envp);
 	g_status.env.envp = environ;
+	g_status.env.edited = FALSE;
 }
 
 char
@@ -78,7 +79,7 @@ t_declare
 }
 
 t_declare
-	*declare_search(const char *str)
+	*declare_search(const char *const str)
 {
 	t_declare	*node;
 

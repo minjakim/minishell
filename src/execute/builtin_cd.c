@@ -12,47 +12,54 @@
 
 #include "../../include/minishell.h"
 
+static t_str
+	*get_t_str(const char *const str)
+{
+	t_str	*ptr;
+
+	ptr->str = ft_strdup(str);
+	ptr->len = ft_strlen(str);
+	return (ptr);
+}
+
 static void
-	set_node(const t_str *const key, const char *const str)
+	set_node(const char *const key, const char *const value)
 {
 	t_declare	*node;
-	t_str		value;
 	char		*line;
 
-	node = declare_search(key->str);
+	node = declare_search(key);
 	if (node)
 	{
 		xfree(node->value.str);
-		node->value.str = ft_strdup(str);
+		node->value.str = ft_strdup(value);
 		node->value.len = ft_strlen(node->value.str);
 		xfree(node->line);
 		node->line = declare_new_line(&node->key, &node->value);
-		g_status.env.edited = TRUE;
+		printf("%s\n", node->line);
 	}
 	else
 	{
-		value.str = (char *)str;
-		value.len = ft_strlen(node->value.str);
-		line = declare_new_line(key, &value);
+		line = declare_new_line(get_t_str(key), get_t_str(value));
+		printf("%s\n", line);
 		declare_add(line);
 		xfree(line);
 	}
+	g_status.env.edited = TRUE;
 }
 
 static int
 	set_path(char *const from)
 {
 	char *const	path = getcwd(NULL, 0);
-	const t_str	pwd_key = {.str = PWD, .len = sizeof(PWD) - 1};
-	const t_str	old_key = {.str = OLDPWD, .len = sizeof(OLDPWD) - 1};
 
 	if (path == NULL)
 	{
 		xfree(from);
 		return (ERROR);
 	}
-	set_node(&pwd_key, path);
-	set_node(&old_key, from);
+	set_node(PWD, path);
+	set_node(OLDPWD, from);
 	declare_update_envp();
 	disposer(from, path, NULL, NULL);
 	return (OK);

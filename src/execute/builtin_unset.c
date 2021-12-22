@@ -12,11 +12,13 @@
 
 #include "../../include/minishell.h"
 
-static int
-	declare_unset(const char *str, t_declare *node)
+static void
+	declare_unset(const char *const str)
 {
+	t_declare	*node;
 	t_declare	*temp;
 
+	node = g_status.env.head;
 	if (node && !ft_strcmp(str, node->key.str))
 	{
 		temp = g_status.env.head;
@@ -29,11 +31,11 @@ static int
 		temp = node->next;
 		node->next = temp->next;
 	}
-	disposer(temp->key.str, temp->value.str, temp, NULL);
 	if (node && node->next == NULL)
 		g_status.env.tail = node;
 	--g_status.env.envc;
-	return (g_status.env.edited = TRUE);
+	g_status.env.edited = TRUE;
+	disposer(temp->key.str, temp->value.str, temp, NULL);
 }
 
 int
@@ -46,19 +48,15 @@ int
 	exception = OK;
 	if (argv[1] == NULL)
 		return (g_status.exit = OK);
-	printf("%d	%d\n", g_status.env.envc, declare_search(cmd->argv[1]) != NULL);
 	while (*++argv)
 	{
 		if (!declare_legal_check(*argv) && ++exception)
 			report_exception(cmd->argv[0], *argv, EX_DECLARE, GENERAL_ERROR);
 		else
-		{
 			if (declare_search(*argv))
-				declare_unset(*argv, g_status.env.head);
-		}
+				declare_unset(*argv);
 	}
 	declare_update_envp();
-	printf("%d	%d\n", g_status.env.envc, declare_search(cmd->argv[1]) != NULL);
 	if (exception)
 		return (g_status.exit = GENERAL_ERROR);
 	return (g_status.exit = OK);
