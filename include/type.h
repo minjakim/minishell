@@ -104,6 +104,7 @@ typedef struct s_str
 
 typedef struct s_declare
 {
+	struct s_declare	*prev;
 	t_str				key;
 	t_str				value;
 	char				*line;

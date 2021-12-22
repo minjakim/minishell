@@ -13,36 +13,32 @@
 #include "../../include/minishell.h"
 
 static void
-	declare_unset(const char *const str)
+	declare_unset(t_declare	*node)
 {
-	t_declare	*node;
-	t_declare	*temp;
-
-	node = g_status.env.head;
-	if (node && !ft_strcmp(str, node->key.str))
+	if (node->prev == NULL)
 	{
-		temp = g_status.env.head;
 		g_status.env.head = g_status.env.head->next;
+		g_status.env.head->prev = NULL;
 	}
 	else
 	{
-		while (node && node->next && ft_strcmp(str, node->next->key.str))
-			node = node->next;
-		temp = node->next;
-		node->next = temp->next;
+		node->prev->next = node->next;
+		if (node->next)
+			node->next->prev = node->prev;
+		else
+			g_status.env.tail = node->prev;
 	}
-	if (node && node->next == NULL)
-		g_status.env.tail = node;
 	--g_status.env.envc;
 	g_status.env.edited = TRUE;
-	disposer(temp->key.str, temp->value.str, temp, NULL);
+	disposer(node->key.str, node->value.str, node, NULL);
 }
 
 int
 	builtin_unset(const t_command *const cmd)
 {
-	char	**argv;
-	int		exception;
+	t_declare	*node;
+	char		**argv;
+	int			exception;
 
 	argv = cmd->argv;
 	exception = OK;
@@ -53,8 +49,11 @@ int
 		if (!declare_legal_check(*argv) && ++exception)
 			report_exception(cmd->argv[0], *argv, EX_DECLARE, GENERAL_ERROR);
 		else
-			if (declare_search(*argv))
-				declare_unset(*argv);
+		{
+			node = declare_search(*argv);
+			if (node)
+				declare_unset(node);
+		}
 	}
 	declare_update_envp();
 	if (exception)

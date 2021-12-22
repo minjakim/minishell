@@ -17,6 +17,7 @@ static t_str
 {
 	t_str	*ptr;
 
+	ptr = xcalloc(sizeof(t_str*));
 	ptr->str = ft_strdup(str);
 	ptr->len = ft_strlen(str);
 	return (ptr);
@@ -29,6 +30,7 @@ static void
 	char		*line;
 
 	node = declare_search(key);
+	printf("%p\n", node);
 	if (node)
 	{
 		xfree(node->value.str);
@@ -40,8 +42,8 @@ static void
 	}
 	else
 	{
+		printf("%s %s\n", key, value);
 		line = declare_new_line(get_t_str(key), get_t_str(value));
-		printf("%s\n", line);
 		declare_add(line);
 		xfree(line);
 	}
@@ -94,7 +96,6 @@ int
 	const char *const	dest = \
 		get_path((const char *const *const)cmd->argv);
 	char				*from;
-
 
 	if (dest == NULL)
 		return (g_status.exit = GENERAL_ERROR);

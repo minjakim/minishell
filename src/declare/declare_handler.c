@@ -73,7 +73,10 @@ t_declare
 t_declare
 	*declare_add(const char *str)
 {
+	t_declare	*node;
+
 	g_status.env.tail->next = declare_new(str);
+	g_status.env.tail->next->prev = g_status.env.tail;
 	g_status.env.tail = g_status.env.tail->next;
 	return (g_status.env.tail);
 }

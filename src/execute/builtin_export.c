@@ -42,7 +42,7 @@ static void
 	declare_add(line);
 	xfree(line);
 	g_status.env.tail->exported = TRUE;
-	if (g_status.env.tail->value.str != NULL)
+	if (g_status.env.tail->line != NULL)
 		++g_status.env.envc;
 }
 
