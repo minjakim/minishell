@@ -12,30 +12,6 @@
 
 #include "../../include/minishell.h"
 
-void
-	declare_update_envp(void)
-{
-	const t_declare	*node = g_status.env.head;
-	extern char		**environ;
-	char			**envp;
-	int				i;
-
-	if (!g_status.env.edited)
-		return ;
-	envp = xcalloc(sizeof(char *) * g_status.env.envc + 1);
-	i = -1;
-	while (node)
-	{
-		if (node->line != NULL)
-			envp[++i] = node->line;
-		node = node->next;
-	}
-	environ = envp;
-	xfree(g_status.env.envp);
-	g_status.env.envp = environ;
-	g_status.env.edited = FALSE;
-}
-
 char
 	*declare_new_line(const t_str *const key, const t_str *const value)
 {
@@ -48,7 +24,7 @@ char
 }
 
 t_declare
-	*declare_new(const char *str)
+	*declare_new(const char *const str)
 {
 	t_declare	*node;
 
@@ -70,7 +46,7 @@ t_declare
 }
 
 t_declare
-	*declare_add(const char *str)
+	*declare_add(const char *const str)
 {
 	g_status.env.tail->next = declare_new(str);
 	g_status.env.tail->next->prev = g_status.env.tail;
@@ -87,4 +63,16 @@ t_declare
 	while (node && ft_strcmp(str, node->key.str))
 		node = node->next;
 	return (node);
+}
+
+char
+	*declare_get_value(const char *const str)
+{
+	t_declare	*node;
+
+	node = declare_search(str);
+	if (node)
+		return (node->value.str);
+	else
+		return (NULL);
 }

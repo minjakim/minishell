@@ -12,6 +12,28 @@
 
 #include "../../include/minishell.h"
 
+void
+	declare_update_envp(void)
+{
+	const t_declare	*node = g_status.env.head;
+	char			**envp;
+	int				i;
+
+	if (!g_status.env.edited)
+		return ;
+	envp = xcalloc(sizeof(char *) * g_status.env.envc + 1);
+	i = -1;
+	while (node)
+	{
+		if (node->key.str && node->value.str && node->line)
+			envp[++i] = node->line;
+		node = node->next;
+	}
+	xfree(g_status.env.envp);
+	g_status.env.envp = envp;
+	g_status.env.edited = FALSE;
+}
+
 static int
 	print_env(const char *const *const envp)
 {
@@ -26,8 +48,6 @@ static int
 int
 	builtin_env(const t_command *const cmd)
 {
-	extern const char *const *const	environ;
-
 	(void)cmd;
-	return (print_env(environ));
+	return (print_env((const char **)g_status.env.envp));
 }

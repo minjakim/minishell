@@ -35,10 +35,10 @@ int			declare_init(void);
 void		declare_update_envp(void);
 int			declare_update_value(t_declare *node, char *str);
 char		*declare_new_line(const t_str *const key, const t_str *const value);
-t_declare	*declare_new(const char *str);
-t_declare	*declare_add(const char *str);
-t_declare	*declare_search(const char *str);
-char		*declare_get_key(const char *str);
+t_declare	*declare_new(const char *const str);
+t_declare	*declare_add(const char *const str);
+t_declare	*declare_search(const char *const str);
+char		*declare_get_value(const char *const str);
 
 int			declare_legal_check(const char *str);
 

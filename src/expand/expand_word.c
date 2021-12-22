@@ -27,16 +27,16 @@ static int
 static char
 	*expand_hashdollar(char *src, int i)
 {
-	char		*key;
 	char		*value;
-	int			key_len;
+	char		*key;
 	char		*dest;
+	int			key_len;
 
 	key_len = 0;
 	while (legal_variable_char(src[++key_len + i]))
 		;
 	key = ft_strndup(src + i + 1, key_len - 1);
-	value = getenv(key);
+	value = declare_get_value(key);
 	dest = xcalloc(sizeof(char) * \
 			(ft_strlen(src) - key_len + ft_strlen(value)));
 	ft_strcat(ft_strcat(ft_strncpy(dest, src, i), value), \

@@ -91,18 +91,14 @@ void
 void
 	init_declare(void)
 {
-	extern char	**environ;
-	char		**envp;
-
-	envp = environ;
 	g_status.env.envc = -1;
-	if (envp[++g_status.env.envc])
+	if (g_status.env.envp[++g_status.env.envc])
 	{
-		g_status.env.head = declare_new(envp[g_status.env.envc]);
+		g_status.env.head = declare_new(g_status.env.envp[g_status.env.envc]);
 		g_status.env.head->exported = TRUE;
 		g_status.env.tail = g_status.env.head;
-		while (envp[++g_status.env.envc])
-			(declare_add(envp[g_status.env.envc]))->exported = TRUE;
+		while (g_status.env.envp[++g_status.env.envc])
+			(declare_add(g_status.env.envp[g_status.env.envc]))->exported = 1;
 		if (!declare_search(OLDPWD))
 			declare_add(OLDPWD)->exported = TRUE;
 	}

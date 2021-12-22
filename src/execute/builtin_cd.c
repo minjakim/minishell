@@ -35,6 +35,7 @@ static void
 	if (node)
 	{
 		xfree(node->value.str);
+		node->value.str = NULL;
 		node->value.str = ft_strdup(value);
 		node->value.len = ft_strlen(node->value.str);
 		xfree(node->line);
@@ -76,14 +77,14 @@ static const char
 
 	if (argv[1] == NULL)
 	{
-		path = getenv(HOME);
+		path = declare_get_value(HOME);
 		if (!path)
 			report_exception(argv[0], NULL, EX_CD_HOME, GENERAL_ERROR);
 		return (path);
 	}
 	else if (argv[1][0] == '-' && argv[1][1] == '\0')
 	{
-		path = getenv(OLDPWD);
+		path = declare_get_value(OLDPWD);
 		if (!path)
 			report_exception(argv[0], NULL, EX_CD_OLDPWD, GENERAL_ERROR);
 		return (path);

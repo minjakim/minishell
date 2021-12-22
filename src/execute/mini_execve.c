@@ -22,9 +22,11 @@ int
 int
 	mini_execve(const t_command *const cmd)
 {
+	extern char	**environ;
+
 	if ((cmd->flags & CMD_SUBSHELL) || xfork() == 0)
 	{
-		if (execve(cmd->path, cmd->argv, g_status.env.envp) == ERROR)
+		if (execve(cmd->path, cmd->argv, environ) == ERROR)
 		{
 			if (report_error(cmd->argv[0], NULL, errno) == ENOENT)
 				exit(ES_NOTFOUND);

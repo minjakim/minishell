@@ -42,11 +42,9 @@ static int
 int
 	main(int argc, char **argv, char **envp)
 {
-	extern char	**environ;
-
 	(void)argc;
 	(void)argv;
-	environ = envp;
+	g_status.env.envp = envp;
 	init_status();
 	init_signal();
 	init_execute();
