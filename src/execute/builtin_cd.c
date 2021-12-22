@@ -17,7 +17,7 @@ static t_str
 {
 	t_str	*ptr;
 
-	ptr = xcalloc(sizeof(t_str*));
+	ptr = xcalloc(sizeof(t_str *));
 	ptr->str = ft_strdup(str);
 	ptr->len = ft_strlen(str);
 	return (ptr);

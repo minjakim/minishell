@@ -42,7 +42,7 @@ static int
 int
 	main(int argc, char **argv, char **envp)
 {
-	extern char **environ;
+	extern char	**environ;
 
 	(void)argc;
 	(void)argv;
