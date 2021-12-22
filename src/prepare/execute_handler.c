@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 21:28:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/22 18:42:20 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int
 		if (need_break(cmd))
 			break ;
 		cmd = cmd->next;
+		g_status.state.haschild = FALSE;
 	}
 	g_status.state.haschild = FALSE;
 	g_status.interactive = TRUE;

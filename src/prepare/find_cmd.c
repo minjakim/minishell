@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/22 18:30:13 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ static int
 	size_t	path_index;
 
 	path_list = getenv(PATH);
+	path_index = 0;
 	while (path_list && path_list[path_index])
 	{
 		path = get_next_path_element(path_list, &path_index);
