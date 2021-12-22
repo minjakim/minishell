@@ -40,7 +40,6 @@ char
 	*declare_new_line(const t_str *const key, const t_str *const value)
 {
 	char *const	line = xcalloc(key->len + value->len + 2);
-	char		*ptr;
 
 	ft_strcat(line, key->str);
 	*(line + key->len) = '=';
@@ -73,8 +72,6 @@ t_declare
 t_declare
 	*declare_add(const char *str)
 {
-	t_declare	*node;
-
 	g_status.env.tail->next = declare_new(str);
 	g_status.env.tail->next->prev = g_status.env.tail;
 	g_status.env.tail = g_status.env.tail->next;

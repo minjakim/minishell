@@ -103,9 +103,6 @@ static int
 int
 	expand_command(t_command *cmd)
 {
-	t_word_list	*words;
-	int			i;
-
 	if (!expand_argv(cmd))
 		return (FAILURE);
 	if (!expand_filename(cmd->redirects))

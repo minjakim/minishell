@@ -21,7 +21,8 @@ void
 void
 	sigint_handler(int signum)
 {
-	if (!g_status.state.readline)
+
+	if (signum != SIGINT || !g_status.state.readline)
 		return ;
 	g_status.exit = GENERAL_ERROR;
 	if (g_status.heredoc.value)

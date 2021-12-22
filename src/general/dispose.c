@@ -66,7 +66,6 @@ void
 	dispose_cmd(t_command *cmd)
 {
 	t_command	*temp;
-	int			i;
 
 	while (cmd)
 	{

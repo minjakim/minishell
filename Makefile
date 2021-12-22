@@ -66,7 +66,7 @@ TEMP			=	gcc -lreadline -lncurses
 
 ./obj/%.o		:	./src/%.c
 	@mkdir -p $(dir ./obj/$*)
-	gcc -c $< -o $@
+	gcc -Wall -Werror -Wextra -c $< -o $@
 
 all 			:	$(NAME)
 

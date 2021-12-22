@@ -68,7 +68,6 @@ int
 {
 	char			*path;
 	DIR				*dirinfo;
-	t_word_list		*temp;
 
 	path = ft_strchr(pattern, '/');
 	if (path != NULL && path[1] != '\0')

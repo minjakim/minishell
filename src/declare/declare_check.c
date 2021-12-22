@@ -25,17 +25,6 @@ int
 			|| (c == '_'));
 }
 
-static int
-	legal_key(const char *name)
-{
-	if (!legal_variable_starter(*name))
-		return (FALSE);
-	while (*++name)
-		if (!legal_variable_char(*name))
-			return (FALSE);
-	return (TRUE);
-}
-
 int
 	declare_legal_check(const char *str)
 {
