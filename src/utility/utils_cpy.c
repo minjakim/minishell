@@ -13,20 +13,20 @@
 #include "../../include/minishell.h"
 
 char
-    *ft_strcat(char *s1, const char *s2)
+	*ft_strcat(char *s1, const char *s2)
 {
-    char *ptr;
+	char	*ptr;
 
 	if (!s2 || !*s2)
 		return (s1);
-    ptr = s1;
-    while (*s1)
-        ++s1;
-    while (*s2)
-        *s1++ = *s2++;
+	ptr = s1;
+	while (*s1)
+		++s1;
+	while (*s2)
+		*s1++ = *s2++;
 	if (*s2 == '\0')
 		*s1 = *s2;
-    return (ptr);
+	return (ptr);
 }
 
 char
@@ -59,8 +59,8 @@ char
 static void
 	wordcpy(t_op dstp, t_op srcp, size_t n)
 {
-	t_op a0;
-	t_op a1;
+	t_op	a0;
+	t_op	a1;
 
 	if (n & 1)
 	{

@@ -37,4 +37,3 @@ char
 		dst[n] = str[n];
 	return (dst);
 }
-

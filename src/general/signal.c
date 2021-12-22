@@ -21,7 +21,6 @@ void
 void
 	sigint_handler(int signum)
 {
-
 	if (signum != SIGINT || !g_status.state.readline)
 		return ;
 	g_status.exit = GENERAL_ERROR;

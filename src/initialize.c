@@ -72,6 +72,7 @@ static int
 	init_status(void)
 {
 	t_termios	attr;
+
 	g_status.state.prompt = sizeof(PROMPT);
 	g_status.interactive = TRUE;
 	if (!init_io(&g_status.backup.stdio))

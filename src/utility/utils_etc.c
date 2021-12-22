@@ -34,4 +34,3 @@ void
 		*var_b++ = var_c;
 	return (b);
 }
-

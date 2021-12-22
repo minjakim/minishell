@@ -62,9 +62,9 @@ static inline size_t
 size_t
 	ft_strlen(const char *s)
 {
-	const	char			*p;
-	const	unsigned long	*lp;
-	size_t					len;
+	const char			*p;
+	const unsigned long	*lp;
+	size_t				len;
 
 	if (!s || !*(p = s))
 		return (0);
@@ -92,7 +92,7 @@ void
 {
 	if (len < 0)
 		return ;
-	while(len--)
+	while (len--)
 		*dest++ = *src++;
 	*dest = *src;
 }
