@@ -28,9 +28,10 @@ static void
 {
 	t_declare	*node;
 	char		*line;
+	t_str		*get_key;
+	t_str		*get_value;
 
 	node = declare_search(key);
-	printf("%p\n", node);
 	if (node)
 	{
 		xfree(node->value.str);
@@ -38,13 +39,14 @@ static void
 		node->value.len = ft_strlen(node->value.str);
 		xfree(node->line);
 		node->line = declare_new_line(&node->key, &node->value);
-		printf("%s\n", node->line);
 	}
 	else
 	{
-		printf("%s %s\n", key, value);
-		line = declare_new_line(get_t_str(key), get_t_str(value));
+		get_key = get_t_str(key);
+		get_value = get_t_str(value);
+		line = declare_new_line(get_key, get_value);
 		declare_add(line);
+		disposer(get_key->str, get_key, get_value->str, get_value);
 		xfree(line);
 	}
 	g_status.env.edited = TRUE;
