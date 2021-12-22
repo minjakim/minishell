@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-static void
+void
 	init_execute(void)
 {
 	g_status.execute[NOTFOUND] = mini_null;
@@ -27,19 +27,7 @@ static void
 	g_status.execute[MINI_EXECVE] = mini_execve;
 }
 
-static int
-	init_io(t_io *io)
-{
-	io->in = dup(STDIN_FILENO);
-	if (io->in == ERROR)
-		return (report_error_fatal(errno));
-	io->out = dup(STDOUT_FILENO);
-	if (io->out == ERROR)
-		return (report_error_fatal(errno));
-	return (SUCCESS);
-}
-
-static void
+void
 	init_term(t_termios *attr)
 {
 	attr->c_iflag = 27394;
@@ -68,7 +56,19 @@ static void
 	attr->c_cc[19] = 255;
 }
 
-static int
+int
+	init_io(t_io *io)
+{
+	io->in = dup(STDIN_FILENO);
+	if (io->in == ERROR)
+		return (report_error_fatal(errno));
+	io->out = dup(STDOUT_FILENO);
+	if (io->out == ERROR)
+		return (report_error_fatal(errno));
+	return (SUCCESS);
+}
+
+int
 	init_status(void)
 {
 	t_termios	attr;
@@ -94,17 +94,6 @@ static int
 }
 
 int
-	init_signal(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, signal_handler);
-	signal(SIGTERM, signal_handler);
-	rl_catch_signals = FALSE;
-	rl_event_hook = event_hook;
-	return (SUCCESS);
-}
-
-int
 	init_declare(void)
 {
 	extern char	**environ;
@@ -125,15 +114,5 @@ int
 	g_status.env.envp = NULL;
 	g_status.env.edited = TRUE;
 	declare_update_envp();
-	return (SUCCESS);
-}
-
-int
-	initialize(void)
-{
-	init_status();
-	init_signal();
-	init_execute();
-	init_declare();
 	return (SUCCESS);
 }
