@@ -63,7 +63,11 @@ void		signal_report(int signum);
 int			event_hook(void);
 
 char		*expand_str(char *src, int heredoc);
-int			expand_glob(t_word_list *word, char *pattern, int *argc);
+int			expand_glob_argv(t_word_list *word, char *pattern, int *argc);
+char		*expand_glob_filename(char *pattern);
+char		*get_match_string(struct dirent *entry, char *pat);
+int			glob_check_dir(char *pat, int type);
+int			glob_strmatch(char *pat, char *str);
 
 int			expand_command(t_command *cmd);
 

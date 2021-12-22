@@ -40,7 +40,7 @@ int
 	{
 		report_exception(NULL, redirects->redirectee.filename.word, \
 				EX_AMBIGUAS, GENERAL_ERROR);
-		if (!*filename)
+		if (filename)
 			xfree(filename);
 		return (FAILURE);
 	}
@@ -62,10 +62,10 @@ static int
 		if ((flags & (W_HASHDOLLAR | W_EXITSTATUS)) && \
 			!(flags & W_NOEXPAND))
 			filename = expand_str(ft_strdup(filename), FALSE);
+		if ((flags & W_GLOBEXP) && !(flags & W_NOEXPAND))
+			filename = expand_glob_filename(filename);
 		if (!is_ambiguas(filename, redirects))
 			return (FAILURE);
-//		if ((flags & W_GLOBEXP) && !(flags & W_NOEXPAND))
-		//	expand_glob(NULL, filename, NULL);
 		remove_quote(redirects->redirectee.filename.word);
 		redirects = redirects->next;
 	}
@@ -84,7 +84,7 @@ static int
 		if (words->word.flags & (W_HASHDOLLAR | W_EXITSTATUS))
 			words->word.word = expand_str(words->word.word, FALSE);
 		if (words->word.flags & W_GLOBEXP)
-			if (!expand_glob(words, words->word.word, &cmd->argc))
+			if (!expand_glob_argv(words, words->word.word, &cmd->argc))
 				return (FAILURE);
 		words = words->next;
 	}
