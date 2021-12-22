@@ -22,7 +22,8 @@ void
 
 	if (g_status.env.edited == FALSE)
 		return ;
-	envp = xcalloc(sizeof(char *) * g_status.env.envc);
+	xfree(g_status.env.envp);
+	envp = xcalloc(sizeof(char *) * g_status.env.envc + 1);
 	i = -1;
 	while (node)
 	{
@@ -31,7 +32,6 @@ void
 		node = node->next;
 	}
 	environ = envp;
-	xfree(g_status.env.envp);
 	g_status.env.envp = environ;
 }
 

@@ -24,7 +24,7 @@ typedef unsigned char		t_byte;
 typedef enum e_execute
 {
 	NOTFOUND,
-	FT_NULL,
+	MINI_NULL,
 	FT_CD,
 	FT_ECHO,
 	FT_ENV,

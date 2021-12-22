@@ -75,27 +75,27 @@ static int
 static int
 	expand_argv(t_command *cmd)
 {
-	t_word_list	*list;
+	t_word_list	*words;
 	int			i;
 
-	list = cmd->words;
-	while (list)
+	words = cmd->words;
+	while (words)
 	{
-		if (list->word.flags & (W_HASHDOLLAR | W_EXITSTATUS))
-			list->word.word = expand_str(list->word.word, FALSE);
-		if (list->word.flags & W_GLOBEXP)
-			if (!expand_glob(list, list->word.word, &cmd->argc))
+		if (words->word.flags & (W_HASHDOLLAR | W_EXITSTATUS))
+			words->word.word = expand_str(words->word.word, FALSE);
+		if (words->word.flags & W_GLOBEXP)
+			if (!expand_glob(words, words->word.word, &cmd->argc))
 				return (FAILURE);
-		list = list->next;
+		words = words->next;
 	}
 	cmd->argv = xcalloc(sizeof(char *) * (cmd->argc + 1));
-	list = cmd->words;
+	words = cmd->words;
 	i = -1;
-	while (++i < cmd->argc)
+	while (words)
 	{
-		cmd->argv[i] = remove_quote(list->word.word);
-		list->word.word = NULL;
-		list = list->next;
+		cmd->argv[++i] = remove_quote(words->word.word);
+		words->word.word = NULL;
+		words = words->next;
 	}
 	return (SUCCESS);
 }
@@ -106,13 +106,9 @@ int
 	t_word_list	*words;
 	int			i;
 
-	while (cmd)
-	{
-		if (!expand_argv(cmd))
-			return (FAILURE);
-		if (!expand_filename(cmd->redirects))
-			return (FAILURE);
-		cmd = cmd->next;
-	}
+	if (!expand_argv(cmd))
+		return (FAILURE);
+	if (!expand_filename(cmd->redirects))
+		return (FAILURE);
 	return (SUCCESS);
 }

@@ -26,6 +26,40 @@ static int
 	return (TRUE);
 }
 
+int	count;
+
+void
+	printc(t_command *ptr)
+{
+	t_word_list	*ptr_w;
+	t_redirect	*ptr_r;
+	char		**argv;
+
+
+	printf("------------- %d ------------\n", count);
+	ptr_w = ptr->words;
+	ptr_r = ptr->redirects;
+	argv = ptr->argv;
+	printf("haschild: %d command: %p\n", g_status.state.haschild, ptr);
+	while (ptr_w)
+	{
+		printf("word %s\n", ptr_w->word.word);
+		ptr_w = ptr_w->next;
+	}
+	while (ptr_r)
+	{
+		printf("redirect %s\n", ptr_r->redirectee.filename.word);
+		ptr_r = ptr_r->next;
+	}
+	while (*argv)
+	{
+		printf("argv %s\n", *argv);
+		++argv;
+	}
+	printf("------------- %d ------------\n", count++);
+
+}
+
 static int
 	pre_execute(t_command *const cmd)
 {
@@ -58,6 +92,7 @@ int
 			break ;
 		cmd = cmd->next;
 	}
+	printf("here\n");
 	g_status.state.haschild = FALSE;
 	g_status.interactive = TRUE;
 	return (SUCCESS);

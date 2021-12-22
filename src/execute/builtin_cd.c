@@ -17,6 +17,7 @@ static void
 {
 	t_declare	*node;
 	t_str		value;
+	char		*line;
 
 	node = declare_search(key->str);
 	if (node)
@@ -32,19 +33,29 @@ static void
 	{
 		value.str = (char *)str;
 		value.len = ft_strlen(node->value.str);
-		declare_add(declare_new_line(key, &value));
+		line = declare_new_line(key, &value);
+		declare_add(line);
+		xfree(line);
 	}
 }
 
-static void
-	set_path(const char *const cwd, const char *const path)
+static int
+	set_path(char *const from)
 {
+	char *const	path = getcwd(NULL, 0);
 	const t_str	pwd_key = {.str = PWD, .len = sizeof(PWD) - 1};
 	const t_str	old_key = {.str = OLDPWD, .len = sizeof(OLDPWD) - 1};
 
+	if (path == NULL)
+	{
+		xfree(from);
+		return (ERROR);
+	}
 	set_node(&pwd_key, path);
-	set_node(&old_key, cwd);
+	set_node(&old_key, from);
 	declare_update_envp();
+	disposer(from, path, NULL, NULL);
+	return (OK);
 }
 
 static const char
@@ -73,17 +84,22 @@ static const char
 int
 	builtin_cd(const t_command *const cmd)
 {
-	const char *const	path = \
+	const char *const	dest = \
 		get_path((const char *const *const)cmd->argv);
-	const char *const	cwd = getcwd(NULL, 0);
+	char				*from;
 
-	if (cwd == NULL)
-		return (report_error(cmd->argv[0], NULL, errno));
-	if (path == NULL)
+
+	if (dest == NULL)
 		return (g_status.exit = GENERAL_ERROR);
-	printf("%s %s\n", cwd, path);
-	if (chdir(path) == ERROR)
-		return (report_error(cmd->argv[0], path, errno));
-	set_path(cwd, path);
+	from = getcwd(NULL, 0);
+	if (from == NULL)
+		return (report_error(cmd->argv[0], NULL, errno));
+	if (chdir(dest) == ERROR)
+	{
+		xfree(from);
+		return (report_error(cmd->argv[0], dest, errno));
+	}
+	if (set_path(from) == ERROR)
+		return (report_error(cmd->argv[0], dest, errno));
 	return (g_status.exit = OK);
 }

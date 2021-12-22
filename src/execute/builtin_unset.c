@@ -46,6 +46,7 @@ int
 	exception = OK;
 	if (argv[1] == NULL)
 		return (g_status.exit = OK);
+	printf("%d	%d\n", g_status.env.envc, declare_search(cmd->argv[1]) != NULL);
 	while (*++argv)
 	{
 		if (!declare_legal_check(*argv) && ++exception)
@@ -57,6 +58,7 @@ int
 		}
 	}
 	declare_update_envp();
+	printf("%d	%d\n", g_status.env.envc, declare_search(cmd->argv[1]) != NULL);
 	if (exception)
 		return (g_status.exit = GENERAL_ERROR);
 	return (g_status.exit = OK);

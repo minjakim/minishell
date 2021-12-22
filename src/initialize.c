@@ -16,7 +16,7 @@ static void
 	init_execute(void)
 {
 	g_status.execute[NOTFOUND] = mini_null;
-	g_status.execute[FT_NULL] = mini_null;
+	g_status.execute[MINI_NULL] = mini_null;
 	g_status.execute[FT_CD] = builtin_cd;
 	g_status.execute[FT_ECHO] = builtin_echo;
 	g_status.execute[FT_ENV] = builtin_env;

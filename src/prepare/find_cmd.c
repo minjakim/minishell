@@ -16,7 +16,7 @@ static t_execute
 	is_builtin(const char *str)
 {
 	if (!str || !*str || *str == ':')
-		return (FT_NULL);
+		return (MINI_NULL);
 	else if (*str == 'c' && str[1] == 'd' && str[2] == '\0')
 		return (FT_CD);
 	else if (*str == 'e')
@@ -116,7 +116,7 @@ int
 	struct stat	buffer;
 
 	if (!name)
-		return (cmd->type = FT_NULL);
+		return (cmd->type = MINI_NULL);
 	if (ft_strchr(name, '/') != NULL && stat(name, &buffer) == 0)
 		cmd->path = ft_strdup(name);
 	cmd->type = is_builtin(name);

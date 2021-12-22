@@ -29,6 +29,8 @@ static int
 
 	if (*pat != '.' && *str == '.')
 		return (FAILURE);
+	if (*pat != '*' && glob_compare(pat, str))
+		;
 	i = 0;
 	skip = 0;
 	while (*str)
