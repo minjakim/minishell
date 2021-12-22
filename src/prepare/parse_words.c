@@ -88,7 +88,6 @@ static t_word_list
 static t_word_list
 	*end_of_block(t_command *const cmd, t_word_list *words)
 {
-	const int	devNull = open("/dev/null", O_WRONLY);
 	t_word_list	*temp;
 	t_io		piped;
 

@@ -44,7 +44,7 @@ char
 char
 	*ft_strncpy(char *dst, const char *src, size_t len)
 {
-	int		i;
+	size_t	i;
 
 	if (dst == NULL)
 		return (NULL);

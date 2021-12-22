@@ -57,7 +57,7 @@ static char
 }
 
 static char
-	*get_next_path_element(char *string, int *p_index)
+	*get_next_path_element(char *string, size_t *p_index)
 {
 	int		i;
 	int		start;
@@ -90,7 +90,7 @@ static int
 {
 	char	*path_list;
 	char	*path;
-	int		path_index;
+	size_t	path_index;
 
 	path_list = getenv(PATH);
 	while (path_list && path_list[path_index])
