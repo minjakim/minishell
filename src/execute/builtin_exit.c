@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 21:42:59 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/22 20:48:54 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,15 @@ static int
 	n = 0;
 	digit = 0;
 	while (*str && convert(&c, str) < 10 && ++digit < 20)
-		n = (n << 1) + (n << 3) + c && str++;
+	{
+		n = (n << 1) + (n << 3) + c;
+		++str;
+	}
 	if (*str || (!negative && n > LLONG_MAX)
 		|| (n > (unsigned long long)LLONG_MAX + 1))
 		return (FALSE);
+	if (negative)
+		n = -n;
 	g_status.exit = (unsigned char)n;
 	return (TRUE);
 }

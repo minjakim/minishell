@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/22 19:41:48 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/22 21:00:07 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,11 @@ int
 		return (cmd->type = MINI_NULL);
 	if (ft_strchr(name, '/') != NULL && stat(name, &buffer) == 0)
 	{
+		if (buffer.st_mode & S_IFDIR)
+		{
+			report_exception(NULL, name, EX_DIRECTORY, ES_NOEXEC);
+			return (cmd->type = MINI_NULL);
+		}
 		cmd->path = ft_strdup(name);
 		return (cmd->type = MINI_EXECVE);
 	}

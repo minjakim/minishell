@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:46 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 21:44:18 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/22 21:21:53 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void
 	else if (g_status.interactive && !g_status.state.haschild)
 	{
 		write(STDOUT_FILENO, "\n", 1);
+		rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
 	}
@@ -65,10 +66,15 @@ void
 void
 	xwait(const pid_t pid)
 {
-	if (waitpid(pid, &g_status.exit, 0) == ERROR)
+	int	stat_loc;
+
+	if (waitpid(pid, &stat_loc, 0) == ERROR)
 		report_error(NULL, NULL, errno);
+	g_status.exit = stat_loc;
 	while (wait(NULL) != ERROR)
 		;
 	if (g_status.exit && g_status.exit <= SIGUSR2)
 		signal_report(g_status.exit);
+	else if (g_status.exit > 255)
+		g_status.exit >>= 8;
 }

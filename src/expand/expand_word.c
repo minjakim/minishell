@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/21 09:56:21 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/22 21:24:01 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static char
 	char		*dest;
 	int			key_len;
 
-	key_len = 0;
-	while (legal_variable_char(src[++key_len + i]))
-		;
+	key_len = 1;
+	while (legal_variable_char(src[key_len + i]))
+		++key_len;
 	key = ft_strndup(src + i + 1, key_len - 1);
 	value = declare_get_value(key);
 	dest = xcalloc(sizeof(char) * \

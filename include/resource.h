@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 21:04:36 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/22 20:58:00 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 # define EX_CMD_NOTFOUND		"command not found"
 # define EX_DECLARE				"not a valid identifier"
 # define EX_AMBIGUAS			"ambiguous redirect"
+# define EX_DIRECTORY			"is a directory"
 
 # define ES_BADUSAGE			2
 # define ES_NOEXEC				126
