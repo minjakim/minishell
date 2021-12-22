@@ -6,7 +6,7 @@
 /*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 17:25:11 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/22 17:31:58 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/22 17:53:34 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ size_t
 	const unsigned long	*lp;
 	size_t				len;
 
-	if (!s || !*(p = s))
+	if (!s || !*s)
 		return (0);
+	p = s;
 	while ((unsigned long)p & (sizeof(long) - 1))
 	{
 		if (!*p)
@@ -80,7 +81,8 @@ size_t
 		if ((*lp - LOMAGIC) & HIMAGIC)
 		{
 			p = (const char *)(lp);
-			if ((len = test_byte(p, s)))
+			len = test_byte(p, s);
+			if (len)
 				return (len);
 		}
 		++lp;
@@ -96,4 +98,3 @@ void
 		*dest++ = *src++;
 	*dest = *src;
 }
-
