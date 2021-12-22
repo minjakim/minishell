@@ -26,10 +26,10 @@ void		xwait(pid_t pid);
 int			xpipe(int fd[2], const char *const str);
 void		disposer(void *obj0, void *obj1, void *obj2, void *obj3);
 
-void		init_status();
-void		init_declare();
-void		init_signal();
-void		init_execute();
+void		init_status(void);
+void		init_declare(void);
+void		init_signal(void);
+void		init_execute(void);
 
 int			declare_init(void);
 void		declare_update_envp(void);
