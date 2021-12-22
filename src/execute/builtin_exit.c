@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 13:55:39 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/22 20:48:54 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,15 @@ static int
 	n = 0;
 	digit = 0;
 	while (*str && convert(&c, str) < 10 && ++digit < 20)
-		n = (n << 1) + (n << 3) + c && str++;
+	{
+		n = (n << 1) + (n << 3) + c;
+		++str;
+	}
 	if (*str || (!negative && n > LLONG_MAX)
 		|| (n > (unsigned long long)LLONG_MAX + 1))
 		return (FALSE);
+	if (negative)
+		n = -n;
 	g_status.exit = (unsigned char)n;
 	return (TRUE);
 }
@@ -52,20 +57,17 @@ int
 }
 
 int
-	builtin_exit(const t_command *const command)
+	builtin_exit(const t_command *const cmd)
 {
-	const char *const *const	argv = (const char *const *const)command->argv;
+	const char *const *const	argv = (const char *const *const)cmd->argv;
 
 	if (g_status.interactive)
-		write(STDERR_FILENO, EXIT, LEN_EXIT);
+		write(STDERR_FILENO, EXIT, sizeof(EXIT) - 1);
 	if (argv[1] == NULL)
 		return (mini_exit(g_status.exit));
 	if (!legal_number(argv[1]))
-		return (mini_exit(exception_report(argv[0], argv[1], \
-			EX_EXIT_FMT, EX_EXIT_FMT_NO)));
+		report_exception(argv[0], argv[1], EX_EXIT_FMT, ES_EXIT_FMT);
 	else if (argv[2] != NULL)
-		return (mini_exit(exception_report(argv[0], NULL, \
-			EX_EXIT_ARGS, GENERAL_ERROR)));
-	else
-		return (mini_exit(g_status.exit));
+		return (report_exception(argv[0], NULL, EX_EXIT_ARGS, GENERAL_ERROR));
+	return (mini_exit(g_status.exit));
 }

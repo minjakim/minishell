@@ -6,70 +6,82 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 10:07:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/14 11:09:21 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/22 13:19:48 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int
-	strmatch(char *pat, char *str, int flag)
+static int
+	glob_compare(char *pat, char *str)
 {
-	while(*pat && *str)
+	while (*pat != '*' && *pat != '\0' && *str == '\0')
 	{
-		if (*pat == '*')
-		{
-			str++;
-			if (*(pat + 1) == *str)
-				pat++;
-		}
-		if (*pat != '*' && *pat == *str)
-		{
-			str++;
-			pat++;
-		}
-		if (flag && *pat == '/' && *(pat + 1) == '\0' && *str == '\0')
-			pat++;
-		if (*pat != '*' && *pat != *str)
-			return (0);
+		if (*pat != *str)
+			return (*pat - *str);
+		++pat;
+		++str;
 	}
-	return (1);
+	if (*pat == '*')
+		return (0);
+	return (*pat - *str);
+}
+
+int
+	glob_strmatch(char *pat, char *str)
+{
+	int		skip;
+
+	if ((*pat != '.' && *str == '.') || (*pat != '*' && glob_compare(pat, str)))
+		return (FAILURE);
+	skip = 0;
+	while (*pat && *str)
+	{
+		if (*pat == '*' && *pat != '\0')
+			++pat;
+		if (*pat != '*' && glob_compare(pat, str))
+			++str;
+		else
+			skip = 1;
+		if (skip && *pat != '*' && *pat != '\0')
+			++pat;
+		if (skip && *str)
+			++str;
+		if (skip && *pat == '*')
+			skip = 0;
+		if (*pat == '/' && *(pat + 1) == '\0')
+			++pat;
+	}
+	if (*pat == '\0' || (*pat == '*' && *(pat + 1) == '\0' && *str == '\0'))
+		return (SUCCESS);
+	return (FAILURE);
+}
+
+int
+	glob_check_dir(char *pat, int type)
+{
+	while (*pat)
+		pat++;
+	if (*(pat - 1) == '/' && type & DT_DIR)
+		return (TRUE);
+	else if (*(pat - 1) == '/' && !(type & DT_DIR))
+		return (FALSE);
+	return (TRUE);
 }
 
 char
- 	**expand_glob(t_word_desc *word)
+	*get_match_string(struct dirent *entry, char *pat)
 {
-	char 	*filename;
-	char	*slash;
-	DIR		*dirinfo;
-	struct dirent	*entry;
-	int		is_dir;
+	char	*offset;
+	char	*dest;
 
-
-	//filename = word->word;
-	filename = "hello";
-	slash = ft_strchr(filename, '/');
-	if (slash != NULL && slash[1] != '\0')
-		return (0);
-	is_dir = (slash != NULL);
-//	if ()
-	dirinfo = opendir(".");
-	if (dirinfo == NULL)
-		return (NULL);//opendir err
-	while (1)
+	offset = ft_strchr(pat, '/');
+	if (offset)
 	{
-		entry = readdir(dirinfo);
-		if (entry == NULL)
-			break ;
-		printf("%d %d ", is_dir, entry->d_type & DT_DIR);
-		if (strmatch("*/", entry->d_name, (is_dir && entry->d_type & DT_DIR)))
-			printf("match %s\n", entry->d_name);
-		else
-			printf("no match %s\n", entry->d_name);
-//		if (entry->d_type == D_DIR && is_dir)
-//		{
-//		}
+		dest = xcalloc(sizeof(char) * (entry->d_namlen + 2));
+		return (ft_strcat(ft_strcpy(dest, entry->d_name), "/"));
 	}
-	closedir(dirinfo);
+	else
+		return (ft_strdup(entry->d_name));
 	return (NULL);
 }

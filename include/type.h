@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 13:53:39 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:03:28 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,26 @@
 # define TYPE_H
 
 # include <termios.h>
+# include <sys/types.h>
 
-typedef struct s_shell		t_shell;
 typedef struct s_command	t_command;
 typedef struct termios		t_termios;
 typedef unsigned long		t_op;
 typedef unsigned char		t_byte;
+
+typedef enum e_execute
+{
+	NOTFOUND,
+	MINI_NULL,
+	FT_CD,
+	FT_ECHO,
+	FT_ENV,
+	FT_EXIT,
+	FT_EXPORT,
+	FT_PWD,
+	FT_UNSET,
+	MINI_EXECVE
+}	t_execute;
 
 typedef struct s_globvector
 {
@@ -29,7 +43,11 @@ typedef struct s_globvector
 
 typedef struct s_word_desc
 {
-	char				*word;
+	union
+	{
+		char			*word;
+		char			*eof;
+	};
 	int					flags;
 }	t_word_desc;
 
@@ -39,7 +57,7 @@ typedef struct s_word_list
 	t_word_desc			word;
 }	t_word_list;
 
-typedef union u_redirectee
+typedef struct u_redirectee
 {
 	int					dest;
 	t_word_desc			filename;
@@ -51,7 +69,6 @@ typedef struct s_redirect
 	int					redirector;
 	int					flags;
 	t_redirectee		redirectee;
-	char				*here_doc_eof;
 }	t_redirect;
 
 typedef union u_io
@@ -68,28 +85,40 @@ typedef union u_io
 typedef struct s_command
 {
 	int					flags;
+	int					connector;
 	t_redirect			*redirects;
 	t_word_list			*words;
 	t_io				io;
 	char				*path;
 	char				**argv;
 	int					argc;
+	t_execute			type;
 	t_command			*next;
-	int					connector;
 }	t_command;
+
+typedef struct s_str
+{
+	char				*str;
+	size_t				len;
+}	t_str;
 
 typedef struct s_declare
 {
-	char				*key;
-	char				*value;
-	int					flag;
+	struct s_declare	*prev;
+	t_str				key;
+	t_str				value;
+	char				*line;
+	int					exported;
 	struct s_declare	*next;
 }	t_declare;
 
 typedef struct s_env
 {
-	t_declare			*declare;
+	int					edited;
 	char				**envp;
+	int					envc;
+	t_declare			*head;
+	t_declare			*tail;
 }	t_env;
 
 typedef struct s_backup
@@ -98,26 +127,31 @@ typedef struct s_backup
 	t_io				stdio;
 }	t_backup;
 
+typedef struct s_state
+{
+	union
+	{
+		struct
+		{
+			char		error;
+			char		interrupted;
+			char		need_heredoc;
+			char		readline;
+		};
+		int				any;
+	};
+	int					prompt;
+	pid_t				haschild;
+}	t_state;
+
 typedef struct s_status
 {
-	int					exit;
+	volatile t_state	state;
 	int					interactive;
-	t_io				heredoc;
+	int					exit;
 	t_env				env;
+	t_io				heredoc;
 	t_backup			backup;
-	pid_t				haschild;
+	int					(*execute[10])(const t_command *);
 }	t_status;
-
-typedef struct s_buffer
-{
-	char				*line;
-	t_word_list			*words;
-}	t_buffer;
-
-struct s_shell
-{
-	t_command			*command;
-	int					(*execute[9])(const t_command *);
-};
-
 #endif

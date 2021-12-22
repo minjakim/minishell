@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 14:31:22 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/22 19:53:29 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,61 +14,40 @@
 
 t_status	g_status;
 
-static void
-	handling_eof(void)
-{
-	write(STDOUT_FILENO, "\033[1A", 4);
-	write(STDOUT_FILENO, "\033[14C", 5);
-	write(STDERR_FILENO, EXIT, LEN_EXIT);
-}
-
-static inline char
-	*mini_readline(char **line)
-{
-	if (*line)
-		free(*line);
-	*line = NULL;
-	*line = readline(PROMPT);
-	if (!*line)
-		handling_eof();
-	else if (**line)
-		add_history(*line);
-	return (*line);
-}
-
 static int
-	ft_minishell(t_shell *mini)
+	ft_minishell(void)
 {
 	char		*line;
 	t_word_list	*words;
+	t_command	*cmd;
 
 	line = NULL;
 	while (LOOP)
 	{
 		if (!mini_readline(&line))
-			break ;
-		if (!*line)
 			continue ;
-		words = word_list_handler(line);
+		words = parse_line(line);
 		if (!words)
 			continue ;
-		command_handler(words, mini);
-		command_heredoc(mini->command);
-		command_execute(mini);
-		command_clean(mini);
+		cmd = parse_words(words);
+		if (!g_status.state.any)
+			make_heredoc(cmd);
+		if (!g_status.state.any)
+			execute_handler(cmd);
+		dispose_cmd(cmd);
 	}
-	return (mini_exit(g_status.exit));
+	return (g_status.exit);
 }
 
 int
 	main(int argc, char **argv, char **envp)
 {
-	t_shell	mini;
-
 	(void)argc;
 	(void)argv;
 	g_status.env.envp = envp;
-	if (!initialize(&mini))
-		return (GENERAL_ERROR);
-	return (ft_minishell(&mini));
+	init_status();
+	init_signal();
+	init_execute();
+	init_declare();
+	return (ft_minishell());
 }

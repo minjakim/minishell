@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/17 13:58:13 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/22 20:58:00 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,37 +19,45 @@
 # include <dirent.h>
 # include <fcntl.h>
 # include <sys/stat.h>
-# include <sys/types.h>
 # include <sys/errno.h>
 # include <termcap.h>
 # include <sys/cdefs.h>
+# include <signal.h>
 # include "../lib/readline_arm64/include/readline.h"
 # include "../lib/readline_arm64/include/history.h"
-
 # include <limits.h>
 
 # define PROMPT					"mini ^o^)/ $> "
-
+# define SECOND					"> "
 # define T_PTR					void *
-
 # define LOMAGIC				0x0101010101010101
 # define HIMAGIC				0x8080808080808080
 # define OPSIZ					8
 # define LOOP					1
+# define HEREDOC_MAX			16
+
+# define HOME					"HOME"
+# define PATH					"PATH"
+# define PWD					"PWD"
+# define OLDPWD					"OLDPWD"
 
 # define EXIT					"exit\n"
 # define EX_EXIT_FMT			"numeric argument required"
-# define EX_EXIT_FMT_NO			255
 # define EX_EXIT_ARGS			"too many arguments"
 # define EX_CD_HOME				"HOME not set"
 # define EX_CD_OLDPWD			"OLDPWD not set"
-# define EX_SYNTAX_UNEXPECT		"syntax error near unexpected token"
-# define EX_USAGE				258
-# define EX_BADUSAGE			2
+# define EX_SYNTAX				"syntax error near unexpected token"
 # define EX_HEREDOC_MAX			"maximum here-docment count exceeded"
+# define EX_CMD_NOTFOUND		"command not found"
+# define EX_DECLARE				"not a valid identifier"
+# define EX_AMBIGUAS			"ambiguous redirect"
+# define EX_DIRECTORY			"is a directory"
 
-# define EX_NOEXEC				126
-# define EX_NOTFOUND			127
+# define ES_BADUSAGE			2
+# define ES_NOEXEC				126
+# define ES_NOTFOUND			127
+# define ES_EXIT_FMT			255
+# define ES_USAGE				258
 
 # define CMD_COMMAND_BUILTIN	0x00000001
 # define CMD_STDIN_REDIR		0x00000002
@@ -59,6 +67,7 @@
 # define CMD_NOFUNCTION			0x00000020
 # define CMD_IGNORE_RETURN		0x00000040
 # define CMD_PIPE				0x00000080
+# define CMD_SUBSHELL			0x00000100
 
 # define W_NOFLAG				0
 # define W_HASHDOLLAR			0x00000001
@@ -107,36 +116,10 @@ enum e_return
 	SUCCESS
 };
 
-enum e_size
-{
-	LEN_EXIT = sizeof(EXIT) - 1,
-	LEN_PROMPT = sizeof(PROMPT) - 1
-};
-
 enum e_exit_status
 {
 	OK,
 	GENERAL_ERROR
 };
 
-enum e_exception
-{
-	SINGLE_QUOTES,
-	DOUBLE_QUOTES,
-	BACK_SLASH,
-	SEMICOLON
-};
-
-enum e_execute
-{
-	MINI_EXECVE,
-	FT_CD,
-	FT_ECHO,
-	FT_ENV,
-	FT_EXIT,
-	FT_EXPORT,
-	FT_PWD,
-	FT_UNSET,
-	FT_NULL
-};
 #endif

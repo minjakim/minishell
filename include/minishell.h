@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/17 11:48:56 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/21 10:39:39 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,67 +15,91 @@
 
 # include "resource.h"
 # include "type.h"
-# include "temp.h"
 
 extern t_status	g_status;
 
-T_PTR		xmalloc(size_t bytes);
-int			initialize(t_shell *mini);
+T_PTR		xcalloc(size_t bytes);
+T_PTR		xcalloc_t_command(void);
+pid_t		xfork(void);
+void		xfree(void *obj);
+void		xwait(pid_t pid);
+int			xpipe(int fd[2], const char *const str);
+void		disposer(void *obj0, void *obj1, void *obj2, void *obj3);
 
-void		eof_exit(t_shell *mini);
-int			mini_exit(int exit_status);
-int			envp_update(t_env *env, int flag);
-t_word_list	*word_list_handler(char *line);
-int			word_list_flag(t_word_list *words);
-t_word_list	*word_list_free(t_word_list *words);
+void		init_status(void);
+void		init_declare(void);
+void		init_signal(void);
+void		init_execute(void);
 
-int			command_handler(t_word_list *words, t_shell *mini);
-int			command_find(t_shell *mini);
-void		command_clean(t_shell *mini);
-int			command_execute(t_shell *mini);
-int			command_redirect(t_shell *mini);
-int			command_heredoc(t_command *command);
-void		command_io_close(t_io io);
-int			command_io_set(t_io io);
-int			command_pipe_set(t_shell *mini);
+int			declare_init(void);
+void		declare_update_envp(void);
+int			declare_update_value(t_declare *node, char *str);
+char		*declare_new_line(const t_str *const key, const t_str *const value);
+t_declare	*declare_new(const char *const str);
+t_declare	*declare_add(const char *const str);
+t_declare	*declare_search(const char *const str);
+char		*declare_get_value(const char *const str);
+
+int			declare_legal_check(const char *str);
+
+char		mini_readline(char **line);
+void		handling_eof(void);
+
+t_word_list	*parse_line(char *line);
+int			make_words(t_word_list *words);
+t_command	*parse_words(t_word_list *words);
+int			make_heredoc(const t_command *cmd);
+int			execute_handler(t_command *cmd);
+int			redirect_io(t_command *cmd);
+int			find_command(t_command *cmd);
+
+void		set_io(const t_io *const io);
+void		close_io(const t_io *const io);
+void		reset_io(const t_io *const io);
+
+void		dispose_cmd(t_command *cmd);
+void		dispose_argv(char **argv);
+void		*dispose_words(t_word_list *words);
 
 void		sigint_handler(int signum);
 void		signal_handler(int signum);
-int			envp_handler(t_env *env);
+void		signal_report(int signum);
+int			event_hook(void);
 
-int			exception_error_fatal(const int err_no);
-int			exception_error(const char *const cmd, \
-									const char *const arg, const int err_no);
-int			exception_report(const char *cmd, const char *const arg, \
-								const char *const msg, const int error_no);
+char		*expand_str(char *src, int heredoc);
+int			expand_glob_argv(t_word_list *word, char *pattern, int *argc);
+char		*expand_glob_filename(char *pattern);
+char		*get_match_string(struct dirent *entry, char *pat);
+int			glob_check_dir(char *pat, int type);
+int			glob_strmatch(char *pat, char *str);
 
-int			expand_command(t_shell *mini);
-int			expand_word(t_word_desc *desc);
-char		**expand_glob(t_word_desc *word);
-char		*expand_teilde(char *filename, int i);
-
-int			declare_remove(t_declare **head, const char *const key);
-int			declare_add(t_declare **head, char *str, int flag);
-int			declare_edit(char *value, t_declare *declare, int flag);
-
-int			mini_execve(const t_command *const command);
-int			builtin_cd(const t_command *const command);
-int			builtin_echo(const t_command *const command);
-int			builtin_env(const t_command *const command);
-int			builtin_exit(const t_command *const command);
-int			builtin_export(const t_command *const command);
-int			builtin_pwd(const t_command *const command);
-int			builtin_unset(const t_command *const command);
-int			mini_null(const t_command *const command);
+int			expand_command(t_command *cmd);
 
 int			is_quote(const char c, int quote);
 int			is_teilde(const char *const str, int i, int quote);
-int			is_builtin(const char *str);
 
 int			legal_variable_starter(const char c);
 int			legal_variable_char(const char c);
-int			declare_check(const char *str);
-void		remove_quote(char *str);
+char		*remove_quote(char *str);
+
+int			report_error(const char *const cmd, \
+									const char *const arg, const int error);
+int			report_error_fatal(const int error);
+int			report_error_syntax(const char *const token);
+int			report_exception(const char *cmd, const char *const arg, \
+								const char *const report, const int status);
+int			report_exception_fatal(const char *const report, const int status);
+
+int			mini_null(const t_command *const cmd);
+int			builtin_cd(const t_command *const cmd);
+int			builtin_echo(const t_command *const cmd);
+int			builtin_env(const t_command *const cmd);
+int			builtin_exit(const t_command *const cmd);
+int			builtin_export(const t_command *const cmd);
+int			builtin_pwd(const t_command *const cmd);
+int			builtin_unset(const t_command *const cmd);
+int			mini_execve(const t_command *const cmd);
+int			mini_exit(int exit_status);
 
 void		*ft_memset(void *b, int c, size_t len);
 void		*ft_memcpy(void *sdt, const void *src, size_t n);
