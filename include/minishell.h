@@ -26,9 +26,8 @@ void		xwait(pid_t pid);
 int			xpipe(int fd[2], const char *const str);
 void		disposer(void *obj0, void *obj1, void *obj2, void *obj3);
 
-int			initialize(void);
-int			init_status();
-int			init_declare();
+void		init_status();
+void		init_declare();
 void		init_signal();
 void		init_execute();
 

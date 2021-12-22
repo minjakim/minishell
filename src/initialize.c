@@ -56,44 +56,39 @@ void
 	attr->c_cc[19] = 255;
 }
 
-int
-	init_io(t_io *io)
-{
-	io->in = dup(STDIN_FILENO);
-	if (io->in == ERROR)
-		return (report_error_fatal(errno));
-	io->out = dup(STDOUT_FILENO);
-	if (io->out == ERROR)
-		return (report_error_fatal(errno));
-	return (SUCCESS);
-}
-
-int
+void
 	init_status(void)
 {
 	t_termios	attr;
 
 	g_status.state.prompt = sizeof(PROMPT);
 	g_status.interactive = TRUE;
-	if (!init_io(&g_status.backup.stdio))
-		return (FAILURE);
+	g_status.backup.stdio.in = dup(STDIN_FILENO);
+	if (g_status.backup.stdio.in == ERROR)
+		report_error_fatal(errno);
+	g_status.backup.stdio.out = dup(STDOUT_FILENO);
+	if (g_status.backup.stdio.out == ERROR)
+		report_error_fatal(errno);
 	if (tcgetattr(STDIN_FILENO, &g_status.backup.attr) == ERROR)
-	{
-		g_status.exit = GENERAL_ERROR;
-		return (FAILURE);
-	}
+		report_error_fatal(errno);
 	init_term(&attr);
 	attr.c_ispeed = 9600;
 	attr.c_ospeed = 9600;
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &attr) == ERROR)
-	{
-		g_status.exit = GENERAL_ERROR;
-		return (FAILURE);
-	}
-	return (SUCCESS);
+		report_error_fatal(errno);
 }
 
-int
+void
+	init_signal(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, signal_handler);
+	signal(SIGTERM, signal_handler);
+	rl_catch_signals = FALSE;
+	rl_event_hook = event_hook;
+}
+
+void
 	init_declare(void)
 {
 	extern char	**environ;
@@ -114,5 +109,4 @@ int
 	g_status.env.envp = NULL;
 	g_status.env.edited = TRUE;
 	declare_update_envp();
-	return (SUCCESS);
 }

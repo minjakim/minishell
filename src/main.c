@@ -40,16 +40,6 @@ static int
 }
 
 int
-	initialize(void)
-{
-	init_status();
-	init_signal();
-	init_execute();
-	init_declare();
-	return (SUCCESS);
-}
-
-int
 	main(int argc, char **argv, char **envp)
 {
 	extern char	**environ;
@@ -57,7 +47,9 @@ int
 	(void)argc;
 	(void)argv;
 	environ = envp;
-	if (!initialize())
-		return (GENERAL_ERROR);
+	init_status();
+	init_signal();
+	init_execute();
+	init_declare();
 	return (ft_minishell());
 }

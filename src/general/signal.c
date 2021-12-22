@@ -72,13 +72,3 @@ void
 	if (g_status.exit && g_status.exit <= SIGUSR2)
 		signal_report(g_status.exit);
 }
-
-void
-	init_signal(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, signal_handler);
-	signal(SIGTERM, signal_handler);
-	rl_catch_signals = FALSE;
-	rl_event_hook = event_hook;
-}
