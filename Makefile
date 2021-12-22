@@ -6,7 +6,7 @@
 #    By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 20:07:46 by minjakim          #+#    #+#              #
-#    Updated: 2021/12/20 21:42:24 by minjakim         ###   ########.fr        #
+#    Updated: 2021/12/22 18:03:38 by snpark           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,7 @@ expand			=	expand_cmd.c\
 
 general			=	report.c\
 					dispose.c\
-					signal.c\
-					temp.c\
-					utils.c
+					signal.c
 
 prepare			=	readline.c\
 					parse_line.c\
@@ -45,13 +43,20 @@ prepare			=	readline.c\
 					redirect_io.c\
 					find_cmd.c
 
+utility			=	utils_cpy.c\
+					utils_dup.c\
+					utils_etc.c\
+					utils_str.c\
+					utils_x.c
+
 SRC				=	main.c\
 					initialize.c\
+					$(utility:%=utility/%)\
 					$(declare:%=declare/%)\
 					$(execute:%=execute/%)\
 					$(expand:%=expand/%)\
 					$(general:%=general/%)\
-					$(prepare:%=prepare/%)
+					$(prepare:%=prepare/%)\
 
 SRCS			=	$(SRC:%=./src/%)
 OBJ				=	$(SRCS:./src/%.c=./obj/%.o)
