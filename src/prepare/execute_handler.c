@@ -92,7 +92,6 @@ int
 			break ;
 		cmd = cmd->next;
 	}
-	printf("here\n");
 	g_status.state.haschild = FALSE;
 	g_status.interactive = TRUE;
 	return (SUCCESS);
