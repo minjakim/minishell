@@ -18,6 +18,12 @@ void
 	(void)signum;
 }
 
+int
+	signal_event_hook(void)
+{
+	return (OK);
+}
+
 void
 	sigint_handler(int signum)
 {

@@ -33,7 +33,7 @@ char
 	return (dest);
 }
 
-int
+static int
 	is_ambiguas(char *filename, t_redirect *redirects)
 {
 	if (!filename || !*filename)

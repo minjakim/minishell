@@ -27,8 +27,8 @@ void
 	g_status.execute[MINI_EXECVE] = mini_execve;
 }
 
-void
-	init_term(t_termios *attr)
+static void
+	set_termios(t_termios *attr)
 {
 	attr->c_iflag = 27394;
 	attr->c_oflag = 3;
@@ -71,21 +71,11 @@ void
 		report_error_fatal(errno);
 	if (tcgetattr(STDIN_FILENO, &g_status.backup.attr) == ERROR)
 		report_error_fatal(errno);
-	init_term(&attr);
+	set_termios(&attr);
 	attr.c_ispeed = 9600;
 	attr.c_ospeed = 9600;
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &attr) == ERROR)
 		report_error_fatal(errno);
-}
-
-void
-	init_signal(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, signal_handler);
-	signal(SIGTERM, signal_handler);
-	rl_catch_signals = FALSE;
-	rl_event_hook = event_hook;
 }
 
 void
@@ -105,4 +95,14 @@ void
 	g_status.env.envp = NULL;
 	g_status.env.edited = TRUE;
 	declare_update_envp();
+}
+
+void
+	init_signal(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, signal_handler);
+	signal(SIGTERM, signal_handler);
+	rl_catch_signals = FALSE;
+	rl_event_hook = signal_event_hook;
 }

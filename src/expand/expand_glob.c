@@ -6,14 +6,14 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 10:07:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/22 13:19:48 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/23 10:50:53 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static int
-	glob_compare(char *pat, char *str)
+	glob_compare(const char *pat, const char *str)
 {
 	while (*pat != '*' && *pat != '\0' && *str == '\0')
 	{
@@ -28,7 +28,7 @@ static int
 }
 
 int
-	glob_strmatch(char *pat, char *str)
+	glob_strmatch(const char *pat, const char *str)
 {
 	int		skip;
 
@@ -58,7 +58,7 @@ int
 }
 
 int
-	glob_check_dir(char *pat, int type)
+	glob_check_dir(const char *pat, const int type)
 {
 	while (*pat)
 		pat++;
@@ -70,7 +70,7 @@ int
 }
 
 char
-	*get_match_string(struct dirent *entry, char *pat)
+	*get_match_string(struct dirent *entry, const char *const pat)
 {
 	char	*offset;
 	char	*dest;

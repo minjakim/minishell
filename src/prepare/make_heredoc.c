@@ -33,7 +33,7 @@ static int
 			line = expand_str(line, TRUE);
 		len = ft_strlen(line);
 		if (len != write(g_status.heredoc.out, line, len) && \
-			!(write(g_status.heredoc.out, "\n", 1) < 1))
+			(write(g_status.heredoc.out, "\n", 1) < 1))
 			g_status.state.error = report_error("heredoc", "write", errno);
 		xfree(line);
 	}

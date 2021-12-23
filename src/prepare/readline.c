@@ -12,12 +12,6 @@
 
 #include "../../include/minishell.h"
 
-int
-	event_hook(void)
-{
-	return (OK);
-}
-
 void
 	handling_eof(void)
 {

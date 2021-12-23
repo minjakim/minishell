@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/22 19:53:29 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/23 09:36:44 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int
 			make_heredoc(cmd);
 		if (!g_status.state.any)
 			execute_handler(cmd);
-		dispose_cmd(cmd);
+		dispose_command(cmd);
 	}
 	return (g_status.exit);
 }
@@ -45,9 +45,9 @@ int
 	(void)argc;
 	(void)argv;
 	g_status.env.envp = envp;
-	init_status();
 	init_signal();
-	init_execute();
 	init_declare();
+	init_status();
+	init_execute();
 	return (ft_minishell());
 }

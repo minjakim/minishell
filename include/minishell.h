@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/21 10:39:39 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/23 10:51:30 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,11 @@ void		xwait(pid_t pid);
 int			xpipe(int fd[2], const char *const str);
 void		disposer(void *obj0, void *obj1, void *obj2, void *obj3);
 
-void		init_status(void);
-void		init_declare(void);
 void		init_signal(void);
+void		init_declare(void);
+void		init_status(void);
 void		init_execute(void);
 
-int			declare_init(void);
 void		declare_update_envp(void);
 int			declare_update_value(t_declare *node, char *str);
 char		*declare_new_line(const t_str *const key, const t_str *const value);
@@ -39,7 +38,6 @@ t_declare	*declare_new(const char *const str);
 t_declare	*declare_add(const char *const str);
 t_declare	*declare_search(const char *const str);
 char		*declare_get_value(const char *const str);
-
 int			declare_legal_check(const char *str);
 
 char		mini_readline(char **line);
@@ -57,30 +55,27 @@ void		set_io(const t_io *const io);
 void		close_io(const t_io *const io);
 void		reset_io(const t_io *const io);
 
-void		dispose_cmd(t_command *cmd);
-void		dispose_argv(char **argv);
+void		dispose_command(t_command *cmd);
 void		*dispose_words(t_word_list *words);
+void		dispose_argv(char **argv);
 
 void		sigint_handler(int signum);
 void		signal_handler(int signum);
 void		signal_report(int signum);
-int			event_hook(void);
+int			signal_event_hook(void);
 
+int			expand_command(t_command *cmd);
 char		*expand_str(char *src, int heredoc);
 int			expand_glob_argv(t_word_list *word, char *pattern, int *argc);
 char		*expand_glob_filename(char *pattern);
-char		*get_match_string(struct dirent *entry, char *pat);
-int			glob_check_dir(char *pat, int type);
-int			glob_strmatch(char *pat, char *str);
-
-int			expand_command(t_command *cmd);
-
-int			is_quote(const char c, int quote);
-int			is_teilde(const char *const str, int i, int quote);
+char		*get_match_string(struct dirent *entry, const char *const pat);
+int			glob_check_dir(const char *pat, const int type);
+int			glob_strmatch(const char *pat, const char *str);
 
 int			legal_variable_starter(const char c);
 int			legal_variable_char(const char c);
 char		*remove_quote(char *str);
+int			is_quote(const char c, int quote);
 
 int			report_error(const char *const cmd, \
 									const char *const arg, const int error);
