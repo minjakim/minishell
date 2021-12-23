@@ -63,7 +63,7 @@ static void
 }
 
 void
-	dispose_cmd(t_command *cmd)
+	dispose_command(t_command *cmd)
 {
 	t_command	*temp;
 

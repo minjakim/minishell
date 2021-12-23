@@ -92,7 +92,7 @@ static int
 	char	*path;
 	size_t	path_index;
 
-	path_list = getenv(PATH);
+	path_list = declare_get_value(PATH);
 	path_index = 0;
 	while (path_list && path_list[path_index])
 	{
