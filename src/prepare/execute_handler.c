@@ -32,10 +32,12 @@ static void
 	t_declare	*node;
 
 	node = declare_search(EXECUTED);
-	if (cmd->argc == 0)
+	if (node && cmd->argc == 0)
 		declare_export_update_value(node, "");
 	else if (node)
 		declare_export_update_value(node, cmd->argv[cmd->argc - 1]);
+	else if (cmd->argc == 0)
+		declare_export_new(EXECUTED_KEY, "");
 	else
 		declare_export_new(EXECUTED_KEY, cmd->argv[cmd->argc - 1]);
 	declare_update_envp();
@@ -46,13 +48,13 @@ static int
 {
 	if (!expand_command(cmd))
 		return (FAILURE);
-	if (cmd->argv[0])
-		declare_update_node(EXECUTED, cmd->argv[cmd->argc - 1]);
-	else
+	if (cmd->argc == 0)
 		declare_update_node(EXECUTED, "");
+	else
+		declare_update_node(EXECUTED, cmd->argv[cmd->argc - 1]);
 	declare_update_envp();
 	if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
-		redirect_io(cmd);
+		return (redirect_io(cmd));
 	set_io(&cmd->io);
 	return (SUCCESS);
 }
@@ -73,8 +75,9 @@ int
 			afert_execute(cmd);
 		}
 		if (g_status.state.haschild && !(cmd->flags & CMD_IGNORE_RETURN))
-			xwait(g_status.state.haschild);
-		reset_io(&cmd->io);
+			xwait(g_status.state.haschild, &cmd->io);
+		else
+			reset_io(&cmd->io);
 		if (need_break(cmd))
 			break ;
 		cmd = cmd->next;

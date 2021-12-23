@@ -59,8 +59,12 @@ int
 			cmd->io.fd[redirects->redirector] = \
 			open(redirects->redirectee.filename.word, redirects->flags, 0644);
 		if (cmd->io.fd[redirects->redirector] == ERROR)
+		{
 			report_error("open", redirects->redirectee.filename.word, errno);
+			return (FAILURE);
+		}
 		redirects = redirects->next;
 	}
+	set_io(&cmd->io);
 	return (SUCCESS);
 }

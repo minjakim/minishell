@@ -22,7 +22,7 @@ T_PTR		xcalloc(size_t bytes);
 T_PTR		xcalloc_t_command(void);
 pid_t		xfork(void);
 void		xfree(void *obj);
-void		xwait(pid_t pid);
+void		xwait(pid_t pid, const t_io *const io);
 int			xpipe(int fd[2], const char *const str);
 void		disposer(void *obj0, void *obj1, void *obj2, void *obj3);
 
