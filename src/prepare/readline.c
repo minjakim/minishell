@@ -20,6 +20,8 @@ void
 		write(STDOUT_FILENO, "\033[1A", 4);
 		write(STDOUT_FILENO, "\033[2C", 4);
 		g_status.state.prompt += 2;
+		if ((write(g_status.heredoc.out, "\n", 1) < 1))
+			g_status.state.error = report_error("heredoc", "write", errno);
 	}
 	else
 	{
