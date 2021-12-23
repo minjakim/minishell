@@ -92,13 +92,13 @@ static int
 	while (*line)
 	{
 		if ((*line == ';' || *line == '\\') && !result)
-			return (report_error_syntax(line));
+			return (report_error_syntax(NULL));
 		else if (is_quote(*line, result))
 			result ^= *line;
 		++line;
 	}
 	if (result)
-		report_error_syntax(&result);
+		report_error_syntax(NULL);
 	return (result);
 }
 

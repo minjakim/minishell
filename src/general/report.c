@@ -53,9 +53,12 @@ int
 {
 	write(STDERR_FILENO, "mini: ", 6);
 	write(STDERR_FILENO, EX_SYNTAX, sizeof(EX_SYNTAX));
-	write(STDERR_FILENO, " `", 2);
-	write(STDERR_FILENO, token, ft_strlen(token));
-	write(STDERR_FILENO, "\'\n", 2);
+	if (token)
+	{
+		write(STDERR_FILENO, " `", 2);
+		write(STDERR_FILENO, token, ft_strlen(token));
+		write(STDERR_FILENO, "\'\n", 2);
+	}
 	g_status.exit = ES_USAGE;
 	return (EXCEPTION);
 }
