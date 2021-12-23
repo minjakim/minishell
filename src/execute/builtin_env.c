@@ -15,19 +15,18 @@
 void
 	declare_update_envp(void)
 {
-	t_declare		*node;
-	char			**envp;
-	register int	i;
+	const t_declare		*node = g_status.env.head;
+	char				**envp;
+	register int		i;
 
-	node = g_status.env.head;
 	if (!g_status.env.edited)
 		return ;
 	envp = xcalloc(sizeof(char *) * g_status.env.envc + 1);
 	i = -1;
-	while (node && (i < g_status.env.envc))
+	while (node && (++i < g_status.env.envc))
 	{
 		if (node->line && node->exported)
-			envp[++i] = node->line;
+			envp[i] = node->line;
 		node = node->next;
 	}
 	xfree(g_status.env.envp);
@@ -35,20 +34,17 @@ void
 	g_status.env.edited = FALSE;
 }
 
-static int
-	print_env(const char *const *const envp)
-{
-	register int	i;
-
-	i = -1;
-	while (envp[++i])
-		printf("%s\n", envp[i]);
-	return (g_status.exit = OK);
-}
-
 int
 	builtin_env(const t_command *const cmd)
 {
+	const t_declare	*node = g_status.env.head;
+
 	(void)cmd;
-	return (print_env((const char **)g_status.env.envp));
+	while (node)
+	{
+		if (node->exported && node->line)
+			printf("%s\n", node->line);
+		node = node->next;
+	}
+	return (g_status.exit = OK);
 }

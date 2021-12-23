@@ -35,7 +35,6 @@ void
 	if (node)
 	{
 		xfree(node->value.str);
-		node->value.str = NULL;
 		node->value.str = ft_strdup(value);
 		node->value.len = ft_strlen(node->value.str);
 		xfree(node->line);
@@ -46,10 +45,9 @@ void
 		get_key = get_t_str(key);
 		get_value = get_t_str(value);
 		line = declare_new_line(get_key, get_value);
-		declare_add(line)->next = NULL;
+		declare_add(line)->exported = TRUE;
 		disposer(get_key->str, get_key, get_value->str, get_value);
 		xfree(line);
-		line = NULL;
 	}
 	g_status.env.edited = TRUE;
 }
@@ -67,7 +65,7 @@ static int
 	declare_update_node(PWD, path);
 	declare_update_node(OLDPWD, from);
 	declare_update_envp();
-	disposer(from, path, NULL, NULL);
+	disposer(path, from, NULL, NULL);
 	return (OK);
 }
 
