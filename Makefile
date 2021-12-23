@@ -71,9 +71,6 @@ endif
 LDFLAGS			+=	-lreadline
 LDFLAGS			+=	-L./lib/readline_$(ARCH)/lib
 CFLAGS			+=	-I./lib/readline_$(ARCH)/include
-#LDFLAGS			+=	-lreadline -lncurses
-#LDFLAGS			+=	-L./lib/readline_$(ARCH)/lib -L./lib/ncurses_$(ARCH)/lib
-#CFLAGS			+=	-I./lib/readline_$(ARCH)/include -I./lib/ncurses_$(ARCH)/include
 
 ./obj/%.o		:	./src/%.c
 	@mkdir -p $(dir ./obj/$*)
