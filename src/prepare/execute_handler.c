@@ -26,6 +26,14 @@ static int
 	return (TRUE);
 }
 
+static void
+	after_execute(const t_command *const cmd)
+{
+	reset_io(&cmd->io);
+	declare_update_node(EXECUTED, cmd->argv[cmd->argc - 1]);
+	declare_update_envp();
+}
+
 static int
 	pre_execute(t_command *const cmd)
 {
@@ -53,7 +61,7 @@ int
 		}
 		if (g_status.state.haschild && !(cmd->flags & CMD_IGNORE_RETURN))
 			xwait(g_status.state.haschild);
-		reset_io(&cmd->io);
+		after_execute(cmd);
 		if (need_break(cmd))
 			break ;
 		cmd = cmd->next;

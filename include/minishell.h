@@ -32,7 +32,8 @@ void		init_status(void);
 void		init_execute(void);
 
 void		declare_update_envp(void);
-int			declare_update_value(t_declare *node, char *str);
+void		declare_update_node(const char *const key, const char *const value);
+int			declare_export_update_value(t_declare *node, char *str);
 char		*declare_new_line(const t_str *const key, const t_str *const value);
 t_declare	*declare_new(const char *const str);
 t_declare	*declare_add(const char *const str);

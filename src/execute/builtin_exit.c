@@ -33,7 +33,7 @@ static int
 		++str;
 	n = 0;
 	digit = 0;
-	while (*str && convert(&c, str) < 10 && ++digit < 20)
+	while (*str && convert(&c, str) < 10 && (!n || ++digit < 20))
 	{
 		n = (n << 1) + (n << 3) + c;
 		++str;

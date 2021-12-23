@@ -40,6 +40,9 @@
 # define PATH					"PATH"
 # define PWD					"PWD"
 # define OLDPWD					"OLDPWD"
+# define EXECUTED				"_"
+# define SHLVL					"SHLVL"
+# define SHLVL_1				"SHLVL=1"
 
 # define MINI_OPTION			"-c"
 # define EX_MINI				"option requires an argument"

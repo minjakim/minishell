@@ -23,8 +23,8 @@ static t_str
 	return (ptr);
 }
 
-static void
-	set_node(const char *const key, const char *const value)
+void
+	declare_update_node(const char *const key, const char *const value)
 {
 	t_declare	*node;
 	char		*line;
@@ -63,8 +63,8 @@ static int
 		xfree(from);
 		return (ERROR);
 	}
-	set_node(PWD, path);
-	set_node(OLDPWD, from);
+	declare_update_node(PWD, path);
+	declare_update_node(OLDPWD, from);
 	declare_update_envp();
 	disposer(from, path, NULL, NULL);
 	return (OK);
