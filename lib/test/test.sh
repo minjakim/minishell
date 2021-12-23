@@ -1,5 +1,5 @@
-make -C ../ > /dev/null
-cp ../minishell .
+make -C ../../ > /dev/null
+cp ../../minishell .
 chmod 755 minishell
 
 function exec_test()
