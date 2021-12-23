@@ -15,17 +15,18 @@
 void
 	declare_update_envp(void)
 {
-	const t_declare	*node = g_status.env.head;
+	t_declare		*node;
 	char			**envp;
-	int				i;
+	register int	i;
 
+	node = g_status.env.head;
 	if (!g_status.env.edited)
 		return ;
 	envp = xcalloc(sizeof(char *) * g_status.env.envc + 1);
 	i = -1;
-	while (node)
+	while (node && (i < g_status.env.envc))
 	{
-		if (node->key.str && node->value.str && node->line)
+		if (node->line && node->exported)
 			envp[++i] = node->line;
 		node = node->next;
 	}
@@ -39,9 +40,9 @@ static int
 {
 	register int	i;
 
-	i = 0;
-	while (envp[i])
-		printf("%s\n", envp[i++]);
+	i = -1;
+	while (envp[++i])
+		printf("%s\n", envp[i]);
 	return (g_status.exit = OK);
 }
 

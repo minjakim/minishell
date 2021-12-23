@@ -46,9 +46,10 @@ void
 		get_key = get_t_str(key);
 		get_value = get_t_str(value);
 		line = declare_new_line(get_key, get_value);
-		declare_add(line);
+		declare_add(line)->next = NULL;
 		disposer(get_key->str, get_key, get_value->str, get_value);
 		xfree(line);
+		line = NULL;
 	}
 	g_status.env.edited = TRUE;
 }

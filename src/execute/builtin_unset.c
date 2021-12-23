@@ -22,15 +22,20 @@ static void
 	}
 	else
 	{
-		node->prev->next = node->next;
 		if (node->next)
+		{
+			node->prev->next = node->next;
 			node->next->prev = node->prev;
+		}
 		else
 			g_status.env.tail = node->prev;
 	}
-	--g_status.env.envc;
+	node->prev = NULL;
+	node->next = NULL;
+	if (node->exported)
+		--g_status.env.envc;
 	g_status.env.edited = TRUE;
-	disposer(node->key.str, node->value.str, node, NULL);
+	disposer(node->key.str, node->value.str, node->line, node);
 }
 
 int

@@ -30,7 +30,7 @@ static int
 	return (g_status.exit = OK);
 }
 
-static void
+void
 	declare_export_new(const char *key, const char *after)
 {
 	char	*line;

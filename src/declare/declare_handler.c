@@ -15,8 +15,9 @@
 char
 	*declare_new_line(const t_str *const key, const t_str *const value)
 {
-	char *const	line = xcalloc(key->len + value->len + 2);
+	char *line;
 
+	line = xcalloc(key->len + value->len + 2);
 	ft_strcat(line, key->str);
 	*(line + key->len) = '=';
 	ft_strcat((line + key->len), value->str);

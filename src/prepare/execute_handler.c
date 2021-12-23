@@ -27,10 +27,15 @@ static int
 }
 
 static void
-	after_execute(const t_command *const cmd)
+	afert_execute(const t_command *const cmd)
 {
-	reset_io(&cmd->io);
-	declare_update_node(EXECUTED, cmd->argv[cmd->argc - 1]);
+	t_declare	*node;
+
+	node = declare_search(EXECUTED);
+	if (node)
+		declare_export_update_value(node, cmd->argv[cmd->argc - 1]);
+	else
+		declare_export_new(EXECUTED_KEY, cmd->argv[cmd->argc - 1]);
 	declare_update_envp();
 }
 
@@ -39,6 +44,8 @@ static int
 {
 	if (!expand_command(cmd))
 		return (FAILURE);
+	declare_update_node(EXECUTED, cmd->argv[cmd->argc - 1]);
+	declare_update_envp();
 	if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
 		redirect_io(cmd);
 	set_io(&cmd->io);
@@ -61,7 +68,8 @@ int
 		}
 		if (g_status.state.haschild && !(cmd->flags & CMD_IGNORE_RETURN))
 			xwait(g_status.state.haschild);
-		after_execute(cmd);
+		afert_execute(cmd);
+		reset_io(&cmd->io);
 		if (need_break(cmd))
 			break ;
 		cmd = cmd->next;

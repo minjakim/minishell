@@ -41,6 +41,7 @@
 # define PWD					"PWD"
 # define OLDPWD					"OLDPWD"
 # define EXECUTED				"_"
+# define EXECUTED_KEY			"_="
 # define SHLVL					"SHLVL"
 # define SHLVL_1				"SHLVL=1"
 

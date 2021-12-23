@@ -97,10 +97,7 @@ void
 		if (node == NULL)
 			declare_add(SHLVL_1)->exported = TRUE;
 		else
-		{
 			++(*node->value.str);
-			declare_export_update_value(node, node->value.str);
-		}
 	}
 	g_status.env.envp = NULL;
 	g_status.env.edited = TRUE;
