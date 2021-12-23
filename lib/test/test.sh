@@ -1,3 +1,22 @@
+RESET="\033[0m"
+BLACK="\033[30m"
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[34m"
+MAGENTA="\033[35m"
+CYAN="\033[36m"
+WHITE="\033[37m"
+
+BOLDBLACK="\033[1m\033[30m"
+BOLDRED="\033[1m\033[31m"
+BOLDGREEN="\033[1m\033[32m"
+BOLDYELLOW="\033[1m\033[33m"
+BOLDBLUE="\033[1m\033[34m"
+BOLDMAGENTA="\033[1m\033[35m"
+BOLDCYAN="\033[1m\033[36m"
+BOLDWHITE="\033[1m\033[37m"
+
 make -C ../../ > /dev/null
 cp ../../minishell .
 chmod 755 minishell
@@ -9,26 +28,32 @@ function exec_test()
 	test2=$(bash -c "$@" )
 	es_2=$?
 	if [ "$test1" == "$test2" ] && [ "$es_1" == "$es_2" ]; then
-		printf "ok"
+		printf " $BOLDGREEN%s$RESET" "✓ "
 	else
-		printf "fail"
+		printf " $BOLDRED%s$RESET" "✗ "
 	fi
-	printf "\t\ttest case : $@\n"
-	printf "\t\toutput : [$test1]\n"
-	printf "\t\texit satus : $es_1\n"
-	if [ "$test1" != "$test2" ]; then
+	printf "$CYAN \"$@\" $RESET"
+	if [ "$TEST1" != "$TEST2" ]; then
 		echo
 		echo
-		printf "Your output : \n$test1\n"
-		printf "Expected output : \n$test2\n"
+		printf $BOLDRED"Your output : \n%.20s\n$BOLDRED$TEST1\n%.20s$RESET\n" "-----------------------------------------" "-----------------------------------------"
+		printf $BOLDGREEN"Expected output : \n%.20s\n$BOLDGREEN$TEST2\n%.20s$RESET\n" "-----------------------------------------" "-----------------------------------------"
 	fi
-	if [ "$es_1" != "$es_2" ]; then
+	if [ "$ES_1" != "$ES_2" ]; then
 		echo
 		echo
-		printf "Your exit status : $es_1\n"
-		printf "Expected exit status : $es_2\n"
+		printf $BOLDRED"Your exit status : $BOLDRED$ES_1$RESET\n"
+		printf $BOLDGREEN"Expected exit status : $BOLDGREEN$ES_2$RESET\n"
 	fi
-	sleep 0.1
+	echo
+	echo
+	echo
+	echo -n "press any key"
+	echo
+	echo
+	echo
+	read
+	clear
 }
 
 printf "start"
