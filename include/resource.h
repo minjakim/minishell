@@ -41,6 +41,8 @@
 # define PWD					"PWD"
 # define OLDPWD					"OLDPWD"
 
+# define MINI_OPTION			"-c"
+# define EX_MINI				"option requires an argument"
 # define EXIT					"exit\n"
 # define EX_EXIT_FMT			"numeric argument required"
 # define EX_EXIT_ARGS			"too many arguments"

@@ -93,7 +93,7 @@ int
 		if (flag_redirect(words, words->word.word, old_flags) == EXCEPTION)
 			return (EXCEPTION);
 		if (g_status.state.need_heredoc >= HEREDOC_MAX)
-			return (report_exception_fatal(EX_HEREDOC_MAX, ES_BADUSAGE));
+			return (report_exception_fatal(NULL, EX_HEREDOC_MAX, ES_BADUSAGE));
 		if (flag_connector(words, words->word.word, old_flags) == EXCEPTION)
 			return (EXCEPTION);
 		if (flag_qoute_expand(words, words->word.word) == EXCEPTION)

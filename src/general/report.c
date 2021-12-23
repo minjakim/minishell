@@ -60,9 +60,15 @@ int
 }
 
 int
-	report_exception_fatal(const char *const report, const int error)
+	report_exception_fatal(const char *const arg, const char *const report, \
+															const int error)
 {
 	write(STDERR_FILENO, "mini: ", 6);
+	if (arg)
+	{
+		write(STDERR_FILENO, arg, ft_strlen(arg));
+		write(STDERR_FILENO, ": ", 2);
+	}
 	if (report)
 		write(STDERR_FILENO, report, ft_strlen(report));
 	write(STDERR_FILENO, "\n", 1);

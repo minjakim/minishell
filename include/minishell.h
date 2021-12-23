@@ -83,7 +83,8 @@ int			report_error_fatal(const int error);
 int			report_error_syntax(const char *const token);
 int			report_exception(const char *cmd, const char *const arg, \
 								const char *const report, const int status);
-int			report_exception_fatal(const char *const report, const int status);
+int			report_exception_fatal(const char *const arg, \
+									const char *const report, const int error);
 
 int			mini_null(const t_command *const cmd);
 int			builtin_cd(const t_command *const cmd);

@@ -39,15 +39,37 @@ static int
 	return (g_status.exit);
 }
 
+static int
+	ft_minishell_with_flag(char *line)
+{
+	t_word_list	*words;
+	t_command	*cmd;
+
+	words = parse_line(line);
+	if (!words)
+		return (g_status.exit);
+	cmd = parse_words(words);
+	if (!g_status.state.any)
+		make_heredoc(cmd);
+	if (!g_status.state.any)
+		execute_handler(cmd);
+	dispose_command(cmd);
+	return (mini_exit(g_status.exit));
+}
+
 int
 	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
 	g_status.env.envp = envp;
 	init_signal();
 	init_declare();
 	init_status();
 	init_execute();
+	if (argc >= 2 && !ft_strcmp(MINI_OPTION, argv[1]))
+	{
+		if (argc == 2)
+			return (report_exception_fatal(argv[1], EX_MINI, ES_BADUSAGE));
+		return (ft_minishell_with_flag(argv[2]));
+	}
 	return (ft_minishell());
 }
