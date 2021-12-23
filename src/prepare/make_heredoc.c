@@ -32,7 +32,7 @@ static int
 		if (!(heredoc->filename.flags & (W_QUOTED | W_DQUOTED)))
 			line = expand_str(line, TRUE);
 		len = ft_strlen(line);
-		if (len != write(g_status.heredoc.out, line, len) && \
+		if ((len != write(g_status.heredoc.out, line, len)) || \
 			(write(g_status.heredoc.out, "\n", 1) < 1))
 			g_status.state.error = report_error("heredoc", "write", errno);
 		xfree(line);
