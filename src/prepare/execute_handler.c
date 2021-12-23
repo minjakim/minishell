@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/22 19:45:13 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/24 00:25:12 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ static void
 	t_declare	*node;
 
 	node = declare_search(EXECUTED);
-	if (node)
+	if (cmd->argc == 0)
+		declare_export_update_value(node, "");
+	else if (node)
 		declare_export_update_value(node, cmd->argv[cmd->argc - 1]);
 	else
 		declare_export_new(EXECUTED_KEY, cmd->argv[cmd->argc - 1]);
@@ -44,7 +46,10 @@ static int
 {
 	if (!expand_command(cmd))
 		return (FAILURE);
-	declare_update_node(EXECUTED, cmd->argv[cmd->argc - 1]);
+	if (cmd->argv[0])
+		declare_update_node(EXECUTED, cmd->argv[cmd->argc - 1]);
+	else
+		declare_update_node(EXECUTED, "");
 	declare_update_envp();
 	if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
 		redirect_io(cmd);
