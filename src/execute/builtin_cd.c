@@ -87,6 +87,8 @@ static const char
 		path = declare_get_value(OLDPWD);
 		if (!path)
 			report_exception(argv[0], NULL, EX_CD_OLDPWD, GENERAL_ERROR);
+		else
+			printf("%s\n", path);
 		return (path);
 	}
 	else
