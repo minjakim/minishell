@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/21 10:39:39 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/23 10:51:30 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ int			expand_command(t_command *cmd);
 char		*expand_str(char *src, int heredoc);
 int			expand_glob_argv(t_word_list *word, char *pattern, int *argc);
 char		*expand_glob_filename(char *pattern);
-char		*get_match_string(struct dirent *entry, char *pat);
-int			glob_check_dir(char *pat, int type);
-int			glob_strmatch(char *pat, char *str);
+char		*get_match_string(struct dirent *entry, const char *const pat);
+int			glob_check_dir(const char *pat, const int type);
+int			glob_strmatch(const char *pat, const char *str);
 
 int			legal_variable_starter(const char c);
 int			legal_variable_char(const char c);
