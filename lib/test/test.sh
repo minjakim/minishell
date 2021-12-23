@@ -1,3 +1,5 @@
+#!/bin/bash
+
 RESET="\033[0m"
 BLACK="\033[30m"
 RED="\033[31m"
@@ -132,11 +134,10 @@ exec_test 'cd . && pwd '
 exec_test 'cd .. && pwd '
 exec_test 'cd / && pwd '
 exec_test 'cd - && pwd  '
-exec_test 'cd qwe'
 exec_test 'cd asd'
 exec_test 'cd qwe'
 exec_test 'unset OLDPWD && cd -'
-exec_test 'unset HOME && cd -' 1
+exec_test 'unset HOME && cd' 1
 echo
 echo
 

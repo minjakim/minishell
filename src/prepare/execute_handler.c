@@ -65,10 +65,10 @@ int
 				g_status.execute[find_command(cmd)]((const t_command*)cmd);
 			if (cmd->flags & CMD_SUBSHELL)
 				exit(g_status.exit);
+			afert_execute(cmd);
 		}
 		if (g_status.state.haschild && !(cmd->flags & CMD_IGNORE_RETURN))
 			xwait(g_status.state.haschild);
-		afert_execute(cmd);
 		reset_io(&cmd->io);
 		if (need_break(cmd))
 			break ;

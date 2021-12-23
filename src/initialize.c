@@ -91,8 +91,6 @@ void
 		g_status.env.tail = g_status.env.head;
 		while (g_status.env.envp[++g_status.env.envc])
 			(declare_add(g_status.env.envp[g_status.env.envc]))->exported = 1;
-		if (!declare_search(OLDPWD))
-			declare_add(OLDPWD)->exported = TRUE;
 		node = declare_search(SHLVL);
 		if (node == NULL)
 			declare_add(SHLVL_1)->exported = TRUE;
