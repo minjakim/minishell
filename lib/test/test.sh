@@ -23,16 +23,16 @@ chmod 755 minishell
 
 function exec_test()
 {
-	test1=$(./minishell -c "$@" )
+	test1=$(./minishell -c "$1" )
 	es_1=$?
-	test2=$(bash -c "$@" )
+	test2=$(bash -c "$1" )
 	es_2=$?
 	if [ "$test1" == "$test2" ] && [ "$es_1" == "$es_2" ]; then
 		printf " $BOLDGREEN%s$RESET" "✓ "
 	else
 		printf " $BOLDRED%s$RESET" "✗ "
 	fi
-	printf "$CYAN \"$@\" $RESET"
+	printf "$CYAN \"$1\" $RESET"
 	if [ "$TEST1" != "$TEST2" ]; then
 		echo
 		echo
@@ -47,46 +47,50 @@ function exec_test()
 	fi
 	echo
 	echo
-	echo
-	echo -n "press any key"
-	echo
-	echo
-	echo
 	read
-	clear
+	if [ "$2" == "1" ]; then
+		clear
+	fi
 }
 
+clear
+echo
+echo
 printf "start"
 printf "\n\n\n"
 
 printf "simple Command\n"
+echo
 exec_test /bin/ls
 exec_test /bin/echo
 exec_test /bin/pwd
-exec_test /bin/date
+exec_test /bin/date 1
 printf "\n\n"
 
 printf "Arguments & history\n"
+echo
 exec_test '/bin/ls /'
 exec_test '/bin/ls .'
 exec_test '/bin/ls ..'
 exec_test '/bin/echo hello'
-exec_test '/bin/echo world'
+exec_test '/bin/echo world' 1
 printf "\n\n"
 
 printf "echo\n"
+echo
 exec_test 'echo'
 exec_test 'echo -n'
 exec_test 'echo world'
 exec_test 'echo merry'
 exec_test 'echo merry christmas'
 exec_test 'echo hello world merry christmas'
-exec_test 'echo hllo                             world                                          merry                                           christmas'
-exec_test 'echo -n hello                                world                                     merry                     christmas'
-exec_test 'echo "hello"world"'"merry"'"christmase'
+exec_test 'echo hllo           world             merry                                           christmas'
+exec_test 'echo -n hello              world                      merry                     christmas'
+exec_test 'echo "hello"world"'"merry"'"christmase' 1
 printf "\n\n"
 
 printf "exit\n"
+echo
 exec_test 'exit'
 exec_test 'exit 0'
 exec_test 'exit 1'
@@ -100,11 +104,12 @@ exec_test 'exit hello 0'
 exec_test 'exit 999999'
 exec_test 'exit 999999999999999'
 exec_test 'exit 000000000000000'
-exec_test 'exit 3.141592'
+exec_test 'exit 3.141592' 1
 echo
 echo
 
 printf "Return value of a process\n"
+echo
 exec_test '/bin/ls'
 exec_test 'qqq'
 exec_test '*/'
@@ -113,14 +118,16 @@ echo
 echo
 
 printf 'Double Quotes\n'
+echo
 exec_test 'echo "cat lol.c | cat > lol.c"'
 exec_test 'echo "hello                                                              world"'
 exec_test 'echo               "hello"                                               "world"'
-exec_test '"echo" hello'
+exec_test '"echo" hello' 1
 echo
 echo
 
 printf "cd\n"
+echo
 exec_test 'cd . && pwd '
 exec_test 'cd .. && pwd '
 exec_test 'cd / && pwd '
@@ -129,36 +136,40 @@ exec_test 'cd qwe'
 exec_test 'cd asd'
 exec_test 'cd qwe'
 exec_test 'unset OLDPWD && cd -'
-exec_test 'unset HOME && cd -'
+exec_test 'unset HOME && cd -' 1
 echo
 echo
 
 printf "Pipes"
+echo
 exec_test 'echo hello | cat'
-exec_test 'env | gerp PWD'
+exec_test 'env | gerp PWD' 1
 
 
 printf "Enviroment Variable\n"
+echo
 exec_test 'echo $USER'
 exec_test 'echo $HOME'
-exec_test 'echo $123'
 exec_test 'echo $USER.qwe'
-exec_test 'echo $USERqwe'
+exec_test 'echo $USERqwe' 1
 echo
 echo
 
 printf "Bonus\n"
+echo
 printf "And, Or\n"
 exec_test 'echo hello && echo world'
 exec_test 'echo hello || echo world'
 exec_test '42 && echo 42 is command'
-exec_test '42 || echo 42 is not command'
+exec_test '42 || echo 42 is not command' 1
 echo
 echo
+
 printf "WildCard\n"
+echo
 exec_test 'echo *'
 exec_test 'echo .*'
-exec_test 'echo */'
+exec_test 'echo */' 1
 echo
 echo
 

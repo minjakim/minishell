@@ -42,9 +42,10 @@ int
 	}
 	write(STDERR_FILENO, str_error, ft_strlen(str_error));
 	write(STDERR_FILENO, "\n", 1);
+	g_status.exit = GENERAL_ERROR;
 	if (error == ENOENT)
 		return (ENOENT);
-	return (g_status.exit = GENERAL_ERROR);
+	return (g_status.exit);
 }
 
 int
