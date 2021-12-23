@@ -62,21 +62,27 @@ SRCS			=	$(SRC:%=./src/%)
 OBJ				=	$(SRCS:./src/%.c=./obj/%.o)
 ARCH			=	$(shell uname -m)
 
+CC				=	gcc
+CPPFLAGS		=	-Wall -Werror -Wextra
+
 ifeq ($(ARCH), x86_64)
 	CPPFLAGS	+=	-arch x86_64
 endif
-LDFLAGS			+=	-L./lib/readline_$(ARCH)/lib -L./lib/ncurses_$(ARCH)/lib
-CPPFLAGS		+=	-I./lib/readline_$(ARCH)/include -I./lib/ncurses_$(ARCH)/include
-TEMP			=	gcc -lreadline -lncurses
+LDFLAGS			+=	-lreadline
+LDFLAGS			+=	-L./lib/readline_$(ARCH)/lib
+CFLAGS			+=	-I./lib/readline_$(ARCH)/include
+#LDFLAGS			+=	-lreadline -lncurses
+#LDFLAGS			+=	-L./lib/readline_$(ARCH)/lib -L./lib/ncurses_$(ARCH)/lib
+#CFLAGS			+=	-I./lib/readline_$(ARCH)/include -I./lib/ncurses_$(ARCH)/include
 
 ./obj/%.o		:	./src/%.c
 	@mkdir -p $(dir ./obj/$*)
-	gcc -Wall -Werror -Wextra -c $< -o $@
+	$(CC) $(CPPFLAGS) -c $< -o $@
 
 all 			:	$(NAME)
 
 $(NAME)			:	$(OBJ)
-	$(TEMP) $(LDFLAGS) $(CPPFLAGS) $(OBJ) -o $@
+	$(CC) $(LDFLAGS) $(CFLAGS) $(OBJ) -o $@
 
 clean			:
 					rm -rf ./obj
