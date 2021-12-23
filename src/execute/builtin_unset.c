@@ -13,7 +13,7 @@
 #include "../../include/minishell.h"
 
 static void
-	declare_unset(t_declare	*node)
+	declare_unset(t_declare *node)
 {
 	if (node->prev == NULL)
 	{
