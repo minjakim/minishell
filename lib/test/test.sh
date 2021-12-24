@@ -84,7 +84,6 @@ test '/bin/ls ..'
 test '/bin/echo hello'
 test '/bin/echo world'
 
-
 pt "echo"
 test 'echo'
 test 'echo -n'
