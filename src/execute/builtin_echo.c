@@ -18,13 +18,22 @@ int
 	const char *const *const	argv = (const char *const *const)cmd->argv;
 	int							display_return;
 	int							i;
+	int							n;
 
-	display_return = 1;
+	display_return = TRUE;
 	i = 1;
-	if (argv[i] && argv[i][0] == '-' && argv[i][1] == 'n' && argv[i][2] == '\0')
+	while (argv[i] && argv[i][0] == '-' && argv[i][1] == 'n')
 	{
-		display_return = 0;
-		++i;
+		n = 2;
+		while (argv[i][n] == 'n')
+			++n;
+		if (argv[i][n] == '\0')
+		{
+			display_return = FALSE;
+			++i;
+		}
+		else
+			break ;
 	}
 	while (argv[i] && write(STDOUT_FILENO, argv[i], ft_strlen(argv[i])))
 		if (argv[++i])
