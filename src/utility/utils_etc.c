@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/24 15:14:40 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/24 15:25:40 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ static inline unsigned char
 int
 	ft_shlvltoi(const char *str)
 {
+	unsigned char	shlvl;
 	int				i;
-	unsigned char	a;
 
 	i = 0;
-	while (*str && convert(&a, str) < 10)
+	while (*str && convert(&shlvl, str) < 10)
 	{
-		i = (i << 1) + (i << 3) + a;
+		i = (i << 1) + (i << 3) + shlvl;
 		++str;
 	}
 	if (*str)
