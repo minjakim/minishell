@@ -45,6 +45,6 @@ char
 	if (**line)
 		add_history(*line);
 	g_status.state.prompt = sizeof(PROMPT);
-	g_status.state.any = 0;
+	g_status.state.any = FALSE;
 	return (**line);
 }
