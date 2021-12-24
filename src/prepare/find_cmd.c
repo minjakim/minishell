@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/22 21:00:07 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/24 12:04:49 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ static t_execute
 }
 
 static char
-	*find_in_path_element(char *name, char *path)
+	*find_in_path_element(char *name, const char *path)
 {
 	char		*full_path;
-	const int	full_path_len = ft_strlen(path) + ft_strlen(path) + 2;
+	const int	full_path_len = ft_strlen(path) + ft_strlen(name) + 2;
 	struct stat	finfo;
 
 	full_path = xcalloc(sizeof(char) * full_path_len);
-	ft_strcat(ft_strcat(strcpy(full_path, path), "/"), name);
+	ft_strcat(ft_strcat(ft_strcpy(full_path, path), "/"), name);
 	if (stat(full_path, &finfo) < 0)
 	{
 		free(full_path);

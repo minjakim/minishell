@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/24 00:25:12 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/24 12:05:27 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ int
 		if (g_status.state.haschild == 0)
 		{
 			if (pre_execute(cmd))
+			{
 				g_status.execute[find_command(cmd)]((const t_command*)cmd);
+			}
 			if (cmd->flags & CMD_SUBSHELL)
 				exit(g_status.exit);
 			afert_execute(cmd);
