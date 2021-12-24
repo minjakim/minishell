@@ -45,25 +45,25 @@ function pt()
 
 function test()
 {
-	test1=$(../../minishell -c "$1" )
-	es_1=$?
-	test2=$(/bin/bash -c "$1" )
-	es_2=$?
-	if [ "$test1" == "$test2" ] && [ "$es_1" == "$es_2" ]; then
+	MINI=$(../../minishell -c "$1" )
+	MINI_ES=$?
+	BASH=$(/bin/bash -c "$1" )
+	BASH_ES=$?
+	if [ "$MINI" == "$BASH" ] && [ "$MINI_ES" == "$BASH_ES" ]; then
 		printf " $BOLDGREEN%s$RESET" "✓ "
 	else
 		printf " $BOLDRED%s$RESET" "✗ "
 	fi
 	printf "$CYAN \"$1\" $RESET"
-	if [ "$TEST1" != "$TEST2" ]; then
+	if [ "$MINI" != "$BASH" ]; then
 		nl 2
-		printf $BOLDRED"Your output : \n%.20s\n$BOLDRED$TEST1\n%.20s$RESET\n" "-----------------------------------------" "-----------------------------------------"
-		printf $BOLDGREEN"Expected output : \n%.20s\n$BOLDGREEN$TEST2\n%.20s$RESET\n" "-----------------------------------------" "-----------------------------------------"
+		printf $BOLDRED"Your output : \n%.20s\n$BOLDRED$MINI\n%.20s$RESET\n" "-----------------------------------------" "-----------------------------------------"
+		printf $BOLDGREEN"Expected output : \n%.20s\n$BOLDGREEN$BASHn%.20s$RESET\n" "-----------------------------------------" "-----------------------------------------"
 	fi
-	if [ "$ES_1" != "$ES_2" ]; then
+	if [ "$MINI_ES" != "$BASH_ES" ]; then
 		nl 2
-		printf $BOLDRED"Your exit status : $BOLDRED$ES_1$RESET\n"
-		printf $BOLDGREEN"Expected exit status : $BOLDGREEN$ES_2$RESET\n"
+		printf $BOLDRED"Your exit status : $BOLDRED$MINI_ES$RESET\n"
+		printf $BOLDGREEN"Expected exit status : $BOLDGREEN$BASH_ES$RESET\n"
 	fi
 	nl 2
 	sleep 1
