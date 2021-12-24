@@ -20,14 +20,34 @@ BOLDCYAN="\033[1m\033[36m"
 BOLDWHITE="\033[1m\033[37m"
 
 make -C ../../ > /dev/null
-cp ../../minishell .
-chmod 755 minishell
+chmod 755 ../../minishell
 
-function exec_test()
+function nl()
 {
-	test1=$(./minishell -c "$1" )
+	for ((i = 0; i < $1; ++i))
+	do
+		echo
+	done
+}
+
+function pf()
+{
+	printf $@
+}
+
+function pt()
+{
+	clear
+	nl 2
+	printf $1
+	nl 2
+}
+
+function test()
+{
+	test1=$(../../minishell -c "$1" )
 	es_1=$?
-	test2=$(bash -c "$1" )
+	test2=$(/bin/bash -c "$1" )
 	es_2=$?
 	if [ "$test1" == "$test2" ] && [ "$es_1" == "$es_2" ]; then
 		printf " $BOLDGREEN%s$RESET" "✓ "
@@ -36,142 +56,107 @@ function exec_test()
 	fi
 	printf "$CYAN \"$1\" $RESET"
 	if [ "$TEST1" != "$TEST2" ]; then
-		echo
-		echo
+		nl 2
 		printf $BOLDRED"Your output : \n%.20s\n$BOLDRED$TEST1\n%.20s$RESET\n" "-----------------------------------------" "-----------------------------------------"
 		printf $BOLDGREEN"Expected output : \n%.20s\n$BOLDGREEN$TEST2\n%.20s$RESET\n" "-----------------------------------------" "-----------------------------------------"
 	fi
 	if [ "$ES_1" != "$ES_2" ]; then
-		echo
-		echo
+		nl 2
 		printf $BOLDRED"Your exit status : $BOLDRED$ES_1$RESET\n"
 		printf $BOLDGREEN"Expected exit status : $BOLDGREEN$ES_2$RESET\n"
 	fi
-	echo
-	echo
-	read
-	if [ "$2" == "1" ]; then
-		clear
-	fi
+	nl 2
+	sleep 1
 }
 
-clear
-echo
-echo
-printf "start"
-printf "\n\n\n"
+pt "start"
 
-printf "simple Command\n"
-echo
-exec_test /bin/ls
-exec_test /bin/echo
-exec_test /bin/pwd
-exec_test /bin/date 1
-printf "\n\n"
+pt "simple Command"
+test '/bin/ls'
+test '/bin/echo'
+test '/bin/pwd'
+test '/bin/date'
 
-printf "Arguments & history\n"
-echo
-exec_test '/bin/ls /'
-exec_test '/bin/ls .'
-exec_test '/bin/ls ..'
-exec_test '/bin/echo hello'
-exec_test '/bin/echo world' 1
-printf "\n\n"
-
-printf "echo\n"
-echo
-exec_test 'echo'
-exec_test 'echo -n'
-exec_test 'echo world'
-exec_test 'echo merry'
-exec_test 'echo merry christmas'
-exec_test 'echo hello world merry christmas'
-exec_test 'echo hllo           world             merry                                           christmas'
-exec_test 'echo -n hello              world                      merry                     christmas'
-exec_test 'echo "hello"world"'"merry"'"christmase' 1
-printf "\n\n"
-
-printf "exit\n"
-echo
-exec_test 'exit'
-exec_test 'exit 0'
-exec_test 'exit 1'
-exec_test 'exit -1'
-exec_test 'exit 255'
-exec_test 'exit hello'
-exec_test 'exit 0 0'
-exec_test 'exit hello world'
-exec_test 'exit 0 hello'
-exec_test 'exit hello 0'
-exec_test 'exit 999999'
-exec_test 'exit 999999999999999'
-exec_test 'exit 000000000000000'
-exec_test 'exit 3.141592' 1
-echo
-echo
-
-printf "Return value of a process\n"
-echo
-exec_test '/bin/ls'
-exec_test 'qqq'
-exec_test '*/'
-exec_test '/bin/ls qqweqweqeqweqq'
-echo
-echo
-
-printf 'Double Quotes\n'
-echo
-exec_test 'echo "cat lol.c | cat > lol.c"'
-exec_test 'echo "hello                                                              world"'
-exec_test 'echo               "hello"                                               "world"'
-exec_test '"echo" hello' 1
-echo
-echo
-
-printf "cd\n"
-echo
-exec_test 'cd . && pwd '
-exec_test 'cd .. && pwd '
-exec_test 'cd / && pwd '
-exec_test 'cd - && pwd  '
-exec_test 'cd asd'
-exec_test 'cd qwe'
-exec_test 'unset OLDPWD && cd -'
-exec_test 'unset HOME && cd' 1
-echo
-echo
-
-printf "Pipes"
-echo
-exec_test 'echo hello | cat'
-exec_test 'env | gerp PWD' 1
+pt "Arguments & history"
+test '/bin/ls /'
+test '/bin/ls .'
+test '/bin/ls ..'
+test '/bin/echo hello'
+test '/bin/echo world'
 
 
-printf "Enviroment Variable\n"
-echo
-exec_test 'echo $USER'
-exec_test 'echo $HOME'
-exec_test 'echo $USER.qwe'
-exec_test 'echo $USERqwe' 1
-echo
-echo
+pt "echo"
+test 'echo'
+test 'echo -n'
+test 'echo world'
+test 'echo merry'
+test 'echo merry christmas'
+test 'echo hello world merry christmas'
+test 'echo hllo           world             merry                                           christmas'
+test 'echo -n hello              world                      merry                     christmas'
+test 'echo "hello"world"'"merry"'"christmase'
 
-printf "Bonus\n"
-echo
-printf "And, Or\n"
-exec_test 'echo hello && echo world'
-exec_test 'echo hello || echo world'
-exec_test '42 && echo 42 is command'
-exec_test '42 || echo 42 is not command' 1
-echo
-echo
+pt "exit"
+test 'exit'
+test 'exit 0'
+test 'exit 1'
+test 'exit -1'
+test 'exit 255'
+test 'exit hello'
+test 'exit 0 0'
+test 'exit hello world'
+test 'exit 0 hello'
+test 'exit hello 0'
+test 'exit 999999'
+test 'exit 999999999999999'
+test 'exit 000000000000000'
+test 'exit 3.141592'
 
-printf "WildCard\n"
-echo
-exec_test 'echo *'
-exec_test 'echo .*'
-exec_test 'echo */' 1
-echo
-echo
+pt "Return value of a process"
+test '/bin/ls'
+test 'qqq'
+test '*/'
+test '/bin/ls qqweqweqeqweqq'
+
+pt 'Double Quotes'
+test 'echo "cat lol.c | cat > lol.c"'
+test 'echo "hello                                                              world"'
+test 'echo               "hello"                                               "world"'
+test '"echo" hello'
+
+pt "cd"
+test 'cd . && pwd '
+test 'cd .. && pwd '
+test 'cd / && pwd '
+test 'cd - && pwd  '
+test 'cd asd'
+test 'cd qwe'
+test 'unset OLDPWD && cd -'
+test 'unset HOME && cd'
+
+pt "Pipes"
+test 'echo hello | cat'
+test 'env | gerp PWD'
+
+pt "Enviroment Variable"
+test 'echo $USER'
+test 'echo $HOME'
+test 'echo $USER.qwe'
+test 'echo $USERqwe'
+
+pt "Bonus"
+
+pt "And, Or"
+test 'echo hello && echo world'
+test 'echo hello || echo world'
+test '42 && echo 42 is command'
+test '42 || echo 42 is not command'
+
+pt "WildCard"
+test 'echo *'
+test 'echo .*'
+test 'echo */'
+
+
 
 
