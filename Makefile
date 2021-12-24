@@ -63,7 +63,7 @@ OBJ				=	$(SRCS:./src/%.c=./obj/%.o)
 ARCH			=	$(shell uname -m)
 
 CC				=	gcc
-CPPFLAGS		=	-Wall -Werror -Wextra
+CPPFLAGS		=	-g -Wall -Werror -Wextra
 
 ifeq ($(ARCH), x86_64)
 	CPPFLAGS	+=	-arch x86_64
