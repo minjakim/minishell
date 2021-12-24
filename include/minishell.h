@@ -110,7 +110,7 @@ char		*ft_strcat(char *s1, const char *s2);
 size_t		ft_strlen(const char *str);
 int			ft_strcmp(const char *s1, const char *s2);
 void		ft_strmove(char *dest, char *src, int len);
-char		*ft_itoa(int n);
+char		*ft_itoshlvl(int n);
 int			ft_shlvltoi(const char *str);
 
 #endif

@@ -37,30 +37,21 @@ static inline int
 }
 
 char
-	*ft_itoa(int n)
+	*ft_itoshlvl(int n)
 {
 	size_t		len;
 	size_t		i;
-	char		*res;
+	char		*shlvl;
 
-	if (n < 0)
-		i = (size_t)(-n);
-	else
-		i = (size_t)n;
-	len = get_len(i) + 1;
-	if (n < 0)
-		++len;
-	res = (char *)xcalloc(len);
-	if (!i)
-		res[--len] = '0';
+	i = (size_t)n;
+	len = get_len(i);
+	shlvl = (char *)xcalloc(len);
 	while (i)
 	{
-		res[--len] = '0' + (i % 10);
+		shlvl[--len] = '0' + (i % 10);
 		i /= 10;
 	}
-	if (len)
-		res[--len] = '-';
-	return (res);
+	return (shlvl);
 }
 
 static inline unsigned char

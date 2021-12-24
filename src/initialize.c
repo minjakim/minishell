@@ -99,7 +99,7 @@ void
 		else
 		{
 			i = ft_shlvltoi(node->value.str);
-			shlvl = ft_itoa(++i);
+			shlvl = ft_itoshlvl(++i);
 			declare_export_update_value(node, shlvl);
 			xfree(shlvl);
 		}
