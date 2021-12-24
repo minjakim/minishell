@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 17:25:11 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/24 15:16:58 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/24 22:05:27 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int
 }
 
 static long
-	find(const t_byte *s, int c, long *ans)
+	find(const t_byte *s, int c, long *chr)
 {
 	int	i;
 
@@ -30,11 +30,11 @@ static long
 	while (++i < 8)
 	{
 		if (s[i] == c)
-			return (*ans = (long int)s + i);
+			return (*chr = (long)s + i);
 		else if (!s[i])
-			return (*ans = 0);
+			return (*chr = 0);
 	}
-	return (*ans = -1);
+	return (*chr = -1);
 }
 
 char
@@ -42,9 +42,9 @@ char
 {
 	const t_byte	*s_ptr = (const t_byte *)s;
 	const t_op		*lg_ptr;
-	long			ans;
 	t_op			charmask;
 	t_op			word;
+	long			chr;
 
 	while ((t_op)s_ptr & 0b111)
 	{
@@ -62,8 +62,8 @@ char
 		word = *lg_ptr++;
 		if (((word - LOMAGIC) & (~word) & HIMAGIC) || \
 			(((word ^ charmask) - LOMAGIC) & ~(word ^ charmask) & HIMAGIC))
-			if (find((const t_byte *)(lg_ptr - 1), c, &ans) != -1)
-				return ((char *)ans);
+			if (find((const t_byte *)(lg_ptr - 1), c, &chr) != -1)
+				return ((char *)chr);
 	}
 }
 

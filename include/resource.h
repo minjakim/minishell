@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/22 20:58:00 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/24 22:16:36 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 # define EXECUTED_KEY			"_="
 # define SHLVL					"SHLVL"
 # define SHLVL_1				"SHLVL=1"
+# define INIT_SHLVL				1
 
 # define MINI_OPTION			"-c"
 # define EX_MINI				"option requires an argument"

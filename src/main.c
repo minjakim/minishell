@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/24 15:35:03 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/24 22:48:17 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,16 @@ static int
 int
 	main(int argc, char **argv, char **envp)
 {
-	g_status.env.envp = envp;
 	init_signal();
-	init_declare();
+	if (*envp)
+	{
+		g_status.env.envp = envp;
+		init_declare();
+	}
+	else
+		make_declare();
 	declare_update_envp();
 	init_status();
-	init_execute();
 	if (argc >= 2 && !ft_strcmp(MINI_OPTION, argv[1]))
 	{
 		if (argc == 2)

@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/24 15:04:34 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/24 22:21:16 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void		disposer(void *obj0, void *obj1, void *obj2, void *obj3);
 void		init_signal(void);
 void		init_declare(void);
 void		init_status(void);
-void		init_execute(void);
+void		make_declare(void);
 
 void		declare_update_envp(void);
 void		declare_update_node(const char *const key, const char *const value);

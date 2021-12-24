@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:10:32 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/24 15:25:40 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/24 22:16:26 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,6 @@ int
 		++str;
 	}
 	if (*str)
-		return (FAILURE);
-	return (i);
+		return (INIT_SHLVL);
+	return (++i);
 }

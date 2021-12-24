@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 12:51:01 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 20:55:24 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/24 22:29:24 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,18 @@ t_declare
 t_declare
 	*declare_add(const char *const str)
 {
-	g_status.env.tail->next = declare_new(str);
-	g_status.env.tail->next->prev = g_status.env.tail;
-	g_status.env.tail = g_status.env.tail->next;
+	if (g_status.env.head)
+	{
+		g_status.env.tail->next = declare_new(str);
+		g_status.env.tail->next->prev = g_status.env.tail;
+		g_status.env.tail = g_status.env.tail->next;
+	}
+	else
+	{
+		g_status.env.head = declare_new(str);
+		g_status.env.head->exported = TRUE;
+		g_status.env.tail = g_status.env.head;
+	}
 	return (g_status.env.tail);
 }
 

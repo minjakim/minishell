@@ -6,26 +6,11 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/24 15:37:37 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/24 22:44:52 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void
-	init_execute(void)
-{
-	g_status.execute[NOTFOUND] = mini_null;
-	g_status.execute[MINI_NULL] = mini_null;
-	g_status.execute[FT_CD] = builtin_cd;
-	g_status.execute[FT_ECHO] = builtin_echo;
-	g_status.execute[FT_ENV] = builtin_env;
-	g_status.execute[FT_EXIT] = builtin_exit;
-	g_status.execute[FT_EXPORT] = builtin_export;
-	g_status.execute[FT_PWD] = builtin_pwd;
-	g_status.execute[FT_UNSET] = builtin_unset;
-	g_status.execute[MINI_EXECVE] = mini_execve;
-}
 
 static void
 	set_termios(t_termios *attr)
@@ -59,8 +44,6 @@ static void
 void
 	init_status(void)
 {
-	t_termios	attr;
-
 	g_status.state.prompt = sizeof(PROMPT);
 	g_status.interactive = TRUE;
 	g_status.backup.stdio.in = dup(STDIN_FILENO);
@@ -69,13 +52,31 @@ void
 	g_status.backup.stdio.out = dup(STDOUT_FILENO);
 	if (g_status.backup.stdio.out == ERROR)
 		report_error_fatal(errno);
-	if (tcgetattr(STDIN_FILENO, &g_status.backup.attr) == ERROR)
+	g_status.execute[NOTFOUND] = mini_null;
+	g_status.execute[MINI_NULL] = mini_null;
+	g_status.execute[FT_CD] = builtin_cd;
+	g_status.execute[FT_ECHO] = builtin_echo;
+	g_status.execute[FT_ENV] = builtin_env;
+	g_status.execute[FT_EXIT] = builtin_exit;
+	g_status.execute[FT_EXPORT] = builtin_export;
+	g_status.execute[FT_PWD] = builtin_pwd;
+	g_status.execute[FT_UNSET] = builtin_unset;
+	g_status.execute[MINI_EXECVE] = mini_execve;
+}
+
+void
+	make_declare(void)
+{
+	char *const	path = getcwd(NULL, 0);
+
+	if (path == NULL)
 		report_error_fatal(errno);
-	set_termios(&attr);
-	attr.c_ispeed = 9600;
-	attr.c_ospeed = 9600;
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &attr) == ERROR)
-		report_error_fatal(errno);
+	declare_update_node(PWD, path);
+	declare_add(SHLVL_1)->exported = TRUE;
+	g_status.env.envc = 2;
+	g_status.env.envp = NULL;
+	g_status.env.edited = TRUE;
+	xfree(path);
 }
 
 void
@@ -83,14 +84,10 @@ void
 {
 	t_declare	*node;
 	char		*shlvl;
-	int			i;
 
 	g_status.env.envc = -1;
 	if (g_status.env.envp[++g_status.env.envc])
 	{
-		g_status.env.head = declare_new(g_status.env.envp[g_status.env.envc]);
-		g_status.env.head->exported = TRUE;
-		g_status.env.tail = g_status.env.head;
 		while (g_status.env.envp[++g_status.env.envc])
 			(declare_add(g_status.env.envp[g_status.env.envc]))->exported = 1;
 		node = declare_search(SHLVL);
@@ -98,8 +95,7 @@ void
 			declare_add(SHLVL_1)->exported = TRUE;
 		else
 		{
-			i = ft_shlvltoi(node->value.str);
-			shlvl = ft_itoshlvl(++i);
+			shlvl = ft_itoshlvl(ft_shlvltoi(node->value.str));
 			declare_export_update_value(node, shlvl);
 			xfree(shlvl);
 		}
@@ -111,6 +107,15 @@ void
 void
 	init_signal(void)
 {
+	t_termios	attr;
+
+	set_termios(&attr);
+	if (tcgetattr(STDIN_FILENO, &g_status.backup.attr) == ERROR)
+		report_error_fatal(errno);
+	attr.c_ispeed = 9600;
+	attr.c_ospeed = 9600;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &attr) == ERROR)
+		report_error_fatal(errno);
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, signal_handler);
 	signal(SIGTERM, signal_handler);

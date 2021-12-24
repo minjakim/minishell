@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:37:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 19:02:12 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/24 20:41:40 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ int
 
 	index = 0;
 	if (!legal_variable_starter(str[index]))
-		return (FALSE);
+		return (EXCEPTION);
 	while (str[index])
 	{
 		if (str[index] == '=')
 			return (index);
 		if (str[index] == '+' && str[index + 1] == '=')
-			return (index + 1);
+			return (index);
 		if (!legal_variable_char(str[index]))
-			return (FALSE);
+			return (EXCEPTION);
 		++index;
 	}
-	return (TRUE);
+	return (OK);
 }
