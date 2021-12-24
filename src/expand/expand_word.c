@@ -38,7 +38,7 @@ static char
 	key = ft_strndup(src + i + 1, key_len - 1);
 	value = declare_get_value(key);
 	dest = xcalloc(sizeof(char) * \
-			(ft_strlen(src) - key_len + ft_strlen(value)));
+			(ft_strlen(src) - key_len + ft_strlen(value) + 1));
 	ft_strcat(ft_strcat(ft_strncpy(dest, src, i), value), \
 			src + i + key_len);
 	disposer(key, src, NULL, NULL);
