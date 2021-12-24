@@ -57,8 +57,9 @@ int
 	{
 		write(STDERR_FILENO, " `", 2);
 		write(STDERR_FILENO, token, ft_strlen(token));
-		write(STDERR_FILENO, "\'\n", 2);
+		write(STDERR_FILENO, "\'", 1);
 	}
+	write(STDERR_FILENO, "\n", 1);
 	g_status.exit = ES_USAGE;
 	return (EXCEPTION);
 }

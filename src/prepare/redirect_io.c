@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:59:03 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/21 08:50:43 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/24 00:16:25 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,12 @@ int
 			cmd->io.fd[redirects->redirector] = \
 			open(redirects->redirectee.filename.word, redirects->flags, 0644);
 		if (cmd->io.fd[redirects->redirector] == ERROR)
+		{
 			report_error("open", redirects->redirectee.filename.word, errno);
+			return (FAILURE);
+		}
 		redirects = redirects->next;
 	}
+	set_io(&cmd->io);
 	return (SUCCESS);
 }

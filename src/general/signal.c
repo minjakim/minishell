@@ -70,13 +70,14 @@ void
 }
 
 void
-	xwait(const pid_t pid)
+	xwait(const pid_t pid, const t_io *const io)
 {
 	int	stat_loc;
 
 	if (waitpid(pid, &stat_loc, 0) == ERROR)
 		report_error(NULL, NULL, errno);
 	g_status.exit = stat_loc;
+	reset_io(io);
 	while (wait(NULL) != ERROR)
 		;
 	if (g_status.exit && g_status.exit <= SIGUSR2)
