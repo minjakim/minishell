@@ -29,7 +29,9 @@ void
 			envp[i] = node->line;
 		node = node->next;
 	}
+	envp[g_status.env.envc] = NULL;
 	xfree(g_status.env.envp);
+	g_status.env.envp = NULL;
 	g_status.env.envp = envp;
 	g_status.env.edited = FALSE;
 }

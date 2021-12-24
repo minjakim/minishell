@@ -83,7 +83,6 @@ int
 		cmd = cmd->next;
 		g_status.state.haschild = FALSE;
 	}
-	g_status.state.haschild = FALSE;
 	g_status.interactive = TRUE;
 	return (SUCCESS);
 }

@@ -33,7 +33,5 @@ char
 	if (!str)
 		return (NULL);
 	dst = xcalloc(sizeof(char) * (n + 1));
-	while (n--)
-		dst[n] = str[n];
-	return (dst);
+	return (ft_memcpy(dst, str, n));
 }

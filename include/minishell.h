@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/23 10:51:30 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/24 15:04:34 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,7 @@ char		*ft_strcat(char *s1, const char *s2);
 size_t		ft_strlen(const char *str);
 int			ft_strcmp(const char *s1, const char *s2);
 void		ft_strmove(char *dest, char *src, int len);
+char		*ft_itoa(int n);
+int			ft_shlvltoi(const char *str);
+
 #endif

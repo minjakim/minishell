@@ -56,55 +56,12 @@ char
 	return (dst);
 }
 
-static void
-	wordcpy(t_op dstp, t_op srcp, size_t n)
-{
-	t_op	a0;
-	t_op	a1;
-
-	if (n & 1)
-	{
-		((t_op *)dstp)[0] = ((t_op *)srcp)[0];
-		if (n == 1)
-			return ;
-		srcp += OPSIZ;
-		dstp += OPSIZ;
-		--n;
-	}
-	while (n)
-	{
-		a0 = ((t_op *)srcp)[0];
-		a1 = ((t_op *)srcp)[1];
-		((t_op *)dstp)[0] = a0;
-		((t_op *)dstp)[1] = a1;
-		srcp += 16;
-		dstp += 16;
-		n -= 2;
-	}
-}
-
 void
-	*ft_memcpy(void *dst, const void *src, size_t n)
+	ft_strmove(char *dest, char *src, int len)
 {
-	t_op	dstp;
-	t_op	srcp;
-	t_byte	*dstd;
-	t_byte	*srcd;
-
-	dstp = (t_op)dst;
-	srcp = (t_op)src;
-	if (dst == src)
-		return (NULL);
-	if (n >= 16)
-	{
-		wordcpy(dstp, srcp, n >> 3);
-		srcp += n & -OPSIZ;
-		dstp += n & -OPSIZ;
-		n %= OPSIZ;
-	}
-	dstd = (t_byte *)dstp;
-	srcd = (t_byte *)srcp;
-	while (n--)
-		*dstd++ = *srcd++;
-	return (dst);
+	if (len < 0)
+		return ;
+	while (len--)
+		*dest++ = *src++;
+	*dest = *src;
 }

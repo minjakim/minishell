@@ -67,6 +67,7 @@ t_declare
 
 char
 	*declare_get_value(const char *const str)
+
 {
 	t_declare	*node;
 

@@ -3,38 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   utils_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 17:25:11 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/22 17:53:34 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/24 15:16:58 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char
-	*ft_strchr(const char *s, int c)
-{
-	unsigned char	var_c;
-	char			*var_s;
-
-	var_c = c;
-	var_s = (char *)s;
-	while (*var_s != var_c)
-		if (!*var_s++)
-			return (NULL);
-	return (var_s);
-}
-
 int
 	ft_strcmp(const char *s1, const char *s2)
 {
+	while (*s1 == *s2++)
+		if (!*s1++)
+			return (OK);
+	return ((unsigned char)*s1 - (unsigned char)*(--s2));
+}
+
+static long
+	find(const t_byte *s, int c, long *ans)
+{
 	int	i;
 
-	i = 0;
-	while (s1[i] != '\0' && s1[i] == s2[i])
-		++i;
-	return (s1[i] - s2[i]);
+	i = -1;
+	while (++i < 8)
+	{
+		if (s[i] == c)
+			return (*ans = (long int)s + i);
+		else if (!s[i])
+			return (*ans = 0);
+	}
+	return (*ans = -1);
+}
+
+char
+	*ft_strchr(const char *s, int c)
+{
+	const t_byte	*s_ptr = (const t_byte *)s;
+	const t_op		*lg_ptr;
+	long			ans;
+	t_op			charmask;
+	t_op			word;
+
+	while ((t_op)s_ptr & 0b111)
+	{
+		if (*s_ptr++ == c)
+			return ((char *)(s_ptr - 1));
+		else if (*(s_ptr - 1) == '\0')
+			return (NULL);
+	}
+	lg_ptr = (const t_op *)s_ptr;
+	charmask = c | (c << 8);
+	charmask |= charmask << 16;
+	charmask |= charmask << 32;
+	while (LOOP)
+	{
+		word = *lg_ptr++;
+		if (((word - LOMAGIC) & (~word) & HIMAGIC) || \
+			(((word ^ charmask) - LOMAGIC) & ~(word ^ charmask) & HIMAGIC))
+			if (find((const t_byte *)(lg_ptr - 1), c, &ans) != -1)
+				return ((char *)ans);
+	}
 }
 
 static inline size_t
@@ -87,14 +117,4 @@ size_t
 		}
 		++lp;
 	}
-}
-
-void
-	ft_strmove(char *dest, char *src, int len)
-{
-	if (len < 0)
-		return ;
-	while (len--)
-		*dest++ = *src++;
-	*dest = *src;
 }

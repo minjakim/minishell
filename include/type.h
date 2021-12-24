@@ -35,6 +35,12 @@ typedef enum e_execute
 	MINI_EXECVE
 }	t_execute;
 
+typedef struct s_tuple
+{
+	char		*d;
+	const char	*s;
+}	t_tuple;
+
 typedef struct s_globvector
 {
 	struct s_globvector	*next;

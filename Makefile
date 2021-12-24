@@ -6,7 +6,7 @@
 #    By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 20:07:46 by minjakim          #+#    #+#              #
-#    Updated: 2021/12/22 18:03:38 by snpark           ###   ########.fr        #
+#    Updated: 2021/12/24 15:15:02 by minjakim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ utility			=	utils_cpy.c\
 					utils_dup.c\
 					utils_etc.c\
 					utils_str.c\
+					utils_mem.c\
 					utils_x.c
 
 SRC				=	main.c\
@@ -63,7 +64,7 @@ OBJ				=	$(SRCS:./src/%.c=./obj/%.o)
 ARCH			=	$(shell uname -m)
 
 CC				=	gcc
-CPPFLAGS		=	-g -Wall -Werror -Wextra
+CPPFLAGS		=	-Wall -Werror -Wextra
 
 ifeq ($(ARCH), x86_64)
 	CPPFLAGS	+=	-arch x86_64

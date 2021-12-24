@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 20:55:48 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/24 15:10:19 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void
 	init_declare(void)
 {
 	t_declare	*node;
+	int			shlvl;
 
 	g_status.env.envc = -1;
 	if (g_status.env.envp[++g_status.env.envc])
@@ -95,7 +96,10 @@ void
 		if (node == NULL)
 			declare_add(SHLVL_1)->exported = TRUE;
 		else
-			++(*node->value.str);
+		{
+			shlvl = ft_shlvltoi(node->value.str);
+			declare_export_update_value(node, ft_itoa(++shlvl));
+		}
 	}
 	g_status.env.envp = NULL;
 	g_status.env.edited = TRUE;
