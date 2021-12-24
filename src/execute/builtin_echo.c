@@ -16,9 +16,9 @@ int
 	builtin_echo(const t_command *const cmd)
 {
 	const char *const *const	argv = (const char *const *const)cmd->argv;
-	int							display_return;
-	int							i;
+	register int				i;
 	int							n;
+	int							display_return;
 
 	display_return = TRUE;
 	i = 1;
@@ -27,13 +27,10 @@ int
 		n = 2;
 		while (argv[i][n] == 'n')
 			++n;
-		if (argv[i][n] == '\0')
-		{
-			display_return = FALSE;
-			++i;
-		}
-		else
+		if (argv[i][n] != '\0')
 			break ;
+		display_return = FALSE;
+		++i;
 	}
 	while (argv[i] && write(STDOUT_FILENO, argv[i], ft_strlen(argv[i])))
 		if (argv[++i])
