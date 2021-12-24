@@ -104,7 +104,7 @@ int
 		return (print_declare(g_status.env.head));
 	while (*++argv)
 	{
-		if (!declare_legal_check(*argv))
+		if (!declare_legal_check(*argv) && ++exception)
 			report_exception(cmd->argv[0], *argv, EX_DECLARE, GENERAL_ERROR);
 		else
 			declare_export(*argv);
