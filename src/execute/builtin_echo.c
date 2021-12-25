@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:05:04 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 13:26:07 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int
 		display_return = FALSE;
 		++i;
 	}
-	while (argv[i] && write(STDOUT_FILENO, argv[i], ft_strlen(argv[i])))
+	while (argv[i] \
+				&& write(STDOUT_FILENO, argv[i], ft_strlen(argv[i])) != ERROR)
 		if (argv[++i])
 			write(STDOUT_FILENO, " ", 1);
 	if (display_return)

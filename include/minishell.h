@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/25 10:43:25 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 13:29:12 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ void		make_declare(void);
 
 void		declare_update_envp(void);
 void		declare_update_node(const char *const key, const char *const value);
-void		declare_export_new(const char *key, const char *str, int type);
-int			declare_export_update_value(t_declare *node, char *str, int type);
+void		declare_export_new(const char *key, const char *str, t_export type);
+int			declare_export_update_value(t_declare *node, char *str, \
+																 t_export type);
 char		*declare_new_line(const t_str *const key, const t_str *const value);
 t_declare	*declare_new(const char *const str);
 t_declare	*declare_add(const char *const str);

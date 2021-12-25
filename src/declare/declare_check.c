@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:37:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/25 10:43:25 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 14:38:56 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ static inline void
 		else if (str[dc->i + 1] == '=' && str[dc->i + 2] != '\0')
 			dc->type = CAT;
 	}
-	if (!legal_variable_char(str[dc->i]))
-		dc->type = EXCEPTION;
 }
 
 t_dc
@@ -61,6 +59,11 @@ t_dc
 		declare_type_check(str, &dc);
 		if (dc.type != K_ONLY)
 			break ;
+		if (!legal_variable_char(str[dc.i]))
+		{
+			dc.type = EXCEPTION;
+			break ;
+		}
 	}
 	return (dc);
 }

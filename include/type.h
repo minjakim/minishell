@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/25 10:43:25 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 14:58:34 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ typedef struct s_command	t_command;
 typedef struct termios		t_termios;
 typedef unsigned long		t_op;
 typedef unsigned char		t_byte;
+
+typedef enum e_export
+{
+	K_ONLY = 1,
+	E_ONLY = 2,
+	C_ONLY = 4,
+	EXPORT = 8,
+	CAT = 10,
+}	t_export;
 
 typedef enum e_execute
 {
@@ -111,7 +120,7 @@ typedef struct s_str
 typedef struct s_declare
 {
 	struct s_declare	*prev;
-	int					type;
+	t_export			type;
 	t_str				key;
 	t_str				value;
 	char				*line;

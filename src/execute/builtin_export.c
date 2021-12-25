@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:45:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/25 11:02:36 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 15:11:56 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,64 +28,66 @@ static int
 }
 
 void
-	declare_export_new(const char *key, const char *str, int type)
+	declare_export_new(const char *key, const char *str, t_export type)
 {
 	char	*line;
 
-	if (type == CAT)
+	if (type == C_ONLY || type == CAT)
 		++str;
 	line = xcalloc(ft_strlen(key) + ft_strlen(str) + 1);
 	ft_strcat(ft_strcpy(line, key), str);
-	declare_add(line)->type = type;
+	declare_add(line);
 	xfree(line);
 	if (g_status.env.tail->type != K_ONLY)
 		++g_status.env.envc;
 }
 
 int
-	declare_export_update_value(t_declare *node, char *str, int type)
+	declare_export_update_value(t_declare *node, char *str, t_export type)
 {
 	char	*value;
 
 	value = NULL;
-	if (type == E_ONLY || (node->type == K_ONLY && type == C_ONLY))
-		value = xcalloc(sizeof(char));
-	else if (type == EXPORT || (type == CAT && node->type == K_ONLY))
+	if (type == EXPORT || type == E_ONLY)
 		value = ft_strdup(str);
-	else if (type == CAT && node->type != K_ONLY)
+	else if ((type == CAT || type == C_ONLY) && node->type != K_ONLY)
 	{
 		value = xcalloc(node->value.len + ft_strlen(str) + 1);
 		ft_strcat(ft_strcpy(value, node->value.str), str);
 	}
 	if (node->type != K_ONLY)
 		disposer(node->value.str, node->line, NULL, NULL);
-	node->type = type;
 	node->value.str = value;
 	node->value.len = ft_strlen(node->value.str);
 	node->line = declare_new_line(&node->key, &node->value);
-	xfree(value);
+	node->type = EXPORT;
+	value = NULL;
 	return (SUCCESS);
 }
 
 static int
-	declare_export(const char *str, int i, int type)
+	declare_export(const char *str, int i, t_export type)
 {
-	const char	*key = ft_strndup(str, i);
+	char *const	key = ft_strndup(str, i);
 	t_declare	*node;
 
 	node = declare_search(key);
-	if (node && type == K_ONLY)
-		return (node->type = K_ONLY);
-	if (node && (type == EXPORT || type == CAT))
-		declare_export_update_value(node, (char *)&(str[i]), type);
-	if (node && ((type == E_ONLY) || (node->type == K_ONLY && type == C_ONLY)))
+	if (node && node->type == EXPORT && (type & (K_ONLY | C_ONLY)))
+	{
+		xfree(key);
+		return (OK);
+	}
+	if (node && type == EXPORT)
+		declare_export_update_value(node, (char *)&(str[i + 1]), type);
+	else if (node && type == CAT)
+		declare_export_update_value(node, (char *)&(str[i + 2]), type);
+	else if (node && (type == E_ONLY || (node->type & K_ONLY && type & C_ONLY)))
 		declare_export_update_value(node, "", type);
-	else if (!node && ((type == E_ONLY) || (type == C_ONLY)))
-		declare_export_new(key, "", type);
-	else if (!node && ((type == EXPORT) || (type == CAT)))
+	else if (!node && type != K_ONLY)
 		declare_export_new(key, (char *)&(str[i]), type);
 	else if (!node && (type == K_ONLY))
-		declare_add(key)->type = K_ONLY;
+		declare_add(key);
+	xfree(key);
 	return (g_status.env.edited = TRUE);
 }
 

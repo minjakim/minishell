@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 12:51:01 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/25 09:34:51 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 14:32:22 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ t_declare
 		node->value.str = ft_strdup(ft_strchr(str, '=') + 1);
 		node->value.len = ft_strlen(node->value.str);
 		node->line = ft_strdup(str);
-		node->type = EXPORT;
+		if (*node->value.str)
+			node->type = EXPORT;
 	}
 	return (node);
 }

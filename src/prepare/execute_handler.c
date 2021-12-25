@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/25 11:18:25 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 13:21:28 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,33 +26,33 @@ static int
 	return (TRUE);
 }
 
-//static void
-//	afert_execute(const t_command *const cmd)
-//{
-//	t_declare	*node;
+static void
+	afert_execute(const t_command *const cmd)
+{
+	t_declare	*node;
 
-//	node = declare_search(EXECUTED);
-//	if (node && cmd->argc == 0)
-//		declare_export_update_value(node, "", E_ONLY);
-//	else if (node)
-//		declare_export_update_value(node, cmd->argv[cmd->argc - 1], EXPORT);
-//	else if (cmd->argc == 0)
-//		declare_export_new(EXECUTED_KEY, "", E_ONLY);
-//	else
-//		declare_export_new(EXECUTED_KEY, cmd->argv[cmd->argc - 1], EXPORT);
-//	declare_update_envp();
-//}
+	node = declare_search(EXECUTED);
+	if (node && cmd->argc == 0)
+		declare_export_update_value(node, "", E_ONLY);
+	else if (node)
+		declare_export_update_value(node, cmd->argv[cmd->argc - 1], EXPORT);
+	else if (cmd->argc == 0)
+		declare_export_new(EXECUTED_KEY, "", E_ONLY);
+	else
+		declare_export_new(EXECUTED_KEY, cmd->argv[cmd->argc - 1], EXPORT);
+	declare_update_envp();
+}
 
 static int
 	pre_execute(t_command *const cmd)
 {
 	if (!expand_command(cmd))
 		return (FAILURE);
-	//if (cmd->argc == 0)
-	//	declare_update_node(EXECUTED, NULL);
-	//else
-	//	declare_update_node(EXECUTED, cmd->argv[cmd->argc - 1]);
-	//declare_update_envp();
+	if (cmd->argc == 0)
+		declare_update_node(EXECUTED, "");
+	else
+		declare_update_node(EXECUTED, cmd->argv[cmd->argc - 1]);
+	declare_update_envp();
 	if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
 		return (redirect_io(cmd));
 	set_io(&cmd->io);
@@ -72,7 +72,7 @@ int
 				g_status.execute[find_command(cmd)]((const t_command*)cmd);
 			if (cmd->flags & CMD_SUBSHELL)
 				exit(g_status.exit);
-			//afert_execute(cmd);
+			afert_execute(cmd);
 		}
 		if (g_status.state.haschild && !(cmd->flags & CMD_IGNORE_RETURN))
 			xwait(g_status.state.haschild, &cmd->io);
