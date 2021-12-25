@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:46 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/22 21:21:53 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/25 19:31:26 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void
 {
 	int	stat_loc;
 
+	stat_loc = 0;
 	if (waitpid(pid, &stat_loc, 0) == ERROR)
 		report_error(NULL, NULL, errno);
 	g_status.exit = stat_loc;

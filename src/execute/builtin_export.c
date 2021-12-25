@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:45:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/25 15:11:56 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:33:05 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int
 	char	*value;
 
 	value = NULL;
-	if (type == EXPORT || type == E_ONLY)
+	if (type == EXPORT || type == E_ONLY || \
+							(type == C_ONLY && node->type == K_ONLY))
 		value = ft_strdup(str);
 	else if ((type == CAT || type == C_ONLY) && node->type != K_ONLY)
 	{
@@ -81,7 +82,8 @@ static int
 		declare_export_update_value(node, (char *)&(str[i + 1]), type);
 	else if (node && type == CAT)
 		declare_export_update_value(node, (char *)&(str[i + 2]), type);
-	else if (node && (type == E_ONLY || (node->type & K_ONLY && type & C_ONLY)))
+	else if (node && (type == E_ONLY || \
+								((node->type & K_ONLY) && (type & C_ONLY))))
 		declare_export_update_value(node, "", type);
 	else if (!node && type != K_ONLY)
 		declare_export_new(key, (char *)&(str[i]), type);

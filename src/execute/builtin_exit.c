@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:43:17 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/22 20:48:54 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/25 19:49:56 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int
 	mini_exit(const int exit_status)
 {
 	g_status.exit = exit_status;
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &g_status.backup.attr) == ERROR)
+	if (g_status.interactive && \
+		tcsetattr(STDIN_FILENO, TCSANOW, &g_status.backup.attr) == ERROR)
 		g_status.exit = GENERAL_ERROR;
 	exit(g_status.exit);
 }

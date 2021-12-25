@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:35:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/25 10:43:25 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:29:28 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void
 	node->next = NULL;
 	if (node->type != K_ONLY)
 		--g_status.env.envc;
+	g_status.env.tail->next = NULL;
 	g_status.env.edited = TRUE;
 	disposer(node->key.str, node->value.str, node->line, node);
 }
