@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/25 11:10:27 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 11:20:57 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ void
 	{
 		if (node->type != K_ONLY)
 			disposer(node->value.str, node->line, NULL, NULL);
-		if (value)
-			node->value.str = ft_strdup(value);
-		else
-			node->value.str = xcalloc(sizeof(char));
+		node->value.str = ft_strdup(value);
 		node->value.len = ft_strlen(node->value.str);
 		node->line = declare_new_line(&node->key, &node->value);
 	}

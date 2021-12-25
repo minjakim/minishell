@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:24:37 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/25 11:08:55 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 11:18:25 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ static int
 {
 	if (!expand_command(cmd))
 		return (FAILURE);
-	if (cmd->argc == 0)
-		declare_update_node(EXECUTED, NULL);
-	else
-		declare_update_node(EXECUTED, cmd->argv[cmd->argc - 1]);
-	declare_update_envp();
+	//if (cmd->argc == 0)
+	//	declare_update_node(EXECUTED, NULL);
+	//else
+	//	declare_update_node(EXECUTED, cmd->argv[cmd->argc - 1]);
+	//declare_update_envp();
 	if (cmd->flags & (CMD_STDIN_REDIR | CMD_STDOUT_REDIR))
 		return (redirect_io(cmd));
 	set_io(&cmd->io);
