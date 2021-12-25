@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:35:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 10:43:25 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void
 	}
 	node->prev = NULL;
 	node->next = NULL;
-	if (node->exported)
+	if (node->type != K_ONLY)
 		--g_status.env.envc;
 	g_status.env.edited = TRUE;
 	disposer(node->key.str, node->value.str, node->line, node);
@@ -44,6 +44,7 @@ int
 	t_declare	*node;
 	char		**argv;
 	int			exception;
+	t_dc		dc;
 
 	argv = cmd->argv;
 	exception = OK;
@@ -51,7 +52,8 @@ int
 		return (g_status.exit = OK);
 	while (*++argv)
 	{
-		if (!declare_legal_check(*argv) && ++exception)
+		dc = declare_legal_check(*argv);
+		if (dc.type == EXCEPTION && ++exception)
 			report_exception(cmd->argv[0], *argv, EX_DECLARE, GENERAL_ERROR);
 		else
 		{

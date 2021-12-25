@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:17:56 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/20 20:56:13 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 09:37:41 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void
 	i = -1;
 	while (node && (++i < g_status.env.envc))
 	{
-		if (node->line && node->exported)
+		if (node->type != K_ONLY)
 			envp[i] = node->line;
 		node = node->next;
 	}
@@ -44,7 +44,7 @@ int
 	(void)cmd;
 	while (node)
 	{
-		if (node->exported && node->line)
+		if (node->type == EXPORT)
 			printf("%s\n", node->line);
 		node = node->next;
 	}

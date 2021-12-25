@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 12:51:01 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/24 22:29:24 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 09:34:51 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_declare
 	{
 		node->key.str = ft_strdup(str);
 		node->key.len = ft_strlen(str);
+		node->type = K_ONLY;
 	}
 	else
 	{
@@ -41,6 +42,7 @@ t_declare
 		node->value.str = ft_strdup(ft_strchr(str, '=') + 1);
 		node->value.len = ft_strlen(node->value.str);
 		node->line = ft_strdup(str);
+		node->type = EXPORT;
 	}
 	return (node);
 }
@@ -57,7 +59,6 @@ t_declare
 	else
 	{
 		g_status.env.head = declare_new(str);
-		g_status.env.head->exported = TRUE;
 		g_status.env.tail = g_status.env.head;
 	}
 	return (g_status.env.tail);

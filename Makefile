@@ -6,7 +6,7 @@
 #    By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 20:07:46 by minjakim          #+#    #+#              #
-#    Updated: 2021/12/24 22:41:48 by minjakim         ###   ########.fr        #
+#    Updated: 2021/12/24 22:54:55 by minjakim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ OBJ				=	$(SRCS:./src/%.c=./obj/%.o)
 ARCH			=	$(shell uname -m)
 
 CC				=	gcc
-CPPFLAGS		=	-Wall -Werror -Wextra
+CPPFLAGS		=	-g -Wall -Werror -Wextra
 
 ifeq ($(ARCH), x86_64)
 	CPPFLAGS	+=	-arch x86_64

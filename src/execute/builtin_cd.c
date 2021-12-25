@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 18:55:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 11:10:27 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,13 @@ void
 	node = declare_search(key);
 	if (node)
 	{
-		xfree(node->value.str);
-		node->value.str = ft_strdup(value);
+		if (node->type != K_ONLY)
+			disposer(node->value.str, node->line, NULL, NULL);
+		if (value)
+			node->value.str = ft_strdup(value);
+		else
+			node->value.str = xcalloc(sizeof(char));
 		node->value.len = ft_strlen(node->value.str);
-		xfree(node->line);
 		node->line = declare_new_line(&node->key, &node->value);
 	}
 	else
@@ -45,7 +48,7 @@ void
 		get_key = get_t_str(key);
 		get_value = get_t_str(value);
 		line = declare_new_line(get_key, get_value);
-		declare_add(line)->exported = TRUE;
+		declare_add(line)->type = EXPORT;
 		disposer(get_key->str, get_key, get_value->str, get_value);
 		xfree(line);
 	}

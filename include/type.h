@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:23:02 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/20 21:03:28 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 10:43:25 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ typedef enum e_execute
 	MINI_EXECVE
 }	t_execute;
 
-typedef struct s_tuple
+typedef struct s_dc
 {
-	char		*d;
-	const char	*s;
-}	t_tuple;
+	int					i;
+	int					type;
+}	t_dc;
 
 typedef struct s_globvector
 {
@@ -111,10 +111,10 @@ typedef struct s_str
 typedef struct s_declare
 {
 	struct s_declare	*prev;
+	int					type;
 	t_str				key;
 	t_str				value;
 	char				*line;
-	int					exported;
 	struct s_declare	*next;
 }	t_declare;
 

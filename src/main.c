@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 13:13:44 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/24 22:48:17 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/24 23:25:27 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int
 	main(int argc, char **argv, char **envp)
 {
 	init_signal();
-	if (*envp)
+	if (envp && *envp)
 	{
 		g_status.env.envp = envp;
 		init_declare();

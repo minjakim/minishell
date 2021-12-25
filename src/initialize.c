@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:41:32 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/24 22:44:52 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 09:30:15 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void
 	if (path == NULL)
 		report_error_fatal(errno);
 	declare_update_node(PWD, path);
-	declare_add(SHLVL_1)->exported = TRUE;
+	declare_add(SHLVL_1)->type = EXPORT;
 	g_status.env.envc = 2;
 	g_status.env.envp = NULL;
 	g_status.env.edited = TRUE;
@@ -89,14 +89,14 @@ void
 	if (g_status.env.envp[++g_status.env.envc])
 	{
 		while (g_status.env.envp[++g_status.env.envc])
-			(declare_add(g_status.env.envp[g_status.env.envc]))->exported = 1;
+			(declare_add(g_status.env.envp[g_status.env.envc]))->type = EXPORT;
 		node = declare_search(SHLVL);
 		if (node == NULL)
-			declare_add(SHLVL_1)->exported = TRUE;
+			declare_add(SHLVL_1)->type = EXPORT;
 		else
 		{
 			shlvl = ft_itoshlvl(ft_shlvltoi(node->value.str));
-			declare_export_update_value(node, shlvl);
+			declare_export_update_value(node, shlvl, EXPORT);
 			xfree(shlvl);
 		}
 	}

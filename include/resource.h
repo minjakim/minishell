@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/24 22:16:36 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 01:21:12 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,15 @@
 # define W_LESS_LESS			0x00800000
 # define W_EXITSTATUS			0x01000000
 
-# define H_EXPORT				1
-# define H_KEYONLY				2
-# define H_CAT					4
+enum e_export
+{
+	NONE = -1,
+	K_ONLY,
+	E_ONLY,
+	C_ONLY,
+	EXPORT,
+	CAT,
+};
 
 enum e_bool
 {

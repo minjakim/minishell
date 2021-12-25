@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 14:37:29 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/24 20:41:40 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 10:43:25 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,42 @@ int
 			|| (c == '_'));
 }
 
-int
+static inline void
+	declare_type_check(const char *str, t_dc *dc)
+{
+	if (str[dc->i] == '=')
+	{
+		if (str[dc->i + 1] == '\0')
+			dc->type = E_ONLY;
+		if (str[dc->i + 1] != '\0')
+			dc->type = EXPORT;
+	}
+	else if (str[dc->i] == '+')
+	{
+		if (str[dc->i + 1] == '=' && str[dc->i + 2] == '\0')
+			dc->type = C_ONLY;
+		else if (str[dc->i + 1] == '=' && str[dc->i + 2] != '\0')
+			dc->type = CAT;
+	}
+	if (!legal_variable_char(str[dc->i]))
+		dc->type = EXCEPTION;
+}
+
+t_dc
 	declare_legal_check(const char *str)
 {
-	int	index;
+	t_dc	dc;
 
-	index = 0;
-	if (!legal_variable_starter(str[index]))
-		return (EXCEPTION);
-	while (str[index])
+	dc.i = 0;
+	dc.type = EXCEPTION;
+	if (!legal_variable_starter(str[dc.i]))
+		return (dc);
+	dc.type = K_ONLY;
+	while (str[++dc.i])
 	{
-		if (str[index] == '=')
-			return (index);
-		if (str[index] == '+' && str[index + 1] == '=')
-			return (index);
-		if (!legal_variable_char(str[index]))
-			return (EXCEPTION);
-		++index;
+		declare_type_check(str, &dc);
+		if (dc.type != K_ONLY)
+			break ;
 	}
-	return (OK);
+	return (dc);
 }
