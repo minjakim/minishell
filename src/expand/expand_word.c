@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:49:42 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/24 23:16:03 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/26 19:45:34 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,14 @@ char
 	i = 0;
 	while (str[i])
 	{
+		if (!heredoc && is_quote(str[i], quote))
+			quote ^= str[i];
 		if (is_dollar(str, i, quote) && legal_variable_starter(str[i + 1]))
 			str = expand_hashdollar(str, i);
 		else if (is_dollar(str, i, quote) && str[i + 1] == '?')
 			str = expand_exitstatus(str, i);
 		else
 			++i;
-		if (!heredoc && is_quote(str[i], quote))
-			quote ^= str[i];
 	}
 	return (str);
 }
