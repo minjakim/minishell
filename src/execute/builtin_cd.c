@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:03:50 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/26 14:42:01 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/26 14:48:43 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void
 		get_key = get_t_str(key);
 		get_value = get_t_str(value);
 		line = declare_new_line(get_key, get_value);
-		if (declare_add(line)->type == EXPORT)
+		if (declare_add(line)->type != K_ONLY)
 			++g_status.env.envc;
 		disposer(get_key->str, get_key, get_value->str, get_value);
 		xfree(line);
