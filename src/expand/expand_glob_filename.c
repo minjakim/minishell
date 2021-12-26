@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_glob_filename.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snpark <snpark@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 15:06:53 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/22 16:19:18 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/26 18:15:02 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ static char
 	}
 	if (dest == NULL)
 		dest = pattern;
-	xfree(pattern);
+	else
+		xfree(pattern);
+	pattern = NULL;
 	return (dest);
 }
 

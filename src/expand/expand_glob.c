@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 10:07:54 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/23 10:50:53 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/26 18:28:39 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int
 	glob_compare(const char *pat, const char *str)
 {
-	while (*pat != '*' && *pat != '\0' && *str == '\0')
+	while (*pat != '*' && *pat != '\0' && *str != '\0')
 	{
 		if (*pat != *str)
 			return (*pat - *str);
