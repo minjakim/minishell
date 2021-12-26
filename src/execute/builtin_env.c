@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 15:17:56 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/25 09:37:41 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/26 14:45:50 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void
 
 	if (!g_status.env.edited)
 		return ;
-	envp = xcalloc(sizeof(char *) * g_status.env.envc + 1);
+	envp = xcalloc(sizeof(char *) * (g_status.env.envc + 1));
 	i = -1;
 	while (node && (++i < g_status.env.envc))
 	{
@@ -31,7 +31,6 @@ void
 	}
 	envp[g_status.env.envc] = NULL;
 	xfree(g_status.env.envp);
-	g_status.env.envp = NULL;
 	g_status.env.envp = envp;
 	g_status.env.edited = FALSE;
 }
