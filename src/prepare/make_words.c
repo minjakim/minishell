@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 16:17:59 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/19 23:16:28 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/27 14:43:55 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int
 		words->word.flags |= W_PIPE;
 	else
 		return (W_NOFLAG);
-	if (!old_flags || old_flags & (W_AND_AND | W_PIPE | W_OR_OR))
+	if (!old_flags || old_flags & (W_REDIRECT | W_AND_AND | W_PIPE | W_OR_OR))
 		return (report_error_syntax(str));
 	return (words->word.flags);
 }

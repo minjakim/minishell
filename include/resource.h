@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:25:20 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/25 13:10:44 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:03:08 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # define INIT_SHLVL				1
 
 # define MINI_OPTION			"-c"
+# define OPTION_MODE			"line 0:"
 # define EX_MINI				"option requires an argument"
 # define EXIT					"exit\n"
 # define EX_EXIT_FMT			"numeric argument required"

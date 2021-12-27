@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/27 14:07:05 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/27 18:03:55 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ char
 }
 
 static int
-	is_ambiguas(char *filename, t_redirect *redirects)
+	is_ambiguas(char *filename, t_redirect *redirects, int flags)
 {
-	if (!filename || !*filename)
+	if (!filename || !*filename || \
+					(expand_is_whitespace(filename) && (flags & W_HASHDOLLAR)))
 	{
 		report_exception(NULL, redirects->redirectee.filename.word, \
 				EX_AMBIGUAS, GENERAL_ERROR);
@@ -64,7 +65,7 @@ static int
 			filename = expand_str(filename, FALSE);
 		if ((flags & W_GLOBEXP) && !(flags & W_NOEXPAND))
 			filename = expand_glob_filename(filename);
-		if (!is_ambiguas(filename, redirects))
+		if (!is_ambiguas(filename, redirects, flags))
 			return (FAILURE);
 		remove_quote(redirects->redirectee.filename.word);
 		redirects = redirects->next;
@@ -79,14 +80,18 @@ static int
 	int			i;
 
 	words = cmd->words;
+	i = 0;
 	while (words)
 	{
 		if (words->word.flags & (W_HASHDOLLAR | W_EXITSTATUS))
+		{
 			words->word.word = expand_str(words->word.word, FALSE);
+		}
 		if (words->word.flags & W_GLOBEXP)
 			if (!expand_glob_argv(words, words->word.word, &cmd->argc))
 				return (FAILURE);
 		words = words->next;
+		++i;
 	}
 	cmd->argv = xcalloc(sizeof(char *) * (cmd->argc + 1));
 	words = cmd->words;
