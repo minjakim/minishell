@@ -89,4 +89,6 @@ clean			:
 fclean			:	clean
 					rm -rf minishell
 
+bonus			:	all
+
 re				:	fclean all
