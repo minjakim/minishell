@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:35:19 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/26 14:50:46 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/27 13:48:10 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int
 	while (*++argv)
 	{
 		dc = declare_legal_check(*argv);
-		if (dc.type == EXCEPTION && ++exception)
+		if (dc.type != K_ONLY && ++exception)
 			report_exception(cmd->argv[0], *argv, EX_DECLARE, GENERAL_ERROR);
 		else
 		{

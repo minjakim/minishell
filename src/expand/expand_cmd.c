@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/23 22:45:32 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/27 14:07:05 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int
 		flags = redirects->redirectee.filename.flags;
 		if ((flags & (W_HASHDOLLAR | W_EXITSTATUS)) && \
 			!(flags & W_NOEXPAND))
-			filename = expand_str(ft_strdup(filename), FALSE);
+			filename = expand_str(filename, FALSE);
 		if ((flags & W_GLOBEXP) && !(flags & W_NOEXPAND))
 			filename = expand_glob_filename(filename);
 		if (!is_ambiguas(filename, redirects))
