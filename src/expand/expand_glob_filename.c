@@ -6,19 +6,17 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 15:06:53 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/26 18:15:02 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/27 11:45:43 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static char
-	*expand_glob_find_one(DIR *dirinfo, char *pattern)
+	*expand_glob_find_one(DIR *dirinfo, char *pattern, char *dest)
 {
 	struct dirent	*entry;
-	char			*dest;
 
-	dest = NULL;
 	while (LOOP)
 	{
 		entry = readdir(dirinfo);
@@ -59,7 +57,7 @@ char
 		report_error(NULL, NULL, errno);
 		return (pattern);
 	}
-	filename = expand_glob_find_one(dirinfo, pattern);
+	filename = expand_glob_find_one(dirinfo, pattern, NULL);
 	closedir(dirinfo);
 	return (filename);
 }
