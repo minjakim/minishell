@@ -78,10 +78,10 @@ int
 			xwait(g_status.state.haschild, &cmd->io);
 		else
 			reset_io(&cmd->io);
+		g_status.state.haschild = FALSE;
 		if (need_break(cmd))
 			break ;
 		cmd = cmd->next;
-		g_status.state.haschild = FALSE;
 	}
 	g_status.interactive = TRUE;
 	return (SUCCESS);
