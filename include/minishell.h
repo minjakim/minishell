@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 18:18:07 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/27 17:29:18 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/27 18:30:36 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void		signal_report(int signum);
 int			signal_event_hook(void);
 
 int			expand_is_whitespace(const char *str);
-//int			expand_word_split(t_command *cmd, t_word_list *words);
+t_word_list *expand_word_split(t_command *cmd, t_word_list *prev, \
+		t_word_list *words);
 int			expand_command(t_command *cmd);
 char		*expand_str(char *src, int heredoc);
 int			expand_glob_argv(t_word_list *word, char *pattern, int *argc);

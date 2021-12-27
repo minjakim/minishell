@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/27 18:03:55 by minjakim         ###   ########.fr       */
+/*   Updated: 2021/12/27 18:43:36 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,23 @@ static int
 	expand_argv(t_command *cmd)
 {
 	t_word_list	*words;
+	t_word_list	*prev;
 	int			i;
 
 	words = cmd->words;
-	i = 0;
+	prev = NULL;
 	while (words)
 	{
-		if (words->word.flags & (W_HASHDOLLAR | W_EXITSTATUS))
-		{
-			words->word.word = expand_str(words->word.word, FALSE);
-		}
 		if (words->word.flags & W_GLOBEXP)
 			if (!expand_glob_argv(words, words->word.word, &cmd->argc))
 				return (FAILURE);
+		if (words->word.flags & (W_HASHDOLLAR | W_EXITSTATUS))
+		{
+			words->word.word = expand_str(words->word.word, FALSE);
+			words = expand_word_split(cmd, prev, words);
+		}
+		prev = words;
 		words = words->next;
-		++i;
 	}
 	cmd->argv = xcalloc(sizeof(char *) * (cmd->argc + 1));
 	words = cmd->words;

@@ -6,7 +6,7 @@
 #    By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 20:07:46 by minjakim          #+#    #+#              #
-#    Updated: 2021/12/25 20:30:33 by minjakim         ###   ########.fr        #
+#    Updated: 2021/12/27 18:28:11 by snpark           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ expand			=	expand_cmd.c\
 					expand_glob.c\
 					expand_glob_argv.c\
 					expand_glob_filename.c\
-					expand_word.c
+					expand_word.c\
+					expand_word_list.c
 
 general			=	report.c\
 					dispose.c\
