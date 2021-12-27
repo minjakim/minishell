@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:56:06 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/27 18:43:36 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/27 20:38:13 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ static int
 {
 	t_word_list	*words;
 	t_word_list	*prev;
-	int			i;
 
 	words = cmd->words;
 	prev = NULL;
@@ -90,11 +89,23 @@ static int
 		if (words->word.flags & (W_HASHDOLLAR | W_EXITSTATUS))
 		{
 			words->word.word = expand_str(words->word.word, FALSE);
-			words = expand_word_split(cmd, prev, words);
+			if (!*words->word.word || expand_is_whitespace(words->word.word))
+				words = expand_make_words(cmd, prev, words);
 		}
 		prev = words;
 		words = words->next;
 	}
+	return (SUCCESS);
+}
+
+int
+	expand_command(t_command *cmd)
+{
+	t_word_list	*words;
+	int			i;
+
+	if (!expand_argv(cmd))
+		return (FAILURE);
 	cmd->argv = xcalloc(sizeof(char *) * (cmd->argc + 1));
 	words = cmd->words;
 	i = -1;
@@ -104,14 +115,6 @@ static int
 		words->word.word = NULL;
 		words = words->next;
 	}
-	return (SUCCESS);
-}
-
-int
-	expand_command(t_command *cmd)
-{
-	if (!expand_argv(cmd))
-		return (FAILURE);
 	if (!expand_filename(cmd->redirects))
 		return (FAILURE);
 	return (SUCCESS);

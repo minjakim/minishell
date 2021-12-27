@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:50:21 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/27 18:42:45 by snpark           ###   ########.fr       */
+/*   Updated: 2021/12/27 20:32:16 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,27 @@
 int
 	expand_is_whitespace(const char *str)
 {
-	while (*str && (*str == ' ' || *str == '\t' || *str++ == '\n'))
-		return (TRUE);
+	while (*str)
+	{
+		 if (*str == ' ' || *str == '\t' || *str++ == '\n')
+			return (TRUE);
+	}
 	return (FALSE);
 }
 
 int
-	expand_get_index(const char *str)
+	expand_get_len(const char *str)
 {
 	int	i;
 
 	i = -1;
-	while (str[++i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'))
-		return (i);
+	while (str[++i])
+	{
+		if (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+			return (i);
+	}
 	return (i);
 }
-
 
 static t_word_list
 	*expand_attach_word(t_word_list *words, char *word, int count)
@@ -51,14 +56,12 @@ static t_word_list
 	return (words);
 }
 
-t_word_list
-	*expand_word_split(t_command *cmd, t_word_list *prev, t_word_list *words)
+static t_word_list
+	*expand_split_word(t_command *cmd, t_word_list *words)
 {
-	const char			*word = words->word.word;
-	char				*temp = words->word.word;
-	t_word_list			*next = words->next;
-	int					count;
-	int					i;
+	const char	*word = words->word.word;
+	int			count;
+	int			i;
 
 	count = -1;
 	i = 0;
@@ -69,27 +72,36 @@ t_word_list
 		if (word[i] != '\0')
 		{
 			word = word + i;
-			i = expand_get_index(word);
+			i = expand_get_len(word);
 			++count;
 			words = expand_attach_word(words, ft_strndup(word, i), count);
 		}
 	}
-	if (count == -1 && word[i] == '\0')
+	cmd->argc += count;
+	return (words);
+}
+
+t_word_list
+	*expand_make_words(t_command *cmd, t_word_list *prev, t_word_list *words)
+{
+	t_word_list *const	next = words->next;
+	char				*temp;
+
+	if (words->word.word[expand_get_len(words->word.word)] == '\0')
 	{
+		disposer(words->word.word, words, NULL, NULL);
 		if (prev == NULL)
-		{
-			cmd->words = next;
-			prev = next;
-		}
+			return (cmd->words = next);
 		else
 			prev->next = next;
-		disposer(temp, words, NULL, NULL);
+		return (prev);
 	}
-	if (count > -1)
+	else
 	{
-		xfree(temp);
+		temp = words->word.word;
+		words = expand_split_word(cmd, words);
 		words->next = next;
-		cmd->argc += count;
+		xfree(temp);
+		return (words);
 	}
-	return (prev);
 }
