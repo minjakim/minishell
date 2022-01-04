@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:50:21 by minjakim          #+#    #+#             */
-/*   Updated: 2022/01/04 15:59:55 by minjakim         ###   ########.fr       */
+/*   Updated: 2022/01/04 16:30:26 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,14 @@ static t_word_list
 	i = 0;
 	while (word[i])
 	{
-		i = expand_get_word(word);
+		i += expand_get_word(word + i);
 		if (word[i] != '\0')
 		{
 			word = word + i;
-			i = expand_get_word(word);
+			i = 0;
+			while (word[i] && \
+					!(word[i] == ' ' || word[i] == '\t' || word[i] == '\n'))
+				++i;
 			++count;
 			words = expand_attach_word(words, ft_strndup(word, i), count);
 		}
