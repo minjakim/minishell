@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:50:21 by minjakim          #+#    #+#             */
-/*   Updated: 2021/12/27 20:32:16 by minjakim         ###   ########.fr       */
+/*   Updated: 2022/01/04 15:59:55 by minjakim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,14 @@ int
 	return (FALSE);
 }
 
-int
-	expand_get_len(const char *str)
+static int
+	expand_get_word(const char *str)
 {
 	int	i;
 
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
-			return (i);
-	}
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+		++i;
 	return (i);
 }
 
@@ -67,12 +64,11 @@ static t_word_list
 	i = 0;
 	while (word[i])
 	{
-		while (word[i] == ' ' || word[i] == '\t' || word[i] == '\n')
-			++i;
+		i = expand_get_word(word);
 		if (word[i] != '\0')
 		{
 			word = word + i;
-			i = expand_get_len(word);
+			i = expand_get_word(word);
 			++count;
 			words = expand_attach_word(words, ft_strndup(word, i), count);
 		}
@@ -87,9 +83,10 @@ t_word_list
 	t_word_list *const	next = words->next;
 	char				*temp;
 
-	if (words->word.word[expand_get_len(words->word.word)] == '\0')
+	if (words->word.word[expand_get_word(words->word.word)] == '\0')
 	{
 		disposer(words->word.word, words, NULL, NULL);
+		--cmd->argc;
 		if (prev == NULL)
 			return (cmd->words = next);
 		else
