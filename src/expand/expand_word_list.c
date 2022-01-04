@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:50:21 by minjakim          #+#    #+#             */
-/*   Updated: 2022/01/04 16:30:26 by minjakim         ###   ########.fr       */
+/*   Updated: 2022/01/04 17:21:46 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int
 {
 	while (*str)
 	{
-		 if (*str == ' ' || *str == '\t' || *str++ == '\n')
+		if (*str == ' ' || *str == '\t' || *str++ == '\n')
 			return (TRUE);
 	}
 	return (FALSE);
