@@ -6,7 +6,7 @@
 /*   By: minjakim <minjakim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:58:20 by snpark            #+#    #+#             */
-/*   Updated: 2021/12/24 12:04:49 by snpark           ###   ########.fr       */
+/*   Updated: 2022/01/04 17:14:01 by snpark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,10 @@ static int
 	size_t	path_index;
 
 	path_list = declare_get_value(PATH);
+	if (!path_list || !*path_list)
+		cmd->path = find_in_path_element(cmd->argv[0], ".");
 	path_index = 0;
-	while (path_list && path_list[path_index])
+	while (path_list && path_list[path_index] && !cmd->path)
 	{
 		path = get_next_path_element(path_list, &path_index);
 		if (path == NULL)
@@ -102,10 +104,12 @@ static int
 		cmd->path = find_in_path_element(cmd->argv[0], path);
 		xfree(path);
 		path = NULL;
-		if (cmd->path != NULL)
-			return (cmd->type = MINI_EXECVE);
 	}
-	if (!path_list || !*path_list || !cmd->path)
+	if (cmd->path != NULL)
+		return (cmd->type = MINI_EXECVE);
+	if (!path_list || !*path_list)
+		report_exception(cmd->argv[0], NULL, strerror(ENOENT), ES_NOTFOUND);
+	else if (!cmd->path)
 		report_exception(cmd->argv[0], NULL, EX_CMD_NOTFOUND, ES_NOTFOUND);
 	return (cmd->type);
 }
